@@ -14,7 +14,7 @@ public final class Autosort extends JavaPlugin {
     @Override
     public void onEnable() {
         Bukkit.getLogger().info("\n\n==================================\n   Autosort Plugin has launched\n==================================\n");
-        getCommand("autosort").setExecutor(new CommandListener());
+        loadCommands();
 
         StorageNetwork sn = new StorageNetwork("test", UUID.fromString("58cd7b4f-4fdd-4aa6-b6a4-6e8b6adc998e"));
         sn.addInputChest(new Location(getServer().getWorld("world"), 3,3,3));
@@ -27,6 +27,10 @@ public final class Autosort extends JavaPlugin {
             Bukkit.getLogger().warning("Failed loading network file!");
         }
 
+    }
+
+    private void loadCommands() {
+        getCommand("autosort").setExecutor(new CommandListener());
     }
 
     @Override
