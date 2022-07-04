@@ -21,8 +21,8 @@ A network is a group of chests that are linked together
 
 The chests can be one of 3 different types:<br />
 - Input Chest - Items put in here will be transfered to a fitting Item chest or others chests<br />
-- Item Chest - Items will automatically get sorted into this chests, if they match the chest's item filter<br />
-- Others Chest - If there are no free Item Chests for a specific item, that item will instead be transfered to a others chest
+- Item Chest - Items will automatically get sorted into these chests, if they match the chest's item filter<br />
+- Others Chest - If there are no free Item Chests for a specific item, that item will instead be transfered to an others chest
 
 You can create networks by doing
 <br /><code>/as create (name)</code>
