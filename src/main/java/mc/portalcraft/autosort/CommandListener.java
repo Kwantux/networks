@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 
