@@ -1,5 +1,7 @@
-package mc.portalcraft.autosort;
+package mc.portalcraft.autosort.commands;
 
+import mc.portalcraft.autosort.NetworkManager;
+import mc.portalcraft.autosort.StorageNetwork;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
