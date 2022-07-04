@@ -1,4 +1,6 @@
-# AutoSort
+# Autosort
+
+## _Importaint Note:<br />This plugin is not finished yet!<br />The first release will come out in around a month_
 
 ## About the Project
 
