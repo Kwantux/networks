@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class StorageNetwork {
-    String id;
-    UUID owner;
+    private String id;
+    private UUID owner;
 
     private ArrayList<Location> input_chests = new ArrayList<Location>();
     private ArrayList<Location> sorting_chests = new ArrayList<Location>();

@@ -20,11 +20,12 @@ public class NetworkManager implements Serializable{
     private Gson gson = new Gson();
 
 
-    public void add(StorageNetwork n) {
-        networks.add(n);
-        Bukkit.getLogger().info(networks.toString());
-        Bukkit.getLogger().info(n.getID().toString());
-        Bukkit.getLogger().info(n.getOwner().toString());
+    public boolean add(String id, UUID owner) {
+        if (this.getFromID(id) == null) {
+            networks.add(new StorageNetwork(id, owner));
+            return true;
+        }
+        return false;
     }
 
     public boolean delete(String id) {

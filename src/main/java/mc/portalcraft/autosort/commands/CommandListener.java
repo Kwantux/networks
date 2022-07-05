@@ -54,7 +54,7 @@ public class CommandListener implements CommandExecutor{
                 }
 
                 if (args[1] != null) {
-                    net.add(new StorageNetwork(args[1], owner));
+                    net.add(args[1], owner);
                     if (net.getFromID(args[1]) != null) {
                         returnMessage(sender, "Successfully created network " + args[1]);
                     }
