@@ -1,5 +1,8 @@
 package mc.portalcraft.autosort;
 
+import mc.portalcraft.autosort.container.InputContainer;
+import mc.portalcraft.autosort.container.ItemContainer;
+import mc.portalcraft.autosort.container.MiscContainer;
 import org.bukkit.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -12,9 +15,9 @@ public class StorageNetwork {
     private String id;
     private UUID owner;
 
-    private ArrayList<Location> input_chests = new ArrayList<Location>();
-    private ArrayList<Location> sorting_chests = new ArrayList<Location>();
-    private ArrayList<Location> misc_chests = new ArrayList<Location>();
+    private ArrayList<InputContainer> input_chests = new ArrayList<InputContainer>();
+    private ArrayList<ItemContainer> sorting_chests = new ArrayList<ItemContainer>();
+    private ArrayList<MiscContainer> misc_chests = new ArrayList<MiscContainer>();
 
 
 
@@ -31,23 +34,36 @@ public class StorageNetwork {
         return this.owner;
     }
 
-    public void addInputChest(Location pos) {
-        input_chests.add(pos);
+    public ArrayList<InputContainer> getInputChests() {
+        return input_chests;
     }
 
-    public void addItemChest(Location pos) {
-        sorting_chests.add(pos);
+    public ArrayList<ItemContainer> getSortingChests() {
+        return sorting_chests;
+    }
+
+    public ArrayList<MiscContainer> getMiscChests() {
+        return misc_chests;
+    }
+
+
+    public void addInputChest(Location pos) {
+        input_chests.add(new InputContainer(pos));
+    }
+
+    public void addItemChest(Location pos, Material item) {
+        sorting_chests.add(new ItemContainer(pos, item));
     }
 
     public void addMiscChest(Location pos) {
-        misc_chests.add(pos);
+        misc_chests.add(new MiscContainer(pos));
     }
 
 
 
     public void sortAll() {
         for (int i = 0; i < input_chests.size()-1; i++) {
-            sort(input_chests.get(i));
+            sort(input_chests.get(i).getPos());
         }
     }
 
@@ -62,7 +78,7 @@ public class StorageNetwork {
             }
 
             else {
-                Bukkit.getLogger().warning("Block at the given position is not a chest: " + pos.toString());
+                Bukkit.getLogger().warning("Block at the given position is not a chest: " + pos);
             }
         }
 

@@ -37,6 +37,10 @@ public class CommandListener implements CommandExecutor{
 
             if (args[0].equalsIgnoreCase("create")) {
 
+            }
+
+            if (args[0].equalsIgnoreCase("create")) {
+
                 UUID owner;
 
                 if (sender instanceof Player) {
