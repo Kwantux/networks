@@ -3,26 +3,25 @@ package mc.portalcraft.autosort;
 
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
-public class NetworkManager implements Serializable{
+public final class NetworkManager implements Serializable {
 
-    private ArrayList<StorageNetwork> networks = new ArrayList<StorageNetwork>();
+    private final ArrayList<StorageNetwork> networks = new ArrayList<StorageNetwork>();
 
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
 
     public boolean add(String id, UUID owner) {
         if (this.getFromID(id) == null) {
             networks.add(new StorageNetwork(id, owner));
+            Bukkit.getLogger().info(networks.toString());
             return true;
         }
         return false;
@@ -62,27 +61,45 @@ public class NetworkManager implements Serializable{
 
 
     public boolean saveData() {
-        try {
-            new File("plugins/Autosort/networks.json").createNewFile();
-            BukkitObjectOutputStream out = new BukkitObjectOutputStream(new GZIPOutputStream(new FileOutputStream("plugins/Autosort/networks.json")));
-            out.writeChars(gson.toJson(this.networks));
-            out.close();
-            return true;
-        } catch (IOException err) {
-            err.printStackTrace();
-            return false;
+        Bukkit.getLogger().info("Started saving networks");
+        //try {
+        Bukkit.getLogger().info("Network size: "+networks.size());
+        for (int i = 0; i < networks.size()-1; i++) {
+            /*File file = new File("plugins/Autosort/networks/" + networks.get(i).getID().toLowerCase() + ".json");
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            file.setWritable(true);*/
+            /*FileWriter filewriter = new FileWriter("plugins/Autosort/networks/" + networks.get(i).getID().toLowerCase() + ".json");
+            filewriter.write(gson.toJson(networks.get(i)));
+            filewriter.close();*/
+            Bukkit.getLogger().info(networks.get(i).getID());
+            //gson.toJson(networks.get(i),StorageNetwork.class);
+            Bukkit.getLogger().info("[Autosort] " + gson.toJson(networks.get(i),StorageNetwork.class));
+
         }
+        /*return true;
+
+        } catch (FileNotFoundException e) {
+            Bukkit.getLogger().warning(e.getMessage());
+            return false;
+        } catch (IOException e) {
+            Bukkit.getLogger().warning("An IOException occurred whilst saving network file");
+            Bukkit.getLogger().warning(e.getMessage());
+            return false;
+        }*/
+        return true;
     }
     public boolean loadData() {
-        try {
+        /*try {
             new File("plugins/Autosort/networks.json").createNewFile();
-            BukkitObjectInputStream in = new BukkitObjectInputStream(new GZIPInputStream(new FileInputStream("plugins/Autosort/networks.json")));
+            //BukkitObjectInputStream in = new BukkitObjectInputStream(new GZIPInputStream(new FileInputStream("plugins/Autosort/networks.json")));
             //this.networks = gson.fromJson(in.read(), ArrayList<StorageNetwork>.class);
-            in.close();
+            //in.close();
             return true;
         } catch (IOException err) {
             err.printStackTrace();
             return false;
-        }
+        }*/return true;
     }
 }
