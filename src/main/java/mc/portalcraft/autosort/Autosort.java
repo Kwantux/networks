@@ -9,7 +9,7 @@ import org.bukkit.Bukkit;
 
 public final class Autosort extends JavaPlugin {
 
-    private NetworkManager net = new NetworkManager();
+    private CommandListener listener = new CommandListener();
     private Config config;
 
     @Override
@@ -26,14 +26,14 @@ public final class Autosort extends JavaPlugin {
     }
 
     private void loadCommands() {
-        getCommand("autosort").setExecutor(new CommandListener());
+        getCommand("autosort").setExecutor(listener);
     }
 
     @Override
     public void onDisable() {
         Bukkit.getLogger().info("\n\n==================================\n   Autosort Plugin was shut down\n==================================\n");
         config.save();
-        if(net.saveData()) {
+        if(listener.saveData()) {
             Bukkit.getLogger().info("[Autosort] Sucessfully saved networks");
         }
         Bukkit.getLogger().info("[Autosort] Successfully saved config.yml");

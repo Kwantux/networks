@@ -35,9 +35,19 @@ public class CommandListener implements CommandExecutor{
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("create")) {
-
+            if (args[0].equalsIgnoreCase("data")) {
+                if (args.length > 1) {
+                    if (args[1].equalsIgnoreCase("reload")) {
+                        returnMessage(sender,"Reloaded data from files");
+                        loadData();
+                    }
+                    if (args[1].equalsIgnoreCase("save")) {
+                        returnMessage(sender, "Saved data");
+                        saveData();
+                    }
+                }
             }
+
 
             if (args[0].equalsIgnoreCase("create")) {
 
@@ -218,5 +228,21 @@ public class CommandListener implements CommandExecutor{
 /as list - List all your storage networks
 
 """;
+
+    public boolean saveData() {
+        if(net.saveData()) {
+            Bukkit.getLogger().info("[Autosort] Saved data");
+            return true;
+        }
+        return false;
+    }
+
+    public boolean loadData() {
+        if(net.loadData()) {
+            Bukkit.getLogger().info("[Autosort] Reloaded data");
+            return true;
+        }
+        return false;
+    }
 
 }

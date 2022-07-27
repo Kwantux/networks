@@ -3,23 +3,19 @@ package mc.portalcraft.autosort;
 
 import com.google.gson.Gson;
 import org.bukkit.Bukkit;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
-public class NetworkManager implements Serializable {
+public final class NetworkManager implements Serializable {
 
-    ArrayList<StorageNetwork> networks = new ArrayList<StorageNetwork>();
+    private final ArrayList<StorageNetwork> networks = new ArrayList<StorageNetwork>();
 
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
 
     public boolean add(String id, UUID owner) {
@@ -67,10 +63,8 @@ public class NetworkManager implements Serializable {
     public boolean saveData() {
         Bukkit.getLogger().info("Started saving networks");
         //try {
-        Bukkit.getLogger().info(this.networks.toString());
-        Bukkit.getLogger().info(listAll().toString());
-        Bukkit.getLogger().info("Network size: "+this.networks.size());
-        for (int i = 0; i < this.networks.size()-1; i++) {
+        Bukkit.getLogger().info("Network size: "+networks.size());
+        for (int i = 0; i < networks.size()-1; i++) {
             /*File file = new File("plugins/Autosort/networks/" + networks.get(i).getID().toLowerCase() + ".json");
             if (!file.exists()) {
                 file.createNewFile();
@@ -80,7 +74,8 @@ public class NetworkManager implements Serializable {
             filewriter.write(gson.toJson(networks.get(i)));
             filewriter.close();*/
             Bukkit.getLogger().info(networks.get(i).getID());
-            Bukkit.getLogger().info("[Autosort] " + gson.toJson(this.networks.get(i)));
+            //gson.toJson(networks.get(i),StorageNetwork.class);
+            Bukkit.getLogger().info("[Autosort] " + gson.toJson(networks.get(i),StorageNetwork.class));
 
         }
         /*return true;
