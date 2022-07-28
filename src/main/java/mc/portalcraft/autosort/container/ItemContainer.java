@@ -1,22 +1,17 @@
 package mc.portalcraft.autosort.container;
 
-import org.bukkit.Location;
+import mc.portalcraft.autosort.utils.Location;
 import org.bukkit.Material;
 
 public class ItemContainer extends BaseContainer{
-    private Location pos;
-    private Material item;
+    private String item;
 
-    public ItemContainer(Location pos, Material item) {
-        this.pos = pos;
+    public ItemContainer(Location pos, String item) {
+        this.setPos(pos);
         this.item = item;
     }
 
-    public Location getPos() {
-        return pos;
-    }
-
-    public Material getItem() {
+    public String getItem() {
         return item;
     }
 }

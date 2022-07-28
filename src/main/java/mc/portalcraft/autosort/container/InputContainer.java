@@ -1,15 +1,20 @@
 package mc.portalcraft.autosort.container;
 
-import org.bukkit.Location;
+import mc.portalcraft.autosort.utils.Location;
 
 public class InputContainer extends BaseContainer{
-    private Location pos;
 
+    private int tickrate = 20;
     public InputContainer(Location pos) {
-        this.pos = pos;
+        this.setPos(pos);
+        this.tickrate = tickrate;
+    }
+    
+    public void setTickrate(int t) {
+        this.tickrate = t;
     }
 
-    public Location getPos() {
-        return pos;
+    public int getTickrate() {
+        return tickrate;
     }
 }
