@@ -3,50 +3,26 @@ package mc.portalcraft.autosort.data;
 import mc.portalcraft.autosort.Autosort;
 import mc.portalcraft.autosort.NetworkManager;
 import mc.portalcraft.autosort.StorageNetwork;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import mc.portalcraft.autosort.container.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.UUID;
+
 
 public class Network {
-    private Autosort main;
-    private File file;
-    public FileConfiguration config;
+    private String id;
+    private String owner;
 
-    public Network(Autosort main, StorageNetwork network) {
-        this.main = main;
-        this.file = new File(main.getDataFolder() + "/networks/", network.getID() + ".yml");
+    private InputContainer[] input;
+    private ItemContainer[] sorting;
+    private MiscContainer[] misc;
 
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    public Network(StorageNetwork n) {
+        this.id = n.getID();
+        this.owner = n.getOwner().toString();
 
-        this.config = YamlConfiguration.loadConfiguration(file);
-
-
-        config.set("owner", network.getOwner().toString());
-        config.createSection("containers");
-
-        config.createSection("containers/input");
-        for (int i = 0; i < network.getInputChests().size()-1; i++) {
-            config.addDefault("containers/input", network.getInputChests().get(i).getPos().toString());
-        }
-
-
+        this.input = n.getInputChests().toArray(new InputContainer[n.getInputChests().size()]);
+        this.sorting = n.getSortingChests().toArray(new ItemContainer[n.getSortingChests().size()]);
+        this.misc = n.getMiscChests().toArray(new MiscContainer[n.getMiscChests().size()]);
     }
-    public void save() {
-        try {
-            config.save(file);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

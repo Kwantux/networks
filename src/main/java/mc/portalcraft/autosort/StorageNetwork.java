@@ -3,12 +3,14 @@ package mc.portalcraft.autosort;
 import mc.portalcraft.autosort.container.InputContainer;
 import mc.portalcraft.autosort.container.ItemContainer;
 import mc.portalcraft.autosort.container.MiscContainer;
-import org.bukkit.Location;
+import mc.portalcraft.autosort.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.*;
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class StorageNetwork {
@@ -19,6 +21,10 @@ public class StorageNetwork {
     private ArrayList<ItemContainer> sorting_chests = new ArrayList<ItemContainer>();
     private ArrayList<MiscContainer> misc_chests = new ArrayList<MiscContainer>();
 
+    private String[] abc = {"a","b","c"};
+
+    //abc[0] = "hi";
+    //abc[1] = "hi 2.0";
 
 
     public StorageNetwork(String id, UUID owner) {
@@ -51,12 +57,12 @@ public class StorageNetwork {
         input_chests.add(new InputContainer(pos));
     }
 
-    public void addItemChest(Location pos, Material item) {
+    public void addItemChest(Location pos, String item) {
         sorting_chests.add(new ItemContainer(pos, item));
     }
 
-    public void addMiscChest(Location pos) {
-        misc_chests.add(new MiscContainer(pos));
+    public void addMiscChest(Location pos, boolean takeOverflow) {
+        misc_chests.add(new MiscContainer(pos, takeOverflow));
     }
 
 
@@ -69,9 +75,9 @@ public class StorageNetwork {
 
     public void sort(Location pos) {
         if (input_chests.contains(pos)) {
-            Block b = pos.getBlock();
 
-            if (b.getType() == Material.CHEST) {
+
+            if (true) {
 
                 // Main body
 

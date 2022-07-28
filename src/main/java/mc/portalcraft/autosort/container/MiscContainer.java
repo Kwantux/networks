@@ -1,15 +1,12 @@
 package mc.portalcraft.autosort.container;
 
-import org.bukkit.Location;
+import mc.portalcraft.autosort.utils.Location;
 
 public class MiscContainer extends BaseContainer{
-    private Location pos;
 
-    public MiscContainer(Location pos) {
-        this.pos = pos;
-    }
-
-    public Location getPos() {
-        return pos;
+    boolean takeOverflow;
+    public MiscContainer(Location pos, boolean takeOverflow) {
+        this.setPos(pos);
+        this.takeOverflow = takeOverflow;
     }
 }

@@ -2,6 +2,7 @@ package mc.portalcraft.autosort;
 
 
 import com.google.gson.Gson;
+import mc.portalcraft.autosort.data.Network;
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -51,7 +52,7 @@ public final class NetworkManager implements Serializable {
 
     public ArrayList<StorageNetwork> listFromOwner(UUID owner) {
         ArrayList<StorageNetwork> result = new ArrayList<StorageNetwork>();
-        for (int i = 0; i < networks.size()-1; i++) {
+        for (int i = 0; i < networks.size(); i++) {
             if (networks.get(i).getOwner().equals(owner)) {
                 result.add(networks.get(i));
             }
@@ -64,30 +65,27 @@ public final class NetworkManager implements Serializable {
         Bukkit.getLogger().info("Started saving networks");
         //try {
         Bukkit.getLogger().info("Network size: "+networks.size());
-        for (int i = 0; i < networks.size()-1; i++) {
-            /*File file = new File("plugins/Autosort/networks/" + networks.get(i).getID().toLowerCase() + ".json");
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-            file.setWritable(true);*/
-            /*FileWriter filewriter = new FileWriter("plugins/Autosort/networks/" + networks.get(i).getID().toLowerCase() + ".json");
-            filewriter.write(gson.toJson(networks.get(i)));
-            filewriter.close();*/
-            Bukkit.getLogger().info(networks.get(i).getID());
-            //gson.toJson(networks.get(i),StorageNetwork.class);
-            Bukkit.getLogger().info("[Autosort] " + gson.toJson(networks.get(i),StorageNetwork.class));
 
+        Bukkit.getLogger().info(gson.toJson(new Network(new StorageNetwork("hi",UUID.randomUUID()))));
+
+        Network[] list = new Network[networks.size()];
+
+        for (int i = 0; i < networks.size(); i++) {
+            list[i] = new Network(networks.get(i));
+            //Bukkit.getLogger().info(gson.toJson(new Network(networks.get(i))));
         }
-        /*return true;
 
-        } catch (FileNotFoundException e) {
-            Bukkit.getLogger().warning(e.getMessage());
-            return false;
-        } catch (IOException e) {
-            Bukkit.getLogger().warning("An IOException occurred whilst saving network file");
-            Bukkit.getLogger().warning(e.getMessage());
-            return false;
-        }*/
+        /*File file = new File("plugins/Autosort/networks/" + networks.get(i).getID().toLowerCase() + ".json");
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        file.setWritable(true);*/
+        /*FileWriter filewriter = new FileWriter("plugins/Autosort/networks/" + networks.get(i).getID().toLowerCase() + ".json");
+        filewriter.write(gson.toJson(networks.get(i)));
+        filewriter.close();*/
+
+        //Bukkit.getLogger().info("[Autosort] " + gson.toJson(list));
+        
         return true;
     }
     public boolean loadData() {
