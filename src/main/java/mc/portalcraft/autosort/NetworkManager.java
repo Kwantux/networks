@@ -2,22 +2,29 @@ package mc.portalcraft.autosort;
 
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import mc.portalcraft.autosort.data.Network;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.UUID;
 
 public final class NetworkManager implements Serializable {
 
     private final ArrayList<StorageNetwork> networks = new ArrayList<StorageNetwork>();
 
+    private File dataFolder;
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();;
 
-    private final Gson gson = new Gson();
 
+    public NetworkManager(File dataFolder) {
+        this.dataFolder = dataFolder;
+    }
 
     public boolean add(String id, UUID owner) {
         if (this.getFromID(id) == null) {
@@ -75,22 +82,27 @@ public final class NetworkManager implements Serializable {
             //Bukkit.getLogger().info(gson.toJson(new Network(networks.get(i))));
         }
 
-        File file = new File("plugins/Autosort/", "networks.json");
+        File file = new File(dataFolder, "networks.json");
+
+
+        // NOT WORKING PART - NEEDS TO BE FIXED:
         /*if (!file.exists()) {
             file.createNewFile();
+        }
+        file.setWritable(true);
+        if (file.canWrite()) {
+            FileWriter filewriter = new FileWriter(file);
+            filewriter.write(gson.toJson(nfetworks));
+            filewriter.close();
         }*/
-        /*file.setWritable(true);
-        FileWriter filewriter = new FileWriter(file);
-        filewriter.write(gson.toJson(networks));
-        filewriter.close();*/
 
         Bukkit.getLogger().info(gson.toJson(list));
     }
     public void loadData() {
-        //File opening
-        Network[] netarray = {};
-        for (Network net: netarray) {
+        /*File file = new File(dataFolder, "networks.json");
+        Scanner scanner = new Scanner(file);
+        for (Network net: gson.fromJson(scanner.toString(), Network[].class)) {
             networks.add(new StorageNetwork(net));
-        }
+        }*/
     }
 }

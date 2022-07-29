@@ -66,10 +66,6 @@
             <id>gson</id>
             <url>https://repo1.maven.org/maven2/com/google/code/gson/gson/</url>
         </repository>
-        <repository>
-            <id>jackson-core</id>
-            <url>https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core</url>
-        </repository>
     </repositories>
 
     <dependencies>
@@ -84,11 +80,5 @@
             <artifactId>gson</artifactId>
             <version>2.9.0</version>
         </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.13.3</version>
-        </dependency>
-
     </dependencies>
 </project>
