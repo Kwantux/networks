@@ -38,7 +38,7 @@ public final class NetworkManager implements Serializable {
 
 
     public StorageNetwork getFromID(String id) {
-        for (int i = 0; i < networks.size() - 1 ; i++) {
+        for (int i = 0; i < networks.size(); i++) {
             if (networks.get(i).getID().equalsIgnoreCase(id)) {
                 return networks.get(i);
             }
@@ -52,18 +52,18 @@ public final class NetworkManager implements Serializable {
 
     public ArrayList<StorageNetwork> listFromOwner(UUID owner) {
         ArrayList<StorageNetwork> result = new ArrayList<StorageNetwork>();
-        for (int i = 0; i < networks.size(); i++) {
-            if (networks.get(i).getOwner().equals(owner)) {
-                result.add(networks.get(i));
+        for (StorageNetwork network : networks) {
+            if (network.getOwner().equals(owner)) {
+                result.add(network);
             }
         }
         return result;
     }
 
 
-    public boolean saveData() {
+    public void saveData() {
         Bukkit.getLogger().info("Started saving networks");
-        //try {
+
         Bukkit.getLogger().info("Network size: "+networks.size());
 
         Bukkit.getLogger().info(gson.toJson(new Network(new StorageNetwork("hi",UUID.randomUUID()))));
@@ -75,29 +75,22 @@ public final class NetworkManager implements Serializable {
             //Bukkit.getLogger().info(gson.toJson(new Network(networks.get(i))));
         }
 
-        /*File file = new File("plugins/Autosort/networks/" + networks.get(i).getID().toLowerCase() + ".json");
-        if (!file.exists()) {
+        File file = new File("plugins/Autosort/", "networks.json");
+        /*if (!file.exists()) {
             file.createNewFile();
-        }
-        file.setWritable(true);*/
-        /*FileWriter filewriter = new FileWriter("plugins/Autosort/networks/" + networks.get(i).getID().toLowerCase() + ".json");
-        filewriter.write(gson.toJson(networks.get(i)));
+        }*/
+        /*file.setWritable(true);
+        FileWriter filewriter = new FileWriter(file);
+        filewriter.write(gson.toJson(networks));
         filewriter.close();*/
 
-        //Bukkit.getLogger().info("[Autosort] " + gson.toJson(list));
-        
-        return true;
+        Bukkit.getLogger().info(gson.toJson(list));
     }
-    public boolean loadData() {
-        /*try {
-            new File("plugins/Autosort/networks.json").createNewFile();
-            //BukkitObjectInputStream in = new BukkitObjectInputStream(new GZIPInputStream(new FileInputStream("plugins/Autosort/networks.json")));
-            //this.networks = gson.fromJson(in.read(), ArrayList<StorageNetwork>.class);
-            //in.close();
-            return true;
-        } catch (IOException err) {
-            err.printStackTrace();
-            return false;
-        }*/return true;
+    public void loadData() {
+        //File opening
+        Network[] netarray = {};
+        for (Network net: netarray) {
+            networks.add(new StorageNetwork(net));
+        }
     }
 }

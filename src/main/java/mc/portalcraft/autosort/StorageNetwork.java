@@ -3,6 +3,7 @@ package mc.portalcraft.autosort;
 import mc.portalcraft.autosort.container.InputContainer;
 import mc.portalcraft.autosort.container.ItemContainer;
 import mc.portalcraft.autosort.container.MiscContainer;
+import mc.portalcraft.autosort.data.Network;
 import mc.portalcraft.autosort.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -10,6 +11,7 @@ import org.bukkit.block.*;
 import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +32,23 @@ public class StorageNetwork {
     public StorageNetwork(String id, UUID owner) {
         this.id = id;
         this.owner = owner;
+    }
+
+    public StorageNetwork(Network net) {
+        this.id = net.getId();
+        this.owner = UUID.fromString(net.getOwner());
+
+        for (InputContainer i: net.getInputContainers()) {
+            input_chests.add(i);
+        }
+
+        for (ItemContainer i: net.getSortingContainers()) {
+            sorting_chests.add(i);
+        }
+
+        for (MiscContainer i: net.getMiscContainers()) {
+            misc_chests.add(i);
+        }
     }
 
     public String getID() {

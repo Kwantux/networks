@@ -229,20 +229,12 @@ public class CommandListener implements CommandExecutor{
 
 """;
 
-    public boolean saveData() {
-        if(net.saveData()) {
-            Bukkit.getLogger().info("[Autosort] Saved data");
-            return true;
-        }
-        return false;
+    public void saveData() {
+        net.saveData();
     }
 
-    public boolean loadData() {
-        if(net.loadData()) {
-            Bukkit.getLogger().info("[Autosort] Reloaded data");
-            return true;
-        }
-        return false;
+    public void loadData() {
+        net.loadData();
     }
 
 }

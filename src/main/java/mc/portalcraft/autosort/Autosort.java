@@ -16,7 +16,7 @@ public final class Autosort extends JavaPlugin {
     public void onEnable() {
         Bukkit.getLogger().info("\n\n==================================\n   Autosort Plugin has launched\n==================================\n");
         loadCommands();
-
+        listener.loadData();
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
@@ -31,11 +31,8 @@ public final class Autosort extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Bukkit.getLogger().info("\n\n==================================\n   Autosort Plugin was shut down\n==================================\n");
         config.save();
-        if(listener.saveData()) {
-            Bukkit.getLogger().info("[Autosort] Sucessfully saved networks");
-        }
-        Bukkit.getLogger().info("[Autosort] Successfully saved config.yml");
+        listener.saveData();
+        Bukkit.getLogger().info("\n\n==================================\n   Autosort Plugin was shut down\n==================================\n");
     }
 }
