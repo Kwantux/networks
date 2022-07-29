@@ -9,6 +9,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -85,24 +86,48 @@ public final class NetworkManager implements Serializable {
         File file = new File(dataFolder, "networks.json");
 
 
-        // NOT WORKING PART - NEEDS TO BE FIXED:
-        /*if (!file.exists()) {
-            file.createNewFile();
-        }
-        file.setWritable(true);
-        if (file.canWrite()) {
-            FileWriter filewriter = new FileWriter(file);
-            filewriter.write(gson.toJson(nfetworks));
-            filewriter.close();
-        }*/
+        try {
 
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            file.setWritable(true);
+            if (file.canWrite()) {
+                FileWriter filewriter = new FileWriter(file);
+                filewriter.write(gson.toJson(networks));
+                filewriter.close();
+            }
+
+            Bukkit.getLogger().info("Successfully written to file!");
+
+        }
+
+        catch (IOException e) {
+            Bukkit.getLogger().warning("[Autosort] Failed to save networks.json");
+            e.printStackTrace();
+            Bukkit.getLogger().info(e.getStackTrace().toString());
+        }
         Bukkit.getLogger().info(gson.toJson(list));
+
     }
     public void loadData() {
-        /*File file = new File(dataFolder, "networks.json");
-        Scanner scanner = new Scanner(file);
-        for (Network net: gson.fromJson(scanner.toString(), Network[].class)) {
-            networks.add(new StorageNetwork(net));
-        }*/
+        try {
+            File file = new File(dataFolder, "networks.json");
+            Scanner scanner = new Scanner(file);
+            String json = "";
+            while (scanner.hasNext()) {
+                json += scanner.next();
+            }
+            /*
+            for (Network net : gson.fromJson(json, Network[].class)) {
+                networks.add(new StorageNetwork(net));
+            }
+            */
+            Bukkit.getLogger().info(json);
+        }
+        catch (IOException e) {
+            Bukkit.getLogger().warning("[Autosort] Failed to load networks.json");
+            e.printStackTrace();
+        }
     }
 }

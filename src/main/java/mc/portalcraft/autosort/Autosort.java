@@ -37,7 +37,7 @@ public final class Autosort extends JavaPlugin {
     @Override
     public void onDisable() {
         config.save();
-        listener.saveData();
+        //listener.saveData();
         Bukkit.getLogger().info("\n\n==================================\n   Autosort Plugin was shut down\n==================================\n");
     }
 }
