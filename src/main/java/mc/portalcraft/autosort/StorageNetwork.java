@@ -22,8 +22,7 @@ public class StorageNetwork {
     private ArrayList<InputContainer> input_chests = new ArrayList<InputContainer>();
     private ArrayList<ItemContainer> sorting_chests = new ArrayList<ItemContainer>();
     private ArrayList<MiscContainer> misc_chests = new ArrayList<MiscContainer>();
-
-    private String[] abc = {"a","b","c"};
+    
 
     //abc[0] = "hi";
     //abc[1] = "hi 2.0";
