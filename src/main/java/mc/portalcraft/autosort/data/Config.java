@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Config {
 
-    private Autosort main;
+    private Autosort plugin;
     private File file;
     public FileConfiguration config;
 
@@ -21,9 +21,9 @@ public class Config {
             e.printStackTrace();
         }
     }
-    public Config(Autosort main) {
-        this.main = main;
-        this.file = new File(main.getDataFolder(), "config.yml");
+    public Config(Autosort plugin) {
+        this.plugin = plugin;
+        this.file = new File(plugin.getDataFolder(), "config.yml");
 
         if (!file.exists()) {
             try {

@@ -1,11 +1,13 @@
 package mc.portalcraft.autosort.commands;
 
+import mc.portalcraft.autosort.Autosort;
 import mc.portalcraft.autosort.NetworkManager;
 import mc.portalcraft.autosort.StorageNetwork;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +15,14 @@ import java.util.UUID;
 
 public class CommandListener implements CommandExecutor{
 
-    private NetworkManager net = new NetworkManager();
+    private File dataFolder;
+    private NetworkManager net;
+
+
+    public CommandListener(File dataFolder) {
+        this.dataFolder = dataFolder;
+        this.net = new NetworkManager(dataFolder);
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
