@@ -1,11 +1,10 @@
-package mc.portalcraft.autosort.data;
+package com.quantum625.autosort.data;
 
-import mc.portalcraft.autosort.Autosort;
-import mc.portalcraft.autosort.NetworkManager;
-import mc.portalcraft.autosort.StorageNetwork;
+import com.quantum625.autosort.container.InputContainer;
+import com.quantum625.autosort.container.ItemContainer;
+import com.quantum625.autosort.container.MiscContainer;
+import com.quantum625.autosort.StorageNetwork;
 import mc.portalcraft.autosort.container.*;
-
-import java.util.UUID;
 
 
 public class Network {

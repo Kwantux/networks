@@ -1,8 +1,6 @@
-package mc.portalcraft.autosort.commands;
+package com.quantum625.autosort.commands;
 
-import mc.portalcraft.autosort.Autosort;
-import mc.portalcraft.autosort.NetworkManager;
-import mc.portalcraft.autosort.StorageNetwork;
+import com.quantum625.autosort.NetworkManager;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

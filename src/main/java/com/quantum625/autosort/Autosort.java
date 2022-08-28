@@ -1,8 +1,7 @@
-package mc.portalcraft.autosort;
+package com.quantum625.autosort;
 
-import mc.portalcraft.autosort.commands.CommandListener;
-import mc.portalcraft.autosort.data.Config;
-import mc.portalcraft.autosort.data.Network;
+import com.quantum625.autosort.commands.CommandListener;
+import com.quantum625.autosort.data.Config;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
 

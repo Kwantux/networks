@@ -1,4 +1,4 @@
-package mc.portalcraft.autosort.utils;
+package com.quantum625.autosort.utils;
 
 public class Location {
     private int x = 0;
@@ -16,6 +16,12 @@ public class Location {
 
     }
 
+    public Location(org.bukkit.Location location) {
+        this.x = location.getBlockX();
+        this.y = location.getBlockY();
+        this.z = location.getBlockZ();
+        this.dim = location.getWorld().getName();
+    }
 
     public void setX(int x) {
         this.x = x;

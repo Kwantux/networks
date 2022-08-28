@@ -1,11 +1,10 @@
-package mc.portalcraft.autosort;
+package com.quantum625.autosort;
 
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import mc.portalcraft.autosort.data.Network;
+import com.quantum625.autosort.data.Network;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.io.FileWriter;

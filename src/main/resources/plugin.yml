@@ -1,6 +1,6 @@
 name: Autosort
 version: '${project.version}'
-main: mc.portalcraft.autosort.Autosort
+main: Autosort
 api-version: 1.19
 description: autosort plugin
 commands:

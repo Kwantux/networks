@@ -1,7 +1,6 @@
-package mc.portalcraft.autosort.container;
+package com.quantum625.autosort.container;
 
-import mc.portalcraft.autosort.utils.Location;
-import org.bukkit.Material;
+import com.quantum625.autosort.utils.Location;
 
 public class ItemContainer extends BaseContainer{
     private String item;

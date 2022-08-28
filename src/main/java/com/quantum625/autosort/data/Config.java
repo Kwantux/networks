@@ -1,6 +1,6 @@
-package mc.portalcraft.autosort.data;
+package com.quantum625.autosort.data;
 
-import mc.portalcraft.autosort.Autosort;
+import com.quantum625.autosort.Autosort;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 

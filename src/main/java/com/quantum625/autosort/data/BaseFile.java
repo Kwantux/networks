@@ -1,14 +1,11 @@
-package mc.portalcraft.autosort.data;
+package com.quantum625.autosort.data;
 
-import mc.portalcraft.autosort.Autosort;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.InvalidConfigurationException;
+import com.quantum625.autosort.Autosort;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Reader;
 
 public class BaseFile {
     private Autosort main;

@@ -1,18 +1,13 @@
-package mc.portalcraft.autosort;
+package com.quantum625.autosort;
 
-import mc.portalcraft.autosort.container.InputContainer;
-import mc.portalcraft.autosort.container.ItemContainer;
-import mc.portalcraft.autosort.container.MiscContainer;
-import mc.portalcraft.autosort.data.Network;
-import mc.portalcraft.autosort.utils.Location;
+import com.quantum625.autosort.container.InputContainer;
+import com.quantum625.autosort.container.ItemContainer;
+import com.quantum625.autosort.container.MiscContainer;
+import com.quantum625.autosort.data.Network;
+import com.quantum625.autosort.utils.Location;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.block.*;
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 
 public class StorageNetwork {
@@ -22,10 +17,7 @@ public class StorageNetwork {
     private ArrayList<InputContainer> input_chests = new ArrayList<InputContainer>();
     private ArrayList<ItemContainer> sorting_chests = new ArrayList<ItemContainer>();
     private ArrayList<MiscContainer> misc_chests = new ArrayList<MiscContainer>();
-    
 
-    //abc[0] = "hi";
-    //abc[1] = "hi 2.0";
 
 
     public StorageNetwork(String id, UUID owner) {
