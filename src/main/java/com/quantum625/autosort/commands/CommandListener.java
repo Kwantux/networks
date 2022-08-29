@@ -1,6 +1,12 @@
 package com.quantum625.autosort.commands;
 
 import com.quantum625.autosort.NetworkManager;
+import com.quantum625.autosort.StorageNetwork;
+import com.quantum625.autosort.container.BaseContainer;
+import com.quantum625.autosort.container.InputContainer;
+import com.quantum625.autosort.container.ItemContainer;
+import com.quantum625.autosort.container.MiscContainer;
+import com.quantum625.autosort.utils.Location;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -105,7 +111,22 @@ public class CommandListener implements CommandExecutor{
             }
 
             if (args[0].equalsIgnoreCase("select")) {
-                returnMessage(sender, "This feature is not implemented yet!");
+
+                if (args.length < 2) {
+                    returnMessage(sender, "Please specify the network you want to select!");
+                    return true;
+                }
+
+                if (sender instanceof Player) {
+                    net.selectNetwork((Player) sender, net.getFromID(args[1]));
+                }
+
+                if (sender instanceof ConsoleCommandSender) {
+                    net.consoleSelectNetwork(net.getFromID(args[1]));
+                }
+
+                returnMessage(sender, "Successfully selected network " + args[1]);
+
                 return true;
             }
 
@@ -138,7 +159,7 @@ public class CommandListener implements CommandExecutor{
                 }
                 else {
                     returnMessage(sender, "You own the following storage networks:");
-                    for (int i = 0; i < net.listFromOwner(owner).size()-1; i++) {
+                    for (int i = 0; i < net.listFromOwner(owner).size(); i++) {
                         returnMessage(sender, net.listFromOwner(owner).get(i).getID().toString());
                     }
                 }
@@ -148,14 +169,92 @@ public class CommandListener implements CommandExecutor{
             }
 
             if (args[0].equalsIgnoreCase("listall")) {
-                for (int i = 0; i < net.listAll().size()-1; i++) {
-                    returnMessage(sender, net.listAll().get(i).getID().toString());
+                Bukkit.getLogger().info(net.listAll().toString());
+                if (net.listAll().isEmpty()) {
+                    returnMessage(sender, "There are no storage networks!");
+                }
+                else {
+                    returnMessage(sender, "Theses storage networks exist:");
+                    for (int i = 0; i < net.listAll().size(); i++) {
+                        returnMessage(sender, net.listAll().get(i).getID().toString());
+                    }
                 }
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("chest")) {
-                returnMessage(sender, "This feature is not implemented yet!");
+            if (args[0].equalsIgnoreCase("container")) {
+
+                Location pos = new Location(0, 0, 0, "world");
+                StorageNetwork network;
+
+                if (args.length < 2) {
+                    returnMessage(sender, "You must specify the container type!");
+                    return true;
+                }
+
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    pos = new Location(player.getTargetBlock(null, 5));
+                    network = net.getSelectedNetwork(player);
+
+                    if (args[1].equalsIgnoreCase("input")) {
+                        network.addInputChest(pos);
+                    }
+
+                    else if (args[1].equalsIgnoreCase("sorting")) {
+                        if (args.length < 3) {
+                            returnMessage(sender, "You need to specify the item to sort");
+                        }
+                        network.addItemChest(pos, args[2].toUpperCase());
+                    }
+
+                    else if (args[1].equalsIgnoreCase("misc")) {
+                        network.addMiscChest(pos, false);
+                    }
+                }
+
+                else {
+                    if (args.length < 5) {
+                        returnMessage(sender, "You need to specify a container location");
+                        returnMessage(sender, "/as container <type> <x> <y> <z> <world>");
+                    }
+                    pos.setX(Integer.parseInt(args[2]));
+                    pos.setY(Integer.parseInt(args[3]));
+                    pos.setZ(Integer.parseInt(args[4]));
+                    pos.setDim(args[5]);
+
+                    network = net.getConsoleSelection();
+
+                    if (args[1].equalsIgnoreCase("input")) {
+                        network.addInputChest(pos);
+                        returnMessage(sender, "Added input container to your network");
+                        return true;
+                    }
+
+                    else if (args[1].equalsIgnoreCase("sorting")) {
+                        if (args.length < 6) {
+                            returnMessage(sender, "You need to specify the item to sort");
+                        }
+                        network.addItemChest(pos, args[6].toUpperCase());
+                        returnMessage(sender, "Added sorting container to your network");
+                        return true;
+                    }
+
+                    else if (args[1].equalsIgnoreCase("misc")) {
+                        network.addMiscChest(pos, false);
+                        returnMessage(sender, "Added miscellaneous container to your network");
+                        return true;
+
+                    }
+                }
+                return true;
+            }
+
+            if (args[0].equalsIgnoreCase("checkinv")) {
+                if (args.length > 4) {
+                    BaseContainer container = new BaseContainer(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]),args[4]);
+                    returnMessage(sender, String.valueOf(container.getInventory().getSize()));
+                }
                 return true;
             }
         }

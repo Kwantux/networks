@@ -6,7 +6,7 @@ public class MiscContainer extends BaseContainer{
 
     boolean takeOverflow;
     public MiscContainer(Location pos, boolean takeOverflow) {
-        this.setPos(pos);
+        super(pos);
         this.takeOverflow = takeOverflow;
     }
 }

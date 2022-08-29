@@ -6,6 +6,8 @@ import com.quantum625.autosort.container.MiscContainer;
 import com.quantum625.autosort.data.Network;
 import com.quantum625.autosort.utils.Location;
 import org.bukkit.Bukkit;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -14,9 +16,9 @@ public class StorageNetwork {
     private String id;
     private UUID owner;
 
-    private ArrayList<InputContainer> input_chests = new ArrayList<InputContainer>();
-    private ArrayList<ItemContainer> sorting_chests = new ArrayList<ItemContainer>();
-    private ArrayList<MiscContainer> misc_chests = new ArrayList<MiscContainer>();
+    private ArrayList<InputContainer> input_containers = new ArrayList<InputContainer>();
+    private ArrayList<ItemContainer> sorting_containers = new ArrayList<ItemContainer>();
+    private ArrayList<MiscContainer> misc_containers = new ArrayList<MiscContainer>();
 
 
 
@@ -30,17 +32,56 @@ public class StorageNetwork {
         this.owner = UUID.fromString(net.getOwner());
 
         for (InputContainer i: net.getInputContainers()) {
-            input_chests.add(i);
+            input_containers.add(i);
         }
 
         for (ItemContainer i: net.getSortingContainers()) {
-            sorting_chests.add(i);
+            sorting_containers.add(i);
         }
 
         for (MiscContainer i: net.getMiscContainers()) {
-            misc_chests.add(i);
+            misc_containers.add(i);
         }
     }
+
+    private InputContainer getInputContainerByLocation(Location pos) {
+        for (InputContainer i : input_containers) {
+            if (i.getPos().equals(pos)) {
+                return i;
+            }
+        }
+        return null;
+    }
+    private ItemContainer getItemContainerByLocation(Location pos) {
+        for (ItemContainer i : sorting_containers) {
+            if (i.getPos().equals(pos)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+
+    // Unfinished:
+    private ItemContainer getItemContainerByItem(String item) {
+        for (ItemContainer i : sorting_containers) {
+            if (i.getItem().equals(item)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    private MiscContainer getMiscContainerByLocation(Location pos) {
+        for (MiscContainer i : misc_containers) {
+            if (i.getPos().equals(pos)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+
 
     public String getID() {
         return this.id;
@@ -51,50 +92,52 @@ public class StorageNetwork {
     }
 
     public ArrayList<InputContainer> getInputChests() {
-        return input_chests;
+        return input_containers;
     }
 
     public ArrayList<ItemContainer> getSortingChests() {
-        return sorting_chests;
+        return sorting_containers;
     }
 
     public ArrayList<MiscContainer> getMiscChests() {
-        return misc_chests;
+        return misc_containers;
     }
 
 
     public void addInputChest(Location pos) {
-        input_chests.add(new InputContainer(pos));
+        input_containers.add(new InputContainer(pos, 20));
     }
 
     public void addItemChest(Location pos, String item) {
-        sorting_chests.add(new ItemContainer(pos, item));
+        sorting_containers.add(new ItemContainer(pos, item));
     }
 
     public void addMiscChest(Location pos, boolean takeOverflow) {
-        misc_chests.add(new MiscContainer(pos, takeOverflow));
+        misc_containers.add(new MiscContainer(pos, takeOverflow));
     }
 
 
 
     public void sortAll() {
-        for (int i = 0; i < input_chests.size()-1; i++) {
-            sort(input_chests.get(i).getPos());
+        for (int i = 0; i < input_containers.size()-1; i++) {
+            sort(input_containers.get(i).getPos());
         }
     }
 
     public void sort(Location pos) {
-        if (input_chests.contains(pos)) {
+        if (getInputContainerByLocation(pos) != null) {
 
+            Inventory inventory = getInputContainerByLocation(pos).getInventory();
 
-            if (true) {
+            for (ItemStack stack : inventory.getContents()) {
 
-                // Main body
+                if (getItemContainerByItem(inventory.getType().toString().toUpperCase()) != null) {
+                    inventory.remove(stack);
+                }
 
-            }
+                else {
 
-            else {
-                Bukkit.getLogger().warning("Block at the given position is not a chest: " + pos);
+                }
             }
         }
 

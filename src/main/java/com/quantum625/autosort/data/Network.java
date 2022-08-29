@@ -4,7 +4,7 @@ import com.quantum625.autosort.container.InputContainer;
 import com.quantum625.autosort.container.ItemContainer;
 import com.quantum625.autosort.container.MiscContainer;
 import com.quantum625.autosort.StorageNetwork;
-import mc.portalcraft.autosort.container.*;
+import com.quantum625.autosort.container.*;
 
 
 public class Network {

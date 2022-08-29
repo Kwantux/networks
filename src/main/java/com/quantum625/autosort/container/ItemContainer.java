@@ -6,7 +6,7 @@ public class ItemContainer extends BaseContainer{
     private String item;
 
     public ItemContainer(Location pos, String item) {
-        this.setPos(pos);
+        super(pos);
         this.item = item;
     }
 

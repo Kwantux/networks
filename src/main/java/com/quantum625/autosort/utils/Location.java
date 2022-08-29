@@ -23,6 +23,13 @@ public class Location {
         this.dim = location.getWorld().getName();
     }
 
+    public Location(org.bukkit.block.Block block) {
+        this.x = block.getX();
+        this.y = block.getY();
+        this.z = block.getZ();
+        this.dim = block.getWorld().getName();
+    }
+
     public void setX(int x) {
         this.x = x;
     }
@@ -51,5 +58,9 @@ public class Location {
     }
     public String getDim() {
         return dim;
+    }
+
+    public String toString() {
+        return "[" + dim + ", " + x + ", " + y + ", " + z + "]";
     }
 }

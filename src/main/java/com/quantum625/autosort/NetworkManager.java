@@ -4,7 +4,9 @@ package com.quantum625.autosort;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.quantum625.autosort.data.Network;
+import com.quantum625.autosort.utils.PlayerSelection;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -17,6 +19,9 @@ import java.util.UUID;
 public final class NetworkManager implements Serializable {
 
     private final ArrayList<StorageNetwork> networks = new ArrayList<StorageNetwork>();
+
+    private ArrayList<PlayerSelection> selections = new ArrayList<PlayerSelection>();
+    private StorageNetwork console_selection = null;
 
     private File dataFolder;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();;
@@ -68,6 +73,7 @@ public final class NetworkManager implements Serializable {
     }
 
 
+
     public void saveData() {
         Bukkit.getLogger().info("Started saving networks");
 
@@ -79,34 +85,32 @@ public final class NetworkManager implements Serializable {
 
         for (int i = 0; i < networks.size(); i++) {
             list[i] = new Network(networks.get(i));
-            //Bukkit.getLogger().info(gson.toJson(new Network(networks.get(i))));
-        }
+            File file = new File(dataFolder, "networks/" + list[i].getId() + ".json");
 
-        File file = new File(dataFolder, "networks.json");
+            try {
 
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                file.setWritable(true);
+                if (file.canWrite()) {
+                    FileWriter filewriter = new FileWriter(file);
+                    filewriter.write(gson.toJson(networks));
+                    filewriter.close();
+                }
 
-        try {
+                Bukkit.getLogger().info("Successfully written to file " + list[i].getId() + ".json!");
 
-            if (!file.exists()) {
-                file.createNewFile();
             }
-            file.setWritable(true);
-            if (file.canWrite()) {
-                FileWriter filewriter = new FileWriter(file);
-                filewriter.write(gson.toJson(networks));
-                filewriter.close();
+            catch (IOException e) {
+                Bukkit.getLogger().warning("[Autosort] Failed to save network file " + list[i].getId() + ".json");
+                e.printStackTrace();
+                Bukkit.getLogger().info(e.getStackTrace().toString());
             }
-
-            Bukkit.getLogger().info("Successfully written to file!");
-
+            Bukkit.getLogger().info(gson.toJson(list));
         }
 
-        catch (IOException e) {
-            Bukkit.getLogger().warning("[Autosort] Failed to save networks.json");
-            e.printStackTrace();
-            Bukkit.getLogger().info(e.getStackTrace().toString());
-        }
-        Bukkit.getLogger().info(gson.toJson(list));
+
 
     }
     public void loadData() {
@@ -128,5 +132,33 @@ public final class NetworkManager implements Serializable {
             Bukkit.getLogger().warning("[Autosort] Failed to load networks.json");
             e.printStackTrace();
         }
+    }
+
+
+    public void selectNetwork(Player player, StorageNetwork network) {
+        for (PlayerSelection networkSelection : selections) {
+            if (networkSelection.getPlayer().equals(player)) {
+                networkSelection.setNetwork(network);
+                break;
+            }
+        }
+        selections.add(new PlayerSelection(player, network));
+    }
+
+    public StorageNetwork getSelectedNetwork(Player player) {
+        for (PlayerSelection networkSelection : selections) {
+            if (networkSelection.getPlayer().equals(player)) {
+                return networkSelection.getNetwork();
+            }
+        }
+        return null;
+    }
+
+    public void consoleSelectNetwork(StorageNetwork network) {
+        console_selection = network;
+    }
+
+    public StorageNetwork getConsoleSelection() {
+        return console_selection;
     }
 }

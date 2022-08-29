@@ -1,6 +1,6 @@
 name: Autosort
 version: '${project.version}'
-main: Autosort
+main: com.quantum625.autosort.Autosort
 api-version: 1.19
 description: autosort plugin
 commands:
