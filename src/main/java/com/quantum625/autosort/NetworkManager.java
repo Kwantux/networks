@@ -14,7 +14,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public final class NetworkManager implements Serializable {
 
@@ -95,7 +98,7 @@ public final class NetworkManager implements Serializable {
                 file.setWritable(true);
                 if (file.canWrite()) {
                     FileWriter filewriter = new FileWriter(file);
-                    filewriter.write(gson.toJson(networks));
+                    filewriter.write(gson.toJson(networks.get(i)));
                     filewriter.close();
                 }
 
@@ -113,24 +116,23 @@ public final class NetworkManager implements Serializable {
 
 
     }
+
     public void loadData() {
-        try {
-            File file = new File(dataFolder, "networks.json");
-            Scanner scanner = new Scanner(file);
-            String json = "";
-            while (scanner.hasNext()) {
-                json += scanner.next();
+        for (File file : new File(dataFolder, "networks/").listFiles()) {
+            try {
+                Scanner scanner = new Scanner(file);
+                String json = "";
+                while (scanner.hasNext()) {
+                    json += scanner.next();
+                }
+
+                networks.add(new StorageNetwork(gson.fromJson(json, Network.class)));
+
+                Bukkit.getLogger().info(json);
+            } catch (IOException e) {
+                Bukkit.getLogger().warning("[Autosort] Failed to load " + file.getName());
+                e.printStackTrace();
             }
-            /*
-            for (Network net : gson.fromJson(json, Network[].class)) {
-                networks.add(new StorageNetwork(net));
-            }
-            */
-            Bukkit.getLogger().info(json);
-        }
-        catch (IOException e) {
-            Bukkit.getLogger().warning("[Autosort] Failed to load networks.json");
-            e.printStackTrace();
         }
     }
 

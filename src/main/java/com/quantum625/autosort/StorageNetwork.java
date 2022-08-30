@@ -6,6 +6,7 @@ import com.quantum625.autosort.container.MiscContainer;
 import com.quantum625.autosort.data.Network;
 import com.quantum625.autosort.utils.Location;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -65,16 +66,26 @@ public class StorageNetwork {
     // Unfinished:
     private ItemContainer getItemContainerByItem(String item) {
         for (ItemContainer i : sorting_containers) {
-            if (i.getItem().equals(item)) {
+            if (i.getItem().equals(item) && i.getInventory().contains(Material.AIR)) {
                 return i;
             }
         }
         return null;
     }
 
+
     private MiscContainer getMiscContainerByLocation(Location pos) {
         for (MiscContainer i : misc_containers) {
             if (i.getPos().equals(pos)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    private MiscContainer getMiscContainer() {
+        for (MiscContainer i : misc_containers) {
+            if (i.getInventory().contains(Material.AIR)) {
                 return i;
             }
         }
@@ -131,13 +142,15 @@ public class StorageNetwork {
 
             for (ItemStack stack : inventory.getContents()) {
 
-                if (getItemContainerByItem(inventory.getType().toString().toUpperCase()) != null) {
-                    inventory.remove(stack);
+                if (getItemContainerByItem(stack.getType().toString().toUpperCase()) != null) {
+                    getItemContainerByItem(stack.getType().toString().toUpperCase()).getInventory().addItem(stack);
                 }
 
                 else {
-
+                    getMiscContainer().getInventory().addItem(stack);
                 }
+
+                inventory.remove(stack);
             }
         }
 

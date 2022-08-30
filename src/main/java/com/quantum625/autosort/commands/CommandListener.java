@@ -48,7 +48,7 @@ public class CommandListener implements CommandExecutor{
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("data")) {
+            else if (args[0].equalsIgnoreCase("data")) {
                 if (args.length > 1) {
                     if (args[1].equalsIgnoreCase("reload")) {
                         returnMessage(sender,"Reloaded data from files");
@@ -62,7 +62,7 @@ public class CommandListener implements CommandExecutor{
             }
 
 
-            if (args[0].equalsIgnoreCase("create")) {
+            else if (args[0].equalsIgnoreCase("create")) {
 
                 UUID owner;
 
@@ -93,7 +93,7 @@ public class CommandListener implements CommandExecutor{
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("delete")) {
+            else if (args[0].equalsIgnoreCase("delete")) {
                 if (args[1] != null) {
                     if (sender instanceof Player) {
                         if (!net.getFromID(args[1]).getOwner().equals((Player) sender) && !((Player) sender).hasPermission("autosort.admin")) {
@@ -110,7 +110,7 @@ public class CommandListener implements CommandExecutor{
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("select")) {
+            else if (args[0].equalsIgnoreCase("select")) {
 
                 if (args.length < 2) {
                     returnMessage(sender, "Please specify the network you want to select!");
@@ -130,12 +130,12 @@ public class CommandListener implements CommandExecutor{
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("info")) {
+            else if (args[0].equalsIgnoreCase("info")) {
                 returnMessage(sender, "This feature is not implemented yet!");
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("list")) {
+            else if (args[0].equalsIgnoreCase("list")) {
 
                 UUID owner;
 
@@ -168,7 +168,7 @@ public class CommandListener implements CommandExecutor{
 
             }
 
-            if (args[0].equalsIgnoreCase("listall")) {
+            else if (args[0].equalsIgnoreCase("listall")) {
                 Bukkit.getLogger().info(net.listAll().toString());
                 if (net.listAll().isEmpty()) {
                     returnMessage(sender, "There are no storage networks!");
@@ -182,7 +182,7 @@ public class CommandListener implements CommandExecutor{
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("container")) {
+            else if (args[0].equalsIgnoreCase("container")) {
 
                 Location pos = new Location(0, 0, 0, "world");
                 StorageNetwork network;
@@ -250,12 +250,26 @@ public class CommandListener implements CommandExecutor{
                 return true;
             }
 
-            if (args[0].equalsIgnoreCase("checkinv")) {
+            else if (args[0].equalsIgnoreCase("sort")) {
+                if (sender instanceof Player) {
+                    net.getSelectedNetwork((Player) sender).sortAll();
+                }
+                else {
+                    net.getConsoleSelection().sortAll();
+                }
+                return true;
+            }
+
+            else if (args[0].equalsIgnoreCase("checkinv")) {
                 if (args.length > 4) {
                     BaseContainer container = new BaseContainer(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]),args[4]);
                     returnMessage(sender, String.valueOf(container.getInventory().getSize()));
                 }
                 return true;
+            }
+
+            else {
+                returnMessage(sender, "Invalid command, type /as help to see all available commands");
             }
         }
 
