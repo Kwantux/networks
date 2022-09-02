@@ -66,7 +66,7 @@ public class StorageNetwork {
     // Unfinished:
     private ItemContainer getItemContainerByItem(String item) {
         for (ItemContainer i : sorting_containers) {
-            if (i.getItem().equals(item) && i.getInventory().contains(Material.AIR)) {
+            if (i.getItem().equals(item) && i.getInventory().firstEmpty() != -1) {
                 return i;
             }
         }
@@ -85,7 +85,7 @@ public class StorageNetwork {
 
     private MiscContainer getMiscContainer() {
         for (MiscContainer i : misc_containers) {
-            if (i.getInventory().contains(Material.AIR)) {
+            if (i.getInventory().firstEmpty() != -1) {
                 return i;
             }
         }
@@ -130,7 +130,7 @@ public class StorageNetwork {
 
 
     public void sortAll() {
-        for (int i = 0; i < input_containers.size()-1; i++) {
+        for (int i = 0; i < input_containers.size(); i++) {
             sort(input_containers.get(i).getPos());
         }
     }
@@ -140,17 +140,28 @@ public class StorageNetwork {
 
             Inventory inventory = getInputContainerByLocation(pos).getInventory();
 
+            Bukkit.getLogger().info(inventory.getType().toString());
+
             for (ItemStack stack : inventory.getContents()) {
 
-                if (getItemContainerByItem(stack.getType().toString().toUpperCase()) != null) {
-                    getItemContainerByItem(stack.getType().toString().toUpperCase()).getInventory().addItem(stack);
-                }
+                if (stack != null) {
 
-                else {
-                    getMiscContainer().getInventory().addItem(stack);
+                    ItemContainer container = getItemContainerByItem(stack.getType().toString().toUpperCase());
+                    if (container != null) {
+                        container.getInventory().addItem(stack);
+                        Bukkit.getLogger().info("Item of type " + stack.getType().toString().toUpperCase() + " added to inventory at  X: " + container.getPos().getX() + " Y: " + container.getPos().getY() + " Z:" + container.getPos().getZ() + " World: " + container.getPos().getDim());
+                        inventory.remove(stack);
+                    } else {
+                        MiscContainer miscContainer = getMiscContainer();
+                        if (miscContainer != null) {
+                            miscContainer.getInventory().addItem(stack);
+                            Bukkit.getLogger().info("Item of type " + stack.getType().toString().toUpperCase() + " added to inventory   at X: " + miscContainer.getPos().getX() + " Y: " + miscContainer.getPos().getY() + " Z:" + miscContainer.getPos().getZ() + " World: " + miscContainer.getPos().getDim());
+                            inventory.remove(stack);
+                        } else {
+                            Bukkit.getLogger().info("There are no free containers available");
+                        }
+                    }
                 }
-
-                inventory.remove(stack);
             }
         }
 

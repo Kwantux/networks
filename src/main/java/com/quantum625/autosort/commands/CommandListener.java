@@ -131,7 +131,27 @@ public class CommandListener implements CommandExecutor{
             }
 
             else if (args[0].equalsIgnoreCase("info")) {
-                returnMessage(sender, "This feature is not implemented yet!");
+                StorageNetwork network = getSelected(sender);
+                if (network == null) {
+                    returnMessage(sender, "No network was selected, please select a network with /as select <network>");
+                }
+
+                returnMessage(sender, "Name: " + network.getID());
+                returnMessage(sender, "Owner: " + network.getOwner());
+                returnMessage(sender, "Input Containers: ");
+                for (InputContainer inputContainer : network.getInputChests()) {
+                    returnMessage(sender, "X: " + inputContainer.getPos().getX() + " Y: " + inputContainer.getPos().getY() + " Z: " + inputContainer.getPos().getZ() + " World: " + inputContainer.getPos().getDim());
+                }
+                returnMessage(sender, "Item Containers: ");
+                for (ItemContainer itemContainer : network.getSortingChests()) {
+                    returnMessage(sender, "X: " + itemContainer.getPos().getX() + " Y: " + itemContainer.getPos().getY() + " Z: " + itemContainer.getPos().getZ() + " World: " + itemContainer.getPos().getDim());
+                }
+                returnMessage(sender, "Miscellaneous Containers: ");
+                for (MiscContainer miscContainer : network.getMiscChests()) {
+                    returnMessage(sender, "X: " + miscContainer.getPos().getX() + " Y: " + miscContainer.getPos().getY() + " Z: " + miscContainer.getPos().getZ() + " World: " + miscContainer.getPos().getDim());
+                }
+                returnMessage(sender, "");
+
                 return true;
             }
 
@@ -197,6 +217,10 @@ public class CommandListener implements CommandExecutor{
                     pos = new Location(player.getTargetBlock(null, 5));
                     network = net.getSelectedNetwork(player);
 
+                    if (network == null) {
+                        returnMessage(sender, "No network was selected, please select a network with /as select <network>");
+                    }
+
                     if (args[1].equalsIgnoreCase("input")) {
                         network.addInputChest(pos);
                     }
@@ -225,6 +249,10 @@ public class CommandListener implements CommandExecutor{
 
                     network = net.getConsoleSelection();
 
+                    if (network == null) {
+                        returnMessage(sender, "No network was selected, please select a network with /as select <network>");
+                    }
+
                     if (args[1].equalsIgnoreCase("input")) {
                         network.addInputChest(pos);
                         returnMessage(sender, "Added input container to your network");
@@ -251,12 +279,7 @@ public class CommandListener implements CommandExecutor{
             }
 
             else if (args[0].equalsIgnoreCase("sort")) {
-                if (sender instanceof Player) {
-                    net.getSelectedNetwork((Player) sender).sortAll();
-                }
-                else {
-                    net.getConsoleSelection().sortAll();
-                }
+                getSelected(sender).sortAll();
                 return true;
             }
 
@@ -315,9 +338,19 @@ public class CommandListener implements CommandExecutor{
     }
 
 
+    private StorageNetwork getSelected(CommandSender sender) {
+        StorageNetwork result;
+        if (sender instanceof Player) {
+            result =  net.getSelectedNetwork((Player) sender);
+        }
+        else {
+            result =  net.getConsoleSelection();
+        }
+        return result;
+    }
 
     private List playerHelpMessage = Arrays.asList(
-            "[\"\",{\"text\":\"       Autosort Plugin - Version 1.0.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Autosort Plugin - Version 1.0.0 by QuantumCraft_ & Schwerthecht ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/as help <command>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as help\"}},{\"text\":\" - \"},{\"text\":\"Help for a command\",\"color\":\"yellow\"}]",
             "[\"\",{\"text\":\"/as help <page>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
