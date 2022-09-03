@@ -6,6 +6,7 @@ import com.quantum625.autosort.container.BaseContainer;
 import com.quantum625.autosort.container.InputContainer;
 import com.quantum625.autosort.container.ItemContainer;
 import com.quantum625.autosort.container.MiscContainer;
+import com.quantum625.autosort.data.Language;
 import com.quantum625.autosort.utils.Location;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
@@ -22,10 +23,13 @@ public class CommandListener implements CommandExecutor{
     private File dataFolder;
     private NetworkManager net;
 
+    private LanguageModule lang;
 
-    public CommandListener(File dataFolder) {
+
+    public CommandListener(File dataFolder, String lang_id) {
         this.dataFolder = dataFolder;
         this.net = new NetworkManager(dataFolder);
+        this.lang = new LanguageModule(dataFolder, lang_id);
     }
 
     @Override
@@ -51,12 +55,12 @@ public class CommandListener implements CommandExecutor{
             else if (args[0].equalsIgnoreCase("data")) {
                 if (args.length > 1) {
                     if (args[1].equalsIgnoreCase("reload")) {
-                        returnMessage(sender,"Reloaded data from files");
                         loadData();
+                        lang.returnMessage(sender,"data.load");
                     }
                     if (args[1].equalsIgnoreCase("save")) {
-                        returnMessage(sender, "Saved data");
                         saveData();
+                        lang.returnMessage(sender, "data.save");
                     }
                 }
             }
@@ -75,7 +79,7 @@ public class CommandListener implements CommandExecutor{
                         owner = UUID.fromString(args[2]);
                     }
                     else {
-                        Bukkit.getLogger().warning("Command was not executed by player!\nPlease specify the owner\n/as create (name) (owner)");
+                        lang.returnMessage(sender, "create.noowner");
                         return true;
                     }
                 }
@@ -83,10 +87,10 @@ public class CommandListener implements CommandExecutor{
                 if (args[1] != null) {
                     net.add(args[1], owner);
                     if (net.getFromID(args[1]) != null) {
-                        returnMessage(sender, "Successfully created network " + args[1]);
+                        lang.returnMessage(sender, "create.success", net.getFromID(args[1]));
                     }
                     else {
-                        returnMessage(sender, "Failed creating a storage network");
+                        lang.returnMessage(sender, "create.fail");
                     }
 
                 }
@@ -97,23 +101,22 @@ public class CommandListener implements CommandExecutor{
                 if (args[1] != null) {
                     if (sender instanceof Player) {
                         if (!net.getFromID(args[1]).getOwner().equals((Player) sender) && !((Player) sender).hasPermission("autosort.admin")) {
-                            returnMessage(sender, "You do not have permission to delete this network!");
-                            returnMessage(sender, "You need to be the network owner or have the autosort.admin permission!");
+                            lang.returnMessage(sender, "nopermission");
                             return true;
                         }
                     }
                     net.delete(args[1]);
-                    returnMessage(sender, "Successfully deleted network " + args[1]);
+                    lang.returnMessage(sender, "delete.success", net.getFromID(args[1]));
                     return true;
                 }
-                returnMessage(sender, "Please specify the network you want to delete!");
+                lang.returnMessage(sender, "delete.nonetwork");
                 return true;
             }
 
             else if (args[0].equalsIgnoreCase("select")) {
 
                 if (args.length < 2) {
-                    returnMessage(sender, "Please specify the network you want to select!");
+                    returnMessage(sender, "select.nonetwork");
                     return true;
                 }
 
@@ -125,7 +128,7 @@ public class CommandListener implements CommandExecutor{
                     net.consoleSelectNetwork(net.getFromID(args[1]));
                 }
 
-                returnMessage(sender, "Successfully selected network " + args[1]);
+                lang.returnMessage(sender, "select.success", net.getFromID(args[1]));
 
                 return true;
             }
@@ -133,7 +136,8 @@ public class CommandListener implements CommandExecutor{
             else if (args[0].equalsIgnoreCase("info")) {
                 StorageNetwork network = getSelected(sender);
                 if (network == null) {
-                    returnMessage(sender, "No network was selected, please select a network with /as select <network>");
+                    lang.returnMessage(sender, "select.noselected");
+                    return true;
                 }
 
                 returnMessage(sender, "Name: " + network.getID());
@@ -168,17 +172,17 @@ public class CommandListener implements CommandExecutor{
                         owner = Bukkit.getPlayer(args[2]).getUniqueId();
                     }
                     else {
-                        Bukkit.getLogger().warning("Command was not executed by player!\nPlease specify the player\n/as list (player)");
+                        lang.returnMessage(sender, "list.noplayer");
                         return true;
                     }
                 }
 
                 Bukkit.getLogger().info(net.listFromOwner(owner).toString());
                 if (net.listFromOwner(owner).isEmpty()) {
-                    returnMessage(sender, "You don't own any storage networks!");
+                    lang.returnMessage(sender, "list.empty");
                 }
                 else {
-                    returnMessage(sender, "You own the following storage networks:");
+                    lang.returnMessage(sender, "list");
                     for (int i = 0; i < net.listFromOwner(owner).size(); i++) {
                         returnMessage(sender, net.listFromOwner(owner).get(i).getID().toString());
                     }
@@ -191,10 +195,10 @@ public class CommandListener implements CommandExecutor{
             else if (args[0].equalsIgnoreCase("listall")) {
                 Bukkit.getLogger().info(net.listAll().toString());
                 if (net.listAll().isEmpty()) {
-                    returnMessage(sender, "There are no storage networks!");
+                    lang.returnMessage(sender, "listall.empty");
                 }
                 else {
-                    returnMessage(sender, "Theses storage networks exist:");
+                    lang.returnMessage(sender, "listall");
                     for (int i = 0; i < net.listAll().size(); i++) {
                         returnMessage(sender, net.listAll().get(i).getID().toString());
                     }
@@ -208,7 +212,7 @@ public class CommandListener implements CommandExecutor{
                 StorageNetwork network;
 
                 if (args.length < 2) {
-                    returnMessage(sender, "You must specify the container type!");
+                    lang.returnMessage(sender, "component.notype");
                     return true;
                 }
 
@@ -218,29 +222,31 @@ public class CommandListener implements CommandExecutor{
                     network = net.getSelectedNetwork(player);
 
                     if (network == null) {
-                        returnMessage(sender, "No network was selected, please select a network with /as select <network>");
+                        lang.returnMessage(sender, "select.noselected");
                     }
 
                     if (args[1].equalsIgnoreCase("input")) {
                         network.addInputChest(pos);
+                        lang.returnMessage(sender, "component.input.add");
                     }
 
                     else if (args[1].equalsIgnoreCase("sorting")) {
                         if (args.length < 3) {
-                            returnMessage(sender, "You need to specify the item to sort");
+                            lang.returnMessage(sender, "component.item.noitem");
                         }
                         network.addItemChest(pos, args[2].toUpperCase());
+                        lang.returnMessage(sender, "component.item.add");
                     }
 
                     else if (args[1].equalsIgnoreCase("misc")) {
                         network.addMiscChest(pos, false);
+                        lang.returnMessage(sender, "component.misc.add");
                     }
                 }
 
                 else {
                     if (args.length < 5) {
-                        returnMessage(sender, "You need to specify a container location");
-                        returnMessage(sender, "/as container <type> <x> <y> <z> <world>");
+                        lang.returnMessage(sender, "component.nolocation");
                     }
                     pos.setX(Integer.parseInt(args[2]));
                     pos.setY(Integer.parseInt(args[3]));
@@ -250,27 +256,27 @@ public class CommandListener implements CommandExecutor{
                     network = net.getConsoleSelection();
 
                     if (network == null) {
-                        returnMessage(sender, "No network was selected, please select a network with /as select <network>");
+                        lang.returnMessage(sender, "select.noselection");
                     }
 
                     if (args[1].equalsIgnoreCase("input")) {
                         network.addInputChest(pos);
-                        returnMessage(sender, "Added input container to your network");
+                        lang.returnMessage(sender, "component.input.add", network, pos);
                         return true;
                     }
 
                     else if (args[1].equalsIgnoreCase("sorting")) {
                         if (args.length < 6) {
-                            returnMessage(sender, "You need to specify the item to sort");
+                            lang.returnMessage(sender, "component.item.noitem");
                         }
                         network.addItemChest(pos, args[6].toUpperCase());
-                        returnMessage(sender, "Added sorting container to your network");
+                        lang.returnMessage(sender, "component.item.add", network, pos);
                         return true;
                     }
 
                     else if (args[1].equalsIgnoreCase("misc")) {
                         network.addMiscChest(pos, false);
-                        returnMessage(sender, "Added miscellaneous container to your network");
+                        lang.returnMessage(sender, "component.misc.add", network, pos);
                         return true;
 
                     }
@@ -292,7 +298,7 @@ public class CommandListener implements CommandExecutor{
             }
 
             else {
-                returnMessage(sender, "Invalid command, type /as help to see all available commands");
+                lang.returnMessage(sender, "invalid");
             }
         }
 
@@ -350,7 +356,7 @@ public class CommandListener implements CommandExecutor{
     }
 
     private List playerHelpMessage = Arrays.asList(
-            "[\"\",{\"text\":\"       Autosort Plugin - Version 1.0.0 by QuantumCraft_ & Schwerthecht ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Autosort Plugin - Version 1.0.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/as help <command>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as help\"}},{\"text\":\" - \"},{\"text\":\"Help for a command\",\"color\":\"yellow\"}]",
             "[\"\",{\"text\":\"/as help <page>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",

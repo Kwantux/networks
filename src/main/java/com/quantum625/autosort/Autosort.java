@@ -19,7 +19,7 @@ public final class Autosort extends JavaPlugin {
         Bukkit.getLogger().info("\n\n==================================\n   Autosort Plugin has launched\n==================================\n");
         this.dataFolder = this.getDataFolder();
         this.config = new Config(this);
-        this.listener = new CommandListener(dataFolder);
+        this.listener = new CommandListener(dataFolder, config.getLanguage());
         loadCommands();
         listener.loadData();
         if (!getDataFolder().exists()) {
@@ -36,7 +36,7 @@ public final class Autosort extends JavaPlugin {
     @Override
     public void onDisable() {
         config.save();
-        //listener.saveData();
+        listener.saveData();
         Bukkit.getLogger().info("\n\n==================================\n   Autosort Plugin was shut down\n==================================\n");
     }
 }

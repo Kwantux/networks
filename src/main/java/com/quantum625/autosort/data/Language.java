@@ -1,20 +1,26 @@
 package com.quantum625.autosort.data;
 
 import com.quantum625.autosort.Autosort;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Dictionary;
 
-public class BaseFile {
-    private Autosort main;
+public class Language {
+    String lang_id;
+
     private File file;
     public FileConfiguration config;
 
-    public BaseFile(Autosort main, String filename) {
-        this.main = main;
-        this.file = new File(main.getDataFolder(), filename);
+
+
+    public Language(File datafolder, String lang_id) {
+        this.lang_id = lang_id;
+        this.file = new File(datafolder, "lang/" + lang_id + ".yml");
+
 
         if (!file.exists()) {
             try {
@@ -25,14 +31,15 @@ public class BaseFile {
             }
         }
         this.config = YamlConfiguration.loadConfiguration(file);
+        Bukkit.getLogger().info("[Autosort] Launched using language module " + lang_id);
     }
 
-    public void save() {
-        try {
-            config.save(file);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+    public String getConsoleText(String id) {
+        return config.get(id).toString();
     }
+
+    public String getPlayerText(String id) {
+        return config.get(id).toString();
+    }
+
 }

@@ -40,4 +40,8 @@ public class Config {
     public void setLanguage(String language) {
         config.set("lang", language);
     }
+
+    public String getLanguage() {
+        return config.get("lang").toString();
+    }
 }
