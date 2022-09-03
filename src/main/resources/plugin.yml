@@ -7,5 +7,4 @@ commands:
   autosort:
     description: Base commmand for the Autosort Plugin
     usage: /as <options>
-    permission: autosort
     aliases: as

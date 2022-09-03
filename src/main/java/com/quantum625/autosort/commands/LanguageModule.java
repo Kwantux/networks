@@ -18,83 +18,69 @@ public class LanguageModule {
         this.language = new Language(datafolder, lang_id);
     }
 
-    public void returnMessage(CommandSender sender, String id) {
+    private void message(CommandSender sender, String message) {
         if (sender instanceof Player) {
-            if (language != null) {
-                ((Player) sender).sendMessage(language.getPlayerText(id));
-            }
-            else {
-                ((Player) sender).sendMessage("ERROR: Language module not found, please contact your system administrator");
-            }
+            ((Player) sender).sendMessage(message);
         }
 
         else {
-            if (language != null) {
-                Bukkit.getLogger().info("[Autosort]" + language.getConsoleText(id));
-            }
-            else {
-                Bukkit.getLogger().warning("[Autosort] Language module not found!");
-            }
+            Bukkit.getLogger().info("[Autosort] " + message);
+        }
+    }
+
+    public void returnMessage(CommandSender sender, String id) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+        }
+
+        else {
+            message(sender, language.getText(id));
         }
     }
 
     public void returnMessage(CommandSender sender, String id, StorageNetwork network) {
-        if (sender instanceof Player) {
-            if (language != null) {
-                ((Player) sender).sendMessage(language.getPlayerText(id).replaceAll("%network", network.getID()));
-            }
-            else {
-                ((Player) sender).sendMessage("ERROR: Language module not found, please contact your system administrator");
-            }
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
         }
 
         else {
-            if (language != null) {
-                Bukkit.getLogger().info("[Autosort]" + language.getConsoleText(id).replaceAll("%network", network.getID()));
-            }
-            else {
-                Bukkit.getLogger().warning("[Autosort] Language module not found!");
-            }
+            message(sender, language.getText(id).replaceAll("%network", network.getID()));
         }
     }
 
     public void returnMessage(CommandSender sender, String id, Location location) {
-        if (sender instanceof Player) {
-            if (language != null) {
-                ((Player) sender).sendMessage(language.getPlayerText(id).replaceAll("%position", location.toString()));
-            }
-            else {
-                ((Player) sender).sendMessage("ERROR: Language module not found, please contact your system administrator");
-            }
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
         }
 
         else {
-            if (language != null) {
-                Bukkit.getLogger().info("[Autosort]" + language.getConsoleText(id).replaceAll("%position", location.toString()));
-            }
-            else {
-                Bukkit.getLogger().warning("[Autosort] Language module not found!");
-            }
+            message(sender, language.getText(id).replaceAll("%position", location.toString()));
         }
     }
 
     public void returnMessage(CommandSender sender, String id, StorageNetwork network, Location location) {
-        if (sender instanceof Player) {
-            if (language != null) {
-                ((Player) sender).sendMessage(language.getPlayerText(id).replaceAll("%network", network.getID()).replaceAll("%position", location.toString()));
-            }
-            else {
-                ((Player) sender).sendMessage("ERROR: Language module not found, please contact your system administrator");
-            }
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
         }
 
         else {
-            if (language != null) {
-                Bukkit.getLogger().info("[Autosort]" + language.getConsoleText(id).replaceAll("%network", network.getID()).replaceAll("%position", location.toString()));
-            }
-            else {
-                Bukkit.getLogger().warning("[Autosort] Language module not found!");
-            }
+            message(sender, language.getText(id).replaceAll("%network", network.getID()).replaceAll("%position", location.toString()));
         }
     }
 

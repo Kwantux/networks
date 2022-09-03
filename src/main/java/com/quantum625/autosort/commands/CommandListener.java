@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class CommandListener implements CommandExecutor{
+public class CommandListener implements CommandExecutor {
 
     private File dataFolder;
     private NetworkManager net;
@@ -26,9 +26,9 @@ public class CommandListener implements CommandExecutor{
     private LanguageModule lang;
 
 
-    public CommandListener(File dataFolder, String lang_id) {
+    public CommandListener(NetworkManager net, File dataFolder, String lang_id) {
         this.dataFolder = dataFolder;
-        this.net = new NetworkManager(dataFolder);
+        this.net = net;
         this.lang = new LanguageModule(dataFolder, lang_id);
     }
 
@@ -136,7 +136,7 @@ public class CommandListener implements CommandExecutor{
             else if (args[0].equalsIgnoreCase("info")) {
                 StorageNetwork network = getSelected(sender);
                 if (network == null) {
-                    lang.returnMessage(sender, "select.noselected");
+                    lang.returnMessage(sender, "select.noselection");
                     return true;
                 }
 
@@ -222,7 +222,7 @@ public class CommandListener implements CommandExecutor{
                     network = net.getSelectedNetwork(player);
 
                     if (network == null) {
-                        lang.returnMessage(sender, "select.noselected");
+                        lang.returnMessage(sender, "select.noselection");
                     }
 
                     if (args[1].equalsIgnoreCase("input")) {
@@ -286,14 +286,6 @@ public class CommandListener implements CommandExecutor{
 
             else if (args[0].equalsIgnoreCase("sort")) {
                 getSelected(sender).sortAll();
-                return true;
-            }
-
-            else if (args[0].equalsIgnoreCase("checkinv")) {
-                if (args.length > 4) {
-                    BaseContainer container = new BaseContainer(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]),args[4]);
-                    returnMessage(sender, String.valueOf(container.getInventory().getSize()));
-                }
                 return true;
             }
 

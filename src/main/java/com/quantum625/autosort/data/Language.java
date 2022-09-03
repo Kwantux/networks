@@ -34,11 +34,10 @@ public class Language {
         Bukkit.getLogger().info("[Autosort] Launched using language module " + lang_id);
     }
 
-    public String getConsoleText(String id) {
-        return config.get(id).toString();
-    }
-
-    public String getPlayerText(String id) {
+    public String getText(String id) {
+        if (config.get(id) == null) {
+            return null;
+        }
         return config.get(id).toString();
     }
 
