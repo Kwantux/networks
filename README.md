@@ -1,4 +1,4 @@
-# Autosort
+# Networks Plugin
 
 ## _Importaint Note:<br />This plugin is not finished yet!<br />The first release will come out in around a month_
 
@@ -12,7 +12,7 @@ This Project is developed by <a href="https://github.com/Quantum625">@Quantum625
 
 ## How to use
 
-Most commands and their functionalities can be seen in <code>/autosort help</code>
+Most commands and their functionalities can be seen in <code>/networks help</code>
 
 
 ### What is a network?
@@ -25,7 +25,7 @@ The chests can be one of 3 different types:<br />
 - Others Chest - If there are no free Item Chests for a specific item, that item will instead be transfered to an others chest
 
 You can create networks by doing
-<br /><code>/as create (name)</code>
+<br /><code>/net create (name)</code>
 
 The (name) is the ID of your network<br />
 You need it to edit or delete your network.
@@ -37,29 +37,29 @@ By default, only the creator and admins have editing permissions
 
 To add chests to your network simply just do the following
 
-<code>/as chest input (xyz)</code><br />
-<code>/as chest item (xyz) (item)</code><br />
-<code>/as chest others (xyz)</code><br />
+<code>/net chest input (xyz)</code><br />
+<code>/net chest item (xyz) (item)</code><br />
+<code>/net chest others (xyz)</code><br />
 
 (xyz) is the position of the chest<br />
 (item) is the item, that will be sorted into your item chest
 
 To remove a chest from your network just do:
 
-<code>/as chest remove (xyz)</code>
+<code>/net chest remove (xyz)</code>
 
 ### List of all Commands
 
-<code>/as create (name)</code> - Create a storage network<br />
-<code>/as delete (name)</code> - Delete a storage network
+<code>/net create (name)</code> - Create a storage network<br />
+<code>/net delete (name)</code> - Delete a storage network
 
-<code>/as select (name)</code> - Select a storage network<br />
+<code>/net select (name)</code> - Select a storage network<br />
 
-<code>/as info</code> - Show information about the selected network
+<code>/net info</code> - Show information about the selected network
 
 ## Installation
 
-<a href="https://github.com/Schwerthecht/autosort/release/stable/Autosort-1.0.0.jar">Download the newest version of the plugin</a>
+<a href="">Download the newest version of the plugin</a>
 
 Put it in your plugins folder inside your server files.
 
