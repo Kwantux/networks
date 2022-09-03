@@ -1,10 +1,9 @@
-package com.quantum625.autosort.data;
+package com.quantum625.networks.data;
 
-import com.quantum625.autosort.container.InputContainer;
-import com.quantum625.autosort.container.ItemContainer;
-import com.quantum625.autosort.container.MiscContainer;
-import com.quantum625.autosort.StorageNetwork;
-import com.quantum625.autosort.container.*;
+import com.quantum625.networks.container.InputContainer;
+import com.quantum625.networks.container.ItemContainer;
+import com.quantum625.networks.container.MiscContainer;
+import com.quantum625.networks.StorageNetwork;
 
 
 public class Network {

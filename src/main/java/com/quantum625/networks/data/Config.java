@@ -1,6 +1,6 @@
-package com.quantum625.autosort.data;
+package com.quantum625.networks.data;
 
-import com.quantum625.autosort.Autosort;
+import com.quantum625.networks.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class Config {
 
-    private Autosort plugin;
+    private Main plugin;
     private File file;
     public FileConfiguration config;
 
@@ -21,7 +21,7 @@ public class Config {
             e.printStackTrace();
         }
     }
-    public Config(Autosort plugin) {
+    public Config(Main plugin) {
         this.plugin = plugin;
         this.file = new File(plugin.getDataFolder(), "config.yml");
 

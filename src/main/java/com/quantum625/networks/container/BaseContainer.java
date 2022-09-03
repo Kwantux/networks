@@ -1,10 +1,9 @@
-package com.quantum625.autosort.container;
+package com.quantum625.networks.container;
 
-import com.quantum625.autosort.utils.Location;
+import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Inventory;
 
 public class BaseContainer{

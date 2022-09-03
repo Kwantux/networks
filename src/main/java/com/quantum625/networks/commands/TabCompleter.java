@@ -1,7 +1,7 @@
-package com.quantum625.autosort.commands;
+package com.quantum625.networks.commands;
 
-import com.quantum625.autosort.NetworkManager;
-import com.quantum625.autosort.StorageNetwork;
+import com.quantum625.networks.NetworkManager;
+import com.quantum625.networks.StorageNetwork;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -26,7 +26,7 @@ public class TabCompleter implements TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length < 2) {
             if (sender instanceof Player) {
-                if (!((Player) sender).hasPermission("autosort.admin")) {
+                if (!((Player) sender).hasPermission("networks.admin")) {
                     return commands;
                 }
             }
@@ -51,7 +51,7 @@ public class TabCompleter implements TabExecutor {
             if (args.length == 2) {
                 List<String> list = Arrays.asList();
                 if (sender instanceof Player) {
-                    if (!((Player) sender).hasPermission("autosort.admin")) {
+                    if (!((Player) sender).hasPermission("networks.admin")) {
                         for (StorageNetwork network : net.listFromOwner(((Player) sender).getUniqueId())) {
                             list.add(network.getID());
                         }

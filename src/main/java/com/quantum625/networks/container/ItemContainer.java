@@ -1,6 +1,6 @@
-package com.quantum625.autosort.container;
+package com.quantum625.networks.container;
 
-import com.quantum625.autosort.utils.Location;
+import com.quantum625.networks.utils.Location;
 
 public class ItemContainer extends BaseContainer{
     private String item;

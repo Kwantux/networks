@@ -1,10 +1,10 @@
-package com.quantum625.autosort;
+package com.quantum625.networks;
 
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.quantum625.autosort.data.Network;
-import com.quantum625.autosort.utils.PlayerSelection;
+import com.quantum625.networks.data.Network;
+import com.quantum625.networks.utils.PlayerSelection;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -14,10 +14,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public final class NetworkManager implements Serializable {
 
@@ -106,7 +103,7 @@ public final class NetworkManager implements Serializable {
 
             }
             catch (IOException e) {
-                Bukkit.getLogger().warning("[Autosort] Failed to save network file " + list[i].getId() + ".json");
+                Bukkit.getLogger().warning("[Main] Failed to save network file " + list[i].getId() + ".json");
                 e.printStackTrace();
                 Bukkit.getLogger().info(e.getStackTrace().toString());
             }
@@ -130,7 +127,7 @@ public final class NetworkManager implements Serializable {
 
                 Bukkit.getLogger().info(json);
             } catch (IOException e) {
-                Bukkit.getLogger().warning("[Autosort] Failed to load " + file.getName());
+                Bukkit.getLogger().warning("[Main] Failed to load " + file.getName());
                 e.printStackTrace();
             }
         }

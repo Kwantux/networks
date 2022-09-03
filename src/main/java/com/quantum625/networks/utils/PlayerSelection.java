@@ -1,6 +1,6 @@
-package com.quantum625.autosort.utils;
+package com.quantum625.networks.utils;
 
-import com.quantum625.autosort.StorageNetwork;
+import com.quantum625.networks.StorageNetwork;
 import org.bukkit.entity.Player;
 
 public class PlayerSelection {

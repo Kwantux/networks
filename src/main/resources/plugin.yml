@@ -1,10 +1,10 @@
-name: Autosort
+name: Networks
 version: '${project.version}'
-main: com.quantum625.autosort.Autosort
+main: com.quantum625.networks.Main
 api-version: 1.19
-description: autosort plugin
+description: networks plugin
 commands:
-  autosort:
-    description: Base commmand for the Autosort Plugin
-    usage: /as <options>
-    aliases: as
+   network:
+    description: Base commmand for the Networks Plugin
+    usage: /net <options>
+    aliases: net

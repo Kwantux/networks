@@ -1,13 +1,11 @@
-package com.quantum625.autosort.commands;
+package com.quantum625.networks.commands;
 
-import com.quantum625.autosort.NetworkManager;
-import com.quantum625.autosort.StorageNetwork;
-import com.quantum625.autosort.container.BaseContainer;
-import com.quantum625.autosort.container.InputContainer;
-import com.quantum625.autosort.container.ItemContainer;
-import com.quantum625.autosort.container.MiscContainer;
-import com.quantum625.autosort.data.Language;
-import com.quantum625.autosort.utils.Location;
+import com.quantum625.networks.NetworkManager;
+import com.quantum625.networks.StorageNetwork;
+import com.quantum625.networks.container.InputContainer;
+import com.quantum625.networks.container.ItemContainer;
+import com.quantum625.networks.container.MiscContainer;
+import com.quantum625.networks.utils.Location;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -36,7 +34,7 @@ public class CommandListener implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (sender instanceof BlockCommandSender) {
-            Bukkit.getLogger().warning("Command Blocks are not allowed to use the autosort command!");
+            Bukkit.getLogger().warning("Command Blocks are not allowed to use the /network command!");
             return true;
         }
 
@@ -100,7 +98,7 @@ public class CommandListener implements CommandExecutor {
             else if (args[0].equalsIgnoreCase("delete")) {
                 if (args[1] != null) {
                     if (sender instanceof Player) {
-                        if (!net.getFromID(args[1]).getOwner().equals((Player) sender) && !((Player) sender).hasPermission("autosort.admin")) {
+                        if (!net.getFromID(args[1]).getOwner().equals((Player) sender) && !((Player) sender).hasPermission("networks.admin")) {
                             lang.returnMessage(sender, "nopermission");
                             return true;
                         }
@@ -348,35 +346,35 @@ public class CommandListener implements CommandExecutor {
     }
 
     private List playerHelpMessage = Arrays.asList(
-            "[\"\",{\"text\":\"       Autosort Plugin - Version 1.0.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.0.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
-            "[\"\",{\"text\":\"/as help <command>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as help\"}},{\"text\":\" - \"},{\"text\":\"Help for a command\",\"color\":\"yellow\"}]",
-            "[\"\",{\"text\":\"/as help <page>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
+            "[\"\",{\"text\":\"/net help <command>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Help for a command\",\"color\":\"yellow\"}]",
+            "[\"\",{\"text\":\"/net help <page>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
-            "[\"\",{\"text\":\"/as create <network>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as create\"}},{\"text\":\" - \"},{\"text\":\"Create a storage network\",\"color\":\"yellow\"}]",
-            "[\"\",{\"text\":\"/as delete <network>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as delete\"}},{\"text\":\" - \"},{\"text\":\"Delete a storage network\",\"color\":\"yellow\"}]",
+            "[\"\",{\"text\":\"/net create <network>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net create\"}},{\"text\":\" - \"},{\"text\":\"Create a storage network\",\"color\":\"yellow\"}]",
+            "[\"\",{\"text\":\"/net delete <network>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net delete\"}},{\"text\":\" - \"},{\"text\":\"Delete a storage network\",\"color\":\"yellow\"}]",
             "\"\"",
-            "[\"\",{\"text\":\"/as select <network>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as select\"}},{\"text\":\" - \"},{\"text\":\"Select a storage network\",\"color\":\"yellow\"}]",
+            "[\"\",{\"text\":\"/net select <network>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net select\"}},{\"text\":\" - \"},{\"text\":\"Select a storage network\",\"color\":\"yellow\"}]",
             "\"\"",
-            "[\"\",{\"text\":\"/as info\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as info\"}},{\"text\":\" - \"},{\"text\":\"Show the stats of your storage network\",\"color\":\"yellow\"}]",
-            "[\"\",{\"text\":\"/as list\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/as list\"}},{\"text\":\" - \"},{\"text\":\"List all your storage networks\",\"color\":\"yellow\"}]"
+            "[\"\",{\"text\":\"/net info\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net info\"}},{\"text\":\" - \"},{\"text\":\"Show the stats of your storage network\",\"color\":\"yellow\"}]",
+            "[\"\",{\"text\":\"/net list\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net list\"}},{\"text\":\" - \"},{\"text\":\"List all your storage networks\",\"color\":\"yellow\"}]"
     );
 
     private String helpMessage = """
 
-       Autosort Plugin - Version 1.0.0 
+       Networks Plugin - Version 1.0.0 
 ==========================================
 
-/as help <command> - Help for a command
-/as help <page> - Show this menu
+/net help <command> - Help for a command
+/net help <page> - Show this menu
 
-/as create <network> - Create a storage network
-/as delete <network> - Delete a storage network
+/net create <network> - Create a storage network
+/net delete <network> - Delete a storage network
 
-/as select <network> - Select a storage network
+/net select <network> - Select a storage network
 
-/as info - Show the stats of your storage network
-/as list - List all your storage networks
+/net info - Show the stats of your storage network
+/net list - List all your storage networks
 
 """;
 

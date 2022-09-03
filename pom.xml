@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.quantum625</groupId>
-    <artifactId>autosort</artifactId>
+    <artifactId>networks</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Autosort</name>
+    <name>Main</name>
 
-    <description>autosort plugin</description>
+    <description>A plugin for complex wireless networks</description>
     <properties>
         <java.version>1.17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

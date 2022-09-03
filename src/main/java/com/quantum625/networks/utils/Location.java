@@ -1,4 +1,4 @@
-package com.quantum625.autosort.utils;
+package com.quantum625.networks.utils;
 
 public class Location {
     private int x = 0;

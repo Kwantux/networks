@@ -1,8 +1,8 @@
-package com.quantum625.autosort.commands;
+package com.quantum625.networks.commands;
 
-import com.quantum625.autosort.StorageNetwork;
-import com.quantum625.autosort.data.Language;
-import com.quantum625.autosort.utils.Location;
+import com.quantum625.networks.StorageNetwork;
+import com.quantum625.networks.data.Language;
+import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,7 +24,7 @@ public class LanguageModule {
         }
 
         else {
-            Bukkit.getLogger().info("[Autosort] " + message);
+            Bukkit.getLogger().info("[Networks] " + message);
         }
     }
 

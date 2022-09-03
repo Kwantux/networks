@@ -1,13 +1,11 @@
-package com.quantum625.autosort.data;
+package com.quantum625.networks.data;
 
-import com.quantum625.autosort.Autosort;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Dictionary;
 
 public class Language {
     String lang_id;
@@ -31,7 +29,7 @@ public class Language {
             }
         }
         this.config = YamlConfiguration.loadConfiguration(file);
-        Bukkit.getLogger().info("[Autosort] Launched using language module " + lang_id);
+        Bukkit.getLogger().info("[Main] Launched using language module " + lang_id);
     }
 
     public String getText(String id) {

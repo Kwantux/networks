@@ -1,12 +1,11 @@
-package com.quantum625.autosort;
+package com.quantum625.networks;
 
-import com.quantum625.autosort.container.InputContainer;
-import com.quantum625.autosort.container.ItemContainer;
-import com.quantum625.autosort.container.MiscContainer;
-import com.quantum625.autosort.data.Network;
-import com.quantum625.autosort.utils.Location;
+import com.quantum625.networks.container.InputContainer;
+import com.quantum625.networks.container.ItemContainer;
+import com.quantum625.networks.container.MiscContainer;
+import com.quantum625.networks.data.Network;
+import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
