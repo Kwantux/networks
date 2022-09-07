@@ -1,8 +1,8 @@
-package com.quantum625.networks.container;
+package com.quantum625.networks.component;
 
 import com.quantum625.networks.utils.Location;
 
-public class InputContainer extends BaseContainer{
+public class InputContainer extends BaseComponent {
 
     private int tickrate = 20;
     public InputContainer(Location pos, int tickrate) {

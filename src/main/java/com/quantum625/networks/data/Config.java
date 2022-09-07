@@ -1,17 +1,21 @@
 package com.quantum625.networks.data;
 
 import com.quantum625.networks.Main;
+import com.quantum625.networks.utils.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Config {
 
     private Main plugin;
     private File file;
     public FileConfiguration config;
+
+    private String[] container_whitelist = {"CHEST", "REDSTONE_CHEST", "BARREL"};
 
     public void save() {
         try {
@@ -43,5 +47,9 @@ public class Config {
 
     public String getLanguage() {
         return config.get("lang").toString();
+    }
+
+    public boolean checkLocation(Location location, String component) {
+        return (Arrays.asList(config.get(component + "_whitelist")).contains(location.getBukkitLocation().getBlock().getType().toString()));
     }
 }

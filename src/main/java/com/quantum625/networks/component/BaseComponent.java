@@ -1,4 +1,4 @@
-package com.quantum625.networks.container;
+package com.quantum625.networks.component;
 
 import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
@@ -6,16 +6,16 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.Inventory;
 
-public class BaseContainer{
+public class BaseComponent {
 
     private Location pos;
 
 
-    public BaseContainer(Location pos) {
+    public BaseComponent(Location pos) {
         this.pos = pos;
     }
 
-    public BaseContainer(int x, int y, int z, String dim) {
+    public BaseComponent(int x, int y, int z, String dim) {
         this.pos = new Location(x, y, z, dim);
     }
 

@@ -1,7 +1,9 @@
 package com.quantum625.networks.utils;
 
+import org.bukkit.Bukkit;
+
 public class Location {
-    private int x = 0;
+    private int x;
     private int y;
     private int z;
 
@@ -60,7 +62,17 @@ public class Location {
         return dim;
     }
 
+    public org.bukkit.Location getBukkitLocation() {
+        return new org.bukkit.Location(Bukkit.getWorld(getDim()), x, y, z);
+    }
+
+    @Override
     public String toString() {
         return "[" + dim + ", " + x + ", " + y + ", " + z + "]";
+    }
+
+
+    public boolean equals(Location other) {
+        return (other.getX() == this.getX() && other.getY() == this.getY() && other.getZ() == this.getZ() && other.getDim().equals(this.getDim())); // Don't ask, why this is made that way. Doesn't work otherwise
     }
 }

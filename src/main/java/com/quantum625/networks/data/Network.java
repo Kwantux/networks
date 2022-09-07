@@ -1,8 +1,8 @@
 package com.quantum625.networks.data;
 
-import com.quantum625.networks.container.InputContainer;
-import com.quantum625.networks.container.ItemContainer;
-import com.quantum625.networks.container.MiscContainer;
+import com.quantum625.networks.component.InputContainer;
+import com.quantum625.networks.component.ItemContainer;
+import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.StorageNetwork;
 
 

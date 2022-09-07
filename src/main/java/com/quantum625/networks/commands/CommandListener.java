@@ -2,9 +2,9 @@ package com.quantum625.networks.commands;
 
 import com.quantum625.networks.NetworkManager;
 import com.quantum625.networks.StorageNetwork;
-import com.quantum625.networks.container.InputContainer;
-import com.quantum625.networks.container.ItemContainer;
-import com.quantum625.networks.container.MiscContainer;
+import com.quantum625.networks.component.InputContainer;
+import com.quantum625.networks.component.ItemContainer;
+import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.utils.Location;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
@@ -24,10 +24,10 @@ public class CommandListener implements CommandExecutor {
     private LanguageModule lang;
 
 
-    public CommandListener(NetworkManager net, File dataFolder, String lang_id) {
+    public CommandListener(NetworkManager net, File dataFolder, LanguageModule lang) {
         this.dataFolder = dataFolder;
         this.net = net;
-        this.lang = new LanguageModule(dataFolder, lang_id);
+        this.lang = lang;
     }
 
     @Override
@@ -204,7 +204,7 @@ public class CommandListener implements CommandExecutor {
                 return true;
             }
 
-            else if (args[0].equalsIgnoreCase("container")) {
+            else if (args[0].equalsIgnoreCase("component")) {
 
                 Location pos = new Location(0, 0, 0, "world");
                 StorageNetwork network;
@@ -295,6 +295,19 @@ public class CommandListener implements CommandExecutor {
 
         return true;
     }
+
+
+    // NEEDS A FIX!
+    /*private boolean checkBuildPerms(Player player, Location pos) {
+        LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
+        com.sk89q.worldedit.util.Location loc = new com.sk89q.worldedit.util.Location(Bukkit.getWorld(pos.getDim()), pos.getX(), pos.getY(), pos.getZ());
+        RegionContainer component = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionQuery query = component.createQuery();
+
+        if (!query.testState(loc, localPlayer, Flags.BUILD)) {
+            // Can't build
+        }
+    }*/
 
     private void returnMessage(CommandSender sender, String text) {
         if (sender instanceof Player) {

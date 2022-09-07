@@ -1,8 +1,9 @@
 package com.quantum625.networks;
 
-import com.quantum625.networks.container.InputContainer;
-import com.quantum625.networks.container.ItemContainer;
-import com.quantum625.networks.container.MiscContainer;
+import com.quantum625.networks.component.BaseComponent;
+import com.quantum625.networks.component.InputContainer;
+import com.quantum625.networks.component.ItemContainer;
+import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.Network;
 import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class StorageNetwork {
@@ -101,6 +103,14 @@ public class StorageNetwork {
         return this.owner;
     }
 
+    public ArrayList<BaseComponent> getAllComponents() {
+        ArrayList<BaseComponent> components = new ArrayList<BaseComponent>();
+        components.addAll(this.input_containers);
+        components.addAll(this.sorting_containers);
+        components.addAll(this.misc_containers);
+        return components;
+    }
+
     public ArrayList<InputContainer> getInputChests() {
         return input_containers;
     }
@@ -124,6 +134,24 @@ public class StorageNetwork {
 
     public void addMiscChest(Location pos, boolean takeOverflow) {
         misc_containers.add(new MiscContainer(pos, takeOverflow));
+    }
+
+    public void removeComponent(Location location) {
+        for (int i = 0; i < input_containers.size(); i++) {
+            if (input_containers.get(i).getPos().equals(location)) {
+                input_containers.remove(i);
+            }
+        }
+        for (int i = 0; i < sorting_containers.size(); i++) {
+            if (sorting_containers.get(i).getPos().equals(location)) {
+                sorting_containers.remove(i);
+            }
+        }
+        for (int i = 0; i < misc_containers.size(); i++) {
+            if (misc_containers.get(i).getPos().equals(location)) {
+                misc_containers.remove(i);
+            }
+        }
     }
 
 

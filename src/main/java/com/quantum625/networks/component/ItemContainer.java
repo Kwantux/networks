@@ -1,8 +1,8 @@
-package com.quantum625.networks.container;
+package com.quantum625.networks.component;
 
 import com.quantum625.networks.utils.Location;
 
-public class ItemContainer extends BaseContainer{
+public class ItemContainer extends BaseComponent {
     private String item;
 
     public ItemContainer(Location pos, String item) {
