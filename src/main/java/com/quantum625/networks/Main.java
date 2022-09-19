@@ -4,7 +4,8 @@ import com.quantum625.networks.commands.CommandListener;
 import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.commands.TabCompleter;
 import com.quantum625.networks.data.Config;
-import org.bukkit.event.EventHandler;
+import com.quantum625.networks.listener.BlockBreakEventListener;
+import com.quantum625.networks.listener.RightClickEventListener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
 
@@ -14,7 +15,7 @@ import java.io.File;
 public final class Main extends JavaPlugin {
 
     private File dataFolder;
-    private CommandListener listener;
+    private CommandListener commandListener;
     private TabCompleter tabCompleter;
     private NetworkManager net;
     private Config config;
@@ -28,7 +29,7 @@ public final class Main extends JavaPlugin {
         this.config = new Config(this);
         this.lang = new LanguageModule(dataFolder, config.getLanguage());
         this.net = new NetworkManager(this.dataFolder);
-        this.listener = new CommandListener(net, dataFolder, lang);
+        this.commandListener = new CommandListener(net, dataFolder, lang, config);
         this.tabCompleter = new TabCompleter(net);
 
         loadCommands();
@@ -41,9 +42,10 @@ public final class Main extends JavaPlugin {
     }
 
     private void loadCommands() {
-        getCommand("network").setExecutor(listener);
+        getCommand("network").setExecutor(commandListener);
         getCommand("network").setTabCompleter(tabCompleter);
         this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, lang), this);
+        this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
 
     }
 

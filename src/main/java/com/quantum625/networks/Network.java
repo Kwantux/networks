@@ -4,17 +4,16 @@ import com.quantum625.networks.component.BaseComponent;
 import com.quantum625.networks.component.InputContainer;
 import com.quantum625.networks.component.ItemContainer;
 import com.quantum625.networks.component.MiscContainer;
-import com.quantum625.networks.data.Network;
+import com.quantum625.networks.data.JSONNetwork;
 import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
-public class StorageNetwork {
+public class Network {
     private String id;
     private UUID owner;
 
@@ -24,12 +23,12 @@ public class StorageNetwork {
 
 
 
-    public StorageNetwork(String id, UUID owner) {
+    public Network(String id, UUID owner) {
         this.id = id;
         this.owner = owner;
     }
 
-    public StorageNetwork(Network net) {
+    public Network(JSONNetwork net) {
         this.id = net.getId();
         this.owner = UUID.fromString(net.getOwner());
 
@@ -155,7 +154,6 @@ public class StorageNetwork {
     }
 
 
-
     public void sortAll() {
         for (int i = 0; i < input_containers.size(); i++) {
             sort(input_containers.get(i).getPos());
@@ -166,6 +164,11 @@ public class StorageNetwork {
         if (getInputContainerByLocation(pos) != null) {
 
             Inventory inventory = getInputContainerByLocation(pos).getInventory();
+
+            if (inventory == null) {
+                Bukkit.getLogger().warning("Inventory of block at position " + pos.toString() + " is null");
+                return;
+            }
 
             Bukkit.getLogger().info(inventory.getType().toString());
 
@@ -193,7 +196,7 @@ public class StorageNetwork {
         }
 
         else {
-            Bukkit.getLogger().warning("Network contains no chest at the given position: " + pos.toString());
+            Bukkit.getLogger().warning("JSONNetwork contains no chest at the given position: " + pos.toString());
         }
     }
 

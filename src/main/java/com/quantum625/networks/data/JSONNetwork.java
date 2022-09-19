@@ -3,10 +3,10 @@ package com.quantum625.networks.data;
 import com.quantum625.networks.component.InputContainer;
 import com.quantum625.networks.component.ItemContainer;
 import com.quantum625.networks.component.MiscContainer;
-import com.quantum625.networks.StorageNetwork;
+import com.quantum625.networks.Network;
 
 
-public class Network {
+public class JSONNetwork {
     private String id;
     private String owner;
 
@@ -14,7 +14,7 @@ public class Network {
     private ItemContainer[] sorting_containers;
     private MiscContainer[] misc_containers;
 
-    public Network(StorageNetwork n) {
+    public JSONNetwork(Network n) {
         this.id = n.getID();
         this.owner = n.getOwner().toString();
 

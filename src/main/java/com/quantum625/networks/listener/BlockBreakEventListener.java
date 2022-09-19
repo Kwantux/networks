@@ -1,5 +1,7 @@
-package com.quantum625.networks;
+package com.quantum625.networks.listener;
 
+import com.quantum625.networks.NetworkManager;
+import com.quantum625.networks.Network;
 import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.component.BaseComponent;
 import com.quantum625.networks.utils.Location;
@@ -20,7 +22,7 @@ public class BlockBreakEventListener implements Listener {
 
     @EventHandler
     public void blockBreak(BlockBreakEvent event) {
-        for (StorageNetwork network : net.listAll()) {
+        for (Network network : net.listAll()) {
             for (BaseComponent component : network.getAllComponents()) {
                 Bukkit.getLogger().info(component.getPos().toString() + " || " + (new Location(event.getBlock())));
                 if (component.getPos().equals(new Location(event.getBlock()))) {

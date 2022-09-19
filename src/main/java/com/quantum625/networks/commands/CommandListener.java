@@ -1,13 +1,15 @@
 package com.quantum625.networks.commands;
 
 import com.quantum625.networks.NetworkManager;
-import com.quantum625.networks.StorageNetwork;
+import com.quantum625.networks.Network;
 import com.quantum625.networks.component.InputContainer;
 import com.quantum625.networks.component.ItemContainer;
 import com.quantum625.networks.component.MiscContainer;
+import com.quantum625.networks.data.Config;
 import com.quantum625.networks.utils.Location;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -23,11 +25,14 @@ public class CommandListener implements CommandExecutor {
 
     private LanguageModule lang;
 
+    private Config config;
 
-    public CommandListener(NetworkManager net, File dataFolder, LanguageModule lang) {
+
+    public CommandListener(NetworkManager net, File dataFolder, LanguageModule lang, Config config) {
         this.dataFolder = dataFolder;
         this.net = net;
         this.lang = lang;
+        this.config = config;
     }
 
     @Override
@@ -132,7 +137,7 @@ public class CommandListener implements CommandExecutor {
             }
 
             else if (args[0].equalsIgnoreCase("info")) {
-                StorageNetwork network = getSelected(sender);
+                Network network = getSelected(sender);
                 if (network == null) {
                     lang.returnMessage(sender, "select.noselection");
                     return true;
@@ -207,7 +212,7 @@ public class CommandListener implements CommandExecutor {
             else if (args[0].equalsIgnoreCase("component")) {
 
                 Location pos = new Location(0, 0, 0, "world");
-                StorageNetwork network;
+                Network network;
 
                 if (args.length < 2) {
                     lang.returnMessage(sender, "component.notype");
@@ -216,29 +221,45 @@ public class CommandListener implements CommandExecutor {
 
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
-                    pos = new Location(player.getTargetBlock(null, 5));
                     network = net.getSelectedNetwork(player);
 
                     if (network == null) {
                         lang.returnMessage(sender, "select.noselection");
                     }
 
-                    if (args[1].equalsIgnoreCase("input")) {
-                        network.addInputChest(pos);
-                        lang.returnMessage(sender, "component.input.add");
-                    }
+                    if (args[1].equalsIgnoreCase("add")) {
 
-                    else if (args[1].equalsIgnoreCase("sorting")) {
                         if (args.length < 3) {
-                            lang.returnMessage(sender, "component.item.noitem");
+                            lang.returnMessage(sender, "component.noaction");
+                            return true;
                         }
-                        network.addItemChest(pos, args[2].toUpperCase());
-                        lang.returnMessage(sender, "component.item.add");
+
+                        if (args[2].equalsIgnoreCase("input")) {
+                            net.selectComponentType(player, "input_container");
+                            lang.returnMessage(sender, "component.select");
+                        } else if (args[2].equalsIgnoreCase("sorting")) {
+                            if (args.length < 4) {
+                                lang.returnMessage(sender, "component.item.noitem");
+                            }
+                            net.selectComponentType(player, "item_container");
+                            net.selectItem(player, args[3].toUpperCase());
+                            lang.returnMessage(sender, "component.select");
+                        } else if (args[2].equalsIgnoreCase("misc")) {
+                            net.selectComponentType(player, "misc_container");
+                            lang.returnMessage(sender, "component.select");
+                        }
                     }
 
-                    else if (args[1].equalsIgnoreCase("misc")) {
-                        network.addMiscChest(pos, false);
-                        lang.returnMessage(sender, "component.misc.add");
+                    else if (args[1].equalsIgnoreCase("edit")) {
+
+                    }
+
+                    else if (args[1].equalsIgnoreCase("remove")) {
+                        network.removeComponent(pos);
+                    }
+
+                    else {
+                        returnMessage(sender, "component.noaction");
                     }
                 }
 
@@ -347,8 +368,8 @@ public class CommandListener implements CommandExecutor {
     }
 
 
-    private StorageNetwork getSelected(CommandSender sender) {
-        StorageNetwork result;
+    private Network getSelected(CommandSender sender) {
+        Network result;
         if (sender instanceof Player) {
             result =  net.getSelectedNetwork((Player) sender);
         }

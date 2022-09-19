@@ -2,6 +2,7 @@ package com.quantum625.networks.data;
 
 import com.quantum625.networks.Main;
 import com.quantum625.networks.utils.Location;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -38,7 +39,6 @@ public class Config {
             }
         }
         this.config = YamlConfiguration.loadConfiguration(file);
-        setLanguage("de");
     }
 
     public void setLanguage(String language) {
@@ -50,6 +50,10 @@ public class Config {
     }
 
     public boolean checkLocation(Location location, String component) {
-        return (Arrays.asList(config.get(component + "_whitelist")).contains(location.getBukkitLocation().getBlock().getType().toString()));
+        String[] whitelist = container_whitelist;
+        Bukkit.getLogger().info(Arrays.asList(config.get(component + "_whitelist")).toString());
+        Bukkit.getLogger().info(location.getBukkitLocation().getBlock().getType().toString().toUpperCase());
+
+        return (Arrays.asList(container_whitelist).contains(location.getBukkitLocation().getBlock().getType().toString().toUpperCase()));
     }
 }

@@ -1,13 +1,14 @@
 package com.quantum625.networks.commands;
 
 import com.quantum625.networks.NetworkManager;
-import com.quantum625.networks.StorageNetwork;
+import com.quantum625.networks.Network;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,7 +36,13 @@ public class TabCompleter implements TabExecutor {
 
         else if (args[0].equalsIgnoreCase("component")) {
             if (args.length == 2) {
-                return Arrays.asList("input", "item", "misc", "remove");
+                return Arrays.asList("add", "select", "remove");
+            }
+
+            if (args.length == 3) {
+                if (args[1].equalsIgnoreCase("add")) {
+                    return Arrays.asList("input", "sorting", "misc");
+                }
             }
 
         }
@@ -47,18 +54,18 @@ public class TabCompleter implements TabExecutor {
 
         }
 
-        else if (args[0].equalsIgnoreCase("delete") || args[1].equalsIgnoreCase("select")) {
+        else if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("select")) {
             if (args.length == 2) {
-                List<String> list = Arrays.asList();
+                List<String> list = new ArrayList<String>();
                 if (sender instanceof Player) {
                     if (!((Player) sender).hasPermission("networks.admin")) {
-                        for (StorageNetwork network : net.listFromOwner(((Player) sender).getUniqueId())) {
+                        for (Network network : net.listFromOwner(((Player) sender).getUniqueId())) {
                             list.add(network.getID());
                         }
                         return list;
                     }
                 }
-                for (StorageNetwork network : net.listAll()) {
+                for (Network network : net.listAll()) {
                     list.add(network.getID());
                 }
                 return list;
@@ -70,6 +77,6 @@ public class TabCompleter implements TabExecutor {
         return Arrays.asList();
     }
 
-    private List<String> adminCommands = Arrays.asList("component", "create", "data", "delete", "help" ,"info", "list", "listall", "select", "sort");
-    private List<String> commands = Arrays.asList("component", "create", "delete", "help" ,"info", "list", "listall", "select");
+    private List<String> adminCommands = Arrays.asList("component", "create", "data", "delete", "editmode", "help" ,"info", "list", "listall", "select", "sort");
+    private List<String> commands = Arrays.asList("component", "create", "delete", "editmode", "help" ,"info", "list", "listall", "select");
 }

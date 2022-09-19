@@ -1,6 +1,7 @@
 package com.quantum625.networks.utils;
 
 import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
 
 public class Location {
     private int x;
@@ -66,6 +67,10 @@ public class Location {
         return new org.bukkit.Location(Bukkit.getWorld(getDim()), x, y, z);
     }
 
+    public Block getBlock() {
+        return this.getBukkitLocation().getBlock();
+    }
+
     @Override
     public String toString() {
         return "[" + dim + ", " + x + ", " + y + ", " + z + "]";
@@ -73,6 +78,6 @@ public class Location {
 
 
     public boolean equals(Location other) {
-        return (other.getX() == this.getX() && other.getY() == this.getY() && other.getZ() == this.getZ() && other.getDim().equals(this.getDim())); // Don't ask, why this is made that way. Doesn't work otherwise
+        return (other.getX() == this.getX() && other.getY() == this.getY() && other.getZ() == this.getZ() && other.getDim().equals(this.getDim()));
     }
 }
