@@ -9,10 +9,13 @@ public class Installer {
     private File dataFolder;
     private JavaPlugin plugin;
     public Installer(File dataFolder, JavaPlugin plugin) {
+        File networksFolder = new File(dataFolder, "networks");
+        if (!networksFolder.exists()) {
+            networksFolder.mkdirs();
+        }
         this.dataFolder = dataFolder;
         this.plugin = plugin;
         plugin.saveResource("config.yml", false);
-        plugin.saveResource("networks", false);
         installLanguage("en");
         installLanguage("de");
     }
@@ -30,7 +33,6 @@ public class Installer {
     }
 
     public void overwriteAll() {
-        plugin.saveResource("networks", true);
         overwriteConfig();
         overwriteLanguage("en");
         overwriteLanguage("de");

@@ -37,6 +37,21 @@ public class Config {
             }
         }
         this.config = YamlConfiguration.loadConfiguration(file);
+
+        if (config.get("lang") == null) {
+            config.set("lang", "en");
+            Bukkit.getLogger().warning("Config for language is missing, it was reset to en");
+        }
+
+        if (config.get("tickrate") == null) {
+            config.set("tickrate", 100);
+            Bukkit.getLogger().warning("Config for tickrate is missing, it was reset to 100");
+        }
+
+        if (config.get("container_whitelist") == null) {
+            config.set("container_whitelist", Arrays.asList("CHEST", "REDSTONE_CHEST", "BARREL"));
+            Bukkit.getLogger().warning("Config for container_whitelist is missing, it was reset to [CHEST, REDSTONE_CHEST, BARREL]");
+        }
     }
 
     public void setLanguage(String language) {
@@ -51,6 +66,6 @@ public class Config {
     public int getTickrate() {return Integer.parseInt(config.get("tickrate").toString());}
 
     public boolean checkLocation(Location location, String component) {
-        return (Arrays.asList(config.get("whitelist")).contains(location.getBukkitLocation().getBlock().getType().toString().toUpperCase()));
+        return (Arrays.asList(config.get("container_whitelist")).contains(location.getBukkitLocation().getBlock().getType().toString().toUpperCase()));
     }
 }
