@@ -3,8 +3,36 @@ version: '${project.version}'
 main: com.quantum625.networks.Main
 api-version: 1.19
 description: networks plugin
+author: Quantum625
+database: true
+loadafter: [Worldguard, LockettePro]
 commands:
    network:
     description: Base commmand for the Networks Plugin
     usage: /net <options>
     aliases: net
+permissions:
+  networks.use:
+    description: Allows users to use and create networks they own
+    default: true
+
+  networks.admin:
+    description: Base permission for all admin commands
+    default: op
+    children:
+      networks.admin.nocost:
+        description: Allows you to get network components for free
+        default: false
+      networks.admin.foreign:
+        description: Allows you to access foreign networks
+        default: true
+      networks.admin.listall:
+        description: Allows you to list all networks, including foreign ones
+        default: true
+      networks.admin.database:
+        description: Allows you to save and reload database
+        default: true
+
+
+
+

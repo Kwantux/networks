@@ -24,44 +24,43 @@ public class RightClickEventListener implements Listener {
         this.config = config;
     }
 
-    @EventHandler(priority= EventPriority.LOWEST)
+    @EventHandler(priority= EventPriority.MONITOR, ignoreCancelled = false)
     public void onPlayerUse(PlayerInteractEvent event){
-        Player p = event.getPlayer();
-        Location pos = new Location(event.getClickedBlock());
-        Network network = net.getSelectedNetwork(p);
+        if (!event.isCancelled()) {
+            Player p = event.getPlayer();
+            Location pos = new Location(event.getClickedBlock());
+            Network network = net.getSelectedNetwork(p);
 
-        Bukkit.getLogger().info("Player " + p.getName() + " right clicked block at " + pos.toString());
+            Bukkit.getLogger().info("Player " + p.getName() + " right clicked block at " + pos.toString());
 
-        String componentType = net.getSelectedComponentType(p);
+            String componentType = net.getSelectedComponentType(p);
 
-        if (componentType != null && net.getSelectedNetwork(p) != null) {
+            if (componentType != null && net.getSelectedNetwork(p) != null) {
 
-            if (config.checkLocation(pos, "container")) {
-                if (componentType == "input_container") {
-                    net.getSelectedNetwork(p).addInputChest(pos);
-                    net.selectComponentType(p, null);
-                    lang.returnMessage(p, "component.input.add", network, pos);
+                if (config.checkLocation(pos, "container")) {
+                    if (componentType == "input_container") {
+                        net.getSelectedNetwork(p).addInputChest(pos);
+                        net.selectComponentType(p, null);
+                        lang.returnMessage(p, "component.input.add", network, pos);
+                    }
+
+                    if (componentType == "item_container") {
+                        net.getSelectedNetwork(p).addItemChest(pos, net.getSelectedItem(p));
+                        net.selectComponentType(p, null);
+                        lang.returnMessage(p, "component.item.add", network, pos);
+                    }
+
+                    if (componentType == "misc_container") {
+                        net.getSelectedNetwork(p).addMiscChest(pos, true);
+                        net.selectComponentType(p, null);
+                        lang.returnMessage(p, "component.misc.add", network, pos);
+                    }
+                } else {
+                    lang.returnMessage(p, "component.invalid_block", pos.getBlock());
                 }
 
-                if (componentType == "item_container") {
-                    net.getSelectedNetwork(p).addItemChest(pos, net.getSelectedItem(p));
-                    net.selectComponentType(p, null);
-                    lang.returnMessage(p, "component.item.add", network, pos);
-                }
 
-                if (componentType == "misc_container") {
-                    net.getSelectedNetwork(p).addMiscChest(pos, true);
-                    net.selectComponentType(p, null);
-                    lang.returnMessage(p, "component.misc.add", network, pos);
-                }
             }
-            else {
-                lang.returnMessage(p, "component.invalid_block", pos.getBlock());
-            }
-
-
-
-
         }
     }
 }
