@@ -88,14 +88,17 @@ public class CommandListener implements CommandExecutor {
                 }
 
                 if (args[1] != null) {
-                    net.add(args[1], owner);
                     if (net.getFromID(args[1]) != null) {
-                        lang.returnMessage(sender, "create.success", net.getFromID(args[1]));
+                        lang.returnMessage(sender, "create.exists");
                     }
                     else {
-                        lang.returnMessage(sender, "create.fail");
+                        net.add(args[1], owner);
+                        if (net.getFromID(args[1]) != null) {
+                            lang.returnMessage(sender, "create.success", net.getFromID(args[1]));
+                        } else {
+                            lang.returnMessage(sender, "create.fail");
+                        }
                     }
-
                 }
                 return true;
             }

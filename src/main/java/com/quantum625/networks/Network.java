@@ -124,7 +124,7 @@ public class Network {
 
 
     public void addInputChest(Location pos) {
-        input_containers.add(new InputContainer(pos, 20));
+        input_containers.add(new InputContainer(pos));
     }
 
     public void addItemChest(Location pos, String item) {
@@ -132,7 +132,7 @@ public class Network {
     }
 
     public void addMiscChest(Location pos, boolean takeOverflow) {
-        misc_containers.add(new MiscContainer(pos, takeOverflow));
+        misc_containers.add(new MiscContainer(pos));
     }
 
     public void removeComponent(Location location) {

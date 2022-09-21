@@ -15,6 +15,8 @@ import java.io.File;
 public final class Main extends JavaPlugin {
 
     private File dataFolder;
+
+    private Installer installer;
     private CommandListener commandListener;
     private TabCompleter tabCompleter;
     private NetworkManager net;
@@ -26,6 +28,7 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin has launched\n==================================\n");
         this.dataFolder = this.getDataFolder();
+        this.installer = new Installer(dataFolder, this);
         this.config = new Config(this);
         this.lang = new LanguageModule(dataFolder, config.getLanguage());
         this.net = new NetworkManager(this.dataFolder);
@@ -37,6 +40,14 @@ public final class Main extends JavaPlugin {
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
+
+        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+            public void run() {
+                for (Network network : net.listAll()) {
+                    network.sortAll();
+                }
+            }
+        }, 0, config.getTickrate());
 
 
     }

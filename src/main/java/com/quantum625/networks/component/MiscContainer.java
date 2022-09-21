@@ -4,9 +4,7 @@ import com.quantum625.networks.utils.Location;
 
 public class MiscContainer extends BaseComponent {
 
-    boolean takeOverflow;
-    public MiscContainer(Location pos, boolean takeOverflow) {
+    public MiscContainer(Location pos) {
         super(pos);
-        this.takeOverflow = takeOverflow;
     }
 }

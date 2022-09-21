@@ -1,0 +1,39 @@
+data.load: §aReloaded data from files
+data.save: §aSaved data to files
+
+create.success: §aSuccessfully created storage network %network
+create.exists: $bThere is already a network with this name, please select another name!
+create.fail: §cThis name is already used, please select another name.
+create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
+
+delete.success: §aSuccessfully deleted storage network %network
+delete.fail: §cThis network doesn't exist
+delete.nonetwork: §cPlease specify the network to delete!
+
+select.noselection: §4No network was selected. Please select a network using /net select <network>
+select.success: §aSuccessfully selected storage network %network
+select.notexisting: §cThis network doesn't exist!
+select.nonetwork: §cPlease specify a storage network you want to select.
+
+nopermission: §cYou don't have permissions on this network!\nYou need to be the network owner or have the networks.admin permission!
+
+list.empty: §cYou don't own any storage networks
+list.noplayer: §cCommand was not executed by player! Please specify the player with /net list <player>
+list: §aYou own the following storage networks
+
+listall.empty: §cThere are no storage networks
+listall: §aThese storage networks exist
+
+component.input.add: §aInput container at %position successfully added to %network!
+component.item.add: §aItem container at %position successfully added to %network!
+component.item.noitem: §cYou need to specify the item for the sorting container!
+component.misc.add: §aMiscellaneous container at %position successfully added to %network!
+component.select: §aSelected component type, please right click the block you want to add
+component.remove: §cRemoved component at %position
+component.noaction: §cYou must specity the action you want to do!
+component.notype: §cYou must specify the type of component you want to add!
+component.invalid_block: §cBlocks of type %block are not allowed to be network components!
+
+component.nolocation: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
+
+invalid: §cInvalid command, type /net help to see all available commands

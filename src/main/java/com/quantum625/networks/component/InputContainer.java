@@ -4,17 +4,17 @@ import com.quantum625.networks.utils.Location;
 
 public class InputContainer extends BaseComponent {
 
-    private int tickrate = 20;
-    public InputContainer(Location pos, int tickrate) {
+    //private int tickrate = 20;
+    public InputContainer(Location pos) {
         super(pos);
-        this.tickrate = tickrate;
+        //this.tickrate = tickrate;
     }
     
-    public void setTickrate(int t) {
+    /*public void setTickrate(int t) {
         this.tickrate = t;
     }
 
     public int getTickrate() {
         return tickrate;
-    }
+    }*/
 }

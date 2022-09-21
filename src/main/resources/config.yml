@@ -1,0 +1,16 @@
+# The language file in /lang that is used
+# Do not add the .yml, Only the language id
+
+lang: en
+
+# Blocks that are allowed to be network containers
+# Only works for blocks that have inventories
+container_whitelist:
+- CHEST
+- REDSTONE_CHEST
+- BARREL
+
+
+# Every x ticks, all networks will sort their containers
+# Increase this number, if you see laggs
+tickrate: 20
