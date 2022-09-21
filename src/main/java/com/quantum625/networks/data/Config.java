@@ -16,8 +16,6 @@ public class Config {
     private File file;
     public FileConfiguration config;
 
-    private String[] container_whitelist = {"CHEST", "REDSTONE_CHEST", "BARREL"};
-
     public void save() {
         try {
             config.save(file);
@@ -49,11 +47,10 @@ public class Config {
         return config.get("lang").toString();
     }
 
-    public boolean checkLocation(Location location, String component) {
-        String[] whitelist = container_whitelist;
-        Bukkit.getLogger().info(Arrays.asList(config.get(component + "_whitelist")).toString());
-        Bukkit.getLogger().info(location.getBukkitLocation().getBlock().getType().toString().toUpperCase());
+    public void setTickrate(int tickrate) {config.set("tickrate", tickrate);}
+    public int getTickrate() {return Integer.parseInt(config.get("tickrate").toString());}
 
-        return (Arrays.asList(container_whitelist).contains(location.getBukkitLocation().getBlock().getType().toString().toUpperCase()));
+    public boolean checkLocation(Location location, String component) {
+        return (Arrays.asList(config.get("whitelist")).contains(location.getBukkitLocation().getBlock().getType().toString().toUpperCase()));
     }
 }
