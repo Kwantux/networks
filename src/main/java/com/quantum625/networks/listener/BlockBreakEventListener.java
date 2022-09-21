@@ -24,7 +24,6 @@ public class BlockBreakEventListener implements Listener {
     public void blockBreak(BlockBreakEvent event) {
         for (Network network : net.listAll()) {
             for (BaseComponent component : network.getAllComponents()) {
-                Bukkit.getLogger().info(component.getPos().toString() + " || " + (new Location(event.getBlock())));
                 if (component.getPos().equals(new Location(event.getBlock()))) {
                     network.removeComponent(new Location(event.getBlock()));
                     lang.returnMessage(event.getPlayer(), "component.remove");

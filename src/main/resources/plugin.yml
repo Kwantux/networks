@@ -1,11 +1,10 @@
 name: Networks
-version: '${project.version}'
+version: '1.0.0'
 main: com.quantum625.networks.Main
 api-version: 1.19
 description: networks plugin
 author: Quantum625
 database: true
-loadafter: [Worldguard, LockettePro]
 commands:
    network:
     description: Base commmand for the Networks Plugin

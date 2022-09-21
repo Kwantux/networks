@@ -13,4 +13,4 @@ container_whitelist:
 
 # Every x ticks, all networks will sort their containers
 # Increase this number, if you see laggs
-tickrate: 20
+tickrate: 100

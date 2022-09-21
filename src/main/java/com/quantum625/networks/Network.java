@@ -170,7 +170,6 @@ public class Network {
                 return;
             }
 
-            Bukkit.getLogger().info(inventory.getType().toString());
 
             for (ItemStack stack : inventory.getContents()) {
 
@@ -179,16 +178,13 @@ public class Network {
                     ItemContainer container = getItemContainerByItem(stack.getType().toString().toUpperCase());
                     if (container != null) {
                         container.getInventory().addItem(stack);
-                        Bukkit.getLogger().info("Item of type " + stack.getType().toString().toUpperCase() + " added to inventory at  X: " + container.getPos().getX() + " Y: " + container.getPos().getY() + " Z:" + container.getPos().getZ() + " World: " + container.getPos().getDim());
                         inventory.remove(stack);
                     } else {
                         MiscContainer miscContainer = getMiscContainer();
                         if (miscContainer != null) {
                             miscContainer.getInventory().addItem(stack);
-                            Bukkit.getLogger().info("Item of type " + stack.getType().toString().toUpperCase() + " added to inventory   at X: " + miscContainer.getPos().getX() + " Y: " + miscContainer.getPos().getY() + " Z:" + miscContainer.getPos().getZ() + " World: " + miscContainer.getPos().getDim());
                             inventory.remove(stack);
                         } else {
-                            Bukkit.getLogger().info("There are no free containers available");
                         }
                     }
                 }

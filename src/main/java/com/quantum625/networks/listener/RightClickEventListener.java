@@ -31,8 +31,6 @@ public class RightClickEventListener implements Listener {
             Location pos = new Location(event.getClickedBlock());
             Network network = net.getSelectedNetwork(p);
 
-            Bukkit.getLogger().info("Player " + p.getName() + " right clicked block at " + pos.toString());
-
             String componentType = net.getSelectedComponentType(p);
 
             if (componentType != null && net.getSelectedNetwork(p) != null) {
