@@ -72,8 +72,6 @@ public class TabCompleter implements TabExecutor {
             }
         }
 
-        Bukkit.getLogger().info(String.valueOf(args.length));
-        Bukkit.getLogger().info(args[1]);
         return Arrays.asList();
     }
 

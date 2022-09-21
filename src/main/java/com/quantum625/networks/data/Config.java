@@ -66,6 +66,6 @@ public class Config {
     public int getTickrate() {return Integer.parseInt(config.get("tickrate").toString());}
 
     public boolean checkLocation(Location location, String component) {
-        return (Arrays.asList(config.get("container_whitelist")).contains(location.getBukkitLocation().getBlock().getType().toString().toUpperCase()));
+        return (config.get("container_whitelist").toString().toUpperCase().contains(location.getBukkitLocation().getBlock().getType().toString().toUpperCase()));
     }
 }
