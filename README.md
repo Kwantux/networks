@@ -1,6 +1,6 @@
 # Networks Plugin
 
-## _Importaint Note:<br />This plugin is not finished yet!<br />The first release will come out in a few weeks
+## _Importaint Note:<br />This plugin is not finished yet!<br />The first release will come out around end of september_
 
 ## About the Project
 
