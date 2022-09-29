@@ -5,6 +5,7 @@ api-version: 1.19
 description: networks plugin
 author: Quantum625
 database: true
+softdepend: [Vault]
 commands:
    network:
     description: Base commmand for the Networks Plugin

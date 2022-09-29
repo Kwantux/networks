@@ -5,6 +5,7 @@ create.success: §aSuccessfully created storage network %network
 create.exists: $bThere is already a network with this name, please select another name!
 create.fail: §cThis name is already used, please select another name.
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
+create.nomoney: §cYou are missing §r%number$§c to create a new network!
 
 delete.success: §aSuccessfully deleted storage network %network
 delete.fail: §cThis network doesn't exist
@@ -30,10 +31,21 @@ component.item.noitem: §cYou need to specify the item for the sorting container
 component.misc.add: §aMiscellaneous container at %position successfully added to %network!
 component.select: §aSelected component type, please right click the block you want to add
 component.remove: §cRemoved component at %position
-component.noaction: §cYou must specity the action you want to do!
+component.noaction: §cYou must specify the action you want to do!
 component.notype: §cYou must specify the type of component you want to add!
+component.limit: §cYou reached the limit of components you can add! Please upgrade the limit with §f/net upgrade limit
 component.invalid_block: §cBlocks of type %block are not allowed to be network components!
 
-component.nolocation: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
+upgrade.noprice: §cThere is no price set for this upgrade, please contact your server administrator!
+upgrade.noeconomy: §cThe economy provider is null, please contact your server administrator!
+upgrade.maxed: §cYou reached the maximum amount of upgrades you can buy!
+upgrade.disabled: §cThis upgrade is disabled.
+upgrade.nomoney: §cYou don't have enough money to buy this upgrade! You are missing §f%number$
+upgrade.success: §aSuccessfully upgraded for §r%number$
+
+location.none: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
+location.occupied: §cThere is already a component at this location
+
+value.notpositive: §cThis value needs to be positive, it was set back to 1.
 
 invalid: §cInvalid command, type /net help to see all available commands

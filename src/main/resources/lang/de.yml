@@ -5,6 +5,8 @@ create.success: §aNetzwerk %network wurde erstellt
 create.exists: $bEs existiert bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen
 create.fail: §cDas Netzwerk konnte nicht korrekt erstellt werden, bitte kontaktiere den Server Admin
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
+create.nomoney: §cDir fehlen §r%number$§c um ein neues Netzwerk zu erstellen!
+
 
 delete.success: §aNetzwerk %network wurde gelöscht
 delete.ask: §aBist du dir sicher, dass du dieses Netzwerk löschen willst? Dann gib §f/net delete <name> confirm §aein
@@ -16,7 +18,7 @@ select.success: §a%network wurde ausgewählt
 select.notexisting: §cDieses Netzwerk existiert nicht, vielleicht hast du dich vertippt?
 select.nonetwork: §cBitte gib das Netwerk an, dass du auswählen möchtest
 
-nopermission: §cAuf dieses Netzwerk hast du leider keine Rechte! Du musst entweder Netzwerk Besitzer sein oder die §enetwork.admin§c Berechtigung haben!
+nopermission: §cAuf dieses Netzwerk hast du leider keine Rechte! Du musst entweder Netzwerk Besitzer sein oder die §cnetwork.admin§c Berechtigung haben!
 
 list.empty: §cDu besitzt derzeit noch keine Netzwerke
 list.noplayer: §cCommand was not executed by player! Please specify the player with /net list <player>
@@ -33,8 +35,19 @@ component.select: §aKomponententyp wurde ausgewählt, bitte rechts klicke den B
 component.remove: §cKomponent bei %position wurde entfernt
 component.noaction: §cBitte gib an, was du tun möchtest. Hinzufügen oder löschen?
 component.notype: §cBitet gib die Art von Komponent an
+component.limit: §cDu hast das Limit an Komponenten erreicht, bitte erweitere das Limit mit §f/net upgrade limit
 component.invalid_block: §c%block Blöcke können keine Netzwerk Komponenten sein
 
-component.nolocation: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
+upgrade.noprice: §cFür dieses Upgrade wurde kein Preis gesetzt, bitte kontaktiere deinen Server Administrator!
+upgrade.noeconomy: §cEin Problem mit dem Economy Provider ist aufgetreten, bitte kontaktiere deinen Server Administrator!
+upgrade.maxed: §cDu hast die maximale Anzahl an Upgrades erreicht.
+upgrade.disabled: §cDiese Upgrade ist deaktiviert.
+upgrade.nomoney: §cDir fehlen §f%number$§c um dieses Upgrade zu kaufen!
+upgrade.success: §aUpgrade wurde für §r%number$§a gekauft.
+
+location.none: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
+location.occupied: §cAn dieser Position befindet sich bereits ein Komponent
+
+value.notpositive: §cDieser Wert muss größer als 0 sein, er wurde auf 1 gesetzt.
 
 invalid: §cUngültiger Befehl, bitte gib §f/net help§c ein für alle Befehle

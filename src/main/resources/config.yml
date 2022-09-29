@@ -3,14 +3,50 @@
 
 lang: en
 
+
+
 # Blocks that are allowed to be network containers
 # Only works for blocks that have inventories
+
 container_whitelist:
 - CHEST
-- REDSTONE_CHEST
+- TRAPPED_CHEST
 - BARREL
+
 
 
 # Every x ticks, all networks will sort their containers
 # Increase this number, if you see laggs
+
 tickrate: 100
+
+
+
+# Costs of specific features
+# Set to 0 for free and -1 for unbuyable
+
+cost_create: 1000
+cost_container_limit: 50
+cost_range: 25
+
+
+
+# Refund a Player is getting, when deleting a network
+
+refund_create: 0
+refund_container_limit: 0
+refund_range: 0
+
+
+
+# Base values for a new network
+
+base_container_limit: 20
+base_range: 40
+
+
+
+# Limit of upgrades, a player can buy
+
+max_container_limit: 30
+max_range: 100000

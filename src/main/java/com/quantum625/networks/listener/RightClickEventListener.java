@@ -35,21 +35,26 @@ public class RightClickEventListener implements Listener {
 
             if (componentType != null && net.getSelectedNetwork(p) != null) {
 
+                if (network.getComponentByLocation(pos) != null) {
+                    lang.returnMessage(p, "location.occupied");
+                    return;
+                }
+
                 if (config.checkLocation(pos, "container")) {
                     if (componentType == "input_container") {
-                        net.getSelectedNetwork(p).addInputChest(pos);
+                        net.getSelectedNetwork(p).addInputContainer(pos);
                         net.selectComponentType(p, null);
                         lang.returnMessage(p, "component.input.add", network, pos);
                     }
 
                     if (componentType == "item_container") {
-                        net.getSelectedNetwork(p).addItemChest(pos, net.getSelectedItem(p));
+                        net.getSelectedNetwork(p).addItemContainer(pos, net.getSelectedItem(p));
                         net.selectComponentType(p, null);
                         lang.returnMessage(p, "component.item.add", network, pos);
                     }
 
                     if (componentType == "misc_container") {
-                        net.getSelectedNetwork(p).addMiscChest(pos, true);
+                        net.getSelectedNetwork(p).addMiscContainer(pos);
                         net.selectComponentType(p, null);
                         lang.returnMessage(p, "component.misc.add", network, pos);
                     }

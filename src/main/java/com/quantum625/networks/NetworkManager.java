@@ -3,6 +3,7 @@ package com.quantum625.networks;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.quantum625.networks.data.Config;
 import com.quantum625.networks.data.JSONNetwork;
 import com.quantum625.networks.utils.Location;
 import com.quantum625.networks.utils.PlayerData;
@@ -28,17 +29,19 @@ public final class NetworkManager implements Serializable {
     private Network console_selection = null;
     private Location console_location = null;
 
+    private Config config;
     private File dataFolder;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();;
 
 
-    public NetworkManager(File dataFolder) {
+    public NetworkManager(Config config, File dataFolder) {
+        this.config = config;
         this.dataFolder = dataFolder;
     }
 
-    public boolean add(String id, UUID owner) {
+    public boolean add(String id, UUID owner, Location center) {
         if (this.getFromID(id) == null) {
-            networks.add(new Network(id, owner));
+            networks.add(new Network(id, owner, center, config.getBaseContainers(), config.getBaseRange()));
             Bukkit.getLogger().info(networks.toString());
             return true;
         }
@@ -84,8 +87,6 @@ public final class NetworkManager implements Serializable {
 
         Bukkit.getLogger().info("JSONNetwork size: "+networks.size());
 
-        Bukkit.getLogger().info(gson.toJson(new JSONNetwork(new Network("hi",UUID.randomUUID()))));
-
         JSONNetwork[] list = new JSONNetwork[networks.size()];
 
         for (int i = 0; i < networks.size(); i++) {
@@ -112,7 +113,6 @@ public final class NetworkManager implements Serializable {
                 e.printStackTrace();
                 Bukkit.getLogger().info(e.getStackTrace().toString());
             }
-            Bukkit.getLogger().info(gson.toJson(list));
         }
 
 

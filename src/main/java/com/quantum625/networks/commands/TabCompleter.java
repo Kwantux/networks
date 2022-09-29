@@ -72,9 +72,15 @@ public class TabCompleter implements TabExecutor {
             }
         }
 
+        else if (args[0].equalsIgnoreCase("upgrade")) {
+            if (args.length == 2) {
+                return Arrays.asList("limit", "range");
+            }
+        }
+
         return Arrays.asList();
     }
 
-    private List<String> adminCommands = Arrays.asList("component", "create", "data", "delete", "help" ,"info", "list", "listall", "select", "sort");
-    private List<String> commands = Arrays.asList("component", "create", "delete", "help" ,"info", "list", "listall", "select");
+    private List<String> adminCommands = Arrays.asList("component", "create", "data", "delete", "help" ,"info", "list", "listall", "select", "sort", "upgrade");
+    private List<String> commands = Arrays.asList("component", "create", "delete", "help" ,"info", "list", "listall", "select", "upgrade");
 }

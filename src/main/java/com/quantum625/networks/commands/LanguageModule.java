@@ -99,5 +99,19 @@ public class LanguageModule {
         }
     }
 
+    public void returnMessage(CommandSender sender, String id, double value) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+        }
+
+        else {
+            message(sender, language.getText(id).replaceAll("%number", String.valueOf(value)));
+        }
+    }
+
 
 }

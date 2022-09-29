@@ -26,7 +26,7 @@ public class BlockBreakEventListener implements Listener {
             for (BaseComponent component : network.getAllComponents()) {
                 if (component.getPos().equals(new Location(event.getBlock()))) {
                     network.removeComponent(new Location(event.getBlock()));
-                    lang.returnMessage(event.getPlayer(), "component.remove");
+                    lang.returnMessage(event.getPlayer(), "component.remove", new Location(event.getBlock()));
                 }
             }
         }

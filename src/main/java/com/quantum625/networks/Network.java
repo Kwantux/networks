@@ -15,7 +15,14 @@ import java.util.UUID;
 
 public class Network {
     private String id;
+
     private UUID owner;
+    private ArrayList<UUID> admins = new ArrayList<UUID>();
+    private ArrayList<UUID> users = new ArrayList<UUID>();
+
+    private Location center;
+    private int maxContainers = 20;
+    private int maxRange = 40;
 
     private ArrayList<InputContainer> input_containers = new ArrayList<InputContainer>();
     private ArrayList<ItemContainer> sorting_containers = new ArrayList<ItemContainer>();
@@ -23,9 +30,11 @@ public class Network {
 
 
 
-    public Network(String id, UUID owner) {
+    public Network(String id, UUID owner, Location center, int maxContainers, int maxRange) {
         this.id = id;
         this.owner = owner;
+        this.maxContainers = maxContainers;
+        this.maxRange = maxRange;
     }
 
     public Network(JSONNetwork net) {
@@ -92,6 +101,15 @@ public class Network {
         return null;
     }
 
+    public BaseComponent getComponentByLocation(Location pos) {
+        for (BaseComponent component : getAllComponents()) {
+            if (component.getPos().equals(pos)) {
+                return component;
+            }
+        }
+        return null;
+    }
+
 
 
     public String getID() {
@@ -101,6 +119,13 @@ public class Network {
     public UUID getOwner() {
         return this.owner;
     }
+
+    public ArrayList<UUID> getAdmins() {return admins;}
+    public ArrayList<UUID> getUsers() {return users;}
+    public Location getCenter() {return center;}
+    public void setCenter(Location center) {this.center = center;}
+    public int getMaxContainers() {return maxContainers;}
+    public int getMaxRange() {return maxRange;}
 
     public ArrayList<BaseComponent> getAllComponents() {
         ArrayList<BaseComponent> components = new ArrayList<BaseComponent>();
@@ -123,15 +148,18 @@ public class Network {
     }
 
 
-    public void addInputChest(Location pos) {
+    public boolean checkContainerLimit() {
+        return getAllComponents().size() < maxContainers;
+    }
+    public void addInputContainer(Location pos) {
         input_containers.add(new InputContainer(pos));
     }
 
-    public void addItemChest(Location pos, String item) {
+    public void addItemContainer(Location pos, String item) {
         sorting_containers.add(new ItemContainer(pos, item));
     }
 
-    public void addMiscChest(Location pos, boolean takeOverflow) {
+    public void addMiscContainer(Location pos) {
         misc_containers.add(new MiscContainer(pos));
     }
 
@@ -151,6 +179,14 @@ public class Network {
                 misc_containers.remove(i);
             }
         }
+    }
+
+    public void upgradeLimit(int amount) {
+        maxContainers += amount;
+    }
+
+    public void upgradeRange(int amount) {
+        maxRange += amount;
     }
 
 

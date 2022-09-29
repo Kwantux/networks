@@ -7,6 +7,7 @@ import com.quantum625.networks.component.ItemContainer;
 import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.utils.Location;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -16,6 +17,9 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
+import static java.lang.Math.floor;
+import static java.lang.Math.round;
 
 
 public class CommandListener implements CommandExecutor {
@@ -27,12 +31,15 @@ public class CommandListener implements CommandExecutor {
 
     private Config config;
 
+    private Economy economy;
 
-    public CommandListener(NetworkManager net, File dataFolder, LanguageModule lang, Config config) {
+
+    public CommandListener(NetworkManager net, File dataFolder, LanguageModule lang, Config config, Economy economy) {
         this.dataFolder = dataFolder;
         this.net = net;
         this.lang = lang;
         this.config = config;
+        this.economy = economy;
     }
 
     @Override
@@ -88,11 +95,15 @@ public class CommandListener implements CommandExecutor {
                 }
 
                 if (args[1] != null) {
+                    Location location = new Location(0,0,0, "world");
+                    if (sender instanceof Player) {
+                        location = new Location(((Player) sender).getLocation());
+                    }
                     if (net.getFromID(args[1]) != null) {
                         lang.returnMessage(sender, "create.exists");
                     }
                     else {
-                        net.add(args[1], owner);
+                        net.add(args[1], owner, location);
                         if (net.getFromID(args[1]) != null) {
                             lang.returnMessage(sender, "create.success", net.getFromID(args[1]));
                         } else {
@@ -146,21 +157,54 @@ public class CommandListener implements CommandExecutor {
                     return true;
                 }
 
+                returnMessage(sender, "");
+                returnMessage(sender, "                §lNetwork Information");
+                returnMessage(sender, "=============================================");
+                returnMessage(sender, "");
                 returnMessage(sender, "Name: " + network.getID());
-                returnMessage(sender, "Owner: " + network.getOwner());
+                returnMessage(sender, "Owner: " + Bukkit.getOfflinePlayer(network.getOwner()).getName());
+
+
+                String admins = "Admins: ";
+                for (UUID uid : network.getAdmins()) {
+                    admins += Bukkit.getOfflinePlayer(uid).getName() + ", ";
+                }
+                returnMessage(sender, admins);
+
+
+                String users = "Users: ";
+                for (UUID uid : network.getUsers()) {
+                    admins += Bukkit.getOfflinePlayer(uid).getName() + ", ";
+                }
+                returnMessage(sender, users);
+
+
+                returnMessage(sender, "");
+                returnMessage(sender, "Containers: " + network.getAllComponents().size() + "/" + network.getMaxContainers());
+                returnMessage(sender, "Max Range: " + network.getMaxRange());
+                returnMessage(sender, "");
+
+
                 returnMessage(sender, "Input Containers: ");
                 for (InputContainer inputContainer : network.getInputChests()) {
                     returnMessage(sender, "X: " + inputContainer.getPos().getX() + " Y: " + inputContainer.getPos().getY() + " Z: " + inputContainer.getPos().getZ() + " World: " + inputContainer.getPos().getDim());
                 }
+                returnMessage(sender, "");
+
+
                 returnMessage(sender, "Item Containers: ");
                 for (ItemContainer itemContainer : network.getSortingChests()) {
                     returnMessage(sender, "X: " + itemContainer.getPos().getX() + " Y: " + itemContainer.getPos().getY() + " Z: " + itemContainer.getPos().getZ() + " World: " + itemContainer.getPos().getDim());
                 }
+                returnMessage(sender, "");
+
+
                 returnMessage(sender, "Miscellaneous Containers: ");
                 for (MiscContainer miscContainer : network.getMiscChests()) {
                     returnMessage(sender, "X: " + miscContainer.getPos().getX() + " Y: " + miscContainer.getPos().getY() + " Z: " + miscContainer.getPos().getZ() + " World: " + miscContainer.getPos().getDim());
                 }
                 returnMessage(sender, "");
+
 
                 return true;
             }
@@ -175,7 +219,7 @@ public class CommandListener implements CommandExecutor {
 
                 else {
                     if (args.length == 3) {
-                        owner = Bukkit.getPlayer(args[2]).getUniqueId();
+                        owner = Bukkit.getOfflinePlayer(args[2]).getUniqueId();
                     }
                     else {
                         lang.returnMessage(sender, "list.noplayer");
@@ -232,25 +276,33 @@ public class CommandListener implements CommandExecutor {
 
                     if (args[1].equalsIgnoreCase("add")) {
 
-                        if (args.length < 3) {
-                            lang.returnMessage(sender, "component.noaction");
-                            return true;
+                        if (network.checkContainerLimit()) {
+
+                            if (args.length < 3) {
+                                lang.returnMessage(sender, "component.noaction");
+                                return true;
+                            }
+
+                            if (args[2].equalsIgnoreCase("input")) {
+                                net.selectComponentType(player, "input_container");
+                                lang.returnMessage(sender, "component.select");
+                            } else if (args[2].equalsIgnoreCase("sorting")) {
+                                if (args.length < 4) {
+                                    lang.returnMessage(sender, "component.item.noitem");
+                                }
+                                net.selectComponentType(player, "item_container");
+                                net.selectItem(player, args[3].toUpperCase());
+                                lang.returnMessage(sender, "component.select");
+                            } else if (args[2].equalsIgnoreCase("misc")) {
+                                net.selectComponentType(player, "misc_container");
+                                lang.returnMessage(sender, "component.select");
+                            }
                         }
 
-                        if (args[2].equalsIgnoreCase("input")) {
-                            net.selectComponentType(player, "input_container");
-                            lang.returnMessage(sender, "component.select");
-                        } else if (args[2].equalsIgnoreCase("sorting")) {
-                            if (args.length < 4) {
-                                lang.returnMessage(sender, "component.item.noitem");
-                            }
-                            net.selectComponentType(player, "item_container");
-                            net.selectItem(player, args[3].toUpperCase());
-                            lang.returnMessage(sender, "component.select");
-                        } else if (args[2].equalsIgnoreCase("misc")) {
-                            net.selectComponentType(player, "misc_container");
-                            lang.returnMessage(sender, "component.select");
+                        else {
+                            lang.returnMessage(sender, "component.limit");
                         }
+
                     }
 
                     else if (args[1].equalsIgnoreCase("edit")) {
@@ -267,6 +319,7 @@ public class CommandListener implements CommandExecutor {
                 }
 
                 else {
+
                     if (args.length < 5) {
                         lang.returnMessage(sender, "component.nolocation");
                     }
@@ -281,33 +334,146 @@ public class CommandListener implements CommandExecutor {
                         lang.returnMessage(sender, "select.noselection");
                     }
 
-                    if (args[1].equalsIgnoreCase("input")) {
-                        network.addInputChest(pos);
-                        lang.returnMessage(sender, "component.input.add", network, pos);
-                        return true;
-                    }
+                    if (network.checkContainerLimit()) {
 
-                    else if (args[1].equalsIgnoreCase("sorting")) {
-                        if (args.length < 6) {
-                            lang.returnMessage(sender, "component.item.noitem");
+                        if (args[1].equalsIgnoreCase("input")) {
+                            network.addInputContainer(pos);
+                            lang.returnMessage(sender, "component.input.add", network, pos);
+                            return true;
+                        } else if (args[1].equalsIgnoreCase("sorting")) {
+                            if (args.length < 6) {
+                                lang.returnMessage(sender, "component.item.noitem");
+                            }
+                            network.addItemContainer(pos, args[6].toUpperCase());
+                            lang.returnMessage(sender, "component.item.add", network, pos);
+                            return true;
+                        } else if (args[1].equalsIgnoreCase("misc")) {
+                            network.addMiscContainer(pos);
+                            lang.returnMessage(sender, "component.misc.add", network, pos);
+                            return true;
+
                         }
-                        network.addItemChest(pos, args[6].toUpperCase());
-                        lang.returnMessage(sender, "component.item.add", network, pos);
-                        return true;
                     }
 
-                    else if (args[1].equalsIgnoreCase("misc")) {
-                        network.addMiscChest(pos, false);
-                        lang.returnMessage(sender, "component.misc.add", network, pos);
-                        return true;
-
+                    else {
+                        lang.returnMessage(sender, "component.limit");
                     }
                 }
                 return true;
             }
 
+            else if (args[0].equalsIgnoreCase("upgrade")) {
+
+                int amount = 1;
+
+                if (args.length > 2) {
+                    amount = Integer.parseInt(args[2]);
+
+                    if (amount < 1) {
+                        amount = 1;
+                        lang.returnMessage(sender, "value.notpositive");
+                    }
+                }
+
+                if (args.length > 1) {
+                    if (args[1].equalsIgnoreCase("limit")) {
+                        if (sender instanceof Player) {
+                            Player player = (Player) sender;
+
+                            if (net.getSelectedNetwork(player) == null) {
+                                lang.returnMessage(sender, "");
+                                return true;
+                            }
+
+                            int buyResult = config.buyFeature(player, "container_limit", net.getSelectedNetwork(player).getMaxContainers(), amount);
+
+                            if (buyResult == config.BUY_RESULT_NOPRICE) {
+                                lang.returnMessage(sender, "upgrade.noprice");
+                            }
+
+                            if (buyResult == config.BUY_RESULT_NOECO) {
+                                lang.returnMessage(sender, "upgrade.noeconomy");
+                            }
+
+                            if (buyResult == config.BUY_RESULT_MAXED) {
+                                lang.returnMessage(sender, "upgrade.maxed");
+                            }
+
+                            if (buyResult == config.BUY_RESULT_DISABLED) {
+                                lang.returnMessage(sender, "upgrade.disabled");
+                            }
+
+                            if (buyResult == config.BUY_RESULT_NO_MONEY) {
+                                lang.returnMessage(sender, "upgrade.nomoney", config.getPrice("container_limit")*amount - economy.getBalance(player));
+                            }
+
+                            if (buyResult == config.BUY_RESULT_SUCCESS) {
+                                lang.returnMessage(sender, "upgrade.success", config.getPrice("container_limit")*amount);
+                                net.getSelectedNetwork(player).upgradeLimit(amount);
+                            }
+                        }
+                    }
+
+                    if (args[1].equalsIgnoreCase("range")) {
+                        if (sender instanceof Player) {
+                            Player player = (Player) sender;
+
+                            if (net.getSelectedNetwork(player) == null) {
+                                lang.returnMessage(sender, "");
+                                return true;
+                            }
+
+                            int buyResult = config.buyFeature(player, "container_limit", net.getSelectedNetwork(player).getMaxRange(), amount);
+
+                            if (buyResult == config.BUY_RESULT_NOPRICE) {
+                                lang.returnMessage(sender, "upgrade.noprice");
+                            }
+
+                            if (buyResult == config.BUY_RESULT_NOECO) {
+                                lang.returnMessage(sender, "upgrade.noeconomy");
+                            }
+
+                            if (buyResult == config.BUY_RESULT_MAXED) {
+                                lang.returnMessage(sender, "upgrade.maxed");
+                            }
+
+                            if (buyResult == config.BUY_RESULT_DISABLED) {
+                                lang.returnMessage(sender, "upgrade.disabled");
+                            }
+
+                            if (buyResult == config.BUY_RESULT_NO_MONEY) {
+                                lang.returnMessage(sender, "upgrade.nomoney", config.getPrice("range")*amount - economy.getBalance(player));
+                            }
+
+                            if (buyResult == config.BUY_RESULT_SUCCESS) {
+                                lang.returnMessage(sender, "upgrade.success", config.getPrice("range")*amount);
+                                net.getSelectedNetwork(player).upgradeRange(amount);
+                            }
+                        }
+                    }
+                }
+            }
+
             else if (args[0].equalsIgnoreCase("sort")) {
                 getSelected(sender).sortAll();
+                return true;
+            }
+
+            else if (args[0].equalsIgnoreCase("center")) {
+
+                Location pos = new Location(0, 0, 0, "world");
+
+                if (sender instanceof Player) {
+                    pos = new Location(((Player) sender).getLocation());
+                }
+
+                if (args.length > 4) {
+                    pos.setX(Integer.parseInt(args[1]));
+                    pos.setY(Integer.parseInt(args[2]));
+                    pos.setZ(Integer.parseInt(args[3]));
+                }
+
+                getSelected(sender).setCenter(pos);
                 return true;
             }
 
