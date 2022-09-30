@@ -23,7 +23,7 @@ import java.util.UUID;
 
 public final class NetworkManager implements Serializable {
 
-    private final ArrayList<Network> networks = new ArrayList<Network>();
+    private ArrayList<Network> networks = new ArrayList<Network>();
 
     private ArrayList<PlayerData> selections = new ArrayList<PlayerData>();
     private Network console_selection = null;
@@ -39,10 +39,9 @@ public final class NetworkManager implements Serializable {
         this.dataFolder = dataFolder;
     }
 
-    public boolean add(String id, UUID owner, Location center) {
+    public boolean add(String id, UUID owner) {
         if (this.getFromID(id) == null) {
-            networks.add(new Network(id, owner, center, config.getBaseContainers(), config.getBaseRange()));
-            Bukkit.getLogger().info(networks.toString());
+            networks.add(new Network(id, owner, config.getBaseContainers(), config.getBaseRange()));
             return true;
         }
         return false;
@@ -51,6 +50,8 @@ public final class NetworkManager implements Serializable {
     public boolean delete(String id) {
         if (getFromID(id) != null) {
             networks.remove(getFromID(id));
+            File file = new File(dataFolder, "networks/"+id+".json");
+            file.delete();
             return true;
         }
         return false;
@@ -83,15 +84,11 @@ public final class NetworkManager implements Serializable {
 
 
     public void saveData() {
-        Bukkit.getLogger().info("Started saving networks");
-
-        Bukkit.getLogger().info("JSONNetwork size: "+networks.size());
-
-        JSONNetwork[] list = new JSONNetwork[networks.size()];
+        Bukkit.getLogger().info("[Networks] Started saving networks");
 
         for (int i = 0; i < networks.size(); i++) {
-            list[i] = new JSONNetwork(networks.get(i));
-            File file = new File(dataFolder, "networks/" + list[i].getId() + ".json");
+            JSONNetwork n = new JSONNetwork(networks.get(i));
+            File file = new File(dataFolder, "networks/" + n.getId() + ".json");
 
             try {
 
@@ -105,11 +102,11 @@ public final class NetworkManager implements Serializable {
                     filewriter.close();
                 }
 
-                Bukkit.getLogger().info("Successfully written to file " + list[i].getId() + ".json!");
+                Bukkit.getLogger().info("[Networks] Successfully written to file " + n.getId() + ".json!");
 
             }
             catch (IOException e) {
-                Bukkit.getLogger().warning("[Main] Failed to save network file " + list[i].getId() + ".json");
+                Bukkit.getLogger().warning("[Networks] Failed to save network file " + n.getId() + ".json");
                 e.printStackTrace();
                 Bukkit.getLogger().info(e.getStackTrace().toString());
             }

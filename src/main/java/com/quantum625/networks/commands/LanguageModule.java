@@ -8,6 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 
 
@@ -54,6 +55,20 @@ public class LanguageModule {
 
         else {
             message(sender, language.getText(id).replaceAll("%network", network.getID()));
+        }
+    }
+
+    public void returnMessage(CommandSender sender, String id, Network network, double value) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+        }
+
+        else {
+            message(sender, language.getText(id).replaceAll("%network", network.getID()).replaceAll("%value", String.valueOf(value)));
         }
     }
 

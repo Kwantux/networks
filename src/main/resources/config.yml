@@ -32,6 +32,7 @@ cost_range: 25
 
 
 # Refund a Player is getting, when deleting a network
+# Don't set this below the creation cost, otherwise players can dupe money.'
 
 refund_create: 0
 refund_container_limit: 0
@@ -47,6 +48,7 @@ base_range: 40
 
 
 # Limit of upgrades, a player can buy
+# Don't set this below the base_ value'
 
 max_container_limit: 200
 max_range: 400 # It doesn't make sense to have really far distances since chests inside unloaded chunks won't work anyway

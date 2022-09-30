@@ -1,6 +1,7 @@
 package com.quantum625.networks.data;
 
 import com.quantum625.networks.Main;
+import com.quantum625.networks.Network;
 import com.quantum625.networks.utils.Location;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -49,17 +50,17 @@ public class Config {
 
         if (config.get("lang") == null) {
             config.set("lang", "en");
-            Bukkit.getLogger().warning("Config for language is missing, it was reset to en");
+            Bukkit.getLogger().warning("[Networks] Config for language is missing, it was reset to en");
         }
 
         if (config.get("tickrate") == null) {
             config.set("tickrate", 100);
-            Bukkit.getLogger().warning("Config for tickrate is missing, it was reset to 100");
+            Bukkit.getLogger().warning("[Networks] Config for tickrate is missing, it was reset to 100");
         }
 
         if (config.get("container_whitelist") == null) {
             config.set("container_whitelist", Arrays.asList("CHEST", "REDSTONE_CHEST", "BARREL"));
-            Bukkit.getLogger().warning("Config for container_whitelist is missing, it was reset to [CHEST, REDSTONE_CHEST, BARREL]");
+            Bukkit.getLogger().warning("[Networks] Config for container_whitelist is missing, it was reset to [CHEST, REDSTONE_CHEST, BARREL]");
         }
     }
 
@@ -78,11 +79,17 @@ public class Config {
     public int getBaseRange() {return Integer.parseInt(config.get("base_range").toString());}
     public void setEconomyState(boolean state) {economyState = state;}
 
+
+    public double calculateRefund(Network network) {
+        double refund = get("refund_create");
+        refund += (network.getMaxContainers() - get("base_container_limit")) * get("refund_container_limit");
+        refund += (network.getMaxRange() - get("base_range")) * get("refund_range");
+        return refund;
+    }
+
     public int buyFeature(Player player, String feature, int existingUpgrade , int amount) {
         if (economyState) {
             if (economy != null) {
-
-                Bukkit.getLogger().info("Player " + player.getName() + " requested to buy " + feature + " " + amount + " times");
 
                 if (config.get("cost_" + feature) == null) {
                     Bukkit.getLogger().warning("No price set for " + feature);
@@ -100,6 +107,7 @@ public class Config {
 
                 if (economy.getBalance(Bukkit.getServer().getOfflinePlayer(player.getUniqueId())) >= price) {
                     economy.withdrawPlayer(Bukkit.getServer().getOfflinePlayer(player.getUniqueId()), price);
+                    Bukkit.getLogger().info("[Networks] Player " + player.getName() + " bought " + feature + " " + amount + " times");
                     return BUY_RESULT_SUCCESS;
                 }
 

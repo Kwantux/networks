@@ -28,7 +28,7 @@ public class Network {
 
 
 
-    public Network(String id, UUID owner, Location center, int maxContainers, int maxRange) {
+    public Network(String id, UUID owner, int maxContainers, int maxRange) {
         this.id = id;
         this.owner = owner;
         this.maxContainers = maxContainers;
@@ -38,6 +38,12 @@ public class Network {
     public Network(JSONNetwork net) {
         this.id = net.getId();
         this.owner = UUID.fromString(net.getOwner());
+
+        this.admins = net.getAdmins();
+        this.users = net.getUsers();
+
+        this.maxContainers = net.getMaxContainers();
+        this.maxRange = net.getMaxRange();
 
         for (InputContainer i: net.getInputContainers()) {
             input_containers.add(i);
@@ -180,7 +186,6 @@ public class Network {
             Inventory inventory = getInputContainerByLocation(pos).getInventory();
 
             if (inventory == null) {
-                Bukkit.getLogger().warning("Inventory of block at position " + pos.toString() + " is null");
                 return;
             }
 
@@ -189,13 +194,10 @@ public class Network {
 
                 if (stack != null) {
 
-                    Bukkit.getLogger().info("ItemStack " + stack.getType());
-
                     ItemContainer container = getItemContainerByItem(pos, stack.getType().toString().toUpperCase());
                     if (container != null) {
                         container.getInventory().addItem(stack);
                         inventory.remove(stack);
-                        Bukkit.getLogger().info("Item moved to item container");
                     }
 
                     else {
@@ -203,17 +205,10 @@ public class Network {
                         if (miscContainer != null) {
                             miscContainer.getInventory().addItem(stack);
                             inventory.remove(stack);
-                            Bukkit.getLogger().info("Item moved to misc container");
                         }
                     }
                 }
             }
         }
-
-        else {
-            Bukkit.getLogger().warning("JSONNetwork contains no chest at the given position: " + pos.toString());
-        }
     }
-
-
 }

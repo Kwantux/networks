@@ -4,6 +4,7 @@ import com.quantum625.networks.commands.CommandListener;
 import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.commands.TabCompleter;
 import com.quantum625.networks.data.Config;
+import com.quantum625.networks.listener.AutoSave;
 import com.quantum625.networks.listener.BlockBreakEventListener;
 import com.quantum625.networks.listener.RightClickEventListener;
 import net.milkbowl.vault.economy.Economy;
@@ -50,10 +51,14 @@ public final class Main extends JavaPlugin {
 
         getCommand("network").setExecutor(commandListener);
         getCommand("network").setTabCompleter(tabCompleter);
+
+        this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
         this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, lang), this);
         this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
 
         net.loadData();
+
+        scheduleEvents();
 
     }
 
@@ -85,7 +90,7 @@ public final class Main extends JavaPlugin {
     }
 
     private void scheduleEvents() {
-        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             public void run() {
                 for (Network network : net.listAll()) {
                     network.sortAll();
@@ -97,18 +102,17 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        //config.save();
         net.saveData();
         Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin was shut down\n==================================\n");
     }
 
     private String startMessage = "\n" +
             "===========================================================================\n\n" +
-            "          __     _                      _                    _   ___  \n" +
-            "       /\\ \\ \\___| |___      _____  _ __| | _____    __   __ / | / _ \\ \n" +
+            "            __   _                      _                    _   ___  \n" +
+            "       /\\  / /__| |___      _____  _ __| | _____    __   __ / | / _ \\ \n" +
             "      /  \\/ / _ \\ __\\ \\ /\\ / / _ \\| '__| |/ / __|   \\ \\ / / | || | | |\n" +
             "     / /\\  /  __/ |_ \\ V  V / (_) | |  |   <\\__ \\    \\ V /  | || |_| |\n" +
-            "     \\_\\ \\/ \\___|\\__| \\_/\\_/ \\___/|_|  |_|\\_\\___/     \\_/   |_(_)___/ \n" +
+            "    /_/  \\/ \\___|\\__| \\_/\\_/ \\___/|_|  |_|\\_\\___/     \\_/   |_(_)___/ \n" +
             "                                                                  \n"+
             "===========================================================================\n";
 }

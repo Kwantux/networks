@@ -17,7 +17,6 @@ public class JSONNetwork {
     private String[] admins;
     private String[] users;
 
-    private Location center;
     private int maxContainers = 20;
     private int maxRange = 40;
 
@@ -28,6 +27,20 @@ public class JSONNetwork {
     public JSONNetwork(Network n) {
         this.id = n.getID();
         this.owner = n.getOwner().toString();
+
+        this.admins = new String[n.getAdmins().size()];
+        this.users = new String[n.getUsers().size()];
+
+        for (int i = 0; i < n.getAdmins().size(); i++) {
+            admins[i] = n.getAdmins().get(i).toString();
+        }
+
+        for (int i = 0; i < n.getUsers().size(); i++) {
+            admins[i] = n.getUsers().get(i).toString();
+        }
+
+        this.maxContainers = n.getMaxContainers();
+        this.maxRange = n.getMaxRange();
 
         this.input_containers = n.getInputChests().toArray(new InputContainer[n.getInputChests().size()]);
         this.sorting_containers = n.getSortingChests().toArray(new ItemContainer[n.getSortingChests().size()]);
@@ -41,6 +54,25 @@ public class JSONNetwork {
     public String getOwner() {
         return owner;
     }
+
+
+    public ArrayList<UUID> getAdmins() {
+        ArrayList<UUID> result = new ArrayList<UUID>();
+        for (String admin : admins) {
+            result.add(UUID.fromString(admin));
+        }
+        return result;
+    }
+    public ArrayList<UUID> getUsers() {
+        ArrayList<UUID> result = new ArrayList<UUID>();
+        for (String user : users) {
+            result.add(UUID.fromString(user));
+        }
+        return result;
+    }
+
+    public int getMaxContainers() {return maxContainers;}
+    public int getMaxRange() {return maxRange;}
 
     public InputContainer[] getInputContainers() {
         return input_containers;

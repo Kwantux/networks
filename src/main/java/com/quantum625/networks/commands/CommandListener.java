@@ -8,6 +8,7 @@ import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.utils.Location;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -91,17 +92,14 @@ public class CommandListener implements CommandExecutor {
                 }
 
                 if (args[1] != null) {
-                    Location location = new Location(0,0,0, "world");
-                    if (sender instanceof Player) {
-                        location = new Location(((Player) sender).getLocation());
-                    }
                     if (net.getFromID(args[1]) != null) {
                         lang.returnMessage(sender, "create.exists");
                     }
                     else {
-                        net.add(args[1], owner, location);
+                        net.add(args[1], owner);
                         if (net.getFromID(args[1]) != null) {
                             lang.returnMessage(sender, "create.success", net.getFromID(args[1]));
+                            net.selectNetwork((Player) sender, net.getFromID(args[1]));
                         } else {
                             lang.returnMessage(sender, "create.fail");
                         }
@@ -120,11 +118,13 @@ public class CommandListener implements CommandExecutor {
                     }
                     if (args.length > 2) {
                         if (args[2].equalsIgnoreCase("confirm")) {
+                            lang.returnMessage(sender, "delete.success", net.getFromID(args[1]), config.calculateRefund(net.getFromID(args[1])));
+                            economy.depositPlayer(Bukkit.getOfflinePlayer(net.getFromID(args[1]).getOwner()), config.calculateRefund(net.getFromID(args[1])));
                             net.delete(args[1]);
-                            lang.returnMessage(sender, "delete.success", net.getFromID(args[1]));
+                            return true;
                         }
                     }
-                    lang.returnMessage(sender, "delete.confirm");
+                    lang.returnMessage(sender, "delete.confirm", net.getFromID(args[1]));
                     return true;
                 }
                 lang.returnMessage(sender, "delete.nonetwork");
@@ -226,9 +226,9 @@ public class CommandListener implements CommandExecutor {
                         lang.returnMessage(sender, "list.noplayer");
                         return true;
                     }
+                    Bukkit.getLogger().info(net.listFromOwner(owner).toString());
                 }
 
-                Bukkit.getLogger().info(net.listFromOwner(owner).toString());
                 if (net.listFromOwner(owner).isEmpty()) {
                     lang.returnMessage(sender, "list.empty");
                 }
@@ -244,7 +244,6 @@ public class CommandListener implements CommandExecutor {
             }
 
             else if (args[0].equalsIgnoreCase("listall")) {
-                Bukkit.getLogger().info(net.listAll().toString());
                 if (net.listAll().isEmpty()) {
                     lang.returnMessage(sender, "listall.empty");
                 }
