@@ -9,7 +9,7 @@ create.nomoney: §cDir fehlen §r%number$§c um ein neues Netzwerk zu erstellen!
 
 
 delete.success: §aNetzwerk %network wurde gelöscht
-delete.ask: §aBist du dir sicher, dass du dieses Netzwerk löschen willst? Dann gib §f/net delete <name> confirm §aein
+delete.confirm: §aBist du dir sicher, dass du dieses Netzwerk löschen willst? Dann gib §f/net delete <name> confirm §aein
 delete.fail: §cDieses Netwerk existiert nicht, vielleicht hast du dich vertippt?
 delete.nonetwork: §cBitte gib das Netzwerk an, dass du löschen möchtest
 

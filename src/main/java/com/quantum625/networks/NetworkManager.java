@@ -130,9 +130,9 @@ public final class NetworkManager implements Serializable {
 
                 networks.add(new Network(gson.fromJson(json, JSONNetwork.class)));
 
-                Bukkit.getLogger().info(json);
+                Bukkit.getLogger().info("[Networks] Successfully loaded network " + file.getName());
             } catch (IOException e) {
-                Bukkit.getLogger().warning("[Main] Failed to load " + file.getName());
+                Bukkit.getLogger().warning("[Networks] Failed to load network " + file.getName());
                 e.printStackTrace();
             }
         }

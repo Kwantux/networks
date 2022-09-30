@@ -63,8 +63,6 @@ public final class Main extends JavaPlugin {
             return false;
         }
 
-        getServer().getPluginManager().getPlugin("Vault");
-
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
 
         if (getServer().getServicesManager() == null) {
@@ -73,7 +71,8 @@ public final class Main extends JavaPlugin {
         }
 
         if (rsp == null) {
-            Bukkit.getLogger().warning("[Networks] Failed to register Economy Service Provider!");
+            Bukkit.getLogger().warning("[Networks] Failed to register Economy Service Provider! Do you have a supported economy plugin installed?");
+            Bukkit.getLogger().warning("[Networks] See https://github.com/Quantum625/networks/wiki/Supported-Plugins for more information.");
             return false;
         }
         economy = rsp.getProvider();

@@ -3,6 +3,7 @@ package com.quantum625.networks.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 
+
 public class Location {
     private int x;
     private int y;
@@ -79,5 +80,12 @@ public class Location {
 
     public boolean equals(Location other) {
         return (other.getX() == this.getX() && other.getY() == this.getY() && other.getZ() == this.getZ() && other.getDim().equals(this.getDim()));
+    }
+
+    public double getDistance(Location second) {
+        if (!second.getDim().equals(this.getDim())) {
+            return 2147483647;
+        }
+        return Math.sqrt(Math.pow(this.x-second.getX(),2)+Math.pow(this.y-second.getY(),2)+Math.pow(this.z-second.getZ(),2));
     }
 }

@@ -81,6 +81,9 @@ public class Config {
     public int buyFeature(Player player, String feature, int existingUpgrade , int amount) {
         if (economyState) {
             if (economy != null) {
+
+                Bukkit.getLogger().info("Player " + player.getName() + " requested to buy " + feature + " " + amount + " times");
+
                 if (config.get("cost_" + feature) == null) {
                     Bukkit.getLogger().warning("No price set for " + feature);
                     return BUY_RESULT_NOPRICE;
@@ -98,7 +101,9 @@ public class Config {
                 if (economy.getBalance(Bukkit.getServer().getOfflinePlayer(player.getUniqueId())) >= price) {
                     economy.withdrawPlayer(Bukkit.getServer().getOfflinePlayer(player.getUniqueId()), price);
                     return BUY_RESULT_SUCCESS;
-                } else {
+                }
+
+                else {
                     return BUY_RESULT_NO_MONEY;
                 }
             }

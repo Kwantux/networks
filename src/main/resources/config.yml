@@ -48,5 +48,5 @@ base_range: 40
 
 # Limit of upgrades, a player can buy
 
-max_container_limit: 30
-max_range: 100000
+max_container_limit: 200
+max_range: 400 # It doesn't make sense to have really far distances since chests inside unloaded chunks won't work anyway

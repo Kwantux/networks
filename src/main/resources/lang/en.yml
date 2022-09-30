@@ -8,6 +8,7 @@ create.noowner: §cCommand was not executed by player!\nPlease specify the owner
 create.nomoney: §cYou are missing §r%number$§c to create a new network!
 
 delete.success: §aSuccessfully deleted storage network %network
+delete.confirm: §aAre you sure you want to delete storage network %network? Please confirm with §f/net delete <name> confirm
 delete.fail: §cThis network doesn't exist
 delete.nonetwork: §cPlease specify the network to delete!
 

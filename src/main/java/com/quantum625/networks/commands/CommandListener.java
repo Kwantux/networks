@@ -10,16 +10,12 @@ import com.quantum625.networks.utils.Location;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
-import static java.lang.Math.floor;
-import static java.lang.Math.round;
 
 
 public class CommandListener implements CommandExecutor {
@@ -117,13 +113,18 @@ public class CommandListener implements CommandExecutor {
             else if (args[0].equalsIgnoreCase("delete")) {
                 if (args[1] != null) {
                     if (sender instanceof Player) {
-                        if (!net.getFromID(args[1]).getOwner().equals((Player) sender) && !((Player) sender).hasPermission("networks.admin")) {
+                        if (!net.getFromID(args[1]).getOwner().equals(((Player) sender).getUniqueId()) && !((Player) sender).hasPermission("networks.admin")) {
                             lang.returnMessage(sender, "nopermission");
                             return true;
                         }
                     }
-                    net.delete(args[1]);
-                    lang.returnMessage(sender, "delete.success", net.getFromID(args[1]));
+                    if (args.length > 2) {
+                        if (args[2].equalsIgnoreCase("confirm")) {
+                            net.delete(args[1]);
+                            lang.returnMessage(sender, "delete.success", net.getFromID(args[1]));
+                        }
+                    }
+                    lang.returnMessage(sender, "delete.confirm");
                     return true;
                 }
                 lang.returnMessage(sender, "delete.nonetwork");
@@ -423,7 +424,7 @@ public class CommandListener implements CommandExecutor {
                                 return true;
                             }
 
-                            int buyResult = config.buyFeature(player, "container_limit", net.getSelectedNetwork(player).getMaxRange(), amount);
+                            int buyResult = config.buyFeature(player, "range", net.getSelectedNetwork(player).getMaxRange(), amount);
 
                             if (buyResult == config.BUY_RESULT_NOPRICE) {
                                 lang.returnMessage(sender, "upgrade.noprice");
@@ -457,28 +458,6 @@ public class CommandListener implements CommandExecutor {
             else if (args[0].equalsIgnoreCase("sort")) {
                 getSelected(sender).sortAll();
                 return true;
-            }
-
-            else if (args[0].equalsIgnoreCase("center")) {
-
-                Location pos = new Location(0, 0, 0, "world");
-
-                if (sender instanceof Player) {
-                    pos = new Location(((Player) sender).getLocation());
-                }
-
-                if (args.length > 4) {
-                    pos.setX(Integer.parseInt(args[1]));
-                    pos.setY(Integer.parseInt(args[2]));
-                    pos.setZ(Integer.parseInt(args[3]));
-                }
-
-                getSelected(sender).setCenter(pos);
-                return true;
-            }
-
-            else {
-                lang.returnMessage(sender, "invalid");
             }
         }
 

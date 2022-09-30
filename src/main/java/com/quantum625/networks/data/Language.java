@@ -29,7 +29,7 @@ public class Language {
             }
         }
         this.config = YamlConfiguration.loadConfiguration(file);
-        Bukkit.getLogger().info("[Main] Launched using language module " + lang_id);
+        Bukkit.getLogger().info("[Networks] Launched using language module " + lang_id);
     }
 
     public String getText(String id) {

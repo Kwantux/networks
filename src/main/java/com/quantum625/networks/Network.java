@@ -19,8 +19,6 @@ public class Network {
     private UUID owner;
     private ArrayList<UUID> admins = new ArrayList<UUID>();
     private ArrayList<UUID> users = new ArrayList<UUID>();
-
-    private Location center;
     private int maxContainers = 20;
     private int maxRange = 40;
 
@@ -62,20 +60,11 @@ public class Network {
         }
         return null;
     }
-    private ItemContainer getItemContainerByLocation(Location pos) {
-        for (ItemContainer i : sorting_containers) {
-            if (i.getPos().equals(pos)) {
-                return i;
-            }
-        }
-        return null;
-    }
-
 
     // Unfinished:
-    private ItemContainer getItemContainerByItem(String item) {
+    private ItemContainer getItemContainerByItem(Location pos, String item) {
         for (ItemContainer i : sorting_containers) {
-            if (i.getItem().equals(item) && i.getInventory().firstEmpty() != -1) {
+            if (i.getItem().equals(item) && i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {
                 return i;
             }
         }
@@ -83,18 +72,9 @@ public class Network {
     }
 
 
-    private MiscContainer getMiscContainerByLocation(Location pos) {
+    private MiscContainer getMiscContainer(Location pos) {
         for (MiscContainer i : misc_containers) {
-            if (i.getPos().equals(pos)) {
-                return i;
-            }
-        }
-        return null;
-    }
-
-    private MiscContainer getMiscContainer() {
-        for (MiscContainer i : misc_containers) {
-            if (i.getInventory().firstEmpty() != -1) {
+            if (i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {
                 return i;
             }
         }
@@ -122,8 +102,6 @@ public class Network {
 
     public ArrayList<UUID> getAdmins() {return admins;}
     public ArrayList<UUID> getUsers() {return users;}
-    public Location getCenter() {return center;}
-    public void setCenter(Location center) {this.center = center;}
     public int getMaxContainers() {return maxContainers;}
     public int getMaxRange() {return maxRange;}
 
@@ -211,16 +189,21 @@ public class Network {
 
                 if (stack != null) {
 
-                    ItemContainer container = getItemContainerByItem(stack.getType().toString().toUpperCase());
+                    Bukkit.getLogger().info("ItemStack " + stack.getType());
+
+                    ItemContainer container = getItemContainerByItem(pos, stack.getType().toString().toUpperCase());
                     if (container != null) {
                         container.getInventory().addItem(stack);
                         inventory.remove(stack);
-                    } else {
-                        MiscContainer miscContainer = getMiscContainer();
+                        Bukkit.getLogger().info("Item moved to item container");
+                    }
+
+                    else {
+                        MiscContainer miscContainer = getMiscContainer(pos);
                         if (miscContainer != null) {
                             miscContainer.getInventory().addItem(stack);
                             inventory.remove(stack);
-                        } else {
+                            Bukkit.getLogger().info("Item moved to misc container");
                         }
                     }
                 }
