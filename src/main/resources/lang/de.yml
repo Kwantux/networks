@@ -1,7 +1,7 @@
 data.load: §aDaten wurden erneut geladen
 data.save: §aDaten wurden gesichert
 
-create.success: §aNetzwerk %network wurde erstellt
+create.success: §aNetzwerk %network wurde für §r%number$§a erstellt
 create.exists: $bEs existiert bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen
 create.fail: §cDas Netzwerk konnte nicht korrekt erstellt werden, bitte kontaktiere den Server Admin
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>

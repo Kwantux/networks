@@ -1,7 +1,7 @@
 data.load: §aReloaded data from files
 data.save: §aSaved data to files
 
-create.success: §aSuccessfully created storage network %network
+create.success: §aSuccessfully created storage network %network for §r%number$
 create.exists: §eThere is already a network with this name, please select another name!
 create.fail: §cThis name is already used, please select another name.
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
