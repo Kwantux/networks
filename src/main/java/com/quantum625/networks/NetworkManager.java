@@ -103,7 +103,6 @@ public final class NetworkManager implements Serializable {
                 result.add(player.getUniqueId());
             }
         }
-        Bukkit.getLogger().info("[Networks] " + result.toString());
         return result;
     }
 

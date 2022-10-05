@@ -38,10 +38,10 @@ public class RightClickEventListener implements Listener {
 
             if (componentType != null && net.getSelectedNetwork(p) != null) {
 
-                if (network.getComponentByLocation(pos) != null) {
+                /*if (network.getComponentByLocation(pos) != null) {
                     lang.returnMessage(p, "location.occupied");
                     return;
-                }
+                }*/
 
                 if (config.checkLocation(pos, "container")) {
                     if (componentType == "input_container") {

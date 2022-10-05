@@ -10,7 +10,7 @@ commands:
    network:
     description: Base commmand for the Networks Plugin
     usage: /net <options>
-    aliases: net
+    aliases: [net, networks]
 permissions:
   networks.use:
     description: Allows users to use and create networks they own
