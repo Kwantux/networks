@@ -47,6 +47,11 @@ upgrade.success: §aUpgrade wurde für §r%number$§a gekauft.
 location.none: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
 location.occupied: §cAn dieser Position befindet sich bereits ein Komponent
 
+user.specify: §cBitte gib den Spieler an, den du hinzufügen willst.
+user.action: §cBitte gib an, was du machen möchtest.
+
 value.notpositive: §cDieser Wert muss größer als 0 sein, er wurde auf 1 gesetzt.
+
+notice: §eVolles Inventar und unordentliche Kisten? Erstelle ein automatisches Sortiersystem mit §f/network§e!
 
 invalid: §cUngültiger Befehl, bitte gib §f/net help§c ein für alle Befehle

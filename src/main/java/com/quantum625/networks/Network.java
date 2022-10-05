@@ -17,7 +17,6 @@ public class Network {
     private String id;
 
     private UUID owner;
-    private ArrayList<UUID> admins = new ArrayList<UUID>();
     private ArrayList<UUID> users = new ArrayList<UUID>();
     private int maxContainers = 20;
     private int maxRange = 40;
@@ -39,7 +38,6 @@ public class Network {
         this.id = net.getId();
         this.owner = UUID.fromString(net.getOwner());
 
-        this.admins = net.getAdmins();
         this.users = net.getUsers();
 
         this.maxContainers = net.getMaxContainers();
@@ -67,7 +65,6 @@ public class Network {
         return null;
     }
 
-    // Unfinished:
     private ItemContainer getItemContainerByItem(Location pos, String item) {
         for (ItemContainer i : sorting_containers) {
             if (i.getItem().equals(item) && i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {
@@ -106,8 +103,19 @@ public class Network {
         return this.owner;
     }
 
-    public ArrayList<UUID> getAdmins() {return admins;}
+    public void setOwner(UUID owner) {
+        this.owner = owner;
+    }
+
     public ArrayList<UUID> getUsers() {return users;}
+
+    public void addUser(UUID player) {
+        users.add(player);
+    }
+    public void removeUser(UUID player) {
+        users.remove(player);
+    }
+
     public int getMaxContainers() {return maxContainers;}
     public int getMaxRange() {return maxRange;}
 

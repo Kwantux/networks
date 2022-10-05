@@ -4,7 +4,6 @@ import com.quantum625.networks.component.InputContainer;
 import com.quantum625.networks.component.ItemContainer;
 import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.Network;
-import com.quantum625.networks.utils.Location;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -14,7 +13,6 @@ public class JSONNetwork {
     private String id;
     private String owner;
 
-    private String[] admins;
     private String[] users;
 
     private int maxContainers = 20;
@@ -28,15 +26,10 @@ public class JSONNetwork {
         this.id = n.getID();
         this.owner = n.getOwner().toString();
 
-        this.admins = new String[n.getAdmins().size()];
         this.users = new String[n.getUsers().size()];
 
-        for (int i = 0; i < n.getAdmins().size(); i++) {
-            admins[i] = n.getAdmins().get(i).toString();
-        }
-
         for (int i = 0; i < n.getUsers().size(); i++) {
-            admins[i] = n.getUsers().get(i).toString();
+            users[i] = n.getUsers().get(i).toString();
         }
 
         this.maxContainers = n.getMaxContainers();
@@ -55,14 +48,6 @@ public class JSONNetwork {
         return owner;
     }
 
-
-    public ArrayList<UUID> getAdmins() {
-        ArrayList<UUID> result = new ArrayList<UUID>();
-        for (String admin : admins) {
-            result.add(UUID.fromString(admin));
-        }
-        return result;
-    }
     public ArrayList<UUID> getUsers() {
         ArrayList<UUID> result = new ArrayList<UUID>();
         for (String user : users) {

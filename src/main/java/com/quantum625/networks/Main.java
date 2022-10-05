@@ -6,6 +6,7 @@ import com.quantum625.networks.commands.TabCompleter;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.listener.AutoSave;
 import com.quantum625.networks.listener.BlockBreakEventListener;
+import com.quantum625.networks.listener.InventoryOpenEventListener;
 import com.quantum625.networks.listener.RightClickEventListener;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -45,7 +46,7 @@ public final class Main extends JavaPlugin {
         config.setEconomyState(economyState);
 
         this.lang = new LanguageModule(dataFolder, config.getLanguage());
-        this.net = new NetworkManager(this.config, this.dataFolder);
+        this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
         this.commandListener = new CommandListener(net, dataFolder, lang, config, economy);
         this.tabCompleter = new TabCompleter(net);
 
@@ -55,7 +56,7 @@ public final class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
         this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, lang), this);
         this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
-
+        this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
         net.loadData();
 
         scheduleEvents();

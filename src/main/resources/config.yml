@@ -12,6 +12,9 @@ container_whitelist:
 - CHEST
 - TRAPPED_CHEST
 - BARREL
+- HOPPER
+- DISPENSER
+- DROPPER
 
 
 
@@ -19,6 +22,14 @@ container_whitelist:
 # Increase this number, if you see laggs
 
 tickrate: 100
+
+
+
+# Notices players, that open full chests to this plugin.
+# This message will only be sent once and just to players, that do not have a network.
+# You can configure the message in the language file.
+
+notice: true
 
 
 

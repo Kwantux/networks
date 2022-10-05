@@ -12,6 +12,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import static org.bukkit.event.EventPriority.HIGH;
+import static org.bukkit.event.EventPriority.HIGHEST;
+
 public class RightClickEventListener implements Listener {
 
     private NetworkManager net;

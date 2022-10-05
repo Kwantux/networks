@@ -20,18 +20,17 @@ permissions:
     description: Base permission for all admin commands
     default: op
     children:
-      networks.admin.nocost:
-        description: Allows you to get network components for free
-        default: false
       networks.admin.foreign:
         description: Allows you to access foreign networks
-        default: true
-      networks.admin.listall:
-        description: Allows you to list all networks, including foreign ones
-        default: true
-      networks.admin.database:
-        description: Allows you to save and reload database
-        default: true
+        default: op
+        children:
+          networks.admin.foreign.user:
+            description: Allows you to access foreign networks with user permission
+            default: op
+          networks.admin.foreign.owner:
+            description: Allows you to access foreign networks with owner permission
+            default: op
+
 
 
 

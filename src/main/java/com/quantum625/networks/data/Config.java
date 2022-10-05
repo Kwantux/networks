@@ -62,7 +62,14 @@ public class Config {
             config.set("container_whitelist", Arrays.asList("CHEST", "REDSTONE_CHEST", "BARREL"));
             Bukkit.getLogger().warning("[Networks] Config for container_whitelist is missing, it was reset to [CHEST, REDSTONE_CHEST, BARREL]");
         }
+
+        if (config.get("notice") == null) {
+            config.set("notice", true);
+            Bukkit.getLogger().warning("[Networks] Config for notice is missing, it was reset to true");
+        }
     }
+
+    public boolean noticeEnabled() {return Boolean.parseBoolean(config.get("notice").toString());}
 
     public void setLanguage(String language) {
         config.set("lang", language);

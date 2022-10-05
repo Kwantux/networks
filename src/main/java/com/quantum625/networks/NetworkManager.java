@@ -3,11 +3,11 @@ package com.quantum625.networks;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.data.JSONNetwork;
 import com.quantum625.networks.utils.Location;
 import com.quantum625.networks.utils.PlayerData;
-import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -16,27 +16,28 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Scanner;
-import java.util.UUID;
+import java.util.*;
 
 public final class NetworkManager implements Serializable {
 
     private ArrayList<Network> networks = new ArrayList<Network>();
 
     private ArrayList<PlayerData> selections = new ArrayList<PlayerData>();
+
+    private ArrayList<UUID> noticedPlayers = new ArrayList<UUID>();
     private Network console_selection = null;
     private Location console_location = null;
 
     private Config config;
     private File dataFolder;
+    private LanguageModule lang;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();;
 
 
-    public NetworkManager(Config config, File dataFolder) {
+    public NetworkManager(Config config, File dataFolder, LanguageModule lang) {
         this.config = config;
         this.dataFolder = dataFolder;
+        this.lang = lang;
     }
 
     public boolean add(String id, UUID owner) {
@@ -71,14 +72,80 @@ public final class NetworkManager implements Serializable {
         return this.networks;
     }
 
-    public ArrayList<Network> listFromOwner(UUID owner) {
+    public ArrayList<Network> listFromOwner(UUID player) {
         ArrayList<Network> result = new ArrayList<Network>();
         for (Network network : networks) {
-            if (network.getOwner().equals(owner)) {
+            if (network.getOwner().equals(player)) {
                 result.add(network);
             }
         }
         return result;
+    }
+
+    public ArrayList<Network> listFromUser(UUID player) {
+        ArrayList<Network> result = new ArrayList<Network>();
+        for (Network network : networks) {
+            if (network.getUsers().contains(player)) {
+                result.add(network);
+            }
+            if (network.getOwner().equals(player)) {
+                result.add(network);
+            }
+        }
+        return result;
+    }
+
+
+    public ArrayList<UUID> getNoticedPlayers() {
+        ArrayList<UUID> result = new ArrayList<>(noticedPlayers);
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (listFromUser(player.getUniqueId()).size() > 0) {
+                result.add(player.getUniqueId());
+            }
+        }
+        Bukkit.getLogger().info("[Networks] " + result.toString());
+        return result;
+    }
+
+    public void noticePlayer(Player player) {
+        if (config.noticeEnabled()) {
+            if (!getNoticedPlayers().contains(player.getUniqueId())) {
+                lang.returnMessage(player, "notice");
+                noticedPlayers.add(player.getUniqueId());
+            }
+        }
+    }
+
+
+    public int checkNetworkPermission(Player player, Network network) {
+
+        if (player.hasPermission("networks.admin.foreign.owner")) {
+            return 2; // Server admin permission
+        }
+        if (player.hasPermission("networks.admin.foreign.user")) {
+            return 1; // Server admin permission
+        }
+
+        if (network.getOwner().equals(player)) {
+            return 2; // Network Owner permission
+        }
+        if (listFromUser(player.getUniqueId()).contains(network)) {
+            return 1; // Network User permission
+        }
+
+        return 0; // No permission
+    }
+    public int checkNetworkRank(Player player, Network network) {
+
+        if (network.getOwner().equals(player)) {
+            return 2; // Network Owner permission
+        }
+
+        if (listFromUser(player.getUniqueId()).contains(network)) {
+            return 1; // Network User permission
+        }
+
+        return 0; // No permission
     }
 
 
@@ -134,10 +201,6 @@ public final class NetworkManager implements Serializable {
             }
         }
     }
-
-
-
-
 
 
 
