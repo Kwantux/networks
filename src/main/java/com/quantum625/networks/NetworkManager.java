@@ -119,16 +119,21 @@ public final class NetworkManager implements Serializable {
     public int checkNetworkPermission(Player player, Network network) {
 
         if (player.hasPermission("networks.admin.foreign.owner")) {
+            Bukkit.getLogger().info("[Networks] Player has admin permission for foreign owner");
             return 2; // Server admin permission
         }
         if (player.hasPermission("networks.admin.foreign.user")) {
+            Bukkit.getLogger().info("[Networks] Player has admin permission for foreign user");
+
             return 1; // Server admin permission
         }
 
-        if (network.getOwner().equals(player)) {
+        if (network.getOwner().equals(player.getUniqueId())) {
+            Bukkit.getLogger().info("[Networks] Player is an owner");
             return 2; // Network Owner permission
         }
         if (listFromUser(player.getUniqueId()).contains(network)) {
+            Bukkit.getLogger().info("[Networks] Player is a user");
             return 1; // Network User permission
         }
 

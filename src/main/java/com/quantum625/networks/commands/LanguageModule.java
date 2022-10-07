@@ -44,6 +44,20 @@ public class LanguageModule {
         }
     }
 
+    public void returnMessage(CommandSender sender, String id, Player player) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+        }
+
+        else {
+            message(sender, language.getText(id).replaceAll("%player", player.getDisplayName()));
+        }
+    }
+
     public void returnMessage(CommandSender sender, String id, Network network) {
         if (language == null) {
             message(sender, "ERROR: Language module not found, please contact your system administrator");

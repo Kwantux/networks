@@ -3,6 +3,7 @@ package com.quantum625.networks.commands;
 import com.quantum625.networks.NetworkManager;
 import com.quantum625.networks.Network;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -52,6 +53,15 @@ public class TabCompleter implements TabExecutor {
 
             if (args.length == 3) {
                 if (args[1].equalsIgnoreCase("add")) {
+                    if (args.length == 4) {
+                        if (args[2].equalsIgnoreCase("sorting")) {
+                            List<String> list = Arrays.asList("hi");
+                            for (Material m : Material.values()) {
+                                list.add(m.getKey().getNamespace().toUpperCase());
+                            }
+                            return list;
+                        }
+                    }
                     return Arrays.asList("input", "sorting", "misc");
                 }
             }

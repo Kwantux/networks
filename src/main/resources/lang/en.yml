@@ -52,6 +52,8 @@ location.occupied: §cThere is already a component at this location
 
 user.specify: §cYou need to specify the user you want to add.
 user.action: §cPlease specify the action you want to do.
+user.add: §aSuccessfully added %player to the network
+user.remove: §aSuccessfully removed %player from the network
 
 value.notpositive: §cThis value needs to be positive, it was set back to 1.
 
