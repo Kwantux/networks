@@ -1,7 +1,7 @@
 data.load: §aReloaded data from files
 data.save: §aSaved data to files
 
-create.success: §aSuccessfully created storage network %network for §r%number$
+create.success: §aSuccessfully created storage network %network for §r%value$
 create.exists: §eThere is already a network with this name, please select another name!
 create.fail: §cThis name is already used, please select another name.
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
@@ -52,8 +52,8 @@ location.occupied: §cThere is already a component at this location
 
 user.specify: §cYou need to specify the user you want to add.
 user.action: §cPlease specify the action you want to do.
-user.add: §aSuccessfully added %player to the network
-user.remove: §aSuccessfully removed %player from the network
+user.add: §aSuccessfully added §f%player§a to the network
+user.remove: §aSuccessfully removed §f%player§a from the network
 
 value.notpositive: §cThis value needs to be positive, it was set back to 1.
 

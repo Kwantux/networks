@@ -1,7 +1,7 @@
 data.load: §aDaten wurden erneut geladen
 data.save: §aDaten wurden gesichert
 
-create.success: §aNetzwerk %network wurde für §r%number$§a erstellt
+create.success: §aNetzwerk %network wurde für §r%value$§a erstellt
 create.exists: $bEs existiert bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen
 create.fail: §cDas Netzwerk konnte nicht korrekt erstellt werden, bitte kontaktiere den Server Admin
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
@@ -49,6 +49,8 @@ location.occupied: §cAn dieser Position befindet sich bereits ein Komponent
 
 user.specify: §cBitte gib den Spieler an, den du hinzufügen willst.
 user.action: §cBitte gib an, was du machen möchtest.
+user.add: §aNeuer Nutzer §f%player§a wurde dem Netzwerk hinzugefügt.
+user.remove: %player §awurde vom Netzwerk entfernt.
 
 value.notpositive: §cDieser Wert muss größer als 0 sein, er wurde auf 1 gesetzt.
 
