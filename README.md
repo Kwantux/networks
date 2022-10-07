@@ -1,7 +1,5 @@
 # Networks Plugin
 
-## _Importaint Note:<br />This plugin is not finished yet!<br />The first release will come out around end of september_
-
 ## About the Project
 
 You host a Minecraft-Server with paper, bukkit or spigot and have issues with large sorting systems? Use this mod, to give players an oportunity to use a serverfriendly storage system!
@@ -13,16 +11,17 @@ This Project is developed by <a href="https://github.com/Quantum625">@Quantum625
 ## How to use
 
 Most commands and their functionalities can be seen in <code>/networks help</code>
+See a more detailed instruction at the [wiki](https://github.com/Quantum625/networks/wiki)
 
 
 ### What is a network?
 
 A network is a group of chests that are linked together
 
-The chests can be one of 3 different types:<br />
-- Input Chest - Items put in here will be transfered to a fitting Item chest or others chests<br />
-- Item Chest - Items will automatically get sorted into these chests, if they match the chest's item filter<br />
-- Others Chest - If there are no free Item Chests for a specific item, that item will instead be transfered to an others chest
+The containers can be one of 3 different types:<br />
+- Input Container - Items put in here will be transfered to a fitting item container or misc container<br />
+- Item Container - Items will automatically get sorted into these chests, if they match the chest's item filter<br />
+- Miscellaneous Container - If there are no free item containers for a specific item, that item will instead be transfered to one of these
 
 You can create networks by doing
 <br /><code>/net create (name)</code>
@@ -30,32 +29,36 @@ You can create networks by doing
 The (name) is the ID of your network<br />
 You need it to edit or delete your network.
 
-By default, only the creator and admins have editing permissions
+By default, only the creator and admins have editing permissions, but you can grant other players permission using
+`/net user add (name)`
+and remove their permission using `/net user remove (name)`
 
 
 ### How do I add chests to my network?
 
-To add chests to your network simply just do the following
+To add chests to your network simply just do the following and then right click the block you want to add as a component
 
-<code>/net chest input (xyz)</code><br />
-<code>/net chest item (xyz) (item)</code><br />
-<code>/net chest others (xyz)</code><br />
+`/net component input` <br />
+`/net component sorting (item)` <br />
+`/net component misc` <br />
 
-(xyz) is the position of the chest<br />
 (item) is the item, that will be sorted into your item chest
 
-To remove a chest from your network just do:
+To remove a chest from your network, simply just break it
 
-<code>/net chest remove (xyz)</code>
 
 ### List of all Commands
 
-<code>/net create (name)</code> - Create a storage network<br />
-<code>/net delete (name)</code> - Delete a storage network
+`/net create (name)` - Create a storage network<br />
+`/net delete (name)` - Delete a storage network
 
-<code>/net select (name)</code> - Select a storage network<br />
+`/net select (name)` - Select a storage network<br />
 
-<code>/net info</code> - Show information about the selected network
+`/net list` - List all networks you have permission on
+`/net info` - Show information about the selected network
+
+`/net component` - Add components to your network
+
 
 ## Installation
 
