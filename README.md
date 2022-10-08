@@ -62,7 +62,7 @@ To remove a chest from your network, simply just break it
 
 ## Installation
 
-<a href="">Download the newest version of the plugin</a>
+[Download the newest version of the plugin](https://github.com/Quantum625/networks/releases/tag/v1.0.0)
 
 Put it in your plugins folder inside your server files.
 
