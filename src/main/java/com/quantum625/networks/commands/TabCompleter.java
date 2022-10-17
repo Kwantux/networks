@@ -9,10 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class TabCompleter implements TabExecutor {
 
@@ -51,18 +48,23 @@ public class TabCompleter implements TabExecutor {
                 return Arrays.asList("add");
             }
 
-            if (args.length == 3) {
+            if (args.length >= 3) {
                 if (args[1].equalsIgnoreCase("add")) {
                     if (args.length == 4) {
                         if (args[2].equalsIgnoreCase("sorting")) {
-                            List<String> list = Arrays.asList("hi");
+                            List<String> list = new ArrayList<String>();
                             for (Material m : Material.values()) {
-                                list.add(m.getKey().getNamespace().toUpperCase());
+                                if (m.name().toLowerCase().contains(args[3].toLowerCase()) || args[3].equalsIgnoreCase("")) {
+                                    list.add(m.name().toLowerCase());
+                                }
                             }
+                            list.sort(Comparator.naturalOrder());
                             return list;
                         }
                     }
-                    return Arrays.asList("input", "sorting", "misc");
+                    if (args.length == 3) {
+                        return Arrays.asList("input", "sorting", "misc");
+                    }
                 }
             }
 

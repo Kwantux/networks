@@ -173,8 +173,6 @@ public final class NetworkManager implements Serializable {
 
 
     public void saveData() {
-        Bukkit.getLogger().info("[Networks] Started saving networks");
-
         for (int i = 0; i < networks.size(); i++) {
             JSONNetwork n = new JSONNetwork(networks.get(i));
             File file = new File(dataFolder, "networks/" + n.getId() + ".json");
@@ -190,8 +188,6 @@ public final class NetworkManager implements Serializable {
                     filewriter.write(gson.toJson(networks.get(i)));
                     filewriter.close();
                 }
-
-                Bukkit.getLogger().info("[Networks] Successfully written to file " + n.getId() + ".json!");
 
             }
             catch (IOException e) {
