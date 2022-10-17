@@ -18,8 +18,7 @@ select.notexisting: §cThis network doesn't exist!
 select.nonetwork: §cPlease specify a storage network you want to select.
 
 permission.server: §cThis command is only available for server administrators!
-permission.owner: §cYou don't have permissions to edit this network!\nYou need to be the network owner or have the networks.admin permission!
-permission.admin: §cYou don't have permissions to edit this network!\nYou need to be the network owner or be a network admin!
+permission.owner: §cYou don't have permissions to edit this network!\nYou need to be the network owner or a server administrator!
 permission.user: §cYou don't have permissions on this network!\nYou need to be a network user!
 
 list.empty: §cYou don't own any storage networks
