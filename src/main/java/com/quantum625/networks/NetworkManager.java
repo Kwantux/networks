@@ -4,6 +4,7 @@ package com.quantum625.networks;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.quantum625.networks.commands.LanguageModule;
+import com.quantum625.networks.component.InputContainer;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.data.JSONNetwork;
 import com.quantum625.networks.utils.Location;
@@ -25,6 +26,8 @@ public final class NetworkManager implements Serializable {
     private ArrayList<PlayerData> selections = new ArrayList<PlayerData>();
 
     private ArrayList<UUID> noticedPlayers = new ArrayList<UUID>();
+
+    private Map<Location, Network> input_locations = new HashMap<Location, Network>();
     private Network console_selection = null;
     private Location console_location = null;
 
@@ -66,6 +69,22 @@ public final class NetworkManager implements Serializable {
             }
         }
         return null;
+    }
+
+    public boolean sortContainer(Location pos) {
+        if (input_locations.get(pos) != null) {
+            input_locations.get(pos).sort(pos);
+            return true;
+        }
+        else {
+            for (Network network : listAll()) {
+                if (network.getInputContainerByLocation(pos) != null) {
+                    network.sort(pos);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public ArrayList<Network> listAll() {

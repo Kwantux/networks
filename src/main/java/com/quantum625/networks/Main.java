@@ -4,10 +4,7 @@ import com.quantum625.networks.commands.CommandListener;
 import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.commands.TabCompleter;
 import com.quantum625.networks.data.Config;
-import com.quantum625.networks.listener.AutoSave;
-import com.quantum625.networks.listener.BlockBreakEventListener;
-import com.quantum625.networks.listener.InventoryOpenEventListener;
-import com.quantum625.networks.listener.RightClickEventListener;
+import com.quantum625.networks.listener.*;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -57,9 +54,12 @@ public final class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, lang), this);
         this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
         this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
+        this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
+        this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
+
         net.loadData();
 
-        scheduleEvents();
+        //scheduleEvents();
 
     }
 

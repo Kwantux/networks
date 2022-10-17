@@ -56,7 +56,7 @@ public class Network {
         }
     }
 
-    private InputContainer getInputContainerByLocation(Location pos) {
+    public InputContainer getInputContainerByLocation(Location pos) {
         for (InputContainer i : input_containers) {
             if (i.getPos().equals(pos)) {
                 return i;
@@ -92,6 +92,8 @@ public class Network {
         }
         return null;
     }
+
+
 
 
 
