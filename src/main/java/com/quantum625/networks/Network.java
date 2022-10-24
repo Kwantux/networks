@@ -21,6 +21,8 @@ public class Network {
     private int maxContainers = 20;
     private int maxRange = 40;
 
+    private int sorting_counter = 0;
+
     private ArrayList<InputContainer> input_containers = new ArrayList<InputContainer>();
     private ArrayList<ItemContainer> sorting_containers = new ArrayList<ItemContainer>();
     private ArrayList<MiscContainer> misc_containers = new ArrayList<MiscContainer>();
@@ -93,8 +95,7 @@ public class Network {
         return null;
     }
 
-
-
+    public int getSortingCounter() {return sorting_counter;}
 
 
     public String getID() {
@@ -203,6 +204,8 @@ public class Network {
             for (ItemStack stack : inventory.getContents()) {
 
                 if (stack != null) {
+
+                    sorting_counter += 1;
 
                     ItemContainer container = getItemContainerByItem(pos, stack.getType().toString().toUpperCase());
                     if (container != null) {

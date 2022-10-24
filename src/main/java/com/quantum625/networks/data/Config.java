@@ -25,6 +25,7 @@ public class Config {
     public FileConfiguration config;
     private boolean economyState;
 
+
     public void save() {
         try {
             config.save(file);
@@ -84,6 +85,8 @@ public class Config {
 
     public int getBaseContainers() {return Integer.parseInt(config.get("base_container_limit").toString());}
     public int getBaseRange() {return Integer.parseInt(config.get("base_range").toString());}
+
+    public boolean getEconomyState() {return economyState;} // True if economy mode, false if crafting mode
     public void setEconomyState(boolean state) {economyState = state;}
 
 

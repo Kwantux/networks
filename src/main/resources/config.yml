@@ -18,12 +18,6 @@ container_whitelist:
 
 
 
-# Every x ticks, all networks will sort their containers
-# Increase this number, if you see laggs
-
-tickrate: 100
-
-
 
 # Notices players, that open full chests to this plugin.
 # This message will only be sent once and just to players, that do not have a network.

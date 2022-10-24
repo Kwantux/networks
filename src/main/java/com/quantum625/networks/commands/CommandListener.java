@@ -96,6 +96,16 @@ public class CommandListener implements CommandExecutor {
                 }
             }
 
+            /*else if (args[0].equalsIgnoreCase("statistics")) {
+                if (sender instanceof Player && !((Player) sender).hasPermission("networks.admin")) {
+                    lang.returnMessage(sender, "permission.server");
+                }
+                lang.returnMessage(sender, "statistics");
+                for (Network network : net.listAll()) {
+                    returnMessage(sender, "&l" + network.getID() + ":&r " +  ,);
+                }
+            }*/
+
             else if (args[0].equalsIgnoreCase("create")) {
 
                 if (args[1] != null) {
@@ -243,6 +253,10 @@ public class CommandListener implements CommandExecutor {
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("component")) {
+
+                if (!config.getEconomyState()) {
+                    return true;
+                }
 
                 Location pos = new Location(0, 0, 0, "world");
                 Network network;

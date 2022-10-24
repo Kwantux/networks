@@ -45,7 +45,7 @@ public final class Main extends JavaPlugin {
         this.lang = new LanguageModule(dataFolder, config.getLanguage());
         this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
         this.commandListener = new CommandListener(net, dataFolder, lang, config, economy);
-        this.tabCompleter = new TabCompleter(net);
+        this.tabCompleter = new TabCompleter(net, config);
 
         getCommand("network").setExecutor(commandListener);
         getCommand("network").setTabCompleter(tabCompleter);
@@ -56,7 +56,9 @@ public final class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
         this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
         this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
+        this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, lang), this);
 
+        config.setEconomyState(false);
         net.loadData();
 
         //scheduleEvents();
