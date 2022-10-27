@@ -12,7 +12,7 @@ public class PlayerData {
     private Network selectedNetwork;
     private Location selectedLocation;
     private String selectedComponentType;
-    private String selectedItem;
+    private String[] selectedItems;
 
 
     public PlayerData(Player player) {
@@ -35,8 +35,8 @@ public class PlayerData {
     public String getComponentType() {return selectedComponentType;}
 
 
-    public void setItem(@Nullable String item) {selectedItem = item;}
-    public String getItem() {return selectedItem;}
+    public void setItems(@Nullable String[] items) {selectedItems = items;}
+    public String[] getItems() {return selectedItems;}
 
 
     public void setLocation(@Nullable Location location) {

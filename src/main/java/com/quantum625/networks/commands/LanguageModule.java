@@ -20,13 +20,13 @@ public class LanguageModule {
         this.language = new Language(datafolder, lang_id);
     }
 
-    private void message(CommandSender sender, String message) {
+    public void message(CommandSender sender, String message) {
         if (sender instanceof Player) {
             ((Player) sender).sendMessage(message);
         }
 
         else {
-            Bukkit.getLogger().info("[Networks] " + message);
+            Bukkit.getLogger().info("§9[Networks] §f" + message);
         }
     }
 

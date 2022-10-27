@@ -15,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -295,7 +296,14 @@ public class CommandListener implements CommandExecutor {
                                 lang.returnMessage(sender, "component.item.noitem");
                             }
                             net.selectComponentType(player, "item_container");
-                            net.selectItem(player, args[3].toUpperCase());
+
+                            String[] items = new String[args.length-2];
+
+                            for (int i = 2; i < args.length; i++) {
+                                items[i-2] = args[i].toUpperCase();
+                            }
+
+                            net.selectItems(player, (String[]) items);
                             lang.returnMessage(sender, "component.select");
                         } else if (args[2].equalsIgnoreCase("misc")) {
                             net.selectComponentType(player, "misc_container");

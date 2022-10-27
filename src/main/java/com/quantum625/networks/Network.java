@@ -11,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class Network {
@@ -69,7 +70,7 @@ public class Network {
 
     private ItemContainer getItemContainerByItem(Location pos, String item) {
         for (ItemContainer i : sorting_containers) {
-            if (i.getItem().equals(item) && i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {
+            if (Arrays.stream(i.getItems()).toList().contains(item) && i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {
                 return i;
             }
         }
@@ -150,8 +151,8 @@ public class Network {
         input_containers.add(new InputContainer(pos));
     }
 
-    public void addItemContainer(Location pos, String item) {
-        sorting_containers.add(new ItemContainer(pos, item));
+    public void addItemContainer(Location pos, String[] items) {
+        sorting_containers.add(new ItemContainer(pos, items));
     }
 
     public void addMiscContainer(Location pos) {

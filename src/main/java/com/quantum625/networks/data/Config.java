@@ -8,18 +8,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.checkerframework.checker.index.qual.Positive;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.UUID;
 
 public class Config {
 
-    private Main plugin;
     private File file;
     private Economy economy;
     public FileConfiguration config;
@@ -34,10 +29,13 @@ public class Config {
             e.printStackTrace();
         }
     }
-    public Config(Main plugin, @Nonnull Economy economy) {
-        this.plugin = plugin;
+
+    public void initEconomy(Economy economy) {
         this.economy = economy;
-        this.file = new File(plugin.getDataFolder(), "config.yml");
+    }
+    public Config(File dataFolder) {
+
+        this.file = new File(dataFolder, "config.yml");
 
         if (!file.exists()) {
             try {
@@ -54,11 +52,6 @@ public class Config {
             Bukkit.getLogger().warning("[Networks] Config for language is missing, it was reset to en");
         }
 
-        if (config.get("tickrate") == null) {
-            config.set("tickrate", 100);
-            Bukkit.getLogger().warning("[Networks] Config for tickrate is missing, it was reset to 100");
-        }
-
         if (config.get("container_whitelist") == null) {
             config.set("container_whitelist", Arrays.asList("CHEST", "REDSTONE_CHEST", "BARREL"));
             Bukkit.getLogger().warning("[Networks] Config for container_whitelist is missing, it was reset to [CHEST, REDSTONE_CHEST, BARREL]");
@@ -67,6 +60,25 @@ public class Config {
         if (config.get("notice") == null) {
             config.set("notice", true);
             Bukkit.getLogger().warning("[Networks] Config for notice is missing, it was reset to true");
+        }
+
+        if (config.get("mode") == null) {
+            config.set("mode", "CRAFT");
+            Bukkit.getLogger().warning("[Networks] Config for mode is missing, it was reset to CRAFT");
+        }
+
+        if (config.get("mode").toString().equalsIgnoreCase("craft")) {
+            Bukkit.getLogger().info("[Networks] Launched plugin using CRAFT mode");
+            economyState = false;
+        }
+
+        else if (config.get("mode").toString().equalsIgnoreCase("economy")) {
+            Bukkit.getLogger().info("[Networks] Launched plugin using ECONOMY mode");
+            economyState = true;
+        }
+
+        else {
+            Bukkit.getLogger().warning("[Networks] Config for the mode is invalid: " + config.get("mode").toString() + " must be either CRAFT or ECONOMY");
         }
     }
 

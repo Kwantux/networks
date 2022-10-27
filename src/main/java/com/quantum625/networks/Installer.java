@@ -15,13 +15,21 @@ public class Installer {
         }
         this.dataFolder = dataFolder;
         this.plugin = plugin;
-        plugin.saveResource("config.yml", false);
+
+        File configfile = new File(dataFolder, "config.yml");
+        if (!configfile.exists()) {
+            plugin.saveResource("config.yml", false);
+        }
+
         installLanguage("en");
         installLanguage("de");
     }
 
     public void installLanguage(String id) {
-        plugin.saveResource("lang/"+id+".yml", false);
+        File langfile = new File(dataFolder, "lang/"+id+".yml");
+        if (!langfile.exists()) {
+            plugin.saveResource("lang/"+id+".yml", false);
+        }
     }
 
     public void overwriteLanguage(String id) {

@@ -51,7 +51,7 @@ public class RightClickEventListener implements Listener {
                     }
 
                     if (componentType == "item_container") {
-                        net.getSelectedNetwork(p).addItemContainer(pos, net.getSelectedItem(p));
+                        net.getSelectedNetwork(p).addItemContainer(pos, net.getSelectedItems(p));
                         net.selectComponentType(p, null);
                         lang.returnMessage(p, "component.item.add", network, pos);
                     }

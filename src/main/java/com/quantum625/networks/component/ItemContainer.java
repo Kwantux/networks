@@ -3,14 +3,14 @@ package com.quantum625.networks.component;
 import com.quantum625.networks.utils.Location;
 
 public class ItemContainer extends BaseComponent {
-    private String item;
+    private String[] items;
 
-    public ItemContainer(Location pos, String item) {
+    public ItemContainer(Location pos, String[] items) {
         super(pos);
-        this.item = item;
+        this.items = items;
     }
 
-    public String getItem() {
-        return item;
+    public String[] getItems() {
+        return items;
     }
 }

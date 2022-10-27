@@ -212,7 +212,7 @@ public final class NetworkManager implements Serializable {
 
                 networks.add(new Network(gson.fromJson(json, JSONNetwork.class)));
 
-                Bukkit.getLogger().info("[Networks] Successfully loaded network " + file.getName());
+                //Bukkit.getLogger().info("[Networks] Successfully loaded network " + file.getName());
             } catch (IOException e) {
                 Bukkit.getLogger().warning("[Networks] Failed to load network " + file.getName());
                 e.printStackTrace();
@@ -291,22 +291,25 @@ public final class NetworkManager implements Serializable {
     }
 
 
-    public void selectItem(Player player, String item) {
+    public void selectItems(Player player, String[] items) {
         for (PlayerData itemSelection : selections) {
             if (itemSelection.getPlayer().equals(player)) {
-                itemSelection.setItem(item.toUpperCase());
+                for (String item : items) {
+                    item = item.toUpperCase();
+                }
+                itemSelection.setItems(items);
                 break;
             }
         }
         PlayerData pd = new PlayerData(player);
-        pd.setItem(item);
+        pd.setItems(items);
         selections.add(pd);
     }
 
-    public String getSelectedItem(Player player) {
+    public String[] getSelectedItems(Player player) {
         for (PlayerData itemSelection : selections) {
             if (itemSelection.getPlayer().equals(player)) {
-                return itemSelection.getItem();
+                return itemSelection.getItems();
             }
         }
         return null;

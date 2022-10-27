@@ -45,6 +45,7 @@ public class BlockPlaceEventListener implements Listener {
                     ItemStack item = event.getItemInHand().clone();
                     item.getItemMeta().setDisplayName(" ");
                     item.getItemMeta().setLore(Arrays.asList());
+                    Bukkit.getLogger().info("Keys: " + item.getItemMeta().getPersistentDataContainer().getKeys());
 
                     if (item.getItemMeta().getAsString().contains("component_type:\"input\"")) {
                         net.getSelectedNetwork(p).addInputContainer(pos);
@@ -53,7 +54,10 @@ public class BlockPlaceEventListener implements Listener {
                     }
 
                     if (item.getItemMeta().getAsString().contains("component_type:\"item\"")) {
-                        net.getSelectedNetwork(p).addItemContainer(pos, net.getSelectedItem(p));
+
+                        String[] items = item.getItemMeta().getAsString().split("\n");
+
+                        net.getSelectedNetwork(p).addItemContainer(pos, items);
                         net.selectComponentType(p, null);
                         lang.returnMessage(p, "component.item.add", network, pos);
                     }
@@ -75,3 +79,4 @@ public class BlockPlaceEventListener implements Listener {
         }
     }
 }
+// TODO: 26.10.22 test this method and remove it when   it is implemented

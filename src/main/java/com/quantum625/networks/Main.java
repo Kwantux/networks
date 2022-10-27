@@ -25,6 +25,7 @@ public final class Main extends JavaPlugin {
     private Economy economy;
     private LanguageModule lang;
     private boolean economyState;
+    private boolean error = false;
 
     @Override
     public void onEnable() {
@@ -38,31 +39,35 @@ public final class Main extends JavaPlugin {
         this.dataFolder = this.getDataFolder();
         this.installer = new Installer(dataFolder, this);
 
-        economyState = setupEconomy();
-        this.config = new Config(this, economy);
-        config.setEconomyState(economyState);
+        this.config = new Config(dataFolder);
+        economyState = config.getEconomyState();
+        if (economyState) {
+            economyState = setupEconomy();
+            if (!economyState) {
+                error = true;
+                getServer().getPluginManager().disablePlugin(this);
+            }
+        }
 
-        this.lang = new LanguageModule(dataFolder, config.getLanguage());
-        this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
-        this.commandListener = new CommandListener(net, dataFolder, lang, config, economy);
-        this.tabCompleter = new TabCompleter(net, config);
+        if (!error) {
+            this.lang = new LanguageModule(dataFolder, config.getLanguage());
+            this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
+            this.commandListener = new CommandListener(net, dataFolder, lang, config, economy);
+            this.tabCompleter = new TabCompleter(net, config);
 
-        getCommand("network").setExecutor(commandListener);
-        getCommand("network").setTabCompleter(tabCompleter);
+            getCommand("network").setExecutor(commandListener);
+            getCommand("network").setTabCompleter(tabCompleter);
 
-        this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
-        this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, lang), this);
-        this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
-        this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
-        this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
-        this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
-        this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, lang), this);
+            this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
+            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, lang), this);
+            this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
+            this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
+            this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
+            this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
+            this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, lang), this);
 
-        config.setEconomyState(false);
-        net.loadData();
-
-        //scheduleEvents();
-
+            net.loadData();
+        }
     }
 
     private boolean setupEconomy() {
@@ -92,21 +97,13 @@ public final class Main extends JavaPlugin {
         return true;
     }
 
-    private void scheduleEvents() {
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            public void run() {
-                for (Network network : net.listAll()) {
-                    network.sortAll();
-                }
-            }
-        }, 0, config.getTickrate());
-    }
-
 
     @Override
     public void onDisable() {
-        net.saveData();
-        Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin was shut down\n==================================\n");
+        if (!error) {
+            net.saveData();
+        }
+        //Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin was shut down\n==================================\n");
     }
 
     private String startMessage = "\n" +

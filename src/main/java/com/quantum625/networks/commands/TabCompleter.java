@@ -59,11 +59,12 @@ public class TabCompleter implements TabExecutor {
 
             if (args.length >= 3) {
                 if (args[1].equalsIgnoreCase("add")) {
-                    if (args.length == 4) {
+
+                    if (args.length > 3) {
                         if (args[2].equalsIgnoreCase("sorting")) {
                             List<String> list = new ArrayList<String>();
                             for (Material m : Material.values()) {
-                                if (m.name().toLowerCase().contains(args[3].toLowerCase()) || args[3].equalsIgnoreCase("")) {
+                                if (m.name().toLowerCase().contains(args[args.length-1].toLowerCase()) || args[args.length-1].equalsIgnoreCase("")) {
                                     list.add(m.name().toLowerCase());
                                 }
                             }

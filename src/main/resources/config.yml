@@ -27,6 +27,20 @@ notice: true
 
 
 
+
+# Set to CRAFT if players should be able to craft network components
+# Set to ECONOMY if players should be able to buy network components using /net component
+
+mode: CRAFT
+
+
+
+
+#                                      Economy related settings
+#                               These will be ignored when using CRAFT mode
+
+#===========================================================================================================================
+
 # Costs of specific features
 # Set to 0 for free and -1 for unbuyable
 
@@ -57,3 +71,5 @@ base_range: 40
 
 max_container_limit: 200
 max_range: 400 # It doesn't make sense to have really far distances since chests inside unloaded chunks won't work anyway
+
+#===========================================================================================================================
