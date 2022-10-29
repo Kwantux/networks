@@ -29,8 +29,8 @@ listall.empty: §cThere are no storage networks
 listall: §aThese storage networks exist
 
 component.input.add: §aInput container at %position successfully added to %network!
-component.item.add: §aItem container at %position successfully added to %network!
-component.item.noitem: §cYou need to specify the item for the sorting container!
+component.sorting.add: §aSorting container at %position successfully added to %network!
+component.sorting.noitem: §cYou need to specify the item for the sorting container!
 component.misc.add: §aMiscellaneous container at %position successfully added to %network!
 component.select: §aSelected component type, please right click the block you want to add
 component.remove: §cRemoved component at %position

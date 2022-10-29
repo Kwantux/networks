@@ -4,8 +4,10 @@ import com.quantum625.networks.commands.CommandListener;
 import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.commands.TabCompleter;
 import com.quantum625.networks.data.Config;
+import com.quantum625.networks.data.CraftingManager;
 import com.quantum625.networks.listener.*;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
@@ -22,6 +24,7 @@ public final class Main extends JavaPlugin {
     private TabCompleter tabCompleter;
     private NetworkManager net;
     private Config config;
+    private CraftingManager crafting;
     private Economy economy;
     private LanguageModule lang;
     private boolean economyState;
@@ -47,11 +50,18 @@ public final class Main extends JavaPlugin {
                 error = true;
                 getServer().getPluginManager().disablePlugin(this);
             }
+            config.initEconomy(economy);
         }
 
         if (!error) {
             this.lang = new LanguageModule(dataFolder, config.getLanguage());
             this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
+            this.crafting = new CraftingManager(this.dataFolder);
+
+            Bukkit.addRecipe(crafting.inputContainerRecipe);
+            Bukkit.addRecipe(crafting.sortingContainerRecipe);
+            Bukkit.addRecipe(crafting.miscContainerRecipe);
+
             this.commandListener = new CommandListener(net, dataFolder, lang, config, economy);
             this.tabCompleter = new TabCompleter(net, config);
 

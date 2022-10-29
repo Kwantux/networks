@@ -27,8 +27,8 @@ listall.empty: §cAuf diesem Server gibt es derzeit keine Netzwerke
 listall: §aFolgende Netwerke existieren auf diesem Server
 
 component.input.add: §aEinfüllkiste bei %position wurde zu %network hinzugefügt
-component.item.add: §aSortierkiste bei %position wurde zu %network hinzugefügt
-component.item.noitem: §cBitte gib an, welches item deine Sortierkiste erhalten soll
+component.sorting.add: §aSortierkiste bei %position wurde zu %network hinzugefügt
+component.sorting.noitem: §cBitte gib an, welches item deine Sortierkiste erhalten soll
 component.misc.add: §aRestekiste bei %position wurde zu %network hinzugefügt
 component.select: §aKomponententyp wurde ausgewählt, bitte rechts klicke den Block, der hinzugefügt werden soll
 component.remove: §cKomponent bei %position wurde entfernt

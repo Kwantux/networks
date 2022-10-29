@@ -6,12 +6,14 @@ import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Arrays;
 
@@ -39,44 +41,52 @@ public class BlockPlaceEventListener implements Listener {
 
             if (config.checkLocation(pos, "container")) {
 
-                if (net.getSelectedNetwork(p) != null) {
+                Bukkit.getLogger().info(event.getItemInHand().getItemMeta().getAsString());
+                ItemStack item = event.getItemInHand().clone();
+                item.getItemMeta().setDisplayName(" ");
+                item.getItemMeta().setLore(Arrays.asList());
 
-                    Bukkit.getLogger().info(event.getItemInHand().getItemMeta().getAsString());
-                    ItemStack item = event.getItemInHand().clone();
-                    item.getItemMeta().setDisplayName(" ");
-                    item.getItemMeta().setLore(Arrays.asList());
-                    Bukkit.getLogger().info("Keys: " + item.getItemMeta().getPersistentDataContainer().getKeys());
+                if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING)) {
 
-                    if (item.getItemMeta().getAsString().contains("component_type:\"input\"")) {
-                        net.getSelectedNetwork(p).addInputContainer(pos);
-                        net.selectComponentType(p, null);
-                        lang.returnMessage(p, "component.input.add", network, pos);
+                    if (net.getSelectedNetwork(p) != null) {
+
+                        String componentType = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING);
+
+                        if (componentType.equals("input")) {
+                            net.getSelectedNetwork(p).addInputContainer(pos);
+                            net.selectComponentType(p, null);
+                            lang.returnMessage(p, "component.input.add", network, pos);
+                            return;
+                        }
+
+                        if (componentType.equals("sorting")) {
+                            if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING)) {
+                                String[] items = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING).toUpperCase().split(",");
+
+                                net.getSelectedNetwork(p).addItemContainer(pos, items);
+                                net.selectComponentType(p, null);
+                                lang.returnMessage(p, "component.sorting.add", network, pos);
+                                return;
+                            }
+
+                            lang.returnMessage(p, "component.sorting.noitem");
+                            return;
+                        }
+
+                        if (componentType.equals("misc")) {
+                            net.getSelectedNetwork(p).addMiscContainer(pos);
+                            net.selectComponentType(p, null);
+                            lang.returnMessage(p, "component.misc.add", network, pos);
+                        }
                     }
 
-                    if (item.getItemMeta().getAsString().contains("component_type:\"item\"")) {
-
-                        String[] items = item.getItemMeta().getAsString().split("\n");
-
-                        net.getSelectedNetwork(p).addItemContainer(pos, items);
-                        net.selectComponentType(p, null);
-                        lang.returnMessage(p, "component.item.add", network, pos);
-                    }
-
-                    if (item.getItemMeta().getAsString().contains("component_type:\"misc\"")) {
-                        net.getSelectedNetwork(p).addMiscContainer(pos);
-                        net.selectComponentType(p, null);
-                        lang.returnMessage(p, "component.misc.add", network, pos);
+                    else {
+                        lang.returnMessage(p, "select.noselection");
+                        event.setCancelled(true);
                     }
 
                 }
-
-                else {
-                    lang.returnMessage(p, "select.noselection");
-                    event.setCancelled(true);
-                }
-
             }
         }
     }
 }
-// TODO: 26.10.22 test this method and remove it when   it is implemented

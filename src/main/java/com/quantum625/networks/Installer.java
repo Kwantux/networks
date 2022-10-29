@@ -21,6 +21,11 @@ public class Installer {
             plugin.saveResource("config.yml", false);
         }
 
+        File recipefile = new File(dataFolder, "recipe.yml");
+        if (!configfile.exists()) {
+            plugin.saveResource("recipe.yml", false);
+        }
+
         installLanguage("en");
         installLanguage("de");
     }
