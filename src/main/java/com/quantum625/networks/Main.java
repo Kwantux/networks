@@ -69,7 +69,7 @@ public final class Main extends JavaPlugin {
             getCommand("network").setTabCompleter(tabCompleter);
 
             this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
-            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, lang), this);
+            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, config, lang), this);
             this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
             this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
             this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
