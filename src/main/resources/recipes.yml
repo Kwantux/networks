@@ -11,6 +11,19 @@
 #    –––––––––––––
 
 
+# Network wand
+
+wand.ingredient1: AIR
+wand.ingredient2: REDSTONE
+wand.ingredient3: GLOWSTONE_DUST
+wand.ingredient4: REDSTONE
+wand.ingredient5: BLAZE_ROD
+wand.ingredient6: REDSTONE
+wand.ingredient7: GLOWSTONE_DUST
+wand.ingredient8: REDSTONE
+wand.ingredient9: AIR
+
+
 # Input container
 
 input.ingredient1: AIR

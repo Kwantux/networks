@@ -3,8 +3,9 @@ package com.quantum625.networks;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.quantum625.networks.component.BaseComponent;
 import com.quantum625.networks.commands.LanguageModule;
-import com.quantum625.networks.component.InputContainer;
+import com.quantum625.networks.component.ItemContainer;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.data.JSONNetwork;
 import com.quantum625.networks.utils.Location;
@@ -310,6 +311,25 @@ public final class NetworkManager implements Serializable {
         for (PlayerData itemSelection : selections) {
             if (itemSelection.getPlayer().equals(player)) {
                 return itemSelection.getItems();
+            }
+        }
+        return null;
+    }
+
+    public BaseComponent getComponentByLocation(Location location) {
+        for (Network network : networks) {
+            if (network.getComponentByLocation(location) != null) {
+                return network.getComponentByLocation(location);
+            }
+        }
+        return null;
+    }
+
+
+    public ItemContainer getSortingContainerByLocation(Location location) {
+        for (Network network : networks) {
+            if (network.getComponentByLocation(location) != null) {
+                return network.getSortingContainerByLocation(location);
             }
         }
         return null;

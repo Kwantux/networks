@@ -6,11 +6,14 @@ import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import static org.bukkit.event.EventPriority.HIGH;
 import static org.bukkit.event.EventPriority.HIGHEST;
@@ -62,7 +65,7 @@ public class RightClickEventListener implements Listener {
                         lang.returnMessage(p, "component.misc.add", network, pos);
                     }
                 } else {
-                    lang.returnMessage(p, "component.invalid_block", pos.getBlock());
+                    lang.returnMessage(p, "component.invalid_block", pos.getBlock().getType());
                 }
 
 

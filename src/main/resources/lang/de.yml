@@ -29,13 +29,14 @@ listall: §aFolgende Netwerke existieren auf diesem Server
 component.input.add: §aEinfüllkiste bei %position wurde zu %network hinzugefügt
 component.sorting.add: §aSortierkiste bei %position wurde zu %network hinzugefügt
 component.sorting.noitem: §cBitte gib an, welches item deine Sortierkiste erhalten soll
+component.sorting.setitem: §aItemtyp %material wurde zur Sortierkiste bei %position hinzugefügt.
 component.misc.add: §aRestekiste bei %position wurde zu %network hinzugefügt
 component.select: §aKomponententyp wurde ausgewählt, bitte rechts klicke den Block, der hinzugefügt werden soll
 component.remove: §cKomponent bei %position wurde entfernt
 component.noaction: §cBitte gib an, was du tun möchtest. Hinzufügen oder löschen?
 component.notype: §cBitet gib die Art von Komponent an
 component.limit: §cDu hast das Limit an Komponenten erreicht, bitte erweitere das Limit mit §f/net upgrade limit
-component.invalid_block: §c%block Blöcke können keine Netzwerk Komponenten sein
+component.invalid_block: §c%material Blöcke können keine Netzwerk Komponenten sein
 
 upgrade.noprice: §cFür dieses Upgrade wurde kein Preis gesetzt, bitte kontaktiere deinen Server Administrator!
 upgrade.noeconomy: §cEin Problem mit dem Economy Provider ist aufgetreten, bitte kontaktiere deinen Server Administrator!

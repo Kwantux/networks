@@ -7,7 +7,6 @@ import com.quantum625.networks.data.Config;
 import com.quantum625.networks.data.CraftingManager;
 import com.quantum625.networks.listener.*;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.Bukkit;
@@ -33,7 +32,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        //Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin has launched\n==================================\n");
+        Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin has launched\n==================================\n");
         Bukkit.getLogger().info(startMessage);
 
         if (!getDataFolder().exists()) {
@@ -75,6 +74,7 @@ public final class Main extends JavaPlugin {
             this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
             this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
             this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, lang), this);
+            this.getServer().getPluginManager().registerEvents(new NetworkWandListener(net, lang), this);
 
             net.loadData();
         }

@@ -31,13 +31,14 @@ listall: §aThese storage networks exist
 component.input.add: §aInput container at %position successfully added to %network!
 component.sorting.add: §aSorting container at %position successfully added to %network!
 component.sorting.noitem: §cYou need to specify the item for the sorting container!
+component.sorting.setitem: §aItem type %material was added to sorting container at %position.
 component.misc.add: §aMiscellaneous container at %position successfully added to %network!
 component.select: §aSelected component type, please right click the block you want to add
 component.remove: §cRemoved component at %position
 component.noaction: §cYou must specify the action you want to do!
 component.notype: §cYou must specify the type of component you want to add!
 component.limit: §cYou reached the limit of components you can add! Please upgrade the limit with §f/net upgrade limit
-component.invalid_block: §cBlocks of type %block are not allowed to be network components!
+component.invalid_block: §cBlocks of type %material are not allowed to be network components!
 
 upgrade.noprice: §cThere is no price set for this upgrade, please contact your server administrator!
 upgrade.noeconomy: §cThe economy provider is null, please contact your server administrator!

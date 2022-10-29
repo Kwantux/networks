@@ -68,6 +68,15 @@ public class Network {
         return null;
     }
 
+    public ItemContainer getSortingContainerByLocation(Location pos) {
+        for (ItemContainer i : sorting_containers) {
+            if (i.getPos().equals(pos)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
     private ItemContainer getItemContainerByItem(Location pos, String item) {
         for (ItemContainer i : sorting_containers) {
             if (Arrays.stream(i.getItems()).toList().contains(item) && i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {

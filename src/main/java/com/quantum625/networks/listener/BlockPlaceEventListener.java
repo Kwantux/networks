@@ -41,7 +41,6 @@ public class BlockPlaceEventListener implements Listener {
 
             if (config.checkLocation(pos, "container")) {
 
-                Bukkit.getLogger().info(event.getItemInHand().getItemMeta().getAsString());
                 ItemStack item = event.getItemInHand().clone();
                 item.getItemMeta().setDisplayName(" ");
                 item.getItemMeta().setLore(Arrays.asList());
