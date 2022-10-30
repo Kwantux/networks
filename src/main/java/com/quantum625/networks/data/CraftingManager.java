@@ -29,7 +29,8 @@ public class CraftingManager {
             e.printStackTrace();
         }
     }
-    
+
+    private char[] keys = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
     private ItemStack wand = new ItemStack(Material.BLAZE_ROD);
     private ItemStack inputContainer = new ItemStack(Material.CHEST);
     private ItemStack sortingContainer = new ItemStack(Material.CHEST);
@@ -55,9 +56,9 @@ public class CraftingManager {
         }
 
         this.config = YamlConfiguration.loadConfiguration(file);
-        
-        
-        
+
+
+
         ItemMeta meta = wand.getItemMeta();
         meta.setDisplayName("§r§cNetwork Wand");
         meta.setLore(Arrays.asList("§rRight click any network component to show information about it", "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter", "§rSneak + Left click with an item in the offhand to remove a filter"));
@@ -67,16 +68,31 @@ public class CraftingManager {
 
         wandRecipe = new ShapedRecipe(new NamespacedKey("networks","wand"), wand);
 
-        wandRecipe.shape("ABC","DEF","GHI");
-        wandRecipe.setIngredient('A', Material.valueOf(config.get("wand.ingredient1").toString()));
-        wandRecipe.setIngredient('B', Material.valueOf(config.get("wand.ingredient2").toString()));
-        wandRecipe.setIngredient('C', Material.valueOf(config.get("wand.ingredient3").toString()));
-        wandRecipe.setIngredient('D', Material.valueOf(config.get("wand.ingredient4").toString()));
-        wandRecipe.setIngredient('E', Material.valueOf(config.get("wand.ingredient5").toString()));
-        wandRecipe.setIngredient('F', Material.valueOf(config.get("wand.ingredient6").toString()));
-        wandRecipe.setIngredient('G', Material.valueOf(config.get("wand.ingredient7").toString()));
-        wandRecipe.setIngredient('H', Material.valueOf(config.get("wand.ingredient8").toString()));
-        wandRecipe.setIngredient('I', Material.valueOf(config.get("wand.ingredient9").toString()));
+        String[] ingredients = new String[9];
+        String[] shape = new String[9];
+
+        for (int i = 0; i < 9; i++) {
+            if (!config.contains("wand.ingredient"+(i+1))) {
+                Bukkit.getLogger().warning("[Networks] No item set for wand.ingredient"+(i+1)+ " found in recipes.yml!");
+                Bukkit.getLogger().warning("[Networks] If you want the slot to be empty, insert AIR as item type.");
+            }
+            ingredients[i] = config.get("wand.ingredient"+(i+1)).toString();
+            if (ingredients[i].equalsIgnoreCase("AIR")) {
+                shape[i] = " ";
+            }
+            else {
+                shape[i] = ""+keys[i];
+            }
+
+        }
+
+        wandRecipe.shape(shape[0]+shape[1]+shape[2],shape[3]+shape[4]+shape[5],shape[6]+shape[7]+shape[8]);
+
+        for (int i = 0; i < 9 ; i++) {
+            if (!shape[i].equalsIgnoreCase(" ")) {
+                wandRecipe.setIngredient(keys[i], Material.valueOf(config.get("wand.ingredient" + (i+1)).toString()));
+            }
+        }
         
         
         
@@ -90,16 +106,28 @@ public class CraftingManager {
 
         inputContainerRecipe = new ShapedRecipe(new NamespacedKey("networks","input_container"), inputContainer);
 
-        inputContainerRecipe.shape("ABC","DEF","GHI");
-        inputContainerRecipe.setIngredient('A', Material.valueOf(config.get("input.ingredient1").toString()));
-        inputContainerRecipe.setIngredient('B', Material.valueOf(config.get("input.ingredient2").toString()));
-        inputContainerRecipe.setIngredient('C', Material.valueOf(config.get("input.ingredient3").toString()));
-        inputContainerRecipe.setIngredient('D', Material.valueOf(config.get("input.ingredient4").toString()));
-        inputContainerRecipe.setIngredient('E', Material.valueOf(config.get("input.ingredient5").toString()));
-        inputContainerRecipe.setIngredient('F', Material.valueOf(config.get("input.ingredient6").toString()));
-        inputContainerRecipe.setIngredient('G', Material.valueOf(config.get("input.ingredient7").toString()));
-        inputContainerRecipe.setIngredient('H', Material.valueOf(config.get("input.ingredient8").toString()));
-        inputContainerRecipe.setIngredient('I', Material.valueOf(config.get("input.ingredient9").toString()));
+        for (int i = 0; i < 9; i++) {
+            if (!config.contains("input.ingredient"+(i+1))) {
+                Bukkit.getLogger().warning("[Networks] No item set for input.ingredient"+(i+1)+ " found in recipes.yml!");
+                Bukkit.getLogger().warning("[Networks] If you want the slot to be empty, insert AIR as item type.");
+            }
+            ingredients[i] = config.get("input.ingredient"+(i+1)).toString();
+            if (ingredients[i].equalsIgnoreCase("AIR")) {
+                shape[i] = " ";
+            }
+            else {
+                shape[i] = ""+keys[i];
+            }
+
+        }
+
+        inputContainerRecipe.shape(shape[0]+shape[1]+shape[2],shape[3]+shape[4]+shape[5],shape[6]+shape[7]+shape[8]);
+
+        for (int i = 0; i < 9 ; i++) {
+            if (!shape[i].equalsIgnoreCase(" ")) {
+                inputContainerRecipe.setIngredient(keys[i], Material.valueOf(config.get("input.ingredient" + (i+1)).toString()));
+            }
+        }
 
 
 
@@ -114,16 +142,28 @@ public class CraftingManager {
 
         sortingContainerRecipe = new ShapedRecipe(new NamespacedKey("networks","sorting_container"), sortingContainer);
 
-        sortingContainerRecipe.shape("ABC","DEF","GHI");
-        sortingContainerRecipe.setIngredient('A', Material.valueOf(config.get("sorting.ingredient1").toString()));
-        sortingContainerRecipe.setIngredient('B', Material.valueOf(config.get("sorting.ingredient2").toString()));
-        sortingContainerRecipe.setIngredient('C', Material.valueOf(config.get("sorting.ingredient3").toString()));
-        sortingContainerRecipe.setIngredient('D', Material.valueOf(config.get("sorting.ingredient4").toString()));
-        sortingContainerRecipe.setIngredient('E', Material.valueOf(config.get("sorting.ingredient5").toString()));
-        sortingContainerRecipe.setIngredient('F', Material.valueOf(config.get("sorting.ingredient6").toString()));
-        sortingContainerRecipe.setIngredient('G', Material.valueOf(config.get("sorting.ingredient7").toString()));
-        sortingContainerRecipe.setIngredient('H', Material.valueOf(config.get("sorting.ingredient8").toString()));
-        sortingContainerRecipe.setIngredient('I', Material.valueOf(config.get("sorting.ingredient9").toString()));
+        for (int i = 0; i < 9; i++) {
+            if (!config.contains("sorting.ingredient"+(i+1))) {
+                Bukkit.getLogger().warning("[Networks] No item set for sorting.ingredient"+(i+1)+ " found in recipes.yml!");
+                Bukkit.getLogger().warning("[Networks] If you want the slot to be empty, insert AIR as item type.");
+            }
+            ingredients[i] = config.get("sorting.ingredient"+(i+1)).toString();
+            if (ingredients[i].equalsIgnoreCase("AIR")) {
+                shape[i] = " ";
+            }
+            else {
+                shape[i] = ""+keys[i];
+            }
+
+        }
+
+        sortingContainerRecipe.shape(shape[0]+shape[1]+shape[2],shape[3]+shape[4]+shape[5],shape[6]+shape[7]+shape[8]);
+
+        for (int i = 0; i < 9 ; i++) {
+            if (!shape[i].equalsIgnoreCase(" ")) {
+                sortingContainerRecipe.setIngredient(keys[i], Material.valueOf(config.get("sorting.ingredient" + (i+1)).toString()));
+            }
+        }
 
 
 
@@ -137,15 +177,27 @@ public class CraftingManager {
 
         miscContainerRecipe = new ShapedRecipe(new NamespacedKey("networks","misc_container"), miscContainer);
 
-        miscContainerRecipe.shape("ABC","DEF","GHI");
-        miscContainerRecipe.setIngredient('A', Material.valueOf(config.get("misc.ingredient1").toString()));
-        miscContainerRecipe.setIngredient('B', Material.valueOf(config.get("misc.ingredient2").toString()));
-        miscContainerRecipe.setIngredient('C', Material.valueOf(config.get("misc.ingredient3").toString()));
-        miscContainerRecipe.setIngredient('D', Material.valueOf(config.get("misc.ingredient4").toString()));
-        miscContainerRecipe.setIngredient('E', Material.valueOf(config.get("misc.ingredient5").toString()));
-        miscContainerRecipe.setIngredient('F', Material.valueOf(config.get("misc.ingredient6").toString()));
-        miscContainerRecipe.setIngredient('G', Material.valueOf(config.get("misc.ingredient7").toString()));
-        miscContainerRecipe.setIngredient('H', Material.valueOf(config.get("misc.ingredient8").toString()));
-        miscContainerRecipe.setIngredient('I', Material.valueOf(config.get("misc.ingredient9").toString()));
+        for (int i = 0; i < 9; i++) {
+            if (!config.contains("misc.ingredient"+(i+1))) {
+                Bukkit.getLogger().warning("[Networks] No item set for misc.ingredient"+(i+1)+ " found in recipes.yml!");
+                Bukkit.getLogger().warning("[Networks] If you want the slot to be empty, insert AIR as item type.");
+            }
+            ingredients[i] = config.get("misc.ingredient"+(i+1)).toString();
+            if (ingredients[i].equalsIgnoreCase("AIR")) {
+                shape[i] = " ";
+            }
+            else {
+                shape[i] = ""+keys[i];
+            }
+
+        }
+
+        miscContainerRecipe.shape(shape[0]+shape[1]+shape[2],shape[3]+shape[4]+shape[5],shape[6]+shape[7]+shape[8]);
+
+        for (int i = 0; i < 9 ; i++) {
+            if (!shape[i].equalsIgnoreCase(" ")) {
+                miscContainerRecipe.setIngredient(keys[i], Material.valueOf(config.get("misc.ingredient" + (i+1)).toString()));
+            }
+        }
     }
 }
