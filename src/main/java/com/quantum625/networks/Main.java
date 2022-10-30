@@ -32,8 +32,8 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin has launched\n==================================\n");
-        Bukkit.getLogger().info(startMessage);
+        //Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin has launched\n==================================\n");
+        //Bukkit.getLogger().info(startMessage);
 
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
@@ -57,6 +57,7 @@ public final class Main extends JavaPlugin {
             this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
             this.crafting = new CraftingManager(this.dataFolder);
 
+            Bukkit.addRecipe(crafting.wandRecipe);
             Bukkit.addRecipe(crafting.inputContainerRecipe);
             Bukkit.addRecipe(crafting.sortingContainerRecipe);
             Bukkit.addRecipe(crafting.miscContainerRecipe);

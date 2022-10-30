@@ -29,14 +29,16 @@ public class CraftingManager {
             e.printStackTrace();
         }
     }
-
+    
+    private ItemStack wand = new ItemStack(Material.BLAZE_ROD);
     private ItemStack inputContainer = new ItemStack(Material.CHEST);
-    private ItemStack sortingContainer = new ItemStack(Material.CHEST, 1);
-    private ItemStack miscContainer = new ItemStack(Material.CHEST, 1);
+    private ItemStack sortingContainer = new ItemStack(Material.CHEST);
+    private ItemStack miscContainer = new ItemStack(Material.CHEST);
 
+    public ShapedRecipe wandRecipe;
     public ShapedRecipe inputContainerRecipe;
-    public ShapedRecipe sortingContainerRecipe = new ShapedRecipe(new NamespacedKey("networks","sorting_container"), sortingContainer);
-    public ShapedRecipe miscContainerRecipe = new ShapedRecipe(new NamespacedKey("networks","misc_container"), miscContainer);
+    public ShapedRecipe sortingContainerRecipe;
+    public ShapedRecipe miscContainerRecipe;
 
 
     public CraftingManager(File dataFolder) {
@@ -53,11 +55,36 @@ public class CraftingManager {
         }
 
         this.config = YamlConfiguration.loadConfiguration(file);
+        
+        
+        
+        ItemMeta meta = wand.getItemMeta();
+        meta.setDisplayName("§r§cNetwork Wand");
+        meta.setLore(Arrays.asList("§rRight click any network component to show information about it", "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter", "§rSneak + Left click with an item in the offhand to remove a filter"));
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER, 1);
+        wand.setItemMeta(meta);
 
-        ItemMeta meta = inputContainer.getItemMeta();
+        wandRecipe = new ShapedRecipe(new NamespacedKey("networks","wand"), wand);
+
+        wandRecipe.shape("ABC","DEF","GHI");
+        wandRecipe.setIngredient('A', Material.valueOf(config.get("wand.ingredient1").toString()));
+        wandRecipe.setIngredient('B', Material.valueOf(config.get("wand.ingredient2").toString()));
+        wandRecipe.setIngredient('C', Material.valueOf(config.get("wand.ingredient3").toString()));
+        wandRecipe.setIngredient('D', Material.valueOf(config.get("wand.ingredient4").toString()));
+        wandRecipe.setIngredient('E', Material.valueOf(config.get("wand.ingredient5").toString()));
+        wandRecipe.setIngredient('F', Material.valueOf(config.get("wand.ingredient6").toString()));
+        wandRecipe.setIngredient('G', Material.valueOf(config.get("wand.ingredient7").toString()));
+        wandRecipe.setIngredient('H', Material.valueOf(config.get("wand.ingredient8").toString()));
+        wandRecipe.setIngredient('I', Material.valueOf(config.get("wand.ingredient9").toString()));
+        
+        
+        
+        
+        meta = inputContainer.getItemMeta();
         meta.setDisplayName("§rInput Container");
         meta.setLore(Arrays.asList("§r§9Sorts items into sorting chests and misc chests"));
-        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data = meta.getPersistentDataContainer();
         data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "input");
         inputContainer.setItemMeta(meta);
 
