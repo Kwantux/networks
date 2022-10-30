@@ -3,11 +3,10 @@ package com.quantum625.networks.commands;
 import com.quantum625.networks.NetworkManager;
 import com.quantum625.networks.Network;
 import com.quantum625.networks.component.InputContainer;
-import com.quantum625.networks.component.ItemContainer;
+import com.quantum625.networks.component.SortingContainer;
 import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.utils.Location;
-import jdk.net.NetworkPermission;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.*;
@@ -15,7 +14,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -211,8 +209,8 @@ public class CommandListener implements CommandExecutor {
 
 
                 returnMessage(sender, "Item Containers: ");
-                for (ItemContainer itemContainer : network.getSortingChests()) {
-                    returnMessage(sender, "X: " + itemContainer.getPos().getX() + " Y: " + itemContainer.getPos().getY() + " Z: " + itemContainer.getPos().getZ() + " World: " + itemContainer.getPos().getDim());
+                for (SortingContainer sortingContainer : network.getSortingChests()) {
+                    returnMessage(sender, "X: " + sortingContainer.getPos().getX() + " Y: " + sortingContainer.getPos().getY() + " Z: " + sortingContainer.getPos().getZ() + " World: " + sortingContainer.getPos().getDim());
                 }
                 returnMessage(sender, "");
 

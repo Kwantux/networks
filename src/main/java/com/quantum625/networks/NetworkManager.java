@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.quantum625.networks.component.BaseComponent;
 import com.quantum625.networks.commands.LanguageModule;
-import com.quantum625.networks.component.ItemContainer;
+import com.quantum625.networks.component.SortingContainer;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.data.JSONNetwork;
 import com.quantum625.networks.utils.Location;
@@ -316,6 +316,15 @@ public final class NetworkManager implements Serializable {
         return null;
     }
 
+    public Network getNetworkWithComponent(Location location) {
+        for (Network network : networks) {
+            if (network.getComponentByLocation(location) != null) {
+                return network;
+            }
+        }
+        return null;
+    }
+
     public BaseComponent getComponentByLocation(Location location) {
         for (Network network : networks) {
             if (network.getComponentByLocation(location) != null) {
@@ -326,7 +335,7 @@ public final class NetworkManager implements Serializable {
     }
 
 
-    public ItemContainer getSortingContainerByLocation(Location location) {
+    public SortingContainer getSortingContainerByLocation(Location location) {
         for (Network network : networks) {
             if (network.getComponentByLocation(location) != null) {
                 return network.getSortingContainerByLocation(location);

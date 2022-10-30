@@ -1,7 +1,7 @@
 package com.quantum625.networks.data;
 
 import com.quantum625.networks.component.InputContainer;
-import com.quantum625.networks.component.ItemContainer;
+import com.quantum625.networks.component.SortingContainer;
 import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.Network;
 
@@ -19,7 +19,7 @@ public class JSONNetwork {
     private int maxRange = 40;
 
     private InputContainer[] input_containers;
-    private ItemContainer[] sorting_containers;
+    private SortingContainer[] sorting_containers;
     private MiscContainer[] misc_containers;
 
     public JSONNetwork(Network n) {
@@ -36,7 +36,7 @@ public class JSONNetwork {
         this.maxRange = n.getMaxRange();
 
         this.input_containers = n.getInputChests().toArray(new InputContainer[n.getInputChests().size()]);
-        this.sorting_containers = n.getSortingChests().toArray(new ItemContainer[n.getSortingChests().size()]);
+        this.sorting_containers = n.getSortingChests().toArray(new SortingContainer[n.getSortingChests().size()]);
         this.misc_containers = n.getMiscChests().toArray(new MiscContainer[n.getMiscChests().size()]);
     }
 
@@ -63,7 +63,7 @@ public class JSONNetwork {
         return input_containers;
     }
 
-    public ItemContainer[] getSortingContainers() {
+    public SortingContainer[] getSortingContainers() {
     return sorting_containers;
     }
 

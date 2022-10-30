@@ -30,6 +30,7 @@ component.input.add: §aEinfüllkiste bei %position wurde zu %network hinzugefü
 component.sorting.add: §aSortierkiste bei %position wurde zu %network hinzugefügt
 component.sorting.noitem: §cBitte gib an, welches item deine Sortierkiste erhalten soll
 component.sorting.setitem: §aItemtyp %material wurde zur Sortierkiste bei %position hinzugefügt.
+component.sorting.removeitem: §aItemtyp %material wurde von der Sortierkiste bei %position entfernt.
 component.misc.add: §aRestekiste bei %position wurde zu %network hinzugefügt
 component.select: §aKomponententyp wurde ausgewählt, bitte rechts klicke den Block, der hinzugefügt werden soll
 component.remove: §cKomponent bei %position wurde entfernt
@@ -52,6 +53,10 @@ user.specify: §cBitte gib den Spieler an, den du hinzufügen willst.
 user.action: §cBitte gib an, was du machen möchtest.
 user.add: §aNeuer Nutzer §f%player§a wurde dem Netzwerk hinzugefügt.
 user.remove: %player §awurde vom Netzwerk entfernt.
+
+info.input: "§aTyp: §rEinfüllkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
+info.sorting: "§aTyp: §rSortierkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position§a\nFilter: §r%items"
+info.misc: "§aTyp: §rRestekiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
 
 value.notpositive: §cDieser Wert muss größer als 0 sein, er wurde auf 1 gesetzt.
 

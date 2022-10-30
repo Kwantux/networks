@@ -32,6 +32,7 @@ component.input.add: §aInput container at %position successfully added to %netw
 component.sorting.add: §aSorting container at %position successfully added to %network!
 component.sorting.noitem: §cYou need to specify the item for the sorting container!
 component.sorting.setitem: §aItem type %material was added to sorting container at %position.
+component.sorting.removeitem: §eItem type %material was removed from sorting container at %position.
 component.misc.add: §aMiscellaneous container at %position successfully added to %network!
 component.select: §aSelected component type, please right click the block you want to add
 component.remove: §cRemoved component at %position
@@ -55,7 +56,17 @@ user.action: §cPlease specify the action you want to do.
 user.add: §aSuccessfully added §f%player§a to the network
 user.remove: §aSuccessfully removed §f%player§a from the network
 
+info.input: "§aType: §rInput Container§a\nNetwork: §r%network§a\nLocation: §r%position"
+info.sorting: "§aType: §rSorting Container§a\nNetwork: §r%network§a\nLocation: §r%position§a\nFilters: §r%items"
+info.misc: "§aType: §rMisc Container§a\nNetwork: §r%network§a\nLocation: §r%position"
+
 value.notpositive: §cThis value needs to be positive, it was set back to 1.
+
+# TODO: Custom item names
+item.name.wand: §r§cNetwork Wand
+item.name.input: §rInput Container
+item.name.sorting: §rSorting Container
+item.name.misc: §rMiscellaneous Container
 
 notice: §eHaving inventory problems? Try out /networks to create a fully automated storage network!
 

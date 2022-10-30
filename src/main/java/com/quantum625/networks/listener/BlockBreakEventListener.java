@@ -5,7 +5,7 @@ import com.quantum625.networks.Network;
 import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.component.BaseComponent;
 import com.quantum625.networks.component.InputContainer;
-import com.quantum625.networks.component.ItemContainer;
+import com.quantum625.networks.component.SortingContainer;
 import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.utils.Location;
@@ -54,10 +54,10 @@ public class BlockBreakEventListener implements Listener {
                                 inputContainer.setItemMeta(meta);
                                 Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), inputContainer);
                             }
-                            if (component instanceof ItemContainer) {
+                            if (component instanceof SortingContainer) {
 
                                 String items = "";
-                                for (String item : ((ItemContainer) component).getItems()) {
+                                for (String item : ((SortingContainer) component).getItems()) {
                                     items += item + ",";
                                 }
 

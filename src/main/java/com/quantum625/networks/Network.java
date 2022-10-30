@@ -2,11 +2,10 @@ package com.quantum625.networks;
 
 import com.quantum625.networks.component.BaseComponent;
 import com.quantum625.networks.component.InputContainer;
-import com.quantum625.networks.component.ItemContainer;
+import com.quantum625.networks.component.SortingContainer;
 import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.JSONNetwork;
 import com.quantum625.networks.utils.Location;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -25,7 +24,7 @@ public class Network {
     private int sorting_counter = 0;
 
     private ArrayList<InputContainer> input_containers = new ArrayList<InputContainer>();
-    private ArrayList<ItemContainer> sorting_containers = new ArrayList<ItemContainer>();
+    private ArrayList<SortingContainer> sorting_containers = new ArrayList<SortingContainer>();
     private ArrayList<MiscContainer> misc_containers = new ArrayList<MiscContainer>();
 
 
@@ -50,7 +49,7 @@ public class Network {
             input_containers.add(i);
         }
 
-        for (ItemContainer i: net.getSortingContainers()) {
+        for (SortingContainer i: net.getSortingContainers()) {
             sorting_containers.add(i);
         }
 
@@ -68,8 +67,8 @@ public class Network {
         return null;
     }
 
-    public ItemContainer getSortingContainerByLocation(Location pos) {
-        for (ItemContainer i : sorting_containers) {
+    public SortingContainer getSortingContainerByLocation(Location pos) {
+        for (SortingContainer i : sorting_containers) {
             if (i.getPos().equals(pos)) {
                 return i;
             }
@@ -77,8 +76,8 @@ public class Network {
         return null;
     }
 
-    private ItemContainer getItemContainerByItem(Location pos, String item) {
-        for (ItemContainer i : sorting_containers) {
+    private SortingContainer getItemContainerByItem(Location pos, String item) {
+        for (SortingContainer i : sorting_containers) {
             if (Arrays.stream(i.getItems()).toList().contains(item) && i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {
                 return i;
             }
@@ -144,7 +143,7 @@ public class Network {
         return input_containers;
     }
 
-    public ArrayList<ItemContainer> getSortingChests() {
+    public ArrayList<SortingContainer> getSortingChests() {
         return sorting_containers;
     }
 
@@ -161,7 +160,7 @@ public class Network {
     }
 
     public void addItemContainer(Location pos, String[] items) {
-        sorting_containers.add(new ItemContainer(pos, items));
+        sorting_containers.add(new SortingContainer(pos, items));
     }
 
     public void addMiscContainer(Location pos) {
@@ -217,7 +216,7 @@ public class Network {
 
                     sorting_counter += 1;
 
-                    ItemContainer container = getItemContainerByItem(pos, stack.getType().toString().toUpperCase());
+                    SortingContainer container = getItemContainerByItem(pos, stack.getType().toString().toUpperCase());
                     if (container != null) {
                         container.getInventory().addItem(stack);
                         inventory.remove(stack);
