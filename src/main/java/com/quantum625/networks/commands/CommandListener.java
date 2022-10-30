@@ -111,20 +111,26 @@ public class CommandListener implements CommandExecutor {
                     if (net.getFromID(args[1]) != null) {
                         lang.returnMessage(sender, "create.exists");
                     } else {
-                        if (sender instanceof Player) {
-                            if (config.getPrice("create") >= economy.getBalance((Player) sender)) {
-                                lang.returnMessage(sender, "create.nomoney", config.getPrice("create") - economy.getBalance((Player) sender));
-                                return true;
+                        if (config.getEconomyState()) {
+                            if (sender instanceof Player) {
+                                if (config.getPrice("create") >= economy.getBalance((Player) sender)) {
+                                    lang.returnMessage(sender, "create.nomoney", config.getPrice("create") - economy.getBalance((Player) sender));
+                                    return true;
+                                }
+                                economy.withdrawPlayer(Bukkit.getOfflinePlayer(((Player) sender).getUniqueId()), config.getPrice("create"));
                             }
-                            economy.withdrawPlayer(Bukkit.getOfflinePlayer(((Player) sender).getUniqueId()), config.getPrice("create"));
-                        }
 
-                        net.add(args[1], uid);
-                        if (net.getFromID(args[1]) != null) {
-                            lang.returnMessage(sender, "create.success", net.getFromID(args[1]), config.getPrice("create"));
-                            net.selectNetwork((Player) sender, net.getFromID(args[1]));
-                        } else {
-                            lang.returnMessage(sender, "create.fail");
+                            net.add(args[1], uid);
+                            if (net.getFromID(args[1]) != null) {
+                                lang.returnMessage(sender, "create.success", net.getFromID(args[1]), config.getPrice("create"));
+                                net.selectNetwork((Player) sender, net.getFromID(args[1]));
+                            } else {
+                                lang.returnMessage(sender, "create.fail");
+                            }
+                        }
+                        else {
+                            net.add(args[1], uid);
+                            lang.returnMessage(sender, "create.success", net.getFromID(args[1]));
                         }
                     }
                 }

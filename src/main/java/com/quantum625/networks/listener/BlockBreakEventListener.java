@@ -21,7 +21,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class BlockBreakEventListener implements Listener {
 
@@ -53,6 +55,7 @@ public class BlockBreakEventListener implements Listener {
                                 data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "input");
                                 inputContainer.setItemMeta(meta);
                                 Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), inputContainer);
+                                event.setDropItems(false);
                             }
                             if (component instanceof SortingContainer) {
 
@@ -61,15 +64,22 @@ public class BlockBreakEventListener implements Listener {
                                     items += item + ",";
                                 }
 
+                                List<String> itemslist = new ArrayList<String>();
+                                itemslist.add(0, "§rFilter Items:");
+                                for (String item : ((SortingContainer) component).getItems()) {
+                                    itemslist.add("§r§f"+item);
+                                }
+
                                 ItemStack sortingContainer = new ItemStack(Material.CHEST);
                                 ItemMeta meta = sortingContainer.getItemMeta();
                                 meta.setDisplayName("§rSorting Container");
-                                meta.setLore(Arrays.asList("§rFiltered Items:"));
+                                meta.setLore(itemslist);
                                 PersistentDataContainer data = meta.getPersistentDataContainer();
                                 data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "sorting");
                                 data.set(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING, items);
                                 sortingContainer.setItemMeta(meta);
                                 Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), sortingContainer);
+                                event.setDropItems(false);
                             }
                             if (component instanceof MiscContainer) {
 
@@ -81,6 +91,7 @@ public class BlockBreakEventListener implements Listener {
                                 data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "misc");
                                 miscContainer.setItemMeta(meta);
                                 Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), miscContainer);
+                                event.setDropItems(false);
                             }
                         }
                         network.removeComponent(new Location(event.getBlock()));
