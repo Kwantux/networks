@@ -67,14 +67,14 @@ public class Config {
             Bukkit.getLogger().warning("[Networks] Config for mode is missing, it was reset to CRAFT");
         }
 
-        if (config.get("mode").toString().equalsIgnoreCase("craft")) {
-            Bukkit.getLogger().info("[Networks] Launched plugin using CRAFT mode");
-            economyState = false;
-        }
-
         if (config.get("auto_update") == null) {
             Bukkit.getLogger().warning("[Networks] Config for auto_update is null, it was reset to true");
             config.set("auto_update", true);
+        }
+
+        if (config.get("mode").toString().equalsIgnoreCase("craft")) {
+            Bukkit.getLogger().info("[Networks] Launched plugin using CRAFT mode");
+            economyState = false;
         }
 
         else if (config.get("mode").toString().equalsIgnoreCase("economy")) {
