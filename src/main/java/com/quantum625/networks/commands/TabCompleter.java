@@ -41,6 +41,9 @@ public class TabCompleter implements TabExecutor {
                 if (net.getSelectedNetwork((Player)sender) == null) {
                     return adminNoSelection;
                 }
+                if (config.getEconomyState()) {
+                    return adminSelectionEconomy;
+                }
                 return adminSelection;
             }
             if (net.getConsoleSelection() == null) {
