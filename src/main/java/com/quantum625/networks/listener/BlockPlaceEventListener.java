@@ -51,31 +51,37 @@ public class BlockPlaceEventListener implements Listener {
 
                         String componentType = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING);
 
-                        if (componentType.equals("input")) {
-                            net.getSelectedNetwork(p).addInputContainer(pos);
-                            net.selectComponentType(p, null);
-                            lang.returnMessage(p, "component.input.add", network, pos);
-                            return;
-                        }
+                        if (network.checkContainerLimit()) {
 
-                        if (componentType.equals("sorting")) {
-                            if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING)) {
-                                String[] items = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING).toUpperCase().split(",");
-
-                                net.getSelectedNetwork(p).addItemContainer(pos, items);
+                            if (componentType.equals("input")) {
+                                net.getSelectedNetwork(p).addInputContainer(pos);
                                 net.selectComponentType(p, null);
-                                lang.returnMessage(p, "component.sorting.add", network, pos);
+                                lang.returnMessage(p, "component.input.add", network, pos);
                                 return;
                             }
 
-                            lang.returnMessage(p, "component.sorting.noitem");
-                            return;
-                        }
+                            if (componentType.equals("sorting")) {
+                                if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING)) {
+                                    String[] items = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING).toUpperCase().split(",");
 
-                        if (componentType.equals("misc")) {
-                            net.getSelectedNetwork(p).addMiscContainer(pos);
-                            net.selectComponentType(p, null);
-                            lang.returnMessage(p, "component.misc.add", network, pos);
+                                    net.getSelectedNetwork(p).addItemContainer(pos, items);
+                                    net.selectComponentType(p, null);
+                                    lang.returnMessage(p, "component.sorting.add", network, pos);
+                                    return;
+                                }
+
+                                lang.returnMessage(p, "component.sorting.noitem");
+                                return;
+                            }
+
+                            if (componentType.equals("misc")) {
+                                net.getSelectedNetwork(p).addMiscContainer(pos);
+                                net.selectComponentType(p, null);
+                                lang.returnMessage(p, "component.misc.add", network, pos);
+                            }
+                        }
+                        else {
+                            lang.returnMessage(p, "component.limit");
                         }
                     }
 
