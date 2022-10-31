@@ -60,17 +60,17 @@ public final class Main extends JavaPlugin {
 
             switch (result) {
                 case SUCCESS:
-                    Bukkit.getLogger().info("[Network] Successfully updated plugin.");
-                    Bukkit.getLogger().info("[Network] It is recommended to restart the server now.");
+                    Bukkit.getLogger().info("[Networks] Successfully updated plugin.");
+                    Bukkit.getLogger().info("[Networks] It is recommended to restart the server now.");
                     break;
                 case NO_UPDATE:
-                    Bukkit.getLogger().info("[Network] No update found.");
+                    Bukkit.getLogger().info("[Networks] No update found.");
                     break;
                 case DISABLED:
-                    Bukkit.getLogger().info("[Network] Updating was disabled in the configs.");
+                    Bukkit.getLogger().info("[Networks] Updating was disabled in the configs.");
                     break;
                 default:
-                    Bukkit.getLogger().warning("[Network] An unexpected error occurred while trying to update the plugin");
+                    Bukkit.getLogger().warning("[Networks] An unexpected error occurred while trying to update the plugin");
             }
         }
 
