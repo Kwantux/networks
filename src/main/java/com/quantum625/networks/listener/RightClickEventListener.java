@@ -4,6 +4,7 @@ import com.quantum625.networks.Network;
 import com.quantum625.networks.NetworkManager;
 import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.data.Config;
+import com.quantum625.networks.utils.DoubleChestDisconnecter;
 import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -24,10 +25,14 @@ public class RightClickEventListener implements Listener {
     private LanguageModule lang;
     private Config config;
 
+    private DoubleChestDisconnecter dcd;
+
     public RightClickEventListener(NetworkManager networkManager, LanguageModule languageModule, Config config) {
         net = networkManager;
         lang = languageModule;
         this.config = config;
+
+        dcd = new DoubleChestDisconnecter(net);
     }
 
     @EventHandler(priority= EventPriority.MONITOR, ignoreCancelled = false)
@@ -49,18 +54,21 @@ public class RightClickEventListener implements Listener {
                 if (config.checkLocation(pos, "container")) {
                     if (componentType == "input_container") {
                         net.getSelectedNetwork(p).addInputContainer(pos);
+                        dcd.checkChest(pos);
                         net.selectComponentType(p, null);
                         lang.returnMessage(p, "component.input.add", network, pos);
                     }
 
                     if (componentType == "item_container") {
                         net.getSelectedNetwork(p).addItemContainer(pos, net.getSelectedItems(p));
+                        dcd.checkChest(pos);
                         net.selectComponentType(p, null);
                         lang.returnMessage(p, "component.item.add", network, pos);
                     }
 
                     if (componentType == "misc_container") {
                         net.getSelectedNetwork(p).addMiscContainer(pos);
+                        dcd.checkChest(pos);
                         net.selectComponentType(p, null);
                         lang.returnMessage(p, "component.misc.add", network, pos);
                     }

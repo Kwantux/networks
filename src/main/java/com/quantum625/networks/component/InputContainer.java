@@ -17,4 +17,7 @@ public class InputContainer extends BaseComponent {
     public int getTickrate() {
         return tickrate;
     }*/
+
+    @Override
+    public String getType() {return "input";}
 }

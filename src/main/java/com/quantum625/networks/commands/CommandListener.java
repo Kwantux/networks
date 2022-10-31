@@ -209,7 +209,8 @@ public class CommandListener implements CommandExecutor {
 
 
                 returnMessage(sender, "");
-                returnMessage(sender, "Containers: " + network.getAllComponents().size() + "/" + network.getMaxContainers());
+                if (config.getEconomyState()) returnMessage(sender, "Containers: " + network.getAllComponents().size() + "/" + network.getMaxContainers());
+                else returnMessage(sender, "Containers: " + network.getAllComponents().size());
                 returnMessage(sender, "Max Range: " + network.getMaxRange());
                 returnMessage(sender, "");
 
@@ -334,6 +335,8 @@ public class CommandListener implements CommandExecutor {
                 return true;
             }
             else if (args[0].equalsIgnoreCase("upgrade")) {
+
+                if (!config.getEconomyState()) return true;
 
                 int amount = 1;
 

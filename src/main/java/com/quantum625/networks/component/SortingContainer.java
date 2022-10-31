@@ -69,4 +69,7 @@ public class SortingContainer extends BaseComponent {
     public String[] getItems() {
         return items;
     }
+
+    @Override
+    public String getType() {return "sorting";}
 }

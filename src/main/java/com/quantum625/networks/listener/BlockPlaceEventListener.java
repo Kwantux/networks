@@ -4,6 +4,7 @@ import com.quantum625.networks.Network;
 import com.quantum625.networks.NetworkManager;
 import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.data.Config;
+import com.quantum625.networks.utils.DoubleChestDisconnecter;
 import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -23,11 +24,14 @@ public class BlockPlaceEventListener implements Listener {
     private final Config config;
     private final LanguageModule lang;
 
+    private final DoubleChestDisconnecter dcd;
 
     public BlockPlaceEventListener (NetworkManager net, Config config, LanguageModule lang) {
         this.net = net;
         this.config = config;
         this.lang = lang;
+
+        dcd = new DoubleChestDisconnecter(net);
     }
 
     @EventHandler(priority= EventPriority.HIGH)
@@ -51,38 +55,36 @@ public class BlockPlaceEventListener implements Listener {
 
                         String componentType = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING);
 
-                        if (network.checkContainerLimit()) {
+                        if (componentType.equals("input")) {
+                            net.getSelectedNetwork(p).addInputContainer(pos);
+                            dcd.checkChest(pos);
+                            net.selectComponentType(p, null);
+                            lang.returnMessage(p, "component.input.add", network, pos);
+                            return;
+                        }
 
-                            if (componentType.equals("input")) {
-                                net.getSelectedNetwork(p).addInputContainer(pos);
+                        if (componentType.equals("sorting")) {
+                            if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING)) {
+                                String[] items = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING).toUpperCase().split(",");
+
+                                net.getSelectedNetwork(p).addItemContainer(pos, items);
+                                dcd.checkChest(pos);
                                 net.selectComponentType(p, null);
-                                lang.returnMessage(p, "component.input.add", network, pos);
+                                lang.returnMessage(p, "component.sorting.add", network, pos);
                                 return;
                             }
 
-                            if (componentType.equals("sorting")) {
-                                if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING)) {
-                                    String[] items = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING).toUpperCase().split(",");
-
-                                    net.getSelectedNetwork(p).addItemContainer(pos, items);
-                                    net.selectComponentType(p, null);
-                                    lang.returnMessage(p, "component.sorting.add", network, pos);
-                                    return;
-                                }
-
-                                lang.returnMessage(p, "component.sorting.noitem");
-                                return;
-                            }
-
-                            if (componentType.equals("misc")) {
-                                net.getSelectedNetwork(p).addMiscContainer(pos);
-                                net.selectComponentType(p, null);
-                                lang.returnMessage(p, "component.misc.add", network, pos);
-                            }
+                            lang.returnMessage(p, "component.sorting.noitem");
+                            return;
                         }
-                        else {
-                            lang.returnMessage(p, "component.limit");
+
+                        if (componentType.equals("misc")) {
+                            net.getSelectedNetwork(p).addMiscContainer(pos);
+                            dcd.checkChest(pos);
+                            net.selectComponentType(p, null);
+                            lang.returnMessage(p, "component.misc.add", network, pos);
                         }
+
                     }
 
                     else {
