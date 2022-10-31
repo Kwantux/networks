@@ -1,13 +1,15 @@
 data.load: §aDaten wurden erneut geladen
 data.save: §aDaten wurden gesichert
 
-create.success: §aNetzwerk %network wurde für §r%value$§a erstellt
-create.exists: $bEs existiert bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen
+create.success: §aNetzwerk %network wurde erstellt
+create.success.eco: §aNetzwerk %network wurde für §r%value$§a erstellt
+create.exists: §bEs existiert bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen
 create.fail: §cDas Netzwerk konnte nicht korrekt erstellt werden, bitte kontaktiere den Server Admin
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
 create.nomoney: §cDir fehlen §r%number$§c um ein neues Netzwerk zu erstellen!
 
-delete.success: §aNetzwerk %network wurde gelöscht, du hast §f%value$ §azurück erhalten
+delete.success: §aNetzwerk %network wurde gelöscht
+delete.sucess.eco: §aNetzwerk %network wurde gelöscht, du hast §f%value$ §azurück erhalten
 delete.confirm: §aBist du dir sicher, dass du dieses Netzwerk löschen willst? Dann gib §f/net delete <name> confirm §aein
 delete.fail: §cDieses Netwerk existiert nicht, vielleicht hast du dich vertippt?
 delete.nonetwork: §cBitte gib das Netzwerk an, dass du löschen möchtest
@@ -27,15 +29,17 @@ listall.empty: §cAuf diesem Server gibt es derzeit keine Netzwerke
 listall: §aFolgende Netwerke existieren auf diesem Server
 
 component.input.add: §aEinfüllkiste bei %position wurde zu %network hinzugefügt
-component.item.add: §aSortierkiste bei %position wurde zu %network hinzugefügt
-component.item.noitem: §cBitte gib an, welches item deine Sortierkiste erhalten soll
+component.sorting.add: §aSortierkiste bei %position wurde zu %network hinzugefügt
+component.sorting.noitem: §cBitte gib an, welches item deine Sortierkiste erhalten soll
+component.sorting.setitem: §aItemtyp %material wurde zur Sortierkiste bei %position hinzugefügt.
+component.sorting.removeitem: §aItemtyp %material wurde von der Sortierkiste bei %position entfernt.
 component.misc.add: §aRestekiste bei %position wurde zu %network hinzugefügt
 component.select: §aKomponententyp wurde ausgewählt, bitte rechts klicke den Block, der hinzugefügt werden soll
 component.remove: §cKomponent bei %position wurde entfernt
 component.noaction: §cBitte gib an, was du tun möchtest. Hinzufügen oder löschen?
 component.notype: §cBitet gib die Art von Komponent an
 component.limit: §cDu hast das Limit an Komponenten erreicht, bitte erweitere das Limit mit §f/net upgrade limit
-component.invalid_block: §c%block Blöcke können keine Netzwerk Komponenten sein
+component.invalid_block: §c%material Blöcke können keine Netzwerk Komponenten sein
 
 upgrade.noprice: §cFür dieses Upgrade wurde kein Preis gesetzt, bitte kontaktiere deinen Server Administrator!
 upgrade.noeconomy: §cEin Problem mit dem Economy Provider ist aufgetreten, bitte kontaktiere deinen Server Administrator!
@@ -50,7 +54,11 @@ location.occupied: §cAn dieser Position befindet sich bereits ein Komponent
 user.specify: §cBitte gib den Spieler an, den du hinzufügen willst.
 user.action: §cBitte gib an, was du machen möchtest.
 user.add: §aNeuer Nutzer §f%player§a wurde dem Netzwerk hinzugefügt.
-user.remove: %player §awurde vom Netzwerk entfernt.
+user.remove: §f%player §awurde vom Netzwerk entfernt.
+
+info.input: "§aTyp: §rEinfüllkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
+info.sorting: "§aTyp: §rSortierkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position§a\nFilter: §r%items"
+info.misc: "§aTyp: §rRestekiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
 
 value.notpositive: §cDieser Wert muss größer als 0 sein, er wurde auf 1 gesetzt.
 

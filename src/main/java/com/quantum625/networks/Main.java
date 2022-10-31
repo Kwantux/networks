@@ -4,7 +4,9 @@ import com.quantum625.networks.commands.CommandListener;
 import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.commands.TabCompleter;
 import com.quantum625.networks.data.Config;
+import com.quantum625.networks.data.CraftingManager;
 import com.quantum625.networks.listener.*;
+import net.gravitydevelopment.updater.Updater;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,15 +24,17 @@ public final class Main extends JavaPlugin {
     private TabCompleter tabCompleter;
     private NetworkManager net;
     private Config config;
+    private CraftingManager crafting;
     private Economy economy;
     private LanguageModule lang;
     private boolean economyState;
+    private boolean error = false;
 
     @Override
     public void onEnable() {
 
         //Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin has launched\n==================================\n");
-        Bukkit.getLogger().info(startMessage);
+        //Bukkit.getLogger().info(startMessage);
 
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
@@ -38,29 +42,66 @@ public final class Main extends JavaPlugin {
         this.dataFolder = this.getDataFolder();
         this.installer = new Installer(dataFolder, this);
 
-        economyState = setupEconomy();
-        this.config = new Config(this, economy);
-        config.setEconomyState(economyState);
+        this.config = new Config(dataFolder);
+        economyState = config.getEconomyState();
+        if (economyState) {
+            economyState = setupEconomy();
+            if (!economyState) {
+                error = true;
+                getServer().getPluginManager().disablePlugin(this);
+            }
+            config.initEconomy(economy);
+        }
 
-        this.lang = new LanguageModule(dataFolder, config.getLanguage());
-        this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
-        this.commandListener = new CommandListener(net, dataFolder, lang, config, economy);
-        this.tabCompleter = new TabCompleter(net);
+        if (config.updateAllowed()) {
+            Bukkit.getLogger().info("[Networks] Checking for updates...");
+            Updater updater = new Updater(this, 687035, this.getFile(), Updater.UpdateType.DEFAULT, true);
+            Updater.UpdateResult result = updater.getResult();
 
-        getCommand("network").setExecutor(commandListener);
-        getCommand("network").setTabCompleter(tabCompleter);
+            switch (result) {
+                case SUCCESS:
+                    Bukkit.getLogger().info("[Networks] Successfully updated plugin.");
+                    Bukkit.getLogger().info("[Networks] It is recommended to restart the server now.");
+                    break;
+                case NO_UPDATE:
+                    Bukkit.getLogger().info("[Networks] No update found.");
+                    break;
+                case DISABLED:
+                    Bukkit.getLogger().info("[Networks] Updating was disabled in the configs.");
+                    break;
+                default:
+                    Bukkit.getLogger().warning("[Networks] An unexpected error occurred while trying to update the plugin");
+            }
+        }
 
-        this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
-        this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, lang), this);
-        this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
-        this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
-        this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
-        this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
+        if (!error) {
+            this.lang = new LanguageModule(dataFolder, config.getLanguage());
+            this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
+            this.crafting = new CraftingManager(this.dataFolder);
 
-        net.loadData();
+            Bukkit.addRecipe(crafting.wandRecipe);
+            Bukkit.addRecipe(crafting.inputContainerRecipe);
+            Bukkit.addRecipe(crafting.sortingContainerRecipe);
+            Bukkit.addRecipe(crafting.miscContainerRecipe);
 
-        //scheduleEvents();
+            this.commandListener = new CommandListener(net, dataFolder, lang, config, economy);
+            this.tabCompleter = new TabCompleter(net, config);
 
+            getCommand("network").setExecutor(commandListener);
+            getCommand("network").setTabCompleter(tabCompleter);
+
+            this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
+            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, config, lang), this);
+            this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
+            this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
+            this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
+            this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
+            this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, lang), this);
+            this.getServer().getPluginManager().registerEvents(new NetworkWandListener(net, lang), this);
+            this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
+
+            net.loadData();
+        }
     }
 
     private boolean setupEconomy() {
@@ -90,21 +131,13 @@ public final class Main extends JavaPlugin {
         return true;
     }
 
-    private void scheduleEvents() {
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-            public void run() {
-                for (Network network : net.listAll()) {
-                    network.sortAll();
-                }
-            }
-        }, 0, config.getTickrate());
-    }
-
 
     @Override
     public void onDisable() {
-        net.saveData();
-        Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin was shut down\n==================================\n");
+        if (!error) {
+            net.saveData();
+        }
+        //Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin was shut down\n==================================\n");
     }
 
     private String startMessage = "\n" +

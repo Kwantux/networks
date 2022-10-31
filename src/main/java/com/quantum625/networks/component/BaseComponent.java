@@ -29,6 +29,9 @@ public class BaseComponent {
     }
 
 
+    public String getType() {return "none";};
+
+
     public Inventory getInventory() {
         Block block = Bukkit.getWorld(pos.getDim()).getBlockAt(pos.getX(), pos.getY(), pos.getZ());
         if (block.getState() instanceof InventoryHolder) {

@@ -3,11 +3,10 @@ package com.quantum625.networks.commands;
 import com.quantum625.networks.NetworkManager;
 import com.quantum625.networks.Network;
 import com.quantum625.networks.component.InputContainer;
-import com.quantum625.networks.component.ItemContainer;
+import com.quantum625.networks.component.SortingContainer;
 import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.utils.Location;
-import jdk.net.NetworkPermission;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.*;
@@ -96,26 +95,42 @@ public class CommandListener implements CommandExecutor {
                 }
             }
 
+            /*else if (args[0].equalsIgnoreCase("statistics")) {
+                if (sender instanceof Player && !((Player) sender).hasPermission("networks.admin")) {
+                    lang.returnMessage(sender, "permission.server");
+                }
+                lang.returnMessage(sender, "statistics");
+                for (Network network : net.listAll()) {
+                    returnMessage(sender, "&l" + network.getID() + ":&r " +  ,);
+                }
+            }*/
+
             else if (args[0].equalsIgnoreCase("create")) {
 
                 if (args[1] != null) {
                     if (net.getFromID(args[1]) != null) {
                         lang.returnMessage(sender, "create.exists");
                     } else {
-                        if (sender instanceof Player) {
-                            if (config.getPrice("create") >= economy.getBalance((Player) sender)) {
-                                lang.returnMessage(sender, "create.nomoney", config.getPrice("create") - economy.getBalance((Player) sender));
-                                return true;
+                        if (config.getEconomyState()) {
+                            if (sender instanceof Player) {
+                                if (config.getPrice("create") >= economy.getBalance((Player) sender)) {
+                                    lang.returnMessage(sender, "create.nomoney", config.getPrice("create") - economy.getBalance((Player) sender));
+                                    return true;
+                                }
+                                economy.withdrawPlayer(Bukkit.getOfflinePlayer(((Player) sender).getUniqueId()), config.getPrice("create"));
                             }
-                            economy.withdrawPlayer(Bukkit.getOfflinePlayer(((Player) sender).getUniqueId()), config.getPrice("create"));
-                        }
 
-                        net.add(args[1], uid);
-                        if (net.getFromID(args[1]) != null) {
-                            lang.returnMessage(sender, "create.success", net.getFromID(args[1]), config.getPrice("create"));
-                            net.selectNetwork((Player) sender, net.getFromID(args[1]));
-                        } else {
-                            lang.returnMessage(sender, "create.fail");
+                            net.add(args[1], uid);
+                            if (net.getFromID(args[1]) != null) {
+                                lang.returnMessage(sender, "create.success.eco", net.getFromID(args[1]), config.getPrice("create"));
+                                net.selectNetwork((Player) sender, net.getFromID(args[1]));
+                            } else {
+                                lang.returnMessage(sender, "create.fail");
+                            }
+                        }
+                        else {
+                            net.add(args[1], uid);
+                            lang.returnMessage(sender, "create.success", net.getFromID(args[1]));
                         }
                     }
                 }
@@ -130,10 +145,17 @@ public class CommandListener implements CommandExecutor {
                     }
                     if (args.length > 2) {
                         if (args[2].equalsIgnoreCase("confirm")) {
-                            lang.returnMessage(sender, "delete.success", net.getFromID(args[1]), config.calculateRefund(net.getFromID(args[1])));
-                            economy.depositPlayer(Bukkit.getOfflinePlayer(net.getFromID(args[1]).getOwner()), config.calculateRefund(net.getFromID(args[1])));
-                            net.delete(args[1]);
-                            return true;
+                            if (config.getEconomyState()) {
+                                lang.returnMessage(sender, "delete.success.eco", net.getFromID(args[1]), config.calculateRefund(net.getFromID(args[1])));
+                                economy.depositPlayer(Bukkit.getOfflinePlayer(net.getFromID(args[1]).getOwner()), config.calculateRefund(net.getFromID(args[1])));
+                                net.delete(args[1]);
+                                return true;
+                            }
+                            else {
+                                lang.returnMessage(sender, "delete.success", net.getFromID(args[1]));
+                                net.delete(args[1]);
+                                return true;
+                            }
                         }
                     }
                     lang.returnMessage(sender, "delete.confirm", net.getFromID(args[1]));
@@ -187,7 +209,8 @@ public class CommandListener implements CommandExecutor {
 
 
                 returnMessage(sender, "");
-                returnMessage(sender, "Containers: " + network.getAllComponents().size() + "/" + network.getMaxContainers());
+                if (config.getEconomyState()) returnMessage(sender, "Containers: " + network.getAllComponents().size() + "/" + network.getMaxContainers());
+                else returnMessage(sender, "Containers: " + network.getAllComponents().size());
                 returnMessage(sender, "Max Range: " + network.getMaxRange());
                 returnMessage(sender, "");
 
@@ -200,8 +223,8 @@ public class CommandListener implements CommandExecutor {
 
 
                 returnMessage(sender, "Item Containers: ");
-                for (ItemContainer itemContainer : network.getSortingChests()) {
-                    returnMessage(sender, "X: " + itemContainer.getPos().getX() + " Y: " + itemContainer.getPos().getY() + " Z: " + itemContainer.getPos().getZ() + " World: " + itemContainer.getPos().getDim());
+                for (SortingContainer sortingContainer : network.getSortingChests()) {
+                    returnMessage(sender, "X: " + sortingContainer.getPos().getX() + " Y: " + sortingContainer.getPos().getY() + " Z: " + sortingContainer.getPos().getZ() + " World: " + sortingContainer.getPos().getDim());
                 }
                 returnMessage(sender, "");
 
@@ -244,6 +267,10 @@ public class CommandListener implements CommandExecutor {
                 return true;
             } else if (args[0].equalsIgnoreCase("component")) {
 
+                if (!config.getEconomyState()) {
+                    return true;
+                }
+
                 Location pos = new Location(0, 0, 0, "world");
                 Network network;
 
@@ -281,7 +308,14 @@ public class CommandListener implements CommandExecutor {
                                 lang.returnMessage(sender, "component.item.noitem");
                             }
                             net.selectComponentType(player, "item_container");
-                            net.selectItem(player, args[3].toUpperCase());
+
+                            String[] items = new String[args.length-2];
+
+                            for (int i = 2; i < args.length; i++) {
+                                items[i-2] = args[i].toUpperCase();
+                            }
+
+                            net.selectItems(player, (String[]) items);
                             lang.returnMessage(sender, "component.select");
                         } else if (args[2].equalsIgnoreCase("misc")) {
                             net.selectComponentType(player, "misc_container");
@@ -301,6 +335,8 @@ public class CommandListener implements CommandExecutor {
                 return true;
             }
             else if (args[0].equalsIgnoreCase("upgrade")) {
+
+                if (!config.getEconomyState()) return true;
 
                 int amount = 1;
 
@@ -492,7 +528,7 @@ public class CommandListener implements CommandExecutor {
 
     private List playerHelpMessage = Arrays.asList(
             "\"\"",
-            "[\"\",{\"text\":\"       Networks Plugin - Version 1.0.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/net help\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
@@ -510,7 +546,7 @@ public class CommandListener implements CommandExecutor {
 
     private List adminHelpMessage = Arrays.asList(
             "\"\"",
-            "[\"\",{\"text\":\"       Networks Plugin - Version 1.0.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/net help\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
@@ -532,7 +568,7 @@ public class CommandListener implements CommandExecutor {
 
     private String helpMessage = """
 
-       Networks Plugin - Version 1.0.0 
+       Networks Plugin - Version 1.1.0 
 ==========================================
 
 /net help - Show this menu

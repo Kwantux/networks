@@ -1,0 +1,65 @@
+# Edit the crafting recipes of network components
+# Ignore this file if you use ECONOMY mode
+
+
+#  Crafting table shape
+#  Set the ingredient number to the item ID
+#    –––––––––––––
+#    | 1 | 2 | 3 |
+#    | 4 | 5 | 6 |
+#    | 7 | 8 | 9 |
+#    –––––––––––––
+
+
+# Network wand
+
+wand.ingredient1: AIR
+wand.ingredient2: REDSTONE
+wand.ingredient3: GLOWSTONE_DUST
+wand.ingredient4: REDSTONE
+wand.ingredient5: BLAZE_ROD
+wand.ingredient6: REDSTONE
+wand.ingredient7: GLOWSTONE_DUST
+wand.ingredient8: REDSTONE
+wand.ingredient9: AIR
+
+
+# Input container
+
+input.ingredient1: AIR
+input.ingredient2: CHEST
+input.ingredient3: AIR
+input.ingredient4: REDSTONE
+input.ingredient5: HOPPER
+input.ingredient6: REDSTONE
+input.ingredient7: AIR
+input.ingredient8: REDSTONE
+input.ingredient9: AIR
+
+
+
+# Sorting Container
+
+sorting.ingredient1: HOPPER
+sorting.ingredient2: COMPARATOR
+sorting.ingredient3: REDSTONE
+sorting.ingredient4: HOPPER
+sorting.ingredient5: AIR
+sorting.ingredient6: REDSTONE
+sorting.ingredient7: CHEST
+sorting.ingredient8: REDSTONE_TORCH
+sorting.ingredient9: REPEATER
+
+
+
+# Miscelleaneous Container
+
+misc.ingredient1: AIR
+misc.ingredient2: REDSTONE
+misc.ingredient3: AIR
+misc.ingredient4: REDSTONE
+misc.ingredient5: HOPPER
+misc.ingredient6: REDSTONE
+misc.ingredient7: AIR
+misc.ingredient8: CHEST
+misc.ingredient9: AIR

@@ -3,8 +3,9 @@ package com.quantum625.networks;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.quantum625.networks.component.BaseComponent;
 import com.quantum625.networks.commands.LanguageModule;
-import com.quantum625.networks.component.InputContainer;
+import com.quantum625.networks.component.SortingContainer;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.data.JSONNetwork;
 import com.quantum625.networks.utils.Location;
@@ -212,7 +213,7 @@ public final class NetworkManager implements Serializable {
 
                 networks.add(new Network(gson.fromJson(json, JSONNetwork.class)));
 
-                Bukkit.getLogger().info("[Networks] Successfully loaded network " + file.getName());
+                //Bukkit.getLogger().info("[Networks] Successfully loaded network " + file.getName());
             } catch (IOException e) {
                 Bukkit.getLogger().warning("[Networks] Failed to load network " + file.getName());
                 e.printStackTrace();
@@ -291,22 +292,53 @@ public final class NetworkManager implements Serializable {
     }
 
 
-    public void selectItem(Player player, String item) {
+    public void selectItems(Player player, String[] items) {
         for (PlayerData itemSelection : selections) {
             if (itemSelection.getPlayer().equals(player)) {
-                itemSelection.setItem(item.toUpperCase());
+                for (String item : items) {
+                    item = item.toUpperCase();
+                }
+                itemSelection.setItems(items);
                 break;
             }
         }
         PlayerData pd = new PlayerData(player);
-        pd.setItem(item);
+        pd.setItems(items);
         selections.add(pd);
     }
 
-    public String getSelectedItem(Player player) {
+    public String[] getSelectedItems(Player player) {
         for (PlayerData itemSelection : selections) {
             if (itemSelection.getPlayer().equals(player)) {
-                return itemSelection.getItem();
+                return itemSelection.getItems();
+            }
+        }
+        return null;
+    }
+
+    public Network getNetworkWithComponent(Location location) {
+        for (Network network : networks) {
+            if (network.getComponentByLocation(location) != null) {
+                return network;
+            }
+        }
+        return null;
+    }
+
+    public BaseComponent getComponentByLocation(Location location) {
+        for (Network network : networks) {
+            if (network.getComponentByLocation(location) != null) {
+                return network.getComponentByLocation(location);
+            }
+        }
+        return null;
+    }
+
+
+    public SortingContainer getSortingContainerByLocation(Location location) {
+        for (Network network : networks) {
+            if (network.getComponentByLocation(location) != null) {
+                return network.getSortingContainerByLocation(location);
             }
         }
         return null;

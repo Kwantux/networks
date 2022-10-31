@@ -4,6 +4,7 @@ import com.quantum625.networks.Network;
 import com.quantum625.networks.data.Language;
 import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,13 +21,13 @@ public class LanguageModule {
         this.language = new Language(datafolder, lang_id);
     }
 
-    private void message(CommandSender sender, String message) {
+    public void message(CommandSender sender, String message) {
         if (sender instanceof Player) {
             ((Player) sender).sendMessage(message);
         }
 
         else {
-            Bukkit.getLogger().info("[Networks] " + message);
+            Bukkit.getLogger().info("§9[Networks] §f" + message);
         }
     }
 
@@ -114,7 +115,27 @@ public class LanguageModule {
         }
     }
 
-    public void returnMessage(CommandSender sender, String id, Block block) {
+
+    public void returnMessage(CommandSender sender, String id, Network network, Location location, String[] items) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+            return;
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+        }
+
+        else {
+            String list = "";
+            for (String item : items) {
+                list += "\n" + item.toUpperCase();
+            }
+            message(sender, language.getText(id).replaceAll("%network", network.getID()).replaceAll("%position", location.toString()).replaceAll("%items", list));
+        }
+    }
+
+    public void returnMessage(CommandSender sender, String id, Material material) {
         if (language == null) {
             message(sender, "ERROR: Language module not found, please contact your system administrator");
         }
@@ -124,9 +145,24 @@ public class LanguageModule {
         }
 
         else {
-            message(sender, language.getText(id).replaceAll("%block", block.getType().toString()));
+            message(sender, language.getText(id).replaceAll("%material", material.toString().toUpperCase()));
         }
     }
+
+    public void returnMessage(CommandSender sender, String id, Location location,  Material material) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+        }
+
+        else {
+            message(sender, language.getText(id).replaceAll("%material", material.toString().toUpperCase()).replaceAll("%position", location.toString()));
+        }
+    }
+
 
     public void returnMessage(CommandSender sender, String id, double value) {
         if (language == null) {

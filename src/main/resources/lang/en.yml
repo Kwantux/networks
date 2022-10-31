@@ -1,13 +1,15 @@
 data.load: §aReloaded data from files
 data.save: §aSaved data to files
 
-create.success: §aSuccessfully created storage network %network for §r%value$
+create.success: §aSuccessfully created storage network §f%network
+create.success.eco: §aSuccessfully created storage network %network for §r%value$
 create.exists: §eThere is already a network with this name, please select another name!
 create.fail: §cThis name is already used, please select another name.
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
 create.nomoney: §cYou are missing §r%number$§c to create a new network!
 
 delete.success: §aSuccessfully deleted storage network %network, you were refunded §f%value$
+delete.success.eco: §aSuccessfully deleted storage network §f%network
 delete.confirm: §aAre you sure you want to delete storage network %network? Please confirm with §f/net delete <name> confirm
 delete.fail: §cThis network doesn't exist
 delete.nonetwork: §cPlease specify the network to delete!
@@ -29,15 +31,17 @@ listall.empty: §cThere are no storage networks
 listall: §aThese storage networks exist
 
 component.input.add: §aInput container at %position successfully added to %network!
-component.item.add: §aItem container at %position successfully added to %network!
-component.item.noitem: §cYou need to specify the item for the sorting container!
+component.sorting.add: §aSorting container at %position successfully added to %network!
+component.sorting.noitem: §cYou need to specify the item for the sorting container!
+component.sorting.setitem: §aItem type %material was added to sorting container at %position.
+component.sorting.removeitem: §eItem type %material was removed from sorting container at %position.
 component.misc.add: §aMiscellaneous container at %position successfully added to %network!
 component.select: §aSelected component type, please right click the block you want to add
 component.remove: §cRemoved component at %position
 component.noaction: §cYou must specify the action you want to do!
 component.notype: §cYou must specify the type of component you want to add!
 component.limit: §cYou reached the limit of components you can add! Please upgrade the limit with §f/net upgrade limit
-component.invalid_block: §cBlocks of type %block are not allowed to be network components!
+component.invalid_block: §cBlocks of type %material are not allowed to be network components!
 
 upgrade.noprice: §cThere is no price set for this upgrade, please contact your server administrator!
 upgrade.noeconomy: §cThe economy provider is null, please contact your server administrator!
@@ -54,7 +58,17 @@ user.action: §cPlease specify the action you want to do.
 user.add: §aSuccessfully added §f%player§a to the network
 user.remove: §aSuccessfully removed §f%player§a from the network
 
+info.input: "§aType: §rInput Container§a\nNetwork: §r%network§a\nLocation: §r%position"
+info.sorting: "§aType: §rSorting Container§a\nNetwork: §r%network§a\nLocation: §r%position§a\nFilters: §r%items"
+info.misc: "§aType: §rMisc Container§a\nNetwork: §r%network§a\nLocation: §r%position"
+
 value.notpositive: §cThis value needs to be positive, it was set back to 1.
+
+# TODO: Custom item names
+item.name.wand: §r§cNetwork Wand
+item.name.input: §rInput Container
+item.name.sorting: §rSorting Container
+item.name.misc: §rMiscellaneous Container
 
 notice: §eHaving inventory problems? Try out /networks to create a fully automated storage network!
 

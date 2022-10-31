@@ -2,6 +2,7 @@ package com.quantum625.networks.commands;
 
 import com.quantum625.networks.NetworkManager;
 import com.quantum625.networks.Network;
+import com.quantum625.networks.data.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -14,9 +15,11 @@ import java.util.*;
 public class TabCompleter implements TabExecutor {
 
     private NetworkManager net;
+    private Config config;
 
-    public TabCompleter(NetworkManager net) {
+    public TabCompleter(NetworkManager net, Config config) {
         this.net = net;
+        this.config = config;
     }
 
 
@@ -30,15 +33,24 @@ public class TabCompleter implements TabExecutor {
                     if (net.getSelectedNetwork((Player)sender) == null) {
                         return userNoSelection;
                     }
+                    if (config.getEconomyState()) {
+                        return userSelectionEconomy;
+                    }
                     return userSelection;
                 }
                 if (net.getSelectedNetwork((Player)sender) == null) {
                     return adminNoSelection;
                 }
+                if (config.getEconomyState()) {
+                    return adminSelectionEconomy;
+                }
                 return adminSelection;
             }
             if (net.getConsoleSelection() == null) {
                 return adminNoSelection;
+            }
+            if (config.getEconomyState()) {
+                return adminSelectionEconomy;
             }
             return adminSelection;
         }
@@ -50,11 +62,12 @@ public class TabCompleter implements TabExecutor {
 
             if (args.length >= 3) {
                 if (args[1].equalsIgnoreCase("add")) {
-                    if (args.length == 4) {
+
+                    if (args.length > 3) {
                         if (args[2].equalsIgnoreCase("sorting")) {
                             List<String> list = new ArrayList<String>();
                             for (Material m : Material.values()) {
-                                if (m.name().toLowerCase().contains(args[3].toLowerCase()) || args[3].equalsIgnoreCase("")) {
+                                if (m.name().toLowerCase().contains(args[args.length-1].toLowerCase()) || args[args.length-1].equalsIgnoreCase("")) {
                                     list.add(m.name().toLowerCase());
                                 }
                             }
@@ -156,9 +169,15 @@ public class TabCompleter implements TabExecutor {
         return Arrays.asList();
     }
 
-    private List<String> adminSelection = Arrays.asList("component", "create", "data", "delete", "help" ,"info", "list", "listall", "owner", "select", "sort", "upgrade", "user");
+    private List<String> adminSelection = Arrays.asList("create", "data", "delete", "help" ,"info", "list", "listall", "owner", "select", "sort", "user");
+    private List<String> adminSelectionEconomy = Arrays.asList("component", "create", "data", "delete", "help" ,"info", "list", "listall", "owner", "select", "sort", "upgrade", "user");
+
     private List<String> adminNoSelection = Arrays.asList("create", "data", "delete", "help", "list", "listall", "select");
-    private List<String> userSelection = Arrays.asList("component", "create", "delete", "help" ,"info", "list", "owner", "select", "upgrade", "user");
+
+
+    private List<String> userSelection = Arrays.asList("create", "delete", "help" ,"info", "list", "owner", "select", "user");
+    private List<String> userSelectionEconomy = Arrays.asList("component", "create", "delete", "help" ,"info", "list", "owner", "select", "upgrade", "user");
+
     private List<String> userNoSelection = Arrays.asList("create", "delete", "help" ,"list", "select");
 
 }

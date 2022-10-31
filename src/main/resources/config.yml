@@ -5,8 +5,19 @@ lang: en
 
 
 
+
+# Automatically install updates on launch
+
+auto_update: true
+
+
+
+
+
 # Blocks that are allowed to be network containers
 # Only works for blocks that have inventories
+
+# Right now only affects ECONOMY mode, but will later also affect CRAFT mode
 
 container_whitelist:
 - CHEST
@@ -18,12 +29,6 @@ container_whitelist:
 
 
 
-# Every x ticks, all networks will sort their containers
-# Increase this number, if you see laggs
-
-tickrate: 100
-
-
 
 # Notices players, that open full chests to this plugin.
 # This message will only be sent once and just to players, that do not have a network.
@@ -32,6 +37,20 @@ tickrate: 100
 notice: true
 
 
+
+
+# Set to CRAFT if players should be able to craft network components
+# Set to ECONOMY if players should be able to buy network components using /net component
+
+mode: CRAFT
+
+
+
+
+#                                      Economy related settings
+#                               These will be ignored when using CRAFT mode
+
+#===========================================================================================================================
 
 # Costs of specific features
 # Set to 0 for free and -1 for unbuyable
@@ -63,3 +82,5 @@ base_range: 40
 
 max_container_limit: 200
 max_range: 400 # It doesn't make sense to have really far distances since chests inside unloaded chunks won't work anyway
+
+#===========================================================================================================================
