@@ -1,13 +1,15 @@
 data.load: §aReloaded data from files
 data.save: §aSaved data to files
 
-create.success: §aSuccessfully created storage network %network for §r%value$
+create.success: §aSuccessfully created storage network §f%network
+create.success.eco: §aSuccessfully created storage network %network for §r%value$
 create.exists: §eThere is already a network with this name, please select another name!
 create.fail: §cThis name is already used, please select another name.
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
 create.nomoney: §cYou are missing §r%number$§c to create a new network!
 
 delete.success: §aSuccessfully deleted storage network %network, you were refunded §f%value$
+delete.success.eco: §aSuccessfully deleted storage network §f%network
 delete.confirm: §aAre you sure you want to delete storage network %network? Please confirm with §f/net delete <name> confirm
 delete.fail: §cThis network doesn't exist
 delete.nonetwork: §cPlease specify the network to delete!

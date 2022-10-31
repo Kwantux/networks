@@ -5,6 +5,15 @@ lang: en
 
 
 
+
+# Automatically install updates on launch
+
+auto_update: true
+
+
+
+
+
 # Blocks that are allowed to be network containers
 # Only works for blocks that have inventories
 

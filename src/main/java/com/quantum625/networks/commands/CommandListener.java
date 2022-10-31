@@ -122,7 +122,7 @@ public class CommandListener implements CommandExecutor {
 
                             net.add(args[1], uid);
                             if (net.getFromID(args[1]) != null) {
-                                lang.returnMessage(sender, "create.success", net.getFromID(args[1]), config.getPrice("create"));
+                                lang.returnMessage(sender, "create.success.eco", net.getFromID(args[1]), config.getPrice("create"));
                                 net.selectNetwork((Player) sender, net.getFromID(args[1]));
                             } else {
                                 lang.returnMessage(sender, "create.fail");
@@ -145,10 +145,17 @@ public class CommandListener implements CommandExecutor {
                     }
                     if (args.length > 2) {
                         if (args[2].equalsIgnoreCase("confirm")) {
-                            lang.returnMessage(sender, "delete.success", net.getFromID(args[1]), config.calculateRefund(net.getFromID(args[1])));
-                            economy.depositPlayer(Bukkit.getOfflinePlayer(net.getFromID(args[1]).getOwner()), config.calculateRefund(net.getFromID(args[1])));
-                            net.delete(args[1]);
-                            return true;
+                            if (config.getEconomyState()) {
+                                lang.returnMessage(sender, "delete.success.eco", net.getFromID(args[1]), config.calculateRefund(net.getFromID(args[1])));
+                                economy.depositPlayer(Bukkit.getOfflinePlayer(net.getFromID(args[1]).getOwner()), config.calculateRefund(net.getFromID(args[1])));
+                                net.delete(args[1]);
+                                return true;
+                            }
+                            else {
+                                lang.returnMessage(sender, "delete.success", net.getFromID(args[1]));
+                                net.delete(args[1]);
+                                return true;
+                            }
                         }
                     }
                     lang.returnMessage(sender, "delete.confirm", net.getFromID(args[1]));

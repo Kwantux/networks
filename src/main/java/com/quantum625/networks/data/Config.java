@@ -72,6 +72,11 @@ public class Config {
             economyState = false;
         }
 
+        if (config.get("auto_update") == null) {
+            Bukkit.getLogger().warning("[Networks] Config for auto_update is null, it was reset to true");
+            config.set("auto_update", true);
+        }
+
         else if (config.get("mode").toString().equalsIgnoreCase("economy")) {
             Bukkit.getLogger().info("[Networks] Launched plugin using ECONOMY mode");
             economyState = true;
@@ -82,6 +87,8 @@ public class Config {
         }
     }
 
+
+    public boolean updateAllowed() {return Boolean.valueOf(config.get("auto_update").toString());}
     public boolean noticeEnabled() {return Boolean.parseBoolean(config.get("notice").toString());}
 
     public void setLanguage(String language) {

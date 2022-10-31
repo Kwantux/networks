@@ -6,6 +6,7 @@ import com.quantum625.networks.commands.TabCompleter;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.data.CraftingManager;
 import com.quantum625.networks.listener.*;
+import net.gravitydevelopment.updater.Updater;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -50,6 +51,27 @@ public final class Main extends JavaPlugin {
                 getServer().getPluginManager().disablePlugin(this);
             }
             config.initEconomy(economy);
+        }
+
+        if (config.updateAllowed()) {
+            Bukkit.getLogger().info("[Networks] Checking for updates...");
+            Updater updater = new Updater(this, 687035, this.getFile(), Updater.UpdateType.DEFAULT, true);
+            Updater.UpdateResult result = updater.getResult();
+
+            switch (result) {
+                case SUCCESS:
+                    Bukkit.getLogger().info("[Network] Successfully updated plugin.");
+                    Bukkit.getLogger().info("[Network] It is recommended to restart the server now.");
+                    break;
+                case NO_UPDATE:
+                    Bukkit.getLogger().info("[Network] No update found.");
+                    break;
+                case DISABLED:
+                    Bukkit.getLogger().info("[Network] Updating was disabled in the configs.");
+                    break;
+                default:
+                    Bukkit.getLogger().warning("[Network] An unexpected error occurred while trying to update the plugin");
+            }
         }
 
         if (!error) {

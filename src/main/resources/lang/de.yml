@@ -1,13 +1,15 @@
 data.load: §aDaten wurden erneut geladen
 data.save: §aDaten wurden gesichert
 
-create.success: §aNetzwerk %network wurde für §r%value$§a erstellt
-create.exists: $bEs existiert bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen
+create.success: §aNetzwerk %network wurde erstellt
+create.success.eco: §aNetzwerk %network wurde für §r%value$§a erstellt
+create.exists: §bEs existiert bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen
 create.fail: §cDas Netzwerk konnte nicht korrekt erstellt werden, bitte kontaktiere den Server Admin
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
 create.nomoney: §cDir fehlen §r%number$§c um ein neues Netzwerk zu erstellen!
 
-delete.success: §aNetzwerk %network wurde gelöscht, du hast §f%value$ §azurück erhalten
+delete.success: §aNetzwerk %network wurde gelöscht
+delete.sucess.eco: §aNetzwerk %network wurde gelöscht, du hast §f%value$ §azurück erhalten
 delete.confirm: §aBist du dir sicher, dass du dieses Netzwerk löschen willst? Dann gib §f/net delete <name> confirm §aein
 delete.fail: §cDieses Netwerk existiert nicht, vielleicht hast du dich vertippt?
 delete.nonetwork: §cBitte gib das Netzwerk an, dass du löschen möchtest
@@ -52,7 +54,7 @@ location.occupied: §cAn dieser Position befindet sich bereits ein Komponent
 user.specify: §cBitte gib den Spieler an, den du hinzufügen willst.
 user.action: §cBitte gib an, was du machen möchtest.
 user.add: §aNeuer Nutzer §f%player§a wurde dem Netzwerk hinzugefügt.
-user.remove: %player §awurde vom Netzwerk entfernt.
+user.remove: §f%player §awurde vom Netzwerk entfernt.
 
 info.input: "§aTyp: §rEinfüllkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
 info.sorting: "§aTyp: §rSortierkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position§a\nFilter: §r%items"
