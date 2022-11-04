@@ -12,6 +12,7 @@ import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Container;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -92,6 +93,10 @@ public class BlockBreakEventListener implements Listener {
                                 miscContainer.setItemMeta(meta);
                                 Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), miscContainer);
                                 event.setDropItems(false);
+                            }
+
+                            for (ItemStack stack : component.getInventory()) {
+                                Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), stack);
                             }
                         }
                         network.removeComponent(new Location(event.getBlock()));
