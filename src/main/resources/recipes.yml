@@ -27,7 +27,7 @@ wand.ingredient9: AIR
 # Input container
 
 input.ingredient1: AIR
-input.ingredient2: CHEST
+input.ingredient2: BASE_ITEM
 input.ingredient3: AIR
 input.ingredient4: REDSTONE
 input.ingredient5: HOPPER
@@ -46,7 +46,7 @@ sorting.ingredient3: REDSTONE
 sorting.ingredient4: HOPPER
 sorting.ingredient5: AIR
 sorting.ingredient6: REDSTONE
-sorting.ingredient7: CHEST
+sorting.ingredient7: BASE_ITEM
 sorting.ingredient8: REDSTONE_TORCH
 sorting.ingredient9: REPEATER
 
@@ -61,5 +61,5 @@ misc.ingredient4: REDSTONE
 misc.ingredient5: HOPPER
 misc.ingredient6: REDSTONE
 misc.ingredient7: AIR
-misc.ingredient8: CHEST
+misc.ingredient8: BASE_ITEM
 misc.ingredient9: AIR

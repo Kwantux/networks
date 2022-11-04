@@ -166,6 +166,10 @@ public class Config {
         return Integer.parseInt(config.get(id).toString());
     }
 
+
+    public String[] getContainerWhitelist() {
+        return config.get("container_whitelist").toString().replace("[","").replace("]","").replace(" ", "").split(",");
+    }
     public boolean checkLocation(Location location, String component) {
         return (config.get("container_whitelist").toString().toUpperCase().contains(location.getBukkitLocation().getBlock().getType().toString().toUpperCase()));
     }
