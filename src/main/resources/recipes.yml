@@ -10,10 +10,18 @@
 #    | 7 | 8 | 9 |
 #    –––––––––––––
 
+# EMPTY means an empty slot
+
+# BASE_ITEM is only available for the containers
+# It means the block, the container is going to be
+# So for example you craft an Input Chest the same way as an Input Barrel, just that you switch out the chest with a barrel
+
+
+
 
 # Network wand
 
-wand.ingredient1: AIR
+wand.ingredient1: EMPTY
 wand.ingredient2: REDSTONE
 wand.ingredient3: GLOWSTONE_DUST
 wand.ingredient4: REDSTONE
@@ -21,20 +29,21 @@ wand.ingredient5: BLAZE_ROD
 wand.ingredient6: REDSTONE
 wand.ingredient7: GLOWSTONE_DUST
 wand.ingredient8: REDSTONE
-wand.ingredient9: AIR
+wand.ingredient9: EMPTY
+
 
 
 # Input container
 
-input.ingredient1: AIR
+input.ingredient1: EMPTY
 input.ingredient2: BASE_ITEM
-input.ingredient3: AIR
+input.ingredient3: EMPTY
 input.ingredient4: REDSTONE
 input.ingredient5: HOPPER
 input.ingredient6: REDSTONE
-input.ingredient7: AIR
+input.ingredient7: EMPTY
 input.ingredient8: REDSTONE
-input.ingredient9: AIR
+input.ingredient9: EMPTY
 
 
 
@@ -44,7 +53,7 @@ sorting.ingredient1: HOPPER
 sorting.ingredient2: COMPARATOR
 sorting.ingredient3: REDSTONE
 sorting.ingredient4: HOPPER
-sorting.ingredient5: AIR
+sorting.ingredient5: EMPTY
 sorting.ingredient6: REDSTONE
 sorting.ingredient7: BASE_ITEM
 sorting.ingredient8: REDSTONE_TORCH
@@ -54,12 +63,12 @@ sorting.ingredient9: REPEATER
 
 # Miscelleaneous Container
 
-misc.ingredient1: AIR
+misc.ingredient1: EMPTY
 misc.ingredient2: REDSTONE
-misc.ingredient3: AIR
+misc.ingredient3: EMPTY
 misc.ingredient4: REDSTONE
 misc.ingredient5: HOPPER
 misc.ingredient6: REDSTONE
-misc.ingredient7: AIR
+misc.ingredient7: EMPTY
 misc.ingredient8: BASE_ITEM
-misc.ingredient9: AIR
+misc.ingredient9: EMPTY
