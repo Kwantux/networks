@@ -12,6 +12,7 @@ import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Container;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -47,7 +48,7 @@ public class BlockBreakEventListener implements Listener {
                         if (!config.getEconomyState()) {
                             if (component instanceof InputContainer) {
 
-                                ItemStack inputContainer = new ItemStack(Material.CHEST);
+                                ItemStack inputContainer = new ItemStack(event.getBlock().getType());
                                 ItemMeta meta = inputContainer.getItemMeta();
                                 meta.setDisplayName("§rInput Container");
                                 meta.setLore(Arrays.asList("§r§9Sorts items into sorting chests and misc chests"));
@@ -70,7 +71,7 @@ public class BlockBreakEventListener implements Listener {
                                     itemslist.add("§r§f"+item);
                                 }
 
-                                ItemStack sortingContainer = new ItemStack(Material.CHEST);
+                                ItemStack sortingContainer = new ItemStack(event.getBlock().getType());
                                 ItemMeta meta = sortingContainer.getItemMeta();
                                 meta.setDisplayName("§rSorting Container");
                                 meta.setLore(itemslist);
@@ -83,7 +84,7 @@ public class BlockBreakEventListener implements Listener {
                             }
                             if (component instanceof MiscContainer) {
 
-                                ItemStack miscContainer = new ItemStack(Material.CHEST);
+                                ItemStack miscContainer = new ItemStack(event.getBlock().getType());
                                 ItemMeta meta = miscContainer.getItemMeta();
                                 meta.setDisplayName("§rMiscellaneous Container");
                                 meta.setLore(Arrays.asList("§r§9All remaining items will go into these chests"));
@@ -92,6 +93,10 @@ public class BlockBreakEventListener implements Listener {
                                 miscContainer.setItemMeta(meta);
                                 Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), miscContainer);
                                 event.setDropItems(false);
+                            }
+
+                            for (ItemStack stack : component.getInventory()) {
+                                Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), stack);
                             }
                         }
                         network.removeComponent(new Location(event.getBlock()));

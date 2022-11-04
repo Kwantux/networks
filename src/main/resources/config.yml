@@ -17,8 +17,6 @@ auto_update: true
 # Blocks that are allowed to be network containers
 # Only works for blocks that have inventories
 
-# Right now only affects ECONOMY mode, but will later also affect CRAFT mode
-
 container_whitelist:
 - CHEST
 - TRAPPED_CHEST

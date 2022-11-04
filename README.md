@@ -2,7 +2,7 @@
 
 ## About the Project
 
-You host a Minecraft-Server with paper, bukkit or spigot and have issues with large sorting systems? Use this mod, to give players an oportunity to use a serverfriendly storage system!
+You host a Minecraft-Server with paper, bukkit or spigot and have issues with large sorting systems? Use this plugin, to give players an oportunity to use a serverfriendly storage system!
 
 This Project is developed by <a href="https://github.com/Quantum625">@Quantum625</a> and <a href="https://github.com/Schwerthecht">@Schwerthecht</a>. The idea came up, as we searched for such a plugin and there was none. Hopefully we can help you with this Project.
 

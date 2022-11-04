@@ -77,12 +77,7 @@ public final class Main extends JavaPlugin {
         if (!error) {
             this.lang = new LanguageModule(dataFolder, config.getLanguage());
             this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
-            this.crafting = new CraftingManager(this.dataFolder);
-
-            Bukkit.addRecipe(crafting.wandRecipe);
-            Bukkit.addRecipe(crafting.inputContainerRecipe);
-            Bukkit.addRecipe(crafting.sortingContainerRecipe);
-            Bukkit.addRecipe(crafting.miscContainerRecipe);
+            this.crafting = new CraftingManager(this.dataFolder, config);
 
             this.commandListener = new CommandListener(net, dataFolder, lang, config, economy);
             this.tabCompleter = new TabCompleter(net, config);
@@ -96,6 +91,7 @@ public final class Main extends JavaPlugin {
             this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
             this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
             this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
+            this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(net), this);
             this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, lang), this);
             this.getServer().getPluginManager().registerEvents(new NetworkWandListener(net, lang), this);
             this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
