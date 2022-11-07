@@ -62,6 +62,24 @@ info.misc: "§aTyp: §rRestekiste§a\nNetzwerk: §r%network§a\nBlock: §r%posit
 
 value.notpositive: §cDieser Wert muss größer als 0 sein, er wurde auf 1 gesetzt.
 
+item.name.wand: §r§cNetzwerk Konfigurator
+item.name.input: §rEinfüllkiste
+item.name.sorting: §rSortierkiste
+item.name.misc: §rRestekiste
+
+item.lore.wand:
+  - "§rRechts klicke auf einen Netzwerk Komponenten um Informationen über diesen zu sehen"
+  - "§rSchleiche und Rechts klicke auf eine Sortierkiste um das Item in deiner Zweithand als Filter hinzuzufügen"
+  - "§rSchleiche und Links klicke auf eine Sortierkiste um das Item in deiner Zweithand als Filter zu entfernen"
+item.lore.input:
+  - "§r§9Verteilt items automatisch in die entsprechenden Sortierkisten und Restekisten"
+item.lore.sorting:
+  - "§r§9Nur items die dem Filter entsprechen gelangen in diese Kiste"
+  - ""
+  - "§rFilter Items:"
+item.lore.misc:
+  - "§r§9Items für die es keine Sortierkiste gibt landen hier"
+
 notice: §eVolles Inventar und unordentliche Kisten? Erstelle ein automatisches Sortiersystem mit §f/network§e!
 
 invalid: §cUngültiger Befehl, bitte gib §f/net help§c ein für alle Befehle

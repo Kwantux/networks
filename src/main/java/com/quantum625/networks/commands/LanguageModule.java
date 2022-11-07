@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class LanguageModule {
@@ -19,6 +21,14 @@ public class LanguageModule {
 
     public LanguageModule(File datafolder, String lang_id) {
         this.language = new Language(datafolder, lang_id);
+    }
+
+    public String getItemName(String key) {
+        return language.getText("item.name."+ key);
+    }
+
+    public List<String> getItemLore(String key) {
+        return Arrays.stream(language.getText("item.lore."+ key).replace("[", "").replace("]","").split(", ")).toList();
     }
 
     public void message(CommandSender sender, String message) {

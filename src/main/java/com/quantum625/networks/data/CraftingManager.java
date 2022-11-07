@@ -1,5 +1,6 @@
 package com.quantum625.networks.data;
 
+import com.quantum625.networks.commands.LanguageModule;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,6 +22,7 @@ public class CraftingManager {
 
     private File file;
     private FileConfiguration config;
+    private LanguageModule lang;
 
     public void save() {
         try {
@@ -45,9 +47,10 @@ public class CraftingManager {
     public ShapedRecipe miscContainerRecipe;
 
 
-    public CraftingManager(File dataFolder, Config pluginconfig) {
+    public CraftingManager(File dataFolder, Config pluginconfig, LanguageModule languageModule) {
 
         this.pluginconfig = pluginconfig;
+        this.lang = languageModule;
 
         this.file = new File(dataFolder, "recipes.yml");
 
@@ -65,8 +68,9 @@ public class CraftingManager {
 
 
         ItemMeta meta = wand.getItemMeta();
-        meta.setDisplayName("§r§cNetwork Wand");
-        meta.setLore(Arrays.asList("§rRight click any network component to show information about it", "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter", "§rSneak + Left click with an item in the offhand to remove a filter"));
+        meta.setDisplayName(lang.getItemName("wand"));
+        meta.setLore(lang.getItemLore("wand"));
+        //meta.setLore(Arrays.asList("§rRight click any network component to show information about it", "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter", "§rSneak + Left click with an item in the offhand to remove a filter"));
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER, 1);
         wand.setItemMeta(meta);
@@ -108,8 +112,9 @@ public class CraftingManager {
             inputContainer = new ItemStack(Material.valueOf(container_key));
 
             meta = inputContainer.getItemMeta();
-            meta.setDisplayName("§rInput Container");
-            meta.setLore(Arrays.asList("§r§9Sorts items into sorting chests and misc chests"));
+            meta.setDisplayName(lang.getItemName("input"));
+            meta.setLore(lang.getItemLore("input"));
+            //meta.setLore(Arrays.asList("§r§9Sorts items into sorting chests and misc chests"));
             data = meta.getPersistentDataContainer();
             data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "input");
             inputContainer.setItemMeta(meta);
@@ -150,8 +155,9 @@ public class CraftingManager {
             sortingContainer = new ItemStack(Material.valueOf(container_key));
 
             meta = sortingContainer.getItemMeta();
-            meta.setDisplayName("§rSorting Container");
-            meta.setLore(Arrays.asList("§rFiltered Items:"));
+            meta.setDisplayName(lang.getItemName("sorting"));
+            meta.setLore(lang.getItemLore("sorting"));
+            //meta.setLore(Arrays.asList("§rFiltered Items:"));
             data = meta.getPersistentDataContainer();
             data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "sorting");
             data.set(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING, ",");
@@ -192,8 +198,9 @@ public class CraftingManager {
             miscContainer = new ItemStack(Material.valueOf(container_key));
 
             meta = miscContainer.getItemMeta();
-            meta.setDisplayName("§rMiscellaneous Container");
-            meta.setLore(Arrays.asList("§r§9All remaining items will go into these chests"));
+            meta.setDisplayName(lang.getItemName("misc"));
+            meta.setLore(lang.getItemLore("misc"));
+            //meta.setLore(Arrays.asList("§r§9All remaining items will go into these chests"));
             data = meta.getPersistentDataContainer();
             data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "misc");
             miscContainer.setItemMeta(meta);

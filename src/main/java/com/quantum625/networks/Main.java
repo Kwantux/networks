@@ -77,7 +77,7 @@ public final class Main extends JavaPlugin {
         if (!error) {
             this.lang = new LanguageModule(dataFolder, config.getLanguage());
             this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
-            this.crafting = new CraftingManager(this.dataFolder, config);
+            this.crafting = new CraftingManager(this.dataFolder, config, lang);
 
             this.commandListener = new CommandListener(net, dataFolder, lang, config, economy);
             this.tabCompleter = new TabCompleter(net, config);
