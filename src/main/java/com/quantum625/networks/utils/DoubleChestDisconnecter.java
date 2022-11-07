@@ -16,39 +16,27 @@ public class DoubleChestDisconnecter {
         this.net = net;
     }
 
-    // Returns true if the chest is able to be a double chest
-    // Returns false if the chest is not a double chest
-    public void checkChest(Location pos) {
 
-        Bukkit.getLogger().info("Checking chest at "+ pos.toString());
+    public void checkChest(Location pos) {
 
         Block block = pos.getBlock();
 
         if (!block.getType().equals(Material.CHEST)) return;
 
-        Bukkit.getLogger().info("Block is a chest");
-
         Chest chest = (Chest) block.getBlockData();
 
         if (chest.getType().equals(Chest.Type.SINGLE)) return;
-
-        Bukkit.getLogger().info("Chest is a double chest");
 
         BaseComponent component = net.getComponentByLocation(pos);
 
         if (component == null) return;
 
-        Bukkit.getLogger().info("Pos1 is a component");
-
         BaseComponent component2 = net.getComponentByLocation(shift(pos, chest.getType(), chest.getFacing()));
 
         if (component2 == null) return;
 
-        Bukkit.getLogger().info("Pos2 is a component");
-
 
         if (!component.getType().equals(component2.getType())) {
-            Bukkit.getLogger().info("Invalid component next to each other");
             chest.setType(Chest.Type.SINGLE);
             block.setBlockData(chest);
         }
