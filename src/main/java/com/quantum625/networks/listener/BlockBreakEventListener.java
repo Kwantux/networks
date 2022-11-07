@@ -61,13 +61,10 @@ public class BlockBreakEventListener implements Listener {
                             if (component instanceof SortingContainer) {
 
                                 String items = "";
-                                for (String item : ((SortingContainer) component).getItems()) {
-                                    items += item + ",";
-                                }
-
                                 List<String> itemslist = new ArrayList<String>();
                                 itemslist.addAll(0, lang.getItemLore("sorting"));
                                 for (String item : ((SortingContainer) component).getItems()) {
+                                    items += item + ",";
                                     itemslist.add("§r§f"+item);
                                 }
 
@@ -96,7 +93,9 @@ public class BlockBreakEventListener implements Listener {
                             }
 
                             for (ItemStack stack : component.getInventory()) {
-                                Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), stack);
+                                if (stack != null) {
+                                    Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), stack);
+                                }
                             }
                         }
                         network.removeComponent(new Location(event.getBlock()));
