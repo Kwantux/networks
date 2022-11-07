@@ -50,8 +50,8 @@ public class BlockBreakEventListener implements Listener {
 
                                 ItemStack inputContainer = new ItemStack(event.getBlock().getType());
                                 ItemMeta meta = inputContainer.getItemMeta();
-                                meta.setDisplayName("§rInput Container");
-                                meta.setLore(Arrays.asList("§r§9Sorts items into sorting chests and misc chests"));
+                                meta.setDisplayName(lang.getItemName("input"));
+                                meta.setLore(lang.getItemLore("input"));
                                 PersistentDataContainer data = meta.getPersistentDataContainer();
                                 data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "input");
                                 inputContainer.setItemMeta(meta);
@@ -61,19 +61,16 @@ public class BlockBreakEventListener implements Listener {
                             if (component instanceof SortingContainer) {
 
                                 String items = "";
+                                List<String> itemslist = new ArrayList<String>();
+                                itemslist.addAll(0, lang.getItemLore("sorting"));
                                 for (String item : ((SortingContainer) component).getItems()) {
                                     items += item + ",";
-                                }
-
-                                List<String> itemslist = new ArrayList<String>();
-                                itemslist.add(0, "§rFilter Items:");
-                                for (String item : ((SortingContainer) component).getItems()) {
                                     itemslist.add("§r§f"+item);
                                 }
 
                                 ItemStack sortingContainer = new ItemStack(event.getBlock().getType());
                                 ItemMeta meta = sortingContainer.getItemMeta();
-                                meta.setDisplayName("§rSorting Container");
+                                meta.setDisplayName(lang.getItemName("sorting"));
                                 meta.setLore(itemslist);
                                 PersistentDataContainer data = meta.getPersistentDataContainer();
                                 data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "sorting");
@@ -86,8 +83,8 @@ public class BlockBreakEventListener implements Listener {
 
                                 ItemStack miscContainer = new ItemStack(event.getBlock().getType());
                                 ItemMeta meta = miscContainer.getItemMeta();
-                                meta.setDisplayName("§rMiscellaneous Container");
-                                meta.setLore(Arrays.asList("§r§9All remaining items will go into these chests"));
+                                meta.setDisplayName(lang.getItemName("misc"));
+                                meta.setLore(lang.getItemLore("misc"));
                                 PersistentDataContainer data = meta.getPersistentDataContainer();
                                 data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "misc");
                                 miscContainer.setItemMeta(meta);
@@ -96,7 +93,9 @@ public class BlockBreakEventListener implements Listener {
                             }
 
                             for (ItemStack stack : component.getInventory()) {
-                                Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), stack);
+                                if (stack != null) {
+                                    Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), stack);
+                                }
                             }
                         }
                         network.removeComponent(new Location(event.getBlock()));

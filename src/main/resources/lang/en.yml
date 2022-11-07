@@ -64,11 +64,23 @@ info.misc: "§aType: §rMisc Container§a\nNetwork: §r%network§a\nLocation: §
 
 value.notpositive: §cThis value needs to be positive, it was set back to 1.
 
-# TODO: Custom item names
 item.name.wand: §r§cNetwork Wand
 item.name.input: §rInput Container
 item.name.sorting: §rSorting Container
 item.name.misc: §rMiscellaneous Container
+
+item.lore.wand:
+  - "§rRight click any network component to show information about it"
+  - "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter"
+  - "§rSneak + Left click with an item in the offhand to remove a filter"
+item.lore.input:
+  - "§r§9Sorts items into sorting containers and misc containers"
+item.lore.sorting:
+  - "§r§9Only accepts items that match the filter of this container"
+  - ""
+  - "§rFilter Items:"
+item.lore.misc:
+  - "§r§9All remaining items will go into these"
 
 notice: §eHaving inventory problems? Try out /networks to create a fully automated storage network!
 
