@@ -56,6 +56,12 @@ user.action: §cBitte gib an, was du machen möchtest.
 user.add: §aNeuer Nutzer §f%player§a wurde dem Netzwerk hinzugefügt.
 user.remove: §f%player §awurde vom Netzwerk entfernt.
 
+merge.identical: §cDas ist leider nicht möglich.
+merge.invalid: §cEs gibt kein Netzwerk namens §f%text
+merge.nopermission: §cZum Kombinieren von zwei Netzwerken musst du der Besitzer von beiden sein!
+merge.nonetwork: "§cZum Kombinieren musst du zwei Netzwerke angeben:  §f/net merge <netzwerk1> <netzwerk2>"
+merge.success: §aNetzwerke §f%net1 §aund §f%net2 §awurden erfolgreich kombiniert.
+
 info.input: "§aTyp: §rEinfüllkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
 info.sorting: "§aTyp: §rSortierkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position§a\nFilter: §r%items"
 info.misc: "§aTyp: §rRestekiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"

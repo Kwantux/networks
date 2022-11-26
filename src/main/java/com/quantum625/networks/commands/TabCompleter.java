@@ -108,6 +108,26 @@ public class TabCompleter implements TabExecutor {
             }
         }
 
+        else if (args[0].equalsIgnoreCase("merge")) {
+            if (args.length == 2 || args.length == 3) {
+                List<String> list = new ArrayList<String>();
+                if (sender instanceof Player) {
+                    if (!((Player) sender).hasPermission("networks.admin")) {
+                        for (Network network : net.listFromOwner(((Player) sender).getUniqueId())) {
+                            if (args.length != 3 || !args[1].replace(" ", "").equalsIgnoreCase(network.getID())) {
+                                list.add(network.getID());
+                            }
+                        }
+                        return list;
+                    }
+                }
+                for (Network network : net.listAll()) {
+                    list.add(network.getID());
+                }
+                return list;
+            }
+        }
+
         else if (args[0].equalsIgnoreCase("select")) {
             if (args.length == 2) {
                 List<String> list = new ArrayList<String>();
@@ -169,15 +189,15 @@ public class TabCompleter implements TabExecutor {
         return Arrays.asList();
     }
 
-    private List<String> adminSelection = Arrays.asList("create", "data", "delete", "help" ,"info", "list", "listall", "owner", "select", "sort", "user");
-    private List<String> adminSelectionEconomy = Arrays.asList("component", "create", "data", "delete", "help" ,"info", "list", "listall", "owner", "select", "sort", "upgrade", "user");
+    private List<String> adminSelection = Arrays.asList("create", "data", "delete", "help" ,"info", "list", "listall", "merge", "owner", "select", "sort", "user");
+    private List<String> adminSelectionEconomy = Arrays.asList("component", "create", "data", "delete", "help" ,"info", "list", "listall", "merge", "owner", "select", "sort", "upgrade", "user");
 
-    private List<String> adminNoSelection = Arrays.asList("create", "data", "delete", "help", "list", "listall", "select");
+    private List<String> adminNoSelection = Arrays.asList("create", "data", "delete", "help", "list", "listall", "merge", "select");
 
 
-    private List<String> userSelection = Arrays.asList("create", "delete", "help" ,"info", "list", "owner", "select", "user");
-    private List<String> userSelectionEconomy = Arrays.asList("component", "create", "delete", "help" ,"info", "list", "owner", "select", "upgrade", "user");
+    private List<String> userSelection = Arrays.asList("create", "delete", "help" ,"info", "list", "merge", "owner", "select", "user");
+    private List<String> userSelectionEconomy = Arrays.asList("component", "create", "delete", "help" ,"info", "list", "merge", "owner", "select", "upgrade", "user");
 
-    private List<String> userNoSelection = Arrays.asList("create", "delete", "help" ,"list", "select");
+    private List<String> userNoSelection = Arrays.asList("create", "delete", "help" ,"list", "merge", "select");
 
 }

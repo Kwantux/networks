@@ -55,6 +55,20 @@ public class LanguageModule {
         }
     }
 
+    public void returnMessage(CommandSender sender, String id, String text) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+        }
+
+        else {
+            message(sender, language.getText(id).replaceAll("%text", text));
+        }
+    }
+
     public void returnMessage(CommandSender sender, String id, Player player) {
         if (language == null) {
             message(sender, "ERROR: Language module not found, please contact your system administrator");
@@ -80,6 +94,20 @@ public class LanguageModule {
 
         else {
             message(sender, language.getText(id).replaceAll("%network", network.getID()));
+        }
+    }
+
+    public void returnMessage(CommandSender sender, String id, Network network1, Network network2) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+        }
+
+        else {
+            message(sender, language.getText(id).replaceAll("%net1", network1.getID()).replaceAll("%net2", network2.getID()));
         }
     }
 
