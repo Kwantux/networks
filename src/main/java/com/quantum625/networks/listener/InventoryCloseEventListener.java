@@ -17,6 +17,8 @@ public class InventoryCloseEventListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onInventoryClose(InventoryCloseEvent event) {
-        net.sortContainer(new Location(event.getInventory().getLocation()));
+        if (event.getInventory().getLocation() != null) {
+            net.sortContainer(new Location(event.getInventory().getLocation()));
+        }
     }
 }
