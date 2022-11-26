@@ -58,6 +58,12 @@ user.action: §cPlease specify the action you want to do.
 user.add: §aSuccessfully added §f%player§a to the network
 user.remove: §aSuccessfully removed §f%player§a from the network
 
+merge.identical: §cSorry but the laws of physics can't be broken.
+merge.invalid: §cThere is no network called §f%text
+merge.nopermission: §cYou need to be owner of both networks in order to merge them!
+merge.nonetwork: "§cYou need to give two network IDs:  §f/net merge <network1> <network2>"
+merge.success: §aSuccessfully merged network §f%net2 §ainto §f%net1
+
 info.input: "§aType: §rInput Container§a\nNetwork: §r%network§a\nLocation: §r%position"
 info.sorting: "§aType: §rSorting Container§a\nNetwork: §r%network§a\nLocation: §r%position§a\nFilters: §r%items"
 info.misc: "§aType: §rMisc Container§a\nNetwork: §r%network§a\nLocation: §r%position"

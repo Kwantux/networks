@@ -469,6 +469,39 @@ public class CommandListener implements CommandExecutor {
                 lang.returnMessage(sender, "user.specify");
                 return true;
             }
+            else if (args[0].equalsIgnoreCase("merge")) {
+                if (args.length > 2) {
+
+                    Bukkit.getLogger().info(args[1]+"   "+args[2]);
+
+                    Network first = net.getFromID(args[1]);
+                    Network second = net.getFromID(args[2]);
+
+                    if (args[1].replaceAll(" ", "").equalsIgnoreCase(args[2].replaceAll(" ", ""))) {
+                        lang.returnMessage(sender, "merge.identical");
+                        return true;
+                    }
+
+                    if (first != null) {
+                        if (second != null) {
+                            Bukkit.getLogger().info(first.getID()+"   "+second.getID());
+                            if (net.checkNetworkPermission(player, first) > 1 && net.checkNetworkPermission(player, second) > 1) {
+                                first.merge(second);
+                                net.delete(second.getID());
+                                lang.returnMessage(sender, "merge.success", first, second);
+                                return true;
+                            }
+                            lang.returnMessage(sender, "merge.nopermission");
+                            return true;
+                        }
+                        lang.returnMessage(sender, "merge.invalid", args[2]);
+                        return true;
+                    }
+                    lang.returnMessage(sender, "merge.invalid", args[1]);
+                    return true;
+                }
+                lang.returnMessage(sender, "merge.nonetwork");
+            }
         }
 
         return true;

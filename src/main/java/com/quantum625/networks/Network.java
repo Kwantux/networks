@@ -104,6 +104,38 @@ public class Network {
         return null;
     }
 
+
+    public void merge(Network other) {
+        if (other != null) {
+            if (other.getInputChests().size() > 0) {
+                for (InputContainer inputContainer : other.getInputChests()) {
+                    addInputContainer(inputContainer.getPos());
+                }
+            }
+            if (other.getSortingChests().size() > 0) {
+                for (SortingContainer sortingContainer : other.getSortingChests()) {
+                    addItemContainer(sortingContainer.getPos(), sortingContainer.getItems());
+                }
+            }
+            if (other.getMiscChests().size() > 0) {
+                for (MiscContainer miscContainer : other.getMiscChests()) {
+                    addMiscContainer(miscContainer.getPos());
+                }
+            }
+
+            maxContainers +=  other.getMaxContainers();
+            //maxRange += other.getMaxRange();
+
+            if (other.getUsers().size() > 0) {
+                for (UUID user : other.getUsers()) {
+                    if (!getUsers().contains(user)) {
+                        addUser(user);
+                    }
+                }
+            }
+        }
+    }
+
     public int getSortingCounter() {return sorting_counter;}
 
 
