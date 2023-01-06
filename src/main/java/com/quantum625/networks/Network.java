@@ -162,6 +162,7 @@ public class Network {
 
     public int getMaxContainers() {return maxContainers;}
     public int getMaxRange() {return maxRange;}
+    public void setMaxRange(int maxRange) {this.maxRange = maxRange;}
 
     public ArrayList<BaseComponent> getAllComponents() {
         ArrayList<BaseComponent> components = new ArrayList<BaseComponent>();

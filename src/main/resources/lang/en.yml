@@ -50,6 +50,10 @@ upgrade.disabled: §cThis upgrade is disabled.
 upgrade.nomoney: §cYou don't have enough money to buy this upgrade! You are missing §f%number$
 upgrade.success: §aSuccessfully upgraded for §r%number$
 
+rangeupgrade.low: §cYou already installed this upgrade, the next upgrade is range tier %number.
+rangeupgrade.high: §cYou need to unlock range tier %number first!
+rangeupgrade.success: §aSuccessfully upgraded network §f%network§a to tier %number!
+
 location.none: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
 location.occupied: §cThere is already a component at this location
 
@@ -66,7 +70,7 @@ merge.success: §aSuccessfully merged network §f%net2 §ainto §f%net1
 
 info.input: "§aType: §rInput Container§a\nNetwork: §r%network§a\nLocation: §r%position"
 info.sorting: "§aType: §rSorting Container§a\nNetwork: §r%network§a\nLocation: §r%position§a\nFilters: §r%items"
-info.misc: "§aType: §rMisc Container§a\nNetwork: §r%network§a\nLocation: §r%position"
+info.misc: "§aType: §rMisc Container§a\ nNetwork: §r%network§a\nLocation: §r%position"
 
 value.notpositive: §cThis value needs to be positive, it was set back to 1.
 
@@ -74,6 +78,7 @@ item.name.wand: §r§cNetwork Wand
 item.name.input: §rInput Container
 item.name.sorting: §rSorting Container
 item.name.misc: §rMiscellaneous Container
+item.name.upgrade: §r§lTelemetry Antenna Tier %level
 
 item.lore.wand:
   - "§rRight click any network component to show information about it"
@@ -87,6 +92,9 @@ item.lore.sorting:
   - "§rFilter Items:"
 item.lore.misc:
   - "§r§9All remaining items will go into these"
+
+item.lore.upgrade:
+  - "§rClick on a network component to apply this upgrade on its network"
 
 notice: §eHaving inventory problems? Try out /networks to create a fully automated storage network!
 

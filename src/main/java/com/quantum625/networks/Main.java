@@ -93,7 +93,7 @@ public final class Main extends JavaPlugin {
             this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
             this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(net), this);
             this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, lang), this);
-            this.getServer().getPluginManager().registerEvents(new NetworkWandListener(net, lang), this);
+            this.getServer().getPluginManager().registerEvents(new NetworkWandListener(config, net, lang), this);
             this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
 
             net.loadData();

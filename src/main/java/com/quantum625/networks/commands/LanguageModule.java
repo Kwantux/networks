@@ -26,6 +26,10 @@ public class LanguageModule {
     public String getItemName(String key) {
         return language.getText("item.name."+ key);
     }
+    public String getItemName(String key, int level) {
+        return language.getText("item.name."+ key).replace("%level", ""+level);
+    }
+
 
     public List<String> getItemLore(String key) {
         return Arrays.stream(language.getText("item.lore."+ key).replace("[", "").replace("]","").split(", ")).toList();

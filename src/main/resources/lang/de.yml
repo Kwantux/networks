@@ -48,6 +48,11 @@ upgrade.disabled: §cDiese Upgrade ist deaktiviert.
 upgrade.nomoney: §cDir fehlen §f%number$§c um dieses Upgrade zu kaufen!
 upgrade.success: §aUpgrade wurde für §r%number$§a gekauft.
 
+rangeupgrade.last: §eDu hast bereits die höchste Upgradestufe erreicht.
+rangeupgrade.alreadyupgraded: §cDieses Upgrade hast du bereits installiert. Das nächste Upgrade wäre %number.
+rangeupgrade.unlockfirst: §cDu musst zuerst das Upgrade §fMk.%number§c freischalten.
+rangeupgrade.success: Reichweite Mk.%number§a wurde soeben auf dem Netzwerk §f%network§a freigeschalten!
+
 location.none: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
 location.occupied: §cAn dieser Position befindet sich bereits ein Komponent
 
@@ -72,6 +77,8 @@ item.name.wand: §r§cNetzwerk Konfigurator
 item.name.input: §rEinfüllkiste
 item.name.sorting: §rSortierkiste
 item.name.misc: §rRestekiste
+item.name.upgrade: §r§lTelemetrie Antenne Mk%level
+
 
 item.lore.wand:
   - "§rRechts klicke auf einen Netzwerk Komponenten um Informationen über diesen zu sehen"
@@ -85,6 +92,9 @@ item.lore.sorting:
   - "§rFilter Items:"
 item.lore.misc:
   - "§r§9Items für die es keine Sortierkiste gibt landen hier"
+
+item.lore.upgrade:
+  - "§rKlicke auf einen Netzwerkkomponenten um dessen Netzwerk zu upgraden"
 
 notice: §eVolles Inventar und unordentliche Kisten? Erstelle ein automatisches Sortiersystem mit §f/network§e!
 

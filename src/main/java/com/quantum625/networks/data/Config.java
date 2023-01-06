@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Config {
@@ -94,13 +95,10 @@ public class Config {
     public void setLanguage(String language) {
         config.set("lang", language);
     }
-
     public String getLanguage() {
         return config.get("lang").toString();
     }
 
-    public void setTickrate(int tickrate) {config.set("tickrate", tickrate);}
-    public int getTickrate() {return Integer.parseInt(config.get("tickrate").toString());}
 
     public int getBaseContainers() {return Integer.parseInt(config.get("base_container_limit").toString());}
     public int getBaseRange() {return Integer.parseInt(config.get("base_range").toString());}
@@ -160,10 +158,10 @@ public class Config {
     public int BUY_RESULT_SUCCESS = 1;
 
     public int getPrice(String feature) {
-        return Integer.parseInt(config.get("cost_"+ feature).toString());
+        return config.getInt("cost_"+ feature);
     }
-    public int get(String id) {
-        return Integer.parseInt(config.get(id).toString());
+    public Integer get(String id) {
+        return config.getInt(id);
     }
 
 
@@ -172,5 +170,17 @@ public class Config {
     }
     public boolean checkLocation(Location location, String component) {
         return (config.get("container_whitelist").toString().toUpperCase().contains(location.getBukkitLocation().getBlock().getType().toString().toUpperCase()));
+    }
+
+
+    public Integer[] getMaxRanges() {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        for (int i = 0; true; i++) {
+            if (config.get("range"+i) != null) {
+                result.add(get("range"+i));
+            }
+            else break;
+        }
+        return result.toArray(new Integer[0]);
     }
 }
