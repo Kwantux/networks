@@ -50,8 +50,9 @@ upgrade.disabled: §cThis upgrade is disabled.
 upgrade.nomoney: §cYou don't have enough money to buy this upgrade! You are missing §f%number$
 upgrade.success: §aSuccessfully upgraded for §r%number$
 
-rangeupgrade.low: §cYou already installed this upgrade, the next upgrade is range tier %number.
-rangeupgrade.high: §cYou need to unlock range tier %number first!
+rangeupgrade.last: §eYou already reached the maximum upgrade level.
+rangeupgrade.alreadyupgraded: §cYou already installed this upgrade, the next upgrade is range tier %number.
+rangeupgrade.unlockfirst: §cYou need to unlock range tier %number first!
 rangeupgrade.success: §aSuccessfully upgraded network §f%network§a to tier %number!
 
 location.none: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>

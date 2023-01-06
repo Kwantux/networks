@@ -1,5 +1,6 @@
 package com.quantum625.networks.data;
 
+import com.quantum625.networks.Installer;
 import com.quantum625.networks.Main;
 import com.quantum625.networks.Network;
 import com.quantum625.networks.utils.Location;
@@ -8,47 +9,42 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Config {
+public class Config extends BaseConfiguration {
 
-    private File file;
     private Economy economy;
-    public FileConfiguration config;
     private boolean economyState;
 
 
-    public void save() {
-        try {
-            config.save(file);
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private String[] essentialKeys = {
+            "lang",
+            "auto_update",
+            "container_whitelist",
+            "notice",
+            "mode",
+            "range0",
+            "cost_create", "cost_container_limit", "cost_range",
+            "refund_create", "refund_container_limit", "refund_range",
+            "base_container_limit", "base_range",
+            "max_container_limit", "max_range"
+    };
 
     public void initEconomy(Economy economy) {
         this.economy = economy;
     }
-    public Config(File dataFolder) {
+    public Config(JavaPlugin plugin, Installer installer) {
 
-        this.file = new File(dataFolder, "config.yml");
+        super(plugin, "config.yml", installer);
 
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        this.config = YamlConfiguration.loadConfiguration(file);
+        keys = essentialKeys;
 
-        if (config.get("lang") == null) {
+        /*if (config.get("lang") == null) {
             config.set("lang", "en");
             Bukkit.getLogger().warning("[Networks] Config for language is missing, it was reset to en");
         }
@@ -85,7 +81,7 @@ public class Config {
 
         else {
             Bukkit.getLogger().warning("[Networks] Config for the mode is invalid: " + config.get("mode").toString() + " must be either CRAFT or ECONOMY");
-        }
+        }*/
     }
 
 

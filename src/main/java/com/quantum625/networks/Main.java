@@ -42,7 +42,7 @@ public final class Main extends JavaPlugin {
         this.dataFolder = this.getDataFolder();
         this.installer = new Installer(dataFolder, this);
 
-        this.config = new Config(dataFolder);
+        this.config = new Config(this, installer);
         economyState = config.getEconomyState();
         if (economyState) {
             economyState = setupEconomy();
@@ -75,7 +75,7 @@ public final class Main extends JavaPlugin {
         }
 
         if (!error) {
-            this.lang = new LanguageModule(dataFolder, config.getLanguage());
+            this.lang = new LanguageModule(this, installer, config.getLanguage());
             this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
             this.crafting = new CraftingManager(this.dataFolder, config, lang);
 

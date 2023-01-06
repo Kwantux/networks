@@ -49,8 +49,9 @@ mode: CRAFT
 
 
 
-#                                   Craft-Mode related settings
+#                                   CRAFT-Mode related settings
 #                           These will be ignored when using ECONOMY mode
+#                         Even if you are on ECONOMY mode, Do NOT delte this part!
 
 #===========================================================================================================================
 
@@ -80,8 +81,9 @@ range4: 2147483647 # This number means interdimensional item transmission is all
 
 
 
-#                                      Economy related settings
+#                                      ECONOMY related settings
 #                               These will be ignored when using CRAFT mode
+#                            Even if you are on CRAFT mode, Do NOT delte this part!
 
 #===========================================================================================================================
 
@@ -95,7 +97,7 @@ cost_range: 25
 
 
 # Refund a Player is getting, when deleting a network
-# Don't set this below the creation cost, otherwise players can dupe money.'
+# Don't set this below the creation cost, otherwise players can dupe money.
 
 refund_create: 0
 refund_container_limit: 0

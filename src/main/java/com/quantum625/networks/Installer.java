@@ -2,13 +2,24 @@ package com.quantum625.networks;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Installer {
 
+    private Logger logger;
     private File dataFolder;
     private JavaPlugin plugin;
     public Installer(File dataFolder, JavaPlugin plugin) {
+
+        this.logger = plugin.getLogger();
+
         File networksFolder = new File(dataFolder, "networks");
         if (!networksFolder.exists()) {
             networksFolder.mkdirs();
@@ -34,6 +45,23 @@ public class Installer {
         File langfile = new File(dataFolder, "lang/"+id+".yml");
         if (!langfile.exists()) {
             plugin.saveResource("lang/"+id+".yml", false);
+        }
+    }
+
+    public void updateConfig(String path, FileConfiguration oldConfig) {
+        plugin.saveResource(path, true);
+        File configFile = new File(dataFolder, path);
+        FileConfiguration newConfig = YamlConfiguration.loadConfiguration(configFile);
+
+        for (String key : oldConfig.getKeys(true)) {
+            newConfig.set(key, oldConfig.get(key));
+        }
+
+        try {
+            newConfig.save(configFile);
+        }
+        catch (IOException e) {
+            logger.warning(e.getMessage());
         }
     }
 
