@@ -561,7 +561,7 @@ public class CommandListener implements CommandExecutor {
 
     private List playerHelpMessage = Arrays.asList(
             "\"\"",
-            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.3 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.4 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/net help\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
@@ -579,7 +579,7 @@ public class CommandListener implements CommandExecutor {
 
     private List adminHelpMessage = Arrays.asList(
             "\"\"",
-            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.3 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.4 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/net help\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
@@ -601,7 +601,7 @@ public class CommandListener implements CommandExecutor {
 
     private String helpMessage = """
 
-       Networks Plugin - Version 1.1.3 
+       Networks Plugin - Version 1.1.4 
 ==========================================
 
 /net help - Show this menu

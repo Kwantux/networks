@@ -41,10 +41,14 @@ public class CraftingManager {
     private ItemStack sortingContainer;
     private ItemStack miscContainer;
 
+    private ItemStack upgrade = new ItemStack(Material.LIGHTNING_ROD);
+
     public ShapedRecipe wandRecipe;
     public ShapedRecipe inputContainerRecipe;
     public ShapedRecipe sortingContainerRecipe;
     public ShapedRecipe miscContainerRecipe;
+
+    public ShapedRecipe upgradeRecipe;
 
 
     public CraftingManager(File dataFolder, Config pluginconfig, LanguageModule languageModule) {
@@ -235,6 +239,49 @@ public class CraftingManager {
             }
 
             Bukkit.addRecipe(miscContainerRecipe);
+
+        }
+
+        boolean running = true;
+
+        for (int j = 1; running; j++) {
+            meta = upgrade.getItemMeta();
+            meta.setDisplayName(lang.getItemName("upgrade",j));
+            meta.setLore(lang.getItemLore("upgrade"));
+            //meta.setLore(Arrays.asList("§rRight click any network component to show information about it", "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter", "§rSneak + Left click with an item in the offhand to remove a filter"));
+            data = meta.getPersistentDataContainer();
+            data.set(new NamespacedKey("networks", "upgrade"), PersistentDataType.INTEGER, j);
+            upgrade.setItemMeta(meta);
+
+            upgradeRecipe = new ShapedRecipe(new NamespacedKey("networks", "upgrade"+j), upgrade);
+
+            ingredients = new String[9];
+            shape = new String[9];
+
+            for (int i = 0; i < 9; i++) {
+                if (!config.contains("upgrade"+j+".ingredient" + (i + 1))) running = false;
+                else {
+                    ingredients[i] = config.get("upgrade" + j + ".ingredient" + (i + 1)).toString();
+                    if (ingredients[i].equalsIgnoreCase("AIR") || ingredients[i].equalsIgnoreCase("EMPTY")) {
+                        shape[i] = " ";
+                    } else {
+                        shape[i] = "" + keys[i];
+                    }
+                }
+
+            }
+
+            if (running) {
+                upgradeRecipe.shape(shape[0] + shape[1] + shape[2], shape[3] + shape[4] + shape[5], shape[6] + shape[7] + shape[8]);
+
+                for (int i = 0; i < 9; i++) {
+                    if (!shape[i].equalsIgnoreCase(" ")) {
+                        upgradeRecipe.setIngredient(keys[i], Material.valueOf(config.get("upgrade" + j + ".ingredient" + (i + 1)).toString()));
+                    }
+                }
+
+                Bukkit.addRecipe(upgradeRecipe);
+            }
 
         }
     }

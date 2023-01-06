@@ -42,7 +42,7 @@ public final class Main extends JavaPlugin {
         this.dataFolder = this.getDataFolder();
         this.installer = new Installer(dataFolder, this);
 
-        this.config = new Config(dataFolder);
+        this.config = new Config(this, installer);
         economyState = config.getEconomyState();
         if (economyState) {
             economyState = setupEconomy();
@@ -75,7 +75,7 @@ public final class Main extends JavaPlugin {
         }
 
         if (!error) {
-            this.lang = new LanguageModule(dataFolder, config.getLanguage());
+            this.lang = new LanguageModule(this, installer, config.getLanguage());
             this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
             this.crafting = new CraftingManager(this.dataFolder, config, lang);
 
@@ -93,7 +93,7 @@ public final class Main extends JavaPlugin {
             this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
             this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(net), this);
             this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, lang), this);
-            this.getServer().getPluginManager().registerEvents(new NetworkWandListener(net, lang), this);
+            this.getServer().getPluginManager().registerEvents(new NetworkWandListener(config, net, lang), this);
             this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
 
             net.loadData();

@@ -45,8 +45,45 @@ mode: CRAFT
 
 
 
-#                                      Economy related settings
+
+
+
+
+#                                   CRAFT-Mode related settings
+#                           These will be ignored when using ECONOMY mode
+#                         Even if you are on ECONOMY mode, Do NOT delte this part!
+
+#===========================================================================================================================
+
+# Defines the maximum range, items can be teleported for each level of range.
+
+# You can add more range upgrades to this list, but you NEED to also give them a crafting recipe to
+
+# Must start with 0!
+# Paste 2147483647 to enable interdimensional item transmission
+# Values Must be between 1 and 2147483647!
+
+range0: 25
+range1: 50
+range2: 100
+range3: 500
+range4: 2147483647 # This number means interdimensional item transmission is allowed
+
+#===========================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+#                                      ECONOMY related settings
 #                               These will be ignored when using CRAFT mode
+#                            Even if you are on CRAFT mode, Do NOT delte this part!
 
 #===========================================================================================================================
 
@@ -60,7 +97,7 @@ cost_range: 25
 
 
 # Refund a Player is getting, when deleting a network
-# Don't set this below the creation cost, otherwise players can dupe money.'
+# Don't set this below the creation cost, otherwise players can dupe money.
 
 refund_create: 0
 refund_container_limit: 0
@@ -79,6 +116,6 @@ base_range: 40
 # Don't set this below the base_ value'
 
 max_container_limit: 200
-max_range: 400 # It doesn't make sense to have really far distances since chests inside unloaded chunks won't work anyway
+max_range: 500 # Note: Items won't be transmitted into unloaded chunks
 
 #===========================================================================================================================

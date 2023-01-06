@@ -1,5 +1,6 @@
 package com.quantum625.networks.commands;
 
+import com.quantum625.networks.Installer;
 import com.quantum625.networks.Network;
 import com.quantum625.networks.data.Language;
 import com.quantum625.networks.utils.Location;
@@ -8,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.annotation.Nonnull;
 import java.io.File;
@@ -19,13 +21,17 @@ public class LanguageModule {
 
     private Language language;
 
-    public LanguageModule(File datafolder, String lang_id) {
-        this.language = new Language(datafolder, lang_id);
+    public LanguageModule(JavaPlugin plugin, Installer installer, String lang_id) {
+        this.language = new Language(plugin, installer, lang_id);
     }
 
     public String getItemName(String key) {
         return language.getText("item.name."+ key);
     }
+    public String getItemName(String key, int level) {
+        return language.getText("item.name."+ key).replace("%level", ""+level);
+    }
+
 
     public List<String> getItemLore(String key) {
         return Arrays.stream(language.getText("item.lore."+ key).replace("[", "").replace("]","").split(", ")).toList();

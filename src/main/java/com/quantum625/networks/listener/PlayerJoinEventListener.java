@@ -7,11 +7,17 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerJoinEventListener implements Listener {
 
+    private String[] modes = {"input", "sorting", "misc"};
+    private String[] types = {"barrel", "chest", "dispenser", "dropper", "hopper", "trapped_chest"};
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().discoverRecipe(new NamespacedKey("networks", "wand"));
-        event.getPlayer().discoverRecipe(new NamespacedKey("networks", "input_container"));
-        event.getPlayer().discoverRecipe(new NamespacedKey("networks", "sorting_container"));
-        event.getPlayer().discoverRecipe(new NamespacedKey("networks", "misc_container"));
+
+        for (String mode: modes) {
+            for (String type : types) {
+                event.getPlayer().discoverRecipe(new NamespacedKey("networks", mode + "_container_" + type));
+            }
+        }
     }
 }

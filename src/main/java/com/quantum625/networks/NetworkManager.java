@@ -46,7 +46,12 @@ public final class NetworkManager implements Serializable {
 
     public boolean add(String id, UUID owner) {
         if (this.getFromID(id) == null) {
-            networks.add(new Network(id, owner, config.getBaseContainers(), config.getBaseRange()));
+            if (config.getEconomyState()) {
+                networks.add(new Network(id, owner, config.getBaseContainers(), config.getBaseRange()));
+            }
+            else {
+                networks.add(new Network(id, owner, -1, config.getMaxRanges()[0]));
+            }
             return true;
         }
         return false;
