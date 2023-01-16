@@ -7,6 +7,12 @@ You host a Minecraft-Server with paper, bukkit or spigot and have issues with la
 This Project is developed by <a href="https://github.com/Quantum625">@Quantum625</a> and <a href="https://github.com/Schwerthecht">@Schwerthecht</a>. The idea came up, as we searched for such a plugin and there was none. Hopefully we can help you with this Project.
 
 
+### Links
+[Modrinth]()
+[Bukkit]()
+
+Since Curseforge staff takes longer to view source code, updates usually arrive earlier on Modrinth.
+
 
 ## How to use
 
