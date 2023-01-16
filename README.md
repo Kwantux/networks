@@ -8,8 +8,9 @@ This Project is developed by <a href="https://github.com/Quantum625">@Quantum625
 
 
 ### Links
-[Modrinth]()
-[Bukkit]()
+[Modrinth](https://modrinth.com/plugin/networks)
+
+[Bukkit](https://dev.bukkit.org/projects/networks)
 
 Since Curseforge staff takes longer to view source code, updates usually arrive earlier on Modrinth.
 
