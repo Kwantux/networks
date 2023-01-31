@@ -42,6 +42,7 @@ public class BlockBreakEventListener implements Listener {
 
     @EventHandler (priority = EventPriority.HIGHEST)
     public void blockBreak(BlockBreakEvent event) {
+
         for (Network network : net.listAll()) {
             for (BaseComponent component : network.getAllComponents()) {
                 if (component.getPos().equals(new Location(event.getBlock()))) {

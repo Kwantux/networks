@@ -36,6 +36,7 @@ public final class Main extends JavaPlugin {
         //Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin has launched\n==================================\n");
         //Bukkit.getLogger().info(startMessage);
 
+
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
@@ -87,6 +88,7 @@ public final class Main extends JavaPlugin {
 
             this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
             this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, config, lang), this);
+            this.getServer().getPluginManager().registerEvents(new ExplosionListener(config, lang, net), this);
             this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
             this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
             this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);

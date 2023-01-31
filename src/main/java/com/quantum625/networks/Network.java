@@ -6,12 +6,11 @@ import com.quantum625.networks.component.SortingContainer;
 import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.JSONNetwork;
 import com.quantum625.networks.utils.Location;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.*;
 
 public class Network {
     private String id;
@@ -265,5 +264,41 @@ public class Network {
                 }
             }
         }
+    }
+
+    public ArrayList<ItemStack> getItems() {
+        ArrayList<ItemStack> result = new ArrayList<ItemStack>();
+        for (BaseComponent component : getAllComponents()) {
+            result.addAll(Arrays.stream(component.getInventory().getContents()).toList());
+        }
+        return result;
+    }
+
+    public HashMap<Material, Integer> countItems() {
+        HashMap<Material, Integer> map = new HashMap<Material, Integer>();
+
+        for (ItemStack stack : getItems()) {
+            if (stack != null) {
+                if (map.keySet().contains(stack.getType())) {
+                    map.replace(stack.getType(), map.get(stack.getType()) + stack.getAmount());
+                } else map.put(stack.getType(), stack.getAmount());
+            }
+        }
+
+        LinkedHashMap<Material, Integer> sortedMap = new LinkedHashMap<>();
+        ArrayList<Integer> list = new ArrayList<>();
+
+        for (Map.Entry<Material, Integer> entry : map.entrySet()) {
+            list.add(entry.getValue());
+        }
+        Collections.sort(list);
+        for (int num : list) {
+            for (Map.Entry<Material, Integer> entry : map.entrySet()) {
+                if (entry.getValue().equals(num)) {
+                    sortedMap.put(entry.getKey(), num);
+                }
+            }
+        }
+        return sortedMap;
     }
 }

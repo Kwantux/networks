@@ -54,6 +54,7 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -68,6 +69,7 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -82,6 +84,7 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -96,6 +99,7 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -110,6 +114,7 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -124,6 +129,22 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
+        }
+
+        else {
+            message(sender, language.getText(id).replaceAll("%network", network.getID()).replaceAll("%value", String.valueOf(value)));
+        }
+    }
+
+    public void returnMessage(CommandSender sender, String id, Network network, int value) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -138,6 +159,7 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -152,6 +174,7 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -168,6 +191,7 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -186,6 +210,7 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -200,6 +225,7 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
@@ -215,10 +241,11 @@ public class LanguageModule {
 
         if (language.getText(id) == null) {
             message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
         }
 
         else {
-            message(sender, language.getText(id).replaceAll("%number", String.valueOf(value)));
+            message(sender, language.getText(id).replaceAll("%value", String.valueOf(value)));
         }
     }
 

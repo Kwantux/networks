@@ -27,6 +27,12 @@ container_whitelist:
 
 
 
+# Disables explosion damage on network components
+
+blast_proof_components: true
+
+
+
 
 # Notices players, that open full chests to this plugin.
 # This message will only be sent once and just to players, that do not have a network.
