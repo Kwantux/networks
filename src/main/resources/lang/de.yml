@@ -74,7 +74,7 @@ info.sorting: "§aTyp: §rSortierkiste§a\nNetzwerk: §r%network§a\nBlock: §r%
 info.misc: "§aTyp: §rRestekiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
 
 items.noitems: "§cIn diesem Netzwerk befinden sich noch keine Items."
-items.message: "§a§lItems im Netzwerk §f%network§a :"
+items.message: "§a§lItems im Netzwerk §f%network§a:"
 
 value.notpositive: §cDieser Wert muss größer als 0 sein, er wurde auf 1 gesetzt.
 

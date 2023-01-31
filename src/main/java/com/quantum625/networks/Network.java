@@ -291,7 +291,7 @@ public class Network {
         for (Map.Entry<Material, Integer> entry : map.entrySet()) {
             list.add(entry.getValue());
         }
-        Collections.sort(list);
+        Collections.sort(list, Comparator.reverseOrder());
         for (int num : list) {
             for (Map.Entry<Material, Integer> entry : map.entrySet()) {
                 if (entry.getValue().equals(num)) {

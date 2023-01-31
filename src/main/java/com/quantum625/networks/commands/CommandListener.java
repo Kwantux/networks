@@ -256,13 +256,11 @@ public class CommandListener implements CommandExecutor {
                     return true;
                 }
 
-                lang.returnMessage(sender, "items.message");
+                lang.returnMessage(sender, "items.message", network);
 
                 for (Map.Entry<Material, Integer> entry : network.countItems().entrySet()) {
-                    System.out.println(entry.getKey().toString() + ":  " + entry.getValue());
-                    if (entry.getKey().isBlock()) sendJSONMessage(player, "/tellraw @p [\"\",{\"translate\":\"block.minecraft."+entry.getKey().toString().toLowerCase()+"\",\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_item\",\"contents\":\"minecraft:"+entry.getKey().toString().toLowerCase()+"\"}},{\"text\":\": \",\"color\":\"white\"},{\"text\":\""+entry.getValue()+"\",\"color\":\"white\"}]");
-                    else sendJSONMessage(player, "/tellraw @p [\"\",{\"translate\":\"item.minecraft."+entry.getKey().toString().toLowerCase()+"\",\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_item\",\"contents\":\"minecraft:"+entry.getKey().toString().toLowerCase()+"\"}},{\"text\":\": \",\"color\":\"white\"},{\"text\":\""+entry.getValue()+"\",\"color\":\"white\"}]");
-                    //sendJSONMessage(player, "/tellraw @p [{\"translate\":\"block.minecraft."+entry.getKey().toString().toLowerCase()+"\",\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_item\",\"contents\":\"minecraft:"+entry.getKey().toString().toLowerCase()+"\"}},{\"text\":\": \",\"color\":\"white\"},{\"text\":\""+entry.getValue()+"\",\"color\":\"white\"}]");
+                    if (entry.getKey().isBlock()) sendJSONMessage(player, "[\"\",{\"translate\":\"block.minecraft."+entry.getKey().toString().toLowerCase()+"\",\"color\":\"aqua\",\"hoverEvent\":{\"action\":\"show_item\",\"contents\":\"minecraft:"+entry.getKey().toString().toLowerCase()+"\"}},{\"text\":\":    \",\"color\":\"white\"},{\"text\":\""+entry.getValue()+"\",\"color\":\"white\"}]");
+                    else sendJSONMessage(player, "[\"\",{\"translate\":\"item.minecraft."+entry.getKey().toString().toLowerCase()+"\",\"color\":\"aqua\",\"hoverEvent\":{\"action\":\"show_item\",\"contents\":\"minecraft:"+entry.getKey().toString().toLowerCase()+"\"}},{\"text\":\":    \",\"color\":\"white\"},{\"text\":\""+entry.getValue()+"\",\"color\":\"white\"}]");
                 }
 
 
