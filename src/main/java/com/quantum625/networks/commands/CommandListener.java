@@ -1,5 +1,6 @@
 package com.quantum625.networks.commands;
 
+import com.google.gson.stream.JsonReader;
 import com.quantum625.networks.NetworkManager;
 import com.quantum625.networks.Network;
 import com.quantum625.networks.component.InputContainer;
@@ -8,14 +9,17 @@ import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.utils.Location;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -107,7 +111,7 @@ public class CommandListener implements CommandExecutor {
 
             else if (args[0].equalsIgnoreCase("create")) {
 
-                if (args[1] != null) {
+                if (args.length > 1) {
                     if (net.getFromID(args[1]) != null) {
                         lang.returnMessage(sender, "create.exists");
                     } else {
@@ -133,6 +137,9 @@ public class CommandListener implements CommandExecutor {
                             lang.returnMessage(sender, "create.success", net.getFromID(args[1]));
                         }
                     }
+                }
+                else {
+                    lang.returnMessage(sender, "create.noname");
                 }
                 return true;
             } else if (args[0].equalsIgnoreCase("delete")) {
@@ -234,6 +241,29 @@ public class CommandListener implements CommandExecutor {
                     returnMessage(sender, "X: " + miscContainer.getPos().getX() + " Y: " + miscContainer.getPos().getY() + " Z: " + miscContainer.getPos().getZ() + " World: " + miscContainer.getPos().getDim());
                 }
                 returnMessage(sender, "");
+
+
+                return true;
+            } else if (args[0].equalsIgnoreCase("items")) {
+                Network network = getSelected(sender);
+                if (network == null) {
+                    lang.returnMessage(sender, "select.noselection");
+                    return true;
+                }
+
+                if (network.countItems().entrySet().size() == 0) {
+                    lang.returnMessage(sender, "items.noitems");
+                    return true;
+                }
+
+                lang.returnMessage(sender, "items.message");
+
+                for (Map.Entry<Material, Integer> entry : network.countItems().entrySet()) {
+                    System.out.println(entry.getKey().toString() + ":  " + entry.getValue());
+                    if (entry.getKey().isBlock()) sendJSONMessage(player, "/tellraw @p [\"\",{\"translate\":\"block.minecraft."+entry.getKey().toString().toLowerCase()+"\",\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_item\",\"contents\":\"minecraft:"+entry.getKey().toString().toLowerCase()+"\"}},{\"text\":\": \",\"color\":\"white\"},{\"text\":\""+entry.getValue()+"\",\"color\":\"white\"}]");
+                    else sendJSONMessage(player, "/tellraw @p [\"\",{\"translate\":\"item.minecraft."+entry.getKey().toString().toLowerCase()+"\",\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_item\",\"contents\":\"minecraft:"+entry.getKey().toString().toLowerCase()+"\"}},{\"text\":\": \",\"color\":\"white\"},{\"text\":\""+entry.getValue()+"\",\"color\":\"white\"}]");
+                    //sendJSONMessage(player, "/tellraw @p [{\"translate\":\"block.minecraft."+entry.getKey().toString().toLowerCase()+"\",\"color\":\"green\",\"hoverEvent\":{\"action\":\"show_item\",\"contents\":\"minecraft:"+entry.getKey().toString().toLowerCase()+"\"}},{\"text\":\": \",\"color\":\"white\"},{\"text\":\""+entry.getValue()+"\",\"color\":\"white\"}]");
+                }
 
 
                 return true;
@@ -544,7 +574,6 @@ public class CommandListener implements CommandExecutor {
 
     private void sendJSONMessage(Player player, String message) {
         Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "execute as " + player.getUniqueId() + " run tellraw @s " + message);
-
     }
 
 
@@ -561,7 +590,7 @@ public class CommandListener implements CommandExecutor {
 
     private List playerHelpMessage = Arrays.asList(
             "\"\"",
-            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.4 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.5 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/net help\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
@@ -579,7 +608,7 @@ public class CommandListener implements CommandExecutor {
 
     private List adminHelpMessage = Arrays.asList(
             "\"\"",
-            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.4 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.5 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/net help\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
@@ -601,7 +630,7 @@ public class CommandListener implements CommandExecutor {
 
     private String helpMessage = """
 
-       Networks Plugin - Version 1.1.4 
+       Networks Plugin - Version 1.1.5 
 ==========================================
 
 /net help - Show this menu

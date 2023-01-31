@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Config extends BaseConfiguration {
 
@@ -29,6 +30,7 @@ public class Config extends BaseConfiguration {
             "notice",
             "mode",
             "range0",
+            "blast_proof_components",
             "cost_create", "cost_container_limit", "cost_range",
             "refund_create", "refund_container_limit", "refund_range",
             "base_container_limit", "base_range",
@@ -84,6 +86,7 @@ public class Config extends BaseConfiguration {
         }*/
     }
 
+    public boolean blastProofComponents() {return config.getBoolean("blast_proof_components");}
 
     public boolean updateAllowed() {return Boolean.valueOf(config.get("auto_update").toString());}
     public boolean noticeEnabled() {return Boolean.parseBoolean(config.get("notice").toString());}

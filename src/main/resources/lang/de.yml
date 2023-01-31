@@ -4,9 +4,10 @@ data.save: §aDaten wurden gesichert
 create.success: §aNetzwerk %network wurde erstellt
 create.success.eco: §aNetzwerk %network wurde für §r%value$§a erstellt
 create.exists: §bEs existiert bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen
+create.noname: §eDein Netzwerk benötigt einen Namen, um diesen zu vergeben, nutze §f/net create <name>
 create.fail: §cDas Netzwerk konnte nicht korrekt erstellt werden, bitte kontaktiere den Server Admin
 create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
-create.nomoney: §cDir fehlen §r%number$§c um ein neues Netzwerk zu erstellen!
+create.nomoney: §cDir fehlen §r%value$§c um ein neues Netzwerk zu erstellen!
 
 delete.success: §aNetzwerk %network wurde gelöscht
 delete.sucess.eco: §aNetzwerk %network wurde gelöscht, du hast §f%value$ §azurück erhalten
@@ -14,7 +15,7 @@ delete.confirm: §aBist du dir sicher, dass du dieses Netzwerk löschen willst? 
 delete.fail: §cDieses Netwerk existiert nicht, vielleicht hast du dich vertippt?
 delete.nonetwork: §cBitte gib das Netzwerk an, dass du löschen möchtest
 
-select.noselection: §4Es wurde kein Netzwerk ausgewählt, bitte wähle ein Netzwerk aus mit §f/net select <network>
+select.noselection: §cEs wurde kein Netzwerk ausgewählt, bitte wähle ein Netzwerk aus mit §f/net select <network>
 select.success: §a%network wurde ausgewählt
 select.notexisting: §cDieses Netzwerk existiert nicht, vielleicht hast du dich vertippt?
 select.nonetwork: §cBitte gib das Netwerk an, dass du auswählen möchtest
@@ -36,6 +37,7 @@ component.sorting.removeitem: §aItemtyp %material wurde von der Sortierkiste be
 component.misc.add: §aRestekiste bei %position wurde zu %network hinzugefügt
 component.select: §aKomponententyp wurde ausgewählt, bitte rechts klicke den Block, der hinzugefügt werden soll
 component.remove: §cKomponent bei %position wurde entfernt
+component.exploded: §4Komponent bei §f%position§4 aus dem Netzwerk §f%network§4 wurde durch eine Explosion zerstört!
 component.noaction: §cBitte gib an, was du tun möchtest. Hinzufügen oder löschen?
 component.notype: §cBitet gib die Art von Komponent an
 component.limit: §cDu hast das Limit an Komponenten erreicht, bitte erweitere das Limit mit §f/net upgrade limit
@@ -45,13 +47,13 @@ upgrade.noprice: §cFür dieses Upgrade wurde kein Preis gesetzt, bitte kontakti
 upgrade.noeconomy: §cEin Problem mit dem Economy Provider ist aufgetreten, bitte kontaktiere deinen Server Administrator!
 upgrade.maxed: §cDu hast die maximale Anzahl an Upgrades erreicht.
 upgrade.disabled: §cDiese Upgrade ist deaktiviert.
-upgrade.nomoney: §cDir fehlen §f%number$§c um dieses Upgrade zu kaufen!
-upgrade.success: §aUpgrade wurde für §r%number$§a gekauft.
+upgrade.nomoney: §cDir fehlen §f%value$§c um dieses Upgrade zu kaufen!
+upgrade.success: §aUpgrade wurde für §r%value$§a gekauft.
 
 rangeupgrade.last: §eDu hast bereits die höchste Upgradestufe erreicht.
-rangeupgrade.alreadyupgraded: §cDieses Upgrade hast du bereits installiert. Das nächste Upgrade wäre %number.
-rangeupgrade.unlockfirst: §cDu musst zuerst das Upgrade §fMk.%number§c freischalten.
-rangeupgrade.success: Reichweite Mk.%number§a wurde soeben auf dem Netzwerk §f%network§a freigeschalten!
+rangeupgrade.alreadyupgraded: §cDieses Upgrade hast du bereits installiert. Das nächste Upgrade wäre §fReichweite %value.
+rangeupgrade.unlockfirst: §cDu musst zuerst das Upgrade §Reichweite %value§c freischalten.
+rangeupgrade.success: Reichweite %value§a wurde soeben auf dem Netzwerk §f%network§a freigeschalten!
 
 location.none: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
 location.occupied: §cAn dieser Position befindet sich bereits ein Komponent
@@ -70,6 +72,9 @@ merge.success: §aNetzwerke §f%net1 §aund §f%net2 §awurden erfolgreich kombi
 info.input: "§aTyp: §rEinfüllkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
 info.sorting: "§aTyp: §rSortierkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position§a\nFilter: §r%items"
 info.misc: "§aTyp: §rRestekiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
+
+items.noitems: "§cIn diesem Netzwerk befinden sich noch keine Items."
+items.message: "§a§lItems im Netzwerk §f%network§a :"
 
 value.notpositive: §cDieser Wert muss größer als 0 sein, er wurde auf 1 gesetzt.
 

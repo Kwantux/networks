@@ -19,7 +19,6 @@ public class HopperCollectEventListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onInventoryClose(InventoryPickupItemEvent event) {
-        Bukkit.getLogger().info("Inventory Pickup Item Event ");
         if (event.getInventory().getType().equals(InventoryType.HOPPER)) {
             net.sortContainer(new Location(event.getInventory().getLocation()));
         }

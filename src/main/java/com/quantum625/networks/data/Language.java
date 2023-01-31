@@ -21,7 +21,7 @@ public class Language extends BaseConfiguration{
 
     private String[] essentialKeys = {
             "data.load", "data.save",
-            "create.success", "create.success.eco", "create.exists", "create.fail", "create.noowner", "create.nomoney",
+            "create.success", "create.success.eco", "create.exists", "create.noname", "create.fail", "create.noowner", "create.nomoney",
             "delete.success", "delete.success.eco", "delte.confirm", "delete.fail", "delete.nonetwork",
             "select.noselection", "select.success", "select.notexisting", "select.nonetwork",
             "permission.server", "permission.owner", "permission.user",
