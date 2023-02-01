@@ -8,6 +8,7 @@ import com.quantum625.networks.component.InputContainer;
 import com.quantum625.networks.component.SortingContainer;
 import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.Config;
+import com.quantum625.networks.utils.DoubleChestDisconnecter;
 import com.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -31,12 +32,14 @@ public class BlockBreakEventListener implements Listener {
 
     private NetworkManager net;
     private Config config;
+    private DoubleChestDisconnecter dcd;
     private LanguageModule lang;
 
 
-    public BlockBreakEventListener(NetworkManager networkManager, Config config,  LanguageModule languageModule) {
+    public BlockBreakEventListener(NetworkManager networkManager, Config config, DoubleChestDisconnecter doubleChestDisconnecter, LanguageModule languageModule) {
         net = networkManager;
         lang = languageModule;
+        dcd = doubleChestDisconnecter;
         this.config = config;
     }
 
@@ -46,6 +49,9 @@ public class BlockBreakEventListener implements Listener {
         for (Network network : net.listAll()) {
             for (BaseComponent component : network.getAllComponents()) {
                 if (component.getPos().equals(new Location(event.getBlock()))) {
+                    
+                    dcd.disconnectChests(component.getPos());
+                    
                     if (net.checkNetworkPermission(event.getPlayer(), network) > 1) {
                         if (!config.getEconomyState()) {
                             if (component instanceof InputContainer) {
@@ -104,7 +110,7 @@ public class BlockBreakEventListener implements Listener {
                         lang.returnMessage(event.getPlayer(), "component.remove", new Location(event.getBlock()));
                     }
                     else {
-                        lang.returnMessage(event.getPlayer(), "permission.admin");
+                        lang.returnMessage(event.getPlayer(), "permission.user");
                         event.setCancelled(true);
                     }
                 }

@@ -1,12 +1,13 @@
 package com.quantum625.networks.commands;
 
-import com.google.gson.stream.JsonReader;
 import com.quantum625.networks.NetworkManager;
 import com.quantum625.networks.Network;
 import com.quantum625.networks.component.InputContainer;
 import com.quantum625.networks.component.SortingContainer;
 import com.quantum625.networks.component.MiscContainer;
 import com.quantum625.networks.data.Config;
+import com.quantum625.networks.inventory.InventoryMenu;
+import com.quantum625.networks.inventory.InventoryMenuManager;
 import com.quantum625.networks.utils.Location;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Material;
@@ -16,7 +17,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -263,6 +263,16 @@ public class CommandListener implements CommandExecutor {
                     else sendJSONMessage(player, "[\"\",{\"translate\":\"item.minecraft."+entry.getKey().toString().toLowerCase()+"\",\"color\":\"aqua\",\"hoverEvent\":{\"action\":\"show_item\",\"contents\":\"minecraft:"+entry.getKey().toString().toLowerCase()+"\"}},{\"text\":\":    \",\"color\":\"white\"},{\"text\":\""+entry.getValue()+"\",\"color\":\"white\"}]");
                 }
 
+
+                return true;
+            } else if (args[0].equalsIgnoreCase("view")) {
+                Network network = getSelected(sender);
+                if (network == null) {
+                    lang.returnMessage(sender, "select.noselection");
+                    return true;
+                }
+
+                InventoryMenuManager.addInventoryMenu(player, network);
 
                 return true;
             } else if (args[0].equalsIgnoreCase("list")) {
@@ -588,7 +598,7 @@ public class CommandListener implements CommandExecutor {
 
     private List playerHelpMessage = Arrays.asList(
             "\"\"",
-            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.5 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.2.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/net help\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
@@ -606,7 +616,7 @@ public class CommandListener implements CommandExecutor {
 
     private List adminHelpMessage = Arrays.asList(
             "\"\"",
-            "[\"\",{\"text\":\"       Networks Plugin - Version 1.1.5 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.2.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/net help\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
@@ -628,7 +638,7 @@ public class CommandListener implements CommandExecutor {
 
     private String helpMessage = """
 
-       Networks Plugin - Version 1.1.5 
+       Networks Plugin - Version 1.2.0
 ==========================================
 
 /net help - Show this menu

@@ -26,12 +26,12 @@ public class BlockPlaceEventListener implements Listener {
 
     private final DoubleChestDisconnecter dcd;
 
-    public BlockPlaceEventListener (NetworkManager net, Config config, LanguageModule lang) {
+    public BlockPlaceEventListener (NetworkManager net, Config config, DoubleChestDisconnecter doubleChestDisconnecter, LanguageModule lang) {
         this.net = net;
         this.config = config;
         this.lang = lang;
 
-        dcd = new DoubleChestDisconnecter(net);
+        dcd = doubleChestDisconnecter;
     }
 
     @EventHandler(priority= EventPriority.HIGH)

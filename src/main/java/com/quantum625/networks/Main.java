@@ -5,7 +5,9 @@ import com.quantum625.networks.commands.LanguageModule;
 import com.quantum625.networks.commands.TabCompleter;
 import com.quantum625.networks.data.Config;
 import com.quantum625.networks.data.CraftingManager;
+import com.quantum625.networks.inventory.InventoryMenuManager;
 import com.quantum625.networks.listener.*;
+import com.quantum625.networks.utils.DoubleChestDisconnecter;
 import net.gravitydevelopment.updater.Updater;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -25,6 +27,7 @@ public final class Main extends JavaPlugin {
     private NetworkManager net;
     private Config config;
     private CraftingManager crafting;
+    private DoubleChestDisconnecter dcd;
     private Economy economy;
     private LanguageModule lang;
     private boolean economyState;
@@ -86,17 +89,20 @@ public final class Main extends JavaPlugin {
             getCommand("network").setExecutor(commandListener);
             getCommand("network").setTabCompleter(tabCompleter);
 
+            this.dcd = new DoubleChestDisconnecter(net);
+
             this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
-            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, config, lang), this);
+            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, config, dcd, lang), this);
             this.getServer().getPluginManager().registerEvents(new ExplosionListener(config, lang, net), this);
             this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
             this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net, lang, config), this);
             this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
             this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
             this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(net), this);
-            this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, lang), this);
+            this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, dcd, lang), this);
             this.getServer().getPluginManager().registerEvents(new NetworkWandListener(config, net, lang), this);
             this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
+            this.getServer().getPluginManager().registerEvents(new InventoryMenuListener(), this);
 
             net.loadData();
         }
@@ -133,6 +139,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         if (!error) {
+            InventoryMenuManager.closeAll();
             net.saveData();
         }
         //Bukkit.getLogger().info("\n\n==================================\n   Networks Plugin was shut down\n==================================\n");

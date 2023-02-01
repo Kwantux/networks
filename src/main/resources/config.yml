@@ -103,7 +103,7 @@ cost_range: 25
 
 
 # Refund a Player is getting, when deleting a network
-# Don't set this below the creation cost, otherwise players can dupe money.
+# Don't set this above the creation cost, otherwise players can dupe money.
 
 refund_create: 0
 refund_container_limit: 0
