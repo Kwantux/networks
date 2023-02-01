@@ -21,7 +21,7 @@ public class DoubleChestDisconnecter {
 
         Block block = pos.getBlock();
 
-        if (!block.getType().equals(Material.CHEST)) return;
+        if (!block.getType().equals(Material.CHEST) && !block.getType().equals(Material.TRAPPED_CHEST)) return;
 
         Chest chest = (Chest) block.getBlockData();
 
@@ -36,10 +36,33 @@ public class DoubleChestDisconnecter {
         if (component2 == null) return;
 
 
-        if (!component.getType().equals(component2.getType())) {
-            chest.setType(Chest.Type.SINGLE);
-            block.setBlockData(chest);
-        }
+        chest.setType(Chest.Type.SINGLE);
+        block.setBlockData(chest);
+
+    }
+
+    public void disconnectChests(Location pos) {
+
+        Block block = pos.getBlock();
+
+        if (!block.getType().equals(Material.CHEST) && !block.getType().equals(Material.TRAPPED_CHEST)) return;
+
+        Chest chest = (Chest) block.getBlockData();
+
+        if (chest.getType().equals(Chest.Type.SINGLE)) return;
+
+        BaseComponent component = net.getComponentByLocation(pos);
+
+        if (component == null) return;
+
+        Block block2 = (shift(pos, chest.getType(), chest.getFacing())).getBlock();
+        Chest chest2 = (Chest) block2.getBlockData();
+
+        chest.setType(Chest.Type.SINGLE);
+        block.setBlockData(chest);
+
+        chest2.setType(Chest.Type.SINGLE);
+        block2.setBlockData(chest2);
 
     }
 

@@ -76,7 +76,7 @@ info.sorting: "§aType: §rSorting Container§a\nNetwork: §r%network§a\nLocati
 info.misc: "§aType: §rMisc Container§a\ nNetwork: §r%network§a\nLocation: §r%position"
 
 items.noitems: "§cThere are no items in your storage network."
-items.message: "§a§lTotal items in network §f%network§a :"
+items.message: "§a§lTotal items in network §f%network§a:"
 
 value.notpositive: §cThis value needs to be positive, it was set back to 1.
 

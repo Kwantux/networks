@@ -269,7 +269,12 @@ public class Network {
     public ArrayList<ItemStack> getItems() {
         ArrayList<ItemStack> result = new ArrayList<ItemStack>();
         for (BaseComponent component : getAllComponents()) {
-            result.addAll(Arrays.stream(component.getInventory().getContents()).toList());
+            for (ItemStack stack : component.getInventory().getContents()) {
+                if (stack != null) {
+                    result.add(stack);
+                }
+            }
+            //result.addAll(Arrays.stream(component.getInventory().getContents()).toList());
         }
         return result;
     }
@@ -291,7 +296,7 @@ public class Network {
         for (Map.Entry<Material, Integer> entry : map.entrySet()) {
             list.add(entry.getValue());
         }
-        Collections.sort(list);
+        Collections.sort(list, Comparator.reverseOrder());
         for (int num : list) {
             for (Map.Entry<Material, Integer> entry : map.entrySet()) {
                 if (entry.getValue().equals(num)) {

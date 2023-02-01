@@ -189,14 +189,14 @@ public class TabCompleter implements TabExecutor {
         return Arrays.asList();
     }
 
-    private List<String> adminSelection = Arrays.asList("create", "data", "delete", "help" ,"info", "list", "listall", "merge", "owner", "select", "sort", "user");
-    private List<String> adminSelectionEconomy = Arrays.asList("component", "create", "data", "delete", "help" ,"info", "list", "listall", "merge", "owner", "select", "sort", "upgrade", "user");
+    private List<String> adminSelection = Arrays.asList("create", "data", "delete", "help" ,"info", "items", "list", "listall", "merge", "owner", "select", "sort", "user", "view");
+    private List<String> adminSelectionEconomy = Arrays.asList("component", "create", "data", "delete", "help" ,"info", "items", "list", "listall", "merge", "owner", "select", "sort", "upgrade", "user", "view");
 
     private List<String> adminNoSelection = Arrays.asList("create", "data", "delete", "help", "list", "listall", "merge", "select");
 
 
-    private List<String> userSelection = Arrays.asList("create", "delete", "help" ,"info", "list", "merge", "owner", "select", "user");
-    private List<String> userSelectionEconomy = Arrays.asList("component", "create", "delete", "help" ,"info", "list", "merge", "owner", "select", "upgrade", "user");
+    private List<String> userSelection = Arrays.asList("create", "delete", "help" ,"info", "items", "list", "merge", "owner", "select", "user", "view");
+    private List<String> userSelectionEconomy = Arrays.asList("component", "create", "delete", "help" ,"info", "items", "list", "merge", "owner", "select", "upgrade", "user", "view");
 
     private List<String> userNoSelection = Arrays.asList("create", "delete", "help" ,"list", "merge", "select");
 
