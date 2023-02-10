@@ -27,7 +27,7 @@ public class Language extends BaseConfiguration{
             "permission.server", "permission.owner", "permission.user",
             "list.empty", "list.noplayer", "list",
             "component.input.add", "component.sorting.add", "component.sorting.noitem", "component.sorting.setitem", "component.sortign.removeitem", "component.misc.add",
-            "component.select", "component.remove", "component.noaction", "component.notype", "component.limit", "component.invalid_block",
+            "component.select", "component.remove", "component.noaction", "component.notype", "component.limit", "component.invalid_block", "component.nocomponent",
             "upgrade.noprice", "upgrade.noeconomy", "upgrade.maxed", "upgrade.disabled", "upgrade.nomoney", "upgrade.success",
             "rangeupgrade.last", "rangeupgrade.alreadyupgraded", "rangeupgrade.unlockfirst", "rangeupgrade.success",
             "location.none", "location.occupied",

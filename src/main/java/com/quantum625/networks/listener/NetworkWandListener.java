@@ -73,6 +73,9 @@ public class NetworkWandListener implements Listener {
                         }
                     }
                 }
+                else {
+                    lang.returnMessage(p, "component.nocomponent");
+                }
             }
 
             if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade"), PersistentDataType.INTEGER)) {

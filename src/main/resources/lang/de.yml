@@ -42,6 +42,7 @@ component.noaction: §cBitte gib an, was du tun möchtest. Hinzufügen oder lös
 component.notype: §cBitet gib die Art von Komponent an
 component.limit: §cDu hast das Limit an Komponenten erreicht, bitte erweitere das Limit mit §f/net upgrade limit
 component.invalid_block: §c%material Blöcke können keine Netzwerk Komponenten sein
+component.nocomponent: §cThis block is not a network component!
 
 upgrade.noprice: §cFür dieses Upgrade wurde kein Preis gesetzt, bitte kontaktiere deinen Server Administrator!
 upgrade.noeconomy: §cEin Problem mit dem Economy Provider ist aufgetreten, bitte kontaktiere deinen Server Administrator!
