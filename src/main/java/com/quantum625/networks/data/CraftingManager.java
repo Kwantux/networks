@@ -36,12 +36,6 @@ public class CraftingManager {
     private Config pluginconfig;
 
     private char[] keys = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
-    private ItemStack wand = new ItemStack(Material.BLAZE_ROD);
-    private ItemStack inputContainer;
-    private ItemStack sortingContainer;
-    private ItemStack miscContainer;
-
-    private ItemStack upgrade = new ItemStack(Material.LIGHTNING_ROD);
 
     public ShapedRecipe wandRecipe;
     public ShapedRecipe inputContainerRecipe;
@@ -49,6 +43,63 @@ public class CraftingManager {
     public ShapedRecipe miscContainerRecipe;
 
     public ShapedRecipe upgradeRecipe;
+
+
+    public ItemStack getNetworkWand(int mode) {
+        ItemStack wand = new ItemStack(Material.BLAZE_ROD);
+        ItemMeta meta = wand.getItemMeta();
+        meta.setDisplayName(lang.getItemName("wand."+mode));
+        meta.setLore(lang.getItemLore("wand."+mode));
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER, mode);
+        wand.setItemMeta(meta);
+        return wand;
+    }
+
+    public ItemStack getInputContainer(Material material) {
+        ItemStack inputContainer = new ItemStack(material);
+        ItemMeta meta = inputContainer.getItemMeta();
+        meta.setDisplayName(lang.getItemName("input"));
+        meta.setLore(lang.getItemLore("input"));
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "input");
+        inputContainer.setItemMeta(meta);
+        return inputContainer;
+    }
+
+    public ItemStack getSortingContainer(Material material) {
+        ItemStack sortingContainer = new ItemStack(material);
+        ItemMeta meta = sortingContainer.getItemMeta();
+        meta.setDisplayName(lang.getItemName("sorting"));
+        meta.setLore(lang.getItemLore("sorting"));
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "sorting");
+        data.set(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING, ",");
+        sortingContainer.setItemMeta(meta);
+        return sortingContainer;
+    }
+
+    public ItemStack getMiscContainer(Material material) {
+        ItemStack miscContainer = new ItemStack(material);
+        ItemMeta meta = miscContainer.getItemMeta();
+        meta.setDisplayName(lang.getItemName("misc"));
+        meta.setLore(lang.getItemLore("misc"));
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "misc");
+        miscContainer.setItemMeta(meta);
+        return miscContainer;
+    }
+
+    public ItemStack getRangeUpgrade(int tier) {
+        ItemStack upgrade = new ItemStack(Material.LIGHTNING_ROD);
+        ItemMeta meta = upgrade.getItemMeta();
+        meta.setDisplayName(lang.getItemName("upgrade",tier));
+        meta.setLore(lang.getItemLore("upgrade"));
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(new NamespacedKey("networks", "upgrade"), PersistentDataType.INTEGER, tier);
+        upgrade.setItemMeta(meta);
+        return upgrade;
+    }
 
 
     public CraftingManager(File dataFolder, Config pluginconfig, LanguageModule languageModule) {
@@ -71,15 +122,7 @@ public class CraftingManager {
 
 
 
-        ItemMeta meta = wand.getItemMeta();
-        meta.setDisplayName(lang.getItemName("wand"));
-        meta.setLore(lang.getItemLore("wand"));
-        //meta.setLore(Arrays.asList("§rRight click any network component to show information about it", "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter", "§rSneak + Left click with an item in the offhand to remove a filter"));
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER, 1);
-        wand.setItemMeta(meta);
-
-        wandRecipe = new ShapedRecipe(new NamespacedKey("networks","wand"), wand);
+        wandRecipe = new ShapedRecipe(new NamespacedKey("networks","wand"), getNetworkWand(0));
 
         String[] ingredients = new String[9];
         String[] shape = new String[9];
@@ -113,17 +156,7 @@ public class CraftingManager {
         
         for (String container_key : pluginconfig.getContainerWhitelist()) {
 
-            inputContainer = new ItemStack(Material.valueOf(container_key));
-
-            meta = inputContainer.getItemMeta();
-            meta.setDisplayName(lang.getItemName("input"));
-            meta.setLore(lang.getItemLore("input"));
-            //meta.setLore(Arrays.asList("§r§9Sorts items into sorting chests and misc chests"));
-            data = meta.getPersistentDataContainer();
-            data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "input");
-            inputContainer.setItemMeta(meta);
-
-            inputContainerRecipe = new ShapedRecipe(new NamespacedKey("networks", "input_container_"+container_key.toLowerCase()), inputContainer);
+            inputContainerRecipe = new ShapedRecipe(new NamespacedKey("networks", "input_container_"+container_key.toLowerCase()), getInputContainer(Material.valueOf(container_key)));
 
             for (int i = 0; i < 9; i++) {
                 if (!config.contains("input.ingredient" + (i + 1))) {
@@ -156,18 +189,7 @@ public class CraftingManager {
 
 
 
-            sortingContainer = new ItemStack(Material.valueOf(container_key));
-
-            meta = sortingContainer.getItemMeta();
-            meta.setDisplayName(lang.getItemName("sorting"));
-            meta.setLore(lang.getItemLore("sorting"));
-            //meta.setLore(Arrays.asList("§rFiltered Items:"));
-            data = meta.getPersistentDataContainer();
-            data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "sorting");
-            data.set(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING, ",");
-            sortingContainer.setItemMeta(meta);
-
-            sortingContainerRecipe = new ShapedRecipe(new NamespacedKey("networks", "sorting_container_"+container_key.toLowerCase()), sortingContainer);
+            sortingContainerRecipe = new ShapedRecipe(new NamespacedKey("networks", "sorting_container_"+container_key.toLowerCase()), getSortingContainer(Material.valueOf(container_key)));
 
             for (int i = 0; i < 9; i++) {
                 if (!config.contains("sorting.ingredient" + (i + 1))) {
@@ -199,17 +221,7 @@ public class CraftingManager {
             Bukkit.addRecipe(sortingContainerRecipe);
 
 
-            miscContainer = new ItemStack(Material.valueOf(container_key));
-
-            meta = miscContainer.getItemMeta();
-            meta.setDisplayName(lang.getItemName("misc"));
-            meta.setLore(lang.getItemLore("misc"));
-            //meta.setLore(Arrays.asList("§r§9All remaining items will go into these chests"));
-            data = meta.getPersistentDataContainer();
-            data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "misc");
-            miscContainer.setItemMeta(meta);
-
-            miscContainerRecipe = new ShapedRecipe(new NamespacedKey("networks", "misc_container_"+container_key.toLowerCase()), miscContainer);
+            miscContainerRecipe = new ShapedRecipe(new NamespacedKey("networks", "misc_container_"+container_key.toLowerCase()), getMiscContainer(Material.valueOf(container_key)));
 
             for (int i = 0; i < 9; i++) {
                 if (!config.contains("misc.ingredient" + (i + 1))) {
@@ -245,15 +257,8 @@ public class CraftingManager {
         boolean running = true;
 
         for (int j = 1; running; j++) {
-            meta = upgrade.getItemMeta();
-            meta.setDisplayName(lang.getItemName("upgrade",j));
-            meta.setLore(lang.getItemLore("upgrade"));
-            //meta.setLore(Arrays.asList("§rRight click any network component to show information about it", "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter", "§rSneak + Left click with an item in the offhand to remove a filter"));
-            data = meta.getPersistentDataContainer();
-            data.set(new NamespacedKey("networks", "upgrade"), PersistentDataType.INTEGER, j);
-            upgrade.setItemMeta(meta);
 
-            upgradeRecipe = new ShapedRecipe(new NamespacedKey("networks", "upgrade"+j), upgrade);
+            upgradeRecipe = new ShapedRecipe(new NamespacedKey("networks", "upgrade"+j), getRangeUpgrade(j));
 
             ingredients = new String[9];
             shape = new String[9];

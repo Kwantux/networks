@@ -42,7 +42,8 @@ component.noaction: §cBitte gib an, was du tun möchtest. Hinzufügen oder lös
 component.notype: §cBitet gib die Art von Komponent an
 component.limit: §cDu hast das Limit an Komponenten erreicht, bitte erweitere das Limit mit §f/net upgrade limit
 component.invalid_block: §c%material Blöcke können keine Netzwerk Komponenten sein
-component.nocomponent: §cThis block is not a network component!
+component.nocomponent: §cDieser Block ist kein Netzwerkkomponent!
+component.priority: §eDie Priorität des Komponenten wurde auf §f%value §egeändert.
 
 upgrade.noprice: §cFür dieses Upgrade wurde kein Preis gesetzt, bitte kontaktiere deinen Server Administrator!
 upgrade.noeconomy: §cEin Problem mit dem Economy Provider ist aufgetreten, bitte kontaktiere deinen Server Administrator!
@@ -71,25 +72,36 @@ merge.nonetwork: "§cZum Kombinieren musst du zwei Netzwerke angeben:  §f/net m
 merge.success: §aNetzwerke §f%net1 §aund §f%net2 §awurden erfolgreich kombiniert.
 
 info.input: "§aTyp: §rEinfüllkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
-info.sorting: "§aTyp: §rSortierkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position§a\nFilter: §r%items"
-info.misc: "§aTyp: §rRestekiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
+info.sorting: "§aTyp: §rSortierkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position§a\nPriorität: §r%value§a\nFilter: §r%items"
+info.misc: "§aTyp: §rRestekiste§a\nNetzwerk: §r%network§a\nBlock: §r%position\n§aPriorität: §r%value§a"
 
 items.noitems: "§cIn diesem Netzwerk befinden sich noch keine Items."
 items.message: "§a§lItems im Netzwerk §f%network§a:"
 
 value.notpositive: §cDieser Wert muss größer als 0 sein, er wurde auf 1 gesetzt.
 
-item.name.wand: §r§cNetzwerk Konfigurator
+item.name.wand.0: §r§cNetzwerk Konfigurator
+item.name.wand.1: §r§cPrioritäts Konfigurator
 item.name.input: §rEinfüllkiste
 item.name.sorting: §rSortierkiste
 item.name.misc: §rRestekiste
-item.name.upgrade: §r§lTelemetrie Antenne Mk%level
+item.name.upgrade: §r§lTelemetrie Antenne v%level
 
 
-item.lore.wand:
+item.lore.wand.0:
   - "§rRechts klicke auf einen Netzwerk Komponenten um Informationen über diesen zu sehen"
   - "§rSchleiche und Rechts klicke auf eine Sortierkiste um das Item in deiner Zweithand als Filter hinzuzufügen"
   - "§rSchleiche und Links klicke auf eine Sortierkiste um das Item in deiner Zweithand als Filter zu entfernen"
+  - ""
+  - "§rLinks klicke, um den Modus des Netzwerk Konfigurators zu ändern"
+
+item.lore.wand.1:
+  - "§rRechts klicke auf einen Netzwerk Komponenten um Informationen über diesen zu sehen"
+  - "§rSchleiche und Rechts klicke auf einen Netzwerk Komponenten um dessen Priorität zu erhöhen"
+  - "§rSchleiche und Links klicke auf einen Netzwerk Komponenten um dessen Priorität zu senken"
+  - ""
+  - "§rLinks klicke um den Modus des Netzwerk Konfigurators zu ändern"
+
 item.lore.input:
   - "§r§9Verteilt items automatisch in die entsprechenden Sortierkisten und Restekisten"
 item.lore.sorting:

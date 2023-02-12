@@ -75,26 +75,61 @@ public class Network {
         return null;
     }
 
-    private SortingContainer getItemContainerByItem(Location pos, String item) {
+    private SortingContainer getSortingContainerByItem(Location pos, String item) {
+        SortingContainer best = null;
+
         for (SortingContainer i : sorting_containers) {
             if (Arrays.stream(i.getItems()).toList().contains(item) && i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {
-                return i;
+
+                if (best != null) {
+                    if (best.getPriority() < i.getPriority()) {
+                        best = i;
+                    }
+                    else if (best.getPriority() == i.getPriority()) {
+                        if (best.countItems() > i.countItems()) {
+                            best = i;
+                        }
+                    }
+                }
+
+                else {
+                    best = i;
+                }
             }
         }
-        return null;
+
+        return best;
     }
 
 
     private MiscContainer getMiscContainer(Location pos) {
+
+        MiscContainer best = null;
+
         for (MiscContainer i : misc_containers) {
             if (i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {
-                return i;
+
+                if (best != null) {
+                    if (best.getPriority() < i.getPriority()) {
+                        best = i;
+                    }
+                    else if (best.getPriority() == i.getPriority()) {
+                        if (best.countItems() > i.countItems()) {
+                            best = i;
+                        }
+                    }
+                }
+
+                else {
+                    best = i;
+                }
             }
         }
-        return null;
+        return best;
     }
 
     public BaseComponent getComponentByLocation(Location pos) {
+        if (pos == null) return null;
         for (BaseComponent component : getAllComponents()) {
             if (component.getPos().equals(pos)) {
                 return component;
@@ -248,17 +283,21 @@ public class Network {
 
                     sorting_counter += 1;
 
-                    SortingContainer container = getItemContainerByItem(pos, stack.getType().toString().toUpperCase());
-                    if (container != null) {
-                        container.getInventory().addItem(stack);
-                        inventory.remove(stack);
+                    SortingContainer sortingContainer = getSortingContainerByItem(pos, stack.getType().toString().toUpperCase());
+                    if (sortingContainer != null) {
+                        if (!sortingContainer.getInventory().equals(inventory)) {
+                            sortingContainer.getInventory().addItem(stack);
+                            inventory.removeItem(stack);
+                        }
                     }
 
                     else {
                         MiscContainer miscContainer = getMiscContainer(pos);
                         if (miscContainer != null) {
-                            miscContainer.getInventory().addItem(stack);
-                            inventory.remove(stack);
+                            if (!miscContainer.getInventory().equals(inventory)) {
+                                miscContainer.getInventory().addItem(stack);
+                                inventory.removeItem(stack);
+                            }
                         }
                     }
                 }

@@ -183,6 +183,22 @@ public class LanguageModule {
     }
 
 
+    public void returnMessage(CommandSender sender, String id, Network network, Location location, int value) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+        }
+
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
+        }
+
+        else {
+            message(sender, language.getText(id).replaceAll("%network", network.getID()).replaceAll("%position", location.toString()).replaceAll("%value", ""+value));
+        }
+    }
+
+
     public void returnMessage(CommandSender sender, String id, Network network, Location location, String[] items) {
         if (language == null) {
             message(sender, "ERROR: Language module not found, please contact your system administrator");
@@ -202,7 +218,25 @@ public class LanguageModule {
             message(sender, language.getText(id).replaceAll("%network", network.getID()).replaceAll("%position", location.toString()).replaceAll("%items", list));
         }
     }
+    public void returnMessage(CommandSender sender, String id, Network network, Location location, int value, String[] items) {
+        if (language == null) {
+            message(sender, "ERROR: Language module not found, please contact your system administrator");
+            return;
+        }
 
+        if (language.getText(id) == null) {
+            message(sender, "ERROR: No language key found for " + id);
+            message(sender, "Try restarting the server (NOT reload!)");
+        }
+
+        else {
+            String list = "";
+            for (String item : items) {
+                list += "\n" + item.toUpperCase();
+            }
+            message(sender, language.getText(id).replaceAll("%network", network.getID()).replaceAll("%position", location.toString()).replaceAll("%items", list).replaceAll("%value", ""+value));
+        }
+    }
     public void returnMessage(CommandSender sender, String id, Material material) {
         if (language == null) {
             message(sender, "ERROR: Language module not found, please contact your system administrator");

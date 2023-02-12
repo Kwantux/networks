@@ -27,7 +27,7 @@ public class Language extends BaseConfiguration{
             "permission.server", "permission.owner", "permission.user",
             "list.empty", "list.noplayer", "list",
             "component.input.add", "component.sorting.add", "component.sorting.noitem", "component.sorting.setitem", "component.sortign.removeitem", "component.misc.add",
-            "component.select", "component.remove", "component.noaction", "component.notype", "component.limit", "component.invalid_block", "component.nocomponent",
+            "component.select", "component.remove", "component.noaction", "component.notype", "component.limit", "component.invalid_block", "component.nocomponent", "component.priority",
             "upgrade.noprice", "upgrade.noeconomy", "upgrade.maxed", "upgrade.disabled", "upgrade.nomoney", "upgrade.success",
             "rangeupgrade.last", "rangeupgrade.alreadyupgraded", "rangeupgrade.unlockfirst", "rangeupgrade.success",
             "location.none", "location.occupied",
@@ -35,8 +35,8 @@ public class Language extends BaseConfiguration{
             "merge.identical", "merge.invalid", "merge.nopermission", "merge.nonetwork", "merge.success",
             "info.input", "info.sorting", "info.misc",
             "value.notpositive",
-            "item.name-wand", "item.name.input", "item.name.sorting", "item.name.misc", "item.name.upgrade",
-            "item.lore.wand", "item.lore.input", "item.lore.sorting", "item.lore.misc", "item.lore.upgrade",
+            "item.name.wand.0", "item.name.wand.1", "item.name.input", "item.name.sorting", "item.name.misc", "item.name.upgrade",
+            "item.lore.wand.0", "item.lore.wand.1", "item.lore.input", "item.lore.sorting", "item.lore.misc", "item.lore.upgrade",
             "notice",
             "invalid"
     };

@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 
 import java.util.Arrays;
 
-public class SortingContainer extends BaseComponent {
+public class SortingContainer extends BaseOutputContainer {
     private String[] items;
 
     public SortingContainer(Location pos, String[] items) {
