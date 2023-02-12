@@ -598,7 +598,7 @@ public class CommandListener implements CommandExecutor {
 
     private List playerHelpMessage = Arrays.asList(
             "\"\"",
-            "[\"\",{\"text\":\"       Networks Plugin - Version 1.2.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.2.1 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/net help\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
@@ -609,14 +609,12 @@ public class CommandListener implements CommandExecutor {
             "\"\"",
             "[\"\",{\"text\":\"/net info\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net info\"}},{\"text\":\" - \"},{\"text\":\"Show the stats of your storage network\",\"color\":\"yellow\"}]",
             "[\"\",{\"text\":\"/net list\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net list\"}},{\"text\":\" - \"},{\"text\":\"List all your storage networks\",\"color\":\"yellow\"}]",
-            "\"\"",
-            "[\"\",{\"text\":\"/net component add <type>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net component add\"}},{\"text\":\" - \"},{\"text\":\"Add components to your network\",\"color\":\"yellow\"}]",
             "\"\""
     );
 
     private List adminHelpMessage = Arrays.asList(
             "\"\"",
-            "[\"\",{\"text\":\"       Networks Plugin - Version 1.2.0 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
+            "[\"\",{\"text\":\"       Networks Plugin - Version 1.2.1 ========================================\",\"bold\":true,\"color\":\"dark_green\"}]",
             "\"\"",
             "[\"\",{\"text\":\"/net help\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net help\"}},{\"text\":\" - \"},{\"text\":\"Show this menu\",\"color\":\"yellow\"}]",
             "\"\"",
@@ -631,14 +629,12 @@ public class CommandListener implements CommandExecutor {
             "[\"\",{\"text\":\"/net info\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net info\"}},{\"text\":\" - \"},{\"text\":\"Show the stats of your storage network\",\"color\":\"yellow\"}]",
             "[\"\",{\"text\":\"/net list\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net list\"}},{\"text\":\" - \"},{\"text\":\"List all your storage networks\",\"color\":\"yellow\"}]",
             "[\"\",{\"text\":\"/net listall\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net listall\"}},{\"text\":\" - \"},{\"text\":\"List all storage networks\",\"color\":\"yellow\"}]",
-            "\"\"",
-            "[\"\",{\"text\":\"/net component add <type>\",\"clickEvent\":{\"action\":\"suggest_command\",\"value\":\"/net component add\"}},{\"text\":\" - \"},{\"text\":\"Add components to your network\",\"color\":\"yellow\"}]",
             "\"\""
     );
 
     private String helpMessage = """
 
-       Networks Plugin - Version 1.2.0
+       Networks Plugin - Version 1.2.1
 ==========================================
 
 /net help - Show this menu
@@ -654,8 +650,6 @@ public class CommandListener implements CommandExecutor {
 /net info - Show the stats of your storage network
 /net list - List all your storage networks
 /net listall - List all storage networks
-
-/net component add - Add a new component to the storage network
 
 """;
 

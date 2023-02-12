@@ -1,5 +1,5 @@
 name: Networks
-version: '1.2.0'
+version: '1.2.1'
 main: com.quantum625.networks.Main
 api-version: 1.19
 description: Networks Plugin
