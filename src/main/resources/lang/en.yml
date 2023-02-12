@@ -44,6 +44,8 @@ component.noaction: §cYou must specify the action you want to do!
 component.notype: §cYou must specify the type of component you want to add!
 component.limit: §cYou reached the limit of components you can add! Please upgrade the limit with §f/net upgrade limit
 component.invalid_block: §cBlocks of type %material are not allowed to be network components!
+component.nocomponent: §cThis block is not a network component!
+component.priority: §eComponent priority set to §f%value
 
 upgrade.noprice: §cThere is no price set for this upgrade, please contact your server administrator!
 upgrade.noeconomy: §cThe economy provider is null, please contact your server administrator!
@@ -71,25 +73,36 @@ merge.nopermission: §cYou need to be owner of both networks in order to merge t
 merge.nonetwork: "§cYou need to give two network IDs:  §f/net merge <network1> <network2>"
 merge.success: §aSuccessfully merged network §f%net2 §ainto §f%net1
 
-info.input: "§aType: §rInput Container§a\nNetwork: §r%network§a\nLocation: §r%position"
-info.sorting: "§aType: §rSorting Container§a\nNetwork: §r%network§a\nLocation: §r%position§a\nFilters: §r%items"
-info.misc: "§aType: §rMisc Container§a\ nNetwork: §r%network§a\nLocation: §r%position"
+info.input: "§aType: §rInput Container§a\nNetwork: §r%network§a\nLocation: §r%position§a\n"
+info.sorting: "§aType: §rSorting Container§a\nNetwork: §r%network§a\nLocation: §r%position§a\nPriority: §r%value§a\nFilters: §r%items\n"
+info.misc: "§aType: §rMisc Container§a\ nNetwork: §r%network§a\nLocation: §r%position\nPriority: §r%value§a\n"
 
 items.noitems: "§cThere are no items in your storage network."
 items.message: "§a§lTotal items in network §f%network§a:"
 
 value.notpositive: §cThis value needs to be positive, it was set back to 1.
 
-item.name.wand: §r§cNetwork Wand
+item.name.wand.0: §r§cNetwork Wand
+item.name.wand.1: §r§cPriority Wand
 item.name.input: §rInput Container
 item.name.sorting: §rSorting Container
 item.name.misc: §rMiscellaneous Container
 item.name.upgrade: §r§lTelemetry Antenna Tier %level
 
-item.lore.wand:
+item.lore.wand.0:
   - "§rRight click any network component to show information about it"
   - "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter"
   - "§rSneak + Left click with an item in the offhand to remove a filter"
+  - ""
+  - "§rLeft click to switch mode"
+
+item.lore.wand.1:
+  - "§rRight click any network component to show information about it"
+  - "§rSneak + Right click on a network component to increase its priority"
+  - "§rSneak + Left click on a network component to decrease its priority"
+  - ""
+  - "§rLeft click to switch mode"
+
 item.lore.input:
   - "§r§9Sorts items into sorting containers and misc containers"
 item.lore.sorting:

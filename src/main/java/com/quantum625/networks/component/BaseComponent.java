@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class BaseComponent {
 
@@ -38,5 +39,16 @@ public class BaseComponent {
             return ((InventoryHolder) block.getState()).getInventory();
         }
         return null;
+    }
+
+    public int countItems() {
+
+        int result = 0;
+
+        for (ItemStack stack : getInventory()) {
+            if (stack != null) result += stack.getAmount();
+        }
+
+        return result;
     }
 }
