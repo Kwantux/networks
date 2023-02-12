@@ -68,7 +68,7 @@ To remove a chest from your network, simply just break it
 
 ## Installation
 
-[Download the newest version of the plugin](https://modrinth.com/plugin/network/versions)
+[Download the newest version of the plugin](https://modrinth.com/plugin/networks/versions)
 
 Put it in your plugins folder inside your server files.
 
