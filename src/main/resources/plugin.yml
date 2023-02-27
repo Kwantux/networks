@@ -1,6 +1,6 @@
 name: Networks
 version: '1.2.1'
-main: com.quantum625.networks.Main
+main: net.quantum625.networks.Main
 api-version: 1.19
 description: Networks Plugin
 author: Quantum625
@@ -30,6 +30,11 @@ permissions:
           networks.admin.foreign.owner:
             description: Allows you to access foreign networks with owner permission
             default: op
+
+libraries:
+  - org.spongepowered:configurate-hocon:4.1.2
+  - com.google.code.gson:gson:2.9.0
+
 
 
 
