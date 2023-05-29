@@ -1,13 +1,15 @@
 package net.quantum625.networks.listener;
 
+import net.quantum625.config.lang.Language;
+import net.quantum625.config.util.exceptions.InvalidNodeException;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
-import net.quantum625.networks.commands.LanguageModule;
 import net.quantum625.networks.component.InputContainer;
 import net.quantum625.networks.component.MiscContainer;
 import net.quantum625.networks.component.SortingContainer;
 import net.quantum625.networks.component.BaseComponent;
 import net.quantum625.networks.data.Config;
+import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -21,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,17 +32,19 @@ import java.util.UUID;
 public class ExplosionListener implements Listener {
 
     private Config config;
-    private LanguageModule lang;
+    private Language lang;
     private NetworkManager net;
+    private CraftingManager craftingManager;
 
-    public ExplosionListener(Config config, LanguageModule lang, NetworkManager net) {
+    public ExplosionListener(Config config, Language lang, NetworkManager net, CraftingManager craftingManager) {
         this.config = config;
         this.lang = lang;
         this.net = net;
+        this.craftingManager = craftingManager;
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onBlockBreak(EntityExplodeEvent event) {
+    public void onBlockBreak(EntityExplodeEvent event) throws InvalidNodeException, SerializationException {
 
         ArrayList<Block> removeLater = new ArrayList<>();
 
@@ -52,60 +57,39 @@ public class ExplosionListener implements Listener {
 
         for (Block block : removeLater) {
             if (!config.blastProofComponents()) {
-                if (!config.getEconomyState()) {
-                    BaseComponent component = net.getComponentByLocation(new Location(block));
-                    if (component instanceof InputContainer) {
-
-                        ItemStack inputContainer = new ItemStack(block.getType());
-                        ItemMeta meta = inputContainer.getItemMeta();
-                        meta.setDisplayName(lang.getItemName("input"));
-                        meta.setLore(lang.getItemLore("input"));
-                        PersistentDataContainer data = meta.getPersistentDataContainer();
-                        data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "input");
-                        inputContainer.setItemMeta(meta);
-                        Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), inputContainer);
-                    }
-                    if (component instanceof SortingContainer) {
-
-                        String items = "";
-                        List<String> itemslist = new ArrayList<String>();
-                        itemslist.addAll(0, lang.getItemLore("sorting"));
-                        for (String item : ((SortingContainer) component).getItems()) {
-                            items += item + ",";
-                            itemslist.add("§r§f" + item);
-                        }
-
-                        ItemStack sortingContainer = new ItemStack(block.getType());
-                        ItemMeta meta = sortingContainer.getItemMeta();
-                        meta.setDisplayName(lang.getItemName("sorting"));
-                        meta.setLore(itemslist);
-                        PersistentDataContainer data = meta.getPersistentDataContainer();
-                        data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "sorting");
-                        data.set(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING, items);
-                        sortingContainer.setItemMeta(meta);
-                        Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), sortingContainer);
-                    }
-                    if (component instanceof MiscContainer) {
-
-                        ItemStack miscContainer = new ItemStack(block.getType());
-                        ItemMeta meta = miscContainer.getItemMeta();
-                        meta.setDisplayName(lang.getItemName("misc"));
-                        meta.setLore(lang.getItemLore("misc"));
-                        PersistentDataContainer data = meta.getPersistentDataContainer();
-                        data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "misc");
-                        miscContainer.setItemMeta(meta);
-                        Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), miscContainer);
-                    }
-
-                    for (ItemStack stack : component.getInventory()) {
-                        if (stack != null) {
-                            Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), stack);
-                        }
-                    }
-
-                    event.blockList().remove(block);
-                    block.setType(Material.AIR);
+                BaseComponent component = net.getComponentByLocation(new Location(block));
+                if (component instanceof InputContainer) {
+                    Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), craftingManager.getInputContainer(block.getType()));
                 }
+                if (component instanceof SortingContainer) {
+
+                    String items = "";
+                    List<String> itemslist = new ArrayList<String>();
+                    itemslist.addAll(0, lang.getList("sorting"));
+                    for (String item : ((SortingContainer) component).getItems()) {
+                        items += item + ",";
+                        itemslist.add("§r§f" + item);
+                    }
+
+                    ItemStack sortingContainer = craftingManager.getSortingContainer(block.getType());
+                    ItemMeta meta = sortingContainer.getItemMeta();
+                    PersistentDataContainer data = meta.getPersistentDataContainer();
+                    data.set(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING, items);
+                    sortingContainer.setItemMeta(meta);
+                    Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), sortingContainer);
+                }
+                if (component instanceof MiscContainer) {
+                    Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(),craftingManager.getMiscContainer(block.getType()));
+                }
+
+                for (ItemStack stack : component.getInventory()) {
+                    if (stack != null) {
+                        Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), stack);
+                    }
+                }
+
+                event.blockList().remove(block);
+                block.setType(Material.AIR);
                 Network network = net.getNetworkWithComponent(new Location(block));
                 network.removeComponent(new Location(block));
                 ArrayList<UUID> users = (ArrayList<UUID>) network.getUsers().clone();
@@ -113,7 +97,7 @@ public class ExplosionListener implements Listener {
 
                 for (UUID uid : users) {
                     if (Bukkit.getPlayer(uid).isOnline()) {
-                        lang.returnMessage(Bukkit.getPlayer(uid), "component.exploded", network, new Location(block));
+                        lang.message(Bukkit.getPlayer(uid), "component.exploded", network.getID(), new Location(block).toString());
                     }
                 }
             }

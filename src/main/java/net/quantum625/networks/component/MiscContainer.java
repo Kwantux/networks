@@ -9,5 +9,5 @@ public class MiscContainer extends BaseOutputContainer {
     }
 
     @Override
-    public String getType() {return "misc";}
+    public ComponentType getType() {return ComponentType.MISC;}
 }

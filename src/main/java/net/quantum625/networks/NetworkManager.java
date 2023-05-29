@@ -3,8 +3,8 @@ package net.quantum625.networks;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.quantum625.config.lang.Language;
 import net.quantum625.networks.component.BaseComponent;
-import net.quantum625.networks.commands.LanguageModule;
 import net.quantum625.networks.component.SortingContainer;
 import net.quantum625.networks.data.Config;
 import net.quantum625.networks.data.JSONNetwork;
@@ -34,11 +34,11 @@ public final class NetworkManager implements Serializable {
 
     private Config config;
     private File dataFolder;
-    private LanguageModule lang;
+    private Language lang;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();;
 
 
-    public NetworkManager(Config config, File dataFolder, LanguageModule lang) {
+    public NetworkManager(Config config, File dataFolder, Language lang) {
         this.config = config;
         this.dataFolder = dataFolder;
         this.lang = lang;
@@ -46,12 +46,7 @@ public final class NetworkManager implements Serializable {
 
     public boolean add(String id, UUID owner) {
         if (this.getFromID(id) == null) {
-            if (config.getEconomyState()) {
-                networks.add(new Network(id, owner, config.getBaseContainers(), config.getBaseRange()));
-            }
-            else {
-                networks.add(new Network(id, owner, -1, config.getMaxRanges()[0]));
-            }
+            networks.add(new Network(id, owner, -1, config.getMaxRanges()[0]));
             return true;
         }
         return false;
@@ -134,7 +129,7 @@ public final class NetworkManager implements Serializable {
     public void noticePlayer(Player player) {
         if (config.noticeEnabled()) {
             if (!getNoticedPlayers().contains(player.getUniqueId())) {
-                lang.returnMessage(player, "notice");
+                lang.message(player, "notice");
                 noticedPlayers.add(player.getUniqueId());
             }
         }

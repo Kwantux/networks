@@ -1,8 +1,8 @@
 package net.quantum625.networks.listener;
 
+import net.quantum625.config.lang.Language;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
-import net.quantum625.networks.commands.LanguageModule;
 import net.quantum625.networks.data.Config;
 import net.quantum625.networks.utils.DoubleChestDisconnecter;
 import net.quantum625.networks.utils.Location;
@@ -21,11 +21,11 @@ public class BlockPlaceEventListener implements Listener {
 
     private final NetworkManager net;
     private final Config config;
-    private final LanguageModule lang;
+    private final Language lang;
 
     private final DoubleChestDisconnecter dcd;
 
-    public BlockPlaceEventListener (NetworkManager net, Config config, DoubleChestDisconnecter doubleChestDisconnecter, LanguageModule lang) {
+    public BlockPlaceEventListener (NetworkManager net, Config config, DoubleChestDisconnecter doubleChestDisconnecter, Language lang) {
         this.net = net;
         this.config = config;
         this.lang = lang;
@@ -35,8 +35,7 @@ public class BlockPlaceEventListener implements Listener {
 
     @EventHandler(priority= EventPriority.HIGH)
     public void onBlockPlace(BlockPlaceEvent event) {
-        // Economy State defines whether components are bought with Vault money or by crafting them.
-        if (!event.isCancelled() && !config.getEconomyState()) {
+        if (!event.isCancelled()) {
 
             Player p = event.getPlayer();
             Location pos = new Location(event.getBlock());
@@ -58,7 +57,7 @@ public class BlockPlaceEventListener implements Listener {
                             net.getSelectedNetwork(p).addInputContainer(pos);
                             dcd.checkChest(pos);
                             net.selectComponentType(p, null);
-                            lang.returnMessage(p, "component.input.add", network, pos);
+                            lang.message(p, "component.input.add", network.getID(), pos.toString());
                             return;
                         }
 
@@ -69,11 +68,11 @@ public class BlockPlaceEventListener implements Listener {
                                 net.getSelectedNetwork(p).addItemContainer(pos, items);
                                 dcd.checkChest(pos);
                                 net.selectComponentType(p, null);
-                                lang.returnMessage(p, "component.sorting.add", network, pos);
+                                lang.message(p, "component.sorting.add", network.getID(), pos.toString());
                                 return;
                             }
 
-                            lang.returnMessage(p, "component.sorting.noitem");
+                            lang.message(p, "component.sorting.noitem");
                             return;
                         }
 
@@ -81,13 +80,13 @@ public class BlockPlaceEventListener implements Listener {
                             net.getSelectedNetwork(p).addMiscContainer(pos);
                             dcd.checkChest(pos);
                             net.selectComponentType(p, null);
-                            lang.returnMessage(p, "component.misc.add", network, pos);
+                            lang.message(p, "component.misc.add", network.getID(), pos.toString());
                         }
 
                     }
 
                     else {
-                        lang.returnMessage(p, "select.noselection");
+                        lang.message(p, "select.noselection");
                         event.setCancelled(true);
                     }
 

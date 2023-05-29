@@ -9,15 +9,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class BaseComponent {
 
-    private Location pos;
-
+    protected Location pos;
 
     public BaseComponent(Location pos) {
         this.pos = pos;
-    }
-
-    public BaseComponent(int x, int y, int z, String dim) {
-        this.pos = new Location(x, y, z, dim);
     }
 
 
@@ -25,12 +20,8 @@ public class BaseComponent {
         return pos;
     }
 
-    public void setPos(Location pos) {
-        this.pos = pos;
-    }
 
-
-    public String getType() {return "none";};
+    public ComponentType getType() {return ComponentType.EMPTY;}
 
 
     public Inventory getInventory() {

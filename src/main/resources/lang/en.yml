@@ -82,21 +82,24 @@ items.message: "§a§lTotal items in network §f%network§a:"
 
 value.notpositive: §cThis value needs to be positive, it was set back to 1.
 
-item.name.wand.0: §r§cNetwork Wand
-item.name.wand.1: §r§cPriority Wand
+item.name.wand0: §r§cNetwork Wand
+item.name.wand1: §r§cPriority Wand
 item.name.input: §rInput Container
 item.name.sorting: §rSorting Container
 item.name.misc: §rMiscellaneous Container
-item.name.upgrade: §r§lTelemetry Antenna Tier %level
+item.name.upgrade1: §r§lTelemetry Antenna Tier 1
+item.name.upgrade2: §r§lTelemetry Antenna Tier 2
+item.name.upgrade3: §r§lTelemetry Antenna Tier 3
+item.name.upgrade4: §r§lTelemetry Antenna Tier 4
 
-item.lore.wand.0:
+item.lore.wand0:
   - "§rRight click any network component to show information about it"
   - "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter"
   - "§rSneak + Left click with an item in the offhand to remove a filter"
   - ""
   - "§rLeft click to switch mode"
 
-item.lore.wand.1:
+item.lore.wand1:
   - "§rRight click any network component to show information about it"
   - "§rSneak + Right click on a network component to increase its priority"
   - "§rSneak + Left click on a network component to decrease its priority"

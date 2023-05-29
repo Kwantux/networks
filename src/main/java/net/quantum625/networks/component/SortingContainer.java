@@ -69,5 +69,5 @@ public class SortingContainer extends BaseOutputContainer {
     }
 
     @Override
-    public String getType() {return "sorting";}
+    public ComponentType getType() {return ComponentType.SORTING;}
 }

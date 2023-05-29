@@ -1,11 +1,11 @@
 package net.quantum625.networks.listener;
 
+import net.quantum625.config.lang.Language;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
-import net.quantum625.networks.commands.LanguageModule;
 import net.quantum625.networks.component.*;
-import net.quantum625.networks.data.Config;
 import net.quantum625.networks.data.CraftingManager;
+import net.quantum625.networks.data.Config;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -21,10 +21,10 @@ public class NetworkWandListener implements Listener {
 
     private Config config;
     private NetworkManager net;
-    private LanguageModule lang;
+    private Language lang;
     private CraftingManager crafting;
 
-    public NetworkWandListener(Config config, NetworkManager net, LanguageModule languageModule, CraftingManager craftingManager) {
+    public NetworkWandListener(Config config, NetworkManager net, Language languageModule, CraftingManager craftingManager) {
         this.config = config;
         this.net = net;
         this.lang = languageModule;
@@ -62,22 +62,22 @@ public class NetworkWandListener implements Listener {
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 
                         if (component == null) {
-                            lang.returnMessage(p, "component.nocomponent");
+                            lang.message(p, "component.nocomponent");
                             return;
                         }
 
                         if (component instanceof InputContainer) {
-                            lang.returnMessage(p, "info.input", net.getNetworkWithComponent(l), l);
+                            lang.message(p, "info.input", net.getNetworkWithComponent(l).getID(), l.toString());
 
                         }
 
                         if (component instanceof SortingContainer container) {
-                            lang.returnMessage(p, "info.sorting", net.getNetworkWithComponent(l), l, container.getPriority(), container.getItems());
+                            lang.message(p, "info.sorting", net.getNetworkWithComponent(l).getID(), l.toString(), container.getPriority()+"", container.getItems().toString());
 
                         }
 
                         if (component instanceof MiscContainer container) {
-                            lang.returnMessage(p, "info.misc", net.getNetworkWithComponent(l), l, container.getPriority());
+                            lang.message(p, "info.misc", net.getNetworkWithComponent(l).getID(), l.toString(), container.getPriority()+"");
 
                         }
                     }
@@ -85,12 +85,12 @@ public class NetworkWandListener implements Listener {
                 }
 
                 if (component == null) {
-                    lang.returnMessage(p, "component.nocomponent");
+                    lang.message(p, "component.nocomponent");
                     return;
                 }
 
                 if (net.checkNetworkPermission(p, net.getNetworkWithComponent(l)) < 1) {
-                    lang.returnMessage(p, "permission.user");
+                    lang.message(p, "permission.user");
                     return;
                 }
 
@@ -98,12 +98,12 @@ public class NetworkWandListener implements Listener {
 
                     if (mode == 0 && !p.getInventory().getItemInOffHand().getType().equals(Material.AIR) && net.getComponentByLocation(l) instanceof SortingContainer) {
                         net.getSortingContainerByLocation(l).addItem(p.getInventory().getItemInOffHand().getType().toString().toUpperCase());
-                        lang.returnMessage(p, "component.sorting.setitem", l, p.getInventory().getItemInOffHand().getType());
+                        lang.message(p, "component.sorting.setitem", l.toString(), p.getInventory().getItemInOffHand().getType().toString());
                     }
                     if (mode == 1) {
                         if (component instanceof BaseOutputContainer container) {
                             container.incrementPriority();
-                            lang.returnMessage(p, "component.priority", container.getPriority());
+                            lang.message(p, "component.priority", container.getPriority()+"");
                         }
                     }
                 }
@@ -112,13 +112,13 @@ public class NetworkWandListener implements Listener {
 
                     if (mode == 0 && net.getComponentByLocation(l) instanceof SortingContainer && !p.getInventory().getItemInOffHand().getType().equals(Material.AIR) && p.isSneaking()) {
                         net.getSortingContainerByLocation(l).removeItem(p.getInventory().getItemInOffHand().getType().toString().toUpperCase());
-                        lang.returnMessage(p, "component.sorting.removeitem", l, p.getInventory().getItemInOffHand().getType());
+                        lang.message(p, "component.sorting.removeitem", l.toString(), p.getInventory().getItemInOffHand().getType().toString());
                     }
 
                     if (mode == 1) {
                         if (component instanceof BaseOutputContainer container) {
                             container.decrementPriority();
-                            lang.returnMessage(p, "component.priority", container.getPriority());
+                            lang.message(p, "component.priority", container.getPriority()+"");
                         }
                     }
                 }
@@ -143,16 +143,16 @@ public class NetworkWandListener implements Listener {
                             network.setMaxRange(config.getMaxRanges()[tier]);
                             ItemStack item = p.getInventory().getItemInMainHand();
                             item.setAmount(item.getAmount() - 1);
-                            lang.returnMessage(p, "rangeupgrade.success", network, tier);
+                            lang.message(p, "rangeupgrade.success", network.getID(), tier+"");
                         }
                         if (upgradeTier < tier) {
-                            lang.returnMessage(p, "rangeupgrade.alreadyupgraded", tier);
+                            lang.message(p, "rangeupgrade.alreadyupgraded", tier+"");
                         }
                         if (upgradeTier > tier) {
-                            lang.returnMessage(p, "rangeupgrade.unlockfirst", tier);
+                            lang.message(p, "rangeupgrade.unlockfirst", tier+"");
                         }
                         if (tier == config.getMaxRanges().length) {
-                            lang.returnMessage(p, "rangeupgrade.last");
+                            lang.message(p, "rangeupgrade.last");
                         }
                     }
                 }

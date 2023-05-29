@@ -11,7 +11,7 @@ public class BaseOutputContainer extends BaseComponent{
     }
 
     public int getPriority() {return priority;}
-    public void setPriority(int priority) {priority = priority;}
+    public void setPriority(int priority) {this.priority = priority;}
     public void incrementPriority() {priority++;}
     public void decrementPriority() {priority--;}
 }

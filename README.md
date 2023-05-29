@@ -8,12 +8,6 @@ This Project is developed by <a href="https://github.com/Quantum625">@Quantum625
 
 
 
-## How to use
-
-Most commands and their functionalities can be seen in <code>/networks help</code>
-See a more detailed instruction at the [wiki](https://github.com/Quantum625/networks/wiki)
-
-
 ### What is a network?
 
 A network is a group of chests that are linked together
@@ -36,33 +30,24 @@ and remove their permission using `/net user remove (name)`
 
 ### How do I add chests to my network?
 
-To add chests to your network simply just do the following and then right click the block you want to add as a component
+To add chests to your network, first select your network using <code>/net select (name)</code>, then you need to craft the wanted chest type and simply place it
 
-`/net component input` <br />
-`/net component sorting (item)` <br />
-`/net component misc` <br />
+To add a filter item to an item chest, you can 
 
 (item) is the item, that will be sorted into your item chest
 
 To remove a chest from your network, simply just break it
 
 
-### List of all Commands
+## More information
 
-`/net create (name)` - Create a storage network<br />
-`/net delete (name)` - Delete a storage network
-
-`/net select (name)` - Select a storage network<br />
-
-`/net list` - List all networks you have permission on
-`/net info` - Show information about the selected network
-
-`/net component` - Add components to your network
+Most commands and their functionalities can be seen in <code>/networks help</code>
+See a more detailed instruction at the [wiki](https://github.com/Quantum625/networks/wiki)
 
 
 ## Installation
 
-[Download the newest version of the plugin](https://github.com/Quantum625/networks/releases/tag/v1.0.0)
+[Download the newest version of the plugin](https://modrinth.com/plugin/networks/)
 
 Put it in your plugins folder inside your server files.
 
