@@ -14,6 +14,8 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import java.io.File;
 import java.util.logging.Logger;
 
+import static org.bukkit.Bukkit.getPluginManager;
+
 
 public final class Main extends JavaPlugin {
 
@@ -27,6 +29,8 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        saveResource("README.md", true);
 
         logger = getLogger();
 
