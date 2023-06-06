@@ -1,7 +1,7 @@
 package net.quantum625.networks.data;
 
 import net.quantum625.config.Configuration;
-import net.quantum625.config.lang.Language;
+import net.quantum625.config.lang.LanguageController;
 import net.quantum625.config.util.exceptions.ConfigAlreadyRegisteredException;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
 import net.quantum625.networks.Main;
@@ -13,14 +13,11 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.spongepowered.configurate.serialize.SerializationException;
-
-import java.io.File;
 
 public class CraftingManager {
 
     private Configuration config;
-    private Language lang;
+    private LanguageController lang;
 
 
 
@@ -47,8 +44,6 @@ public class CraftingManager {
             meta.lore(lang.getItemLore("wand"+mode));
         } catch (InvalidNodeException e) {
             throw new RuntimeException(e);
-        } catch (SerializationException e) {
-            throw new RuntimeException(e);
         }
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER, mode);
@@ -64,8 +59,6 @@ public class CraftingManager {
             meta.lore(lang.getItemLore("input"));
         } catch (InvalidNodeException e) {
             throw new RuntimeException(e);
-        } catch (SerializationException e) {
-            throw new RuntimeException(e);
         }
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "input");
@@ -80,8 +73,6 @@ public class CraftingManager {
             meta.displayName(lang.getItemName("sorting"));
             meta.lore(lang.getItemLore("sorting"));
         } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        } catch (SerializationException e) {
             throw new RuntimeException(e);
         }
         PersistentDataContainer data = meta.getPersistentDataContainer();
@@ -99,8 +90,6 @@ public class CraftingManager {
             meta.lore(lang.getItemLore("misc"));
         } catch (InvalidNodeException e) {
             throw new RuntimeException(e);
-        } catch (SerializationException e) {
-            throw new RuntimeException(e);
         }
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "misc");
@@ -111,12 +100,8 @@ public class CraftingManager {
     public ItemStack getRangeUpgrade(int tier) throws InvalidNodeException {
         ItemStack upgrade = new ItemStack(Material.LIGHTNING_ROD);
         ItemMeta meta = upgrade.getItemMeta();
-        try {
-            meta.displayName(lang.getItemName("upgrade" + tier));
-            meta.lore(lang.getItemLore("upgrade"));
-        } catch (SerializationException e) {
-            throw new RuntimeException(e);
-        }
+        meta.displayName(lang.getItemName("upgrade" + tier));
+        meta.lore(lang.getItemLore("upgrade"));
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(new NamespacedKey("networks", "upgrade"), PersistentDataType.INTEGER, tier);
         upgrade.setItemMeta(meta);
@@ -124,7 +109,7 @@ public class CraftingManager {
     }
 
 
-    public CraftingManager(Main main, Config pluginconfig, Language languageModule) {
+    public CraftingManager(Main main) {
 
         try {
             this.config = Configuration.create(main, "recipes", "recipes.conf");
@@ -132,7 +117,8 @@ public class CraftingManager {
             throw new RuntimeException(e);
         }
 
-        this.lang = languageModule;
+        this.lang = main.getLanguage();
+        Config pluginconfig = main.getConfiguration();
 
 
         try {

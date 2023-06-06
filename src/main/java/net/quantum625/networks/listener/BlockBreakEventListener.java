@@ -1,7 +1,9 @@
 package net.quantum625.networks.listener;
 
 import net.quantum625.config.lang.Language;
+import net.quantum625.config.lang.LanguageController;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
+import net.quantum625.networks.Main;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.component.BaseComponent;
@@ -33,13 +35,13 @@ public class BlockBreakEventListener implements Listener {
     private CraftingManager crafting;
     private Config config;
     private DoubleChestDisconnecter dcd;
-    private Language lang;
+    private LanguageController lang;
 
 
-    public BlockBreakEventListener(NetworkManager networkManager, CraftingManager craftingManager, Config config, DoubleChestDisconnecter doubleChestDisconnecter, Language languageModule) {
-        net = networkManager;
+    public BlockBreakEventListener(Main main, CraftingManager craftingManager, DoubleChestDisconnecter doubleChestDisconnecter) {
+        net = main.getNetworkManager();
         crafting = craftingManager;
-        lang = languageModule;
+        lang = main.getLanguage();
         dcd = doubleChestDisconnecter;
         this.config = config;
     }

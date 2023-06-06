@@ -1,5 +1,6 @@
 package net.quantum625.networks.listener;
 
+import net.quantum625.networks.Main;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.event.EventHandler;
@@ -12,8 +13,8 @@ public class HopperCollectEventListener implements Listener {
 
     public final NetworkManager net;
 
-    public HopperCollectEventListener(NetworkManager net) {
-        this.net = net;
+    public HopperCollectEventListener(Main main) {
+        this.net = main.getNetworkManager();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

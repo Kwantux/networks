@@ -1,5 +1,6 @@
 package net.quantum625.networks.listener;
 
+import net.quantum625.networks.Main;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.data.Config;
 import net.quantum625.networks.utils.Location;
@@ -12,9 +13,9 @@ public class ItemTransportEventListener implements Listener {
     private final NetworkManager net;
     private final Config config;
 
-    public ItemTransportEventListener(NetworkManager networkManager, Config config) {
-        net = networkManager;
-        this.config = config;
+    public ItemTransportEventListener(Main main) {
+        net = main.getNetworkManager();
+        this.config = main.getConfiguration();
     }
 
     @EventHandler(priority= EventPriority.MONITOR)

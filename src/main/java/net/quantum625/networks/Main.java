@@ -2,6 +2,7 @@ package net.quantum625.networks;
 
 
 import net.quantum625.config.lang.Language;
+import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.commands.CommandManager;
 import net.quantum625.networks.data.Config;
 import net.quantum625.networks.data.CraftingManager;
@@ -24,7 +25,7 @@ public final class Main extends JavaPlugin {
     private Config config;
     private CraftingManager crafting;
     private DoubleChestDisconnecter dcd;
-    private Language lang;
+    private LanguageController lang;
     private boolean error = false;
 
     @Override
@@ -76,14 +77,9 @@ public final class Main extends JavaPlugin {
 
 
         if (!error) {
-            try {
-                this.lang = new Language(this, config.getLanguage());
-            } catch (SerializationException e) {
-                logger.severe("Language file unable to load");
-                e.printStackTrace();
-            }
-            this.net = new NetworkManager(this, this.config);
-            this.crafting = new CraftingManager(this, config, lang);
+            this.lang = new LanguageController(this, config.getLanguage(), "en", "de");
+            this.net = new NetworkManager(this);
+            this.crafting = new CraftingManager(this);
 
             // bStats Metrics
             int pluginId = 18609;
@@ -102,16 +98,16 @@ public final class Main extends JavaPlugin {
 
             this.dcd = new DoubleChestDisconnecter(net);
 
-            this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
-            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, crafting, config, dcd, lang), this);
-            this.getServer().getPluginManager().registerEvents(new ExplosionListener(config, lang, net, crafting), this);
-            this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net), this);
-            this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
-            this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
-            this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(net), this);
-            this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(net, config, dcd, lang), this);
-            this.getServer().getPluginManager().registerEvents(new NetworkWandListener(config, net, lang, crafting), this);
-            this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(config), this);
+            this.getServer().getPluginManager().registerEvents(new AutoSave(this), this);
+            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(this, crafting, dcd), this);
+            this.getServer().getPluginManager().registerEvents(new ExplosionListener(this, crafting), this);
+            this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(this), this);
+            this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(this), this);
+            this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(this), this);
+            this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(this), this);
+            this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(this, dcd), this);
+            this.getServer().getPluginManager().registerEvents(new NetworkWandListener(this, crafting), this);
+            this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
             this.getServer().getPluginManager().registerEvents(new InventoryMenuListener(), this);
 
             net.loadData();
@@ -137,12 +133,16 @@ public final class Main extends JavaPlugin {
             "\n      /_/ |_/\\___/\\__/ |__/|__/\\____/_/  /_/|_/____/      |___/____(_)____/"+
             "\n";
 
-    public Language getLanguage() {
+    public LanguageController getLanguage() {
         return lang;
     }
 
     public NetworkManager getNetworkManager() {
         return net;
+    }
+
+    public Config getConfiguration() {
+        return config;
     }
 
 

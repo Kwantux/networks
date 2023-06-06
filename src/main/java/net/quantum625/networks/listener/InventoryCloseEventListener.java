@@ -1,5 +1,6 @@
 package net.quantum625.networks.listener;
 
+import net.quantum625.networks.Main;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.event.EventHandler;
@@ -11,8 +12,8 @@ public class InventoryCloseEventListener implements Listener {
 
     public final NetworkManager net;
 
-    public InventoryCloseEventListener(NetworkManager net) {
-        this.net = net;
+    public InventoryCloseEventListener(Main main) {
+        this.net = main.getNetworkManager();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

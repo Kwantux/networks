@@ -54,71 +54,69 @@ component.exploded: <prefix><dark_red>Komponent bei <white><1><dark_red> aus dem
 component.nocomponent: <prefix><yellow>Dies ist kein Netzwerkkomponent!
 component.priority: <prefix>Priorität wurde auf <1> gesetzt,
 
-rangeupgrade.last: <prefix><yellow>You already reached the maximum upgrade level.
-rangeupgrade.alreadyupgraded: <prefix><yellow>You already installed this upgrade, the next upgrade is range Tier <white><1>
-rangeupgrade.unlockfirst: <prefix><yellow>You need to unlock range Tier <white><1><yellow> first!
-rangeupgrade.success: <prefix>Successfully upgraded network <2> to Tier <1>!
+rangeupgrade.last: <prefix><yellow>Du hast bereits die höchste Stufe erreicht.
+rangeupgrade.alreadyupgraded: <prefix><yellow>Diese Erweiterung hast du bereits installiert, die nächste Stufe ist <white>Telemetrie Antenne Mk.<1>
+rangeupgrade.unlockfirst: <prefix><yellow>Du musst zuerst Stufe <white><1><yellow> freischalten!
+rangeupgrade.success: <prefix>Reichweite <1> wurde im Netzwerk <2> installiert!
 
-user.add: <prefix>Successfully added <2> to the network <1>
-user.remove: <prefix>Successfully removed <2> from the network <1>
-user.owner: <prefix>Transferred ownership of <2> to the Player <1>
-user.add.nochange: <prefix>Player <2> is already added to network <1>
-user.remove.nochange: <prefix>Player <2> hasn't been added to network <1>
-user.owner.nochange: <prefix>Player <2> was already owner of network <1>
+user.add: <prefix>Spieler <2> wurde zum Netzwerk <1> hinzugefügt
+user.remove: <prefix>Spieler <2> wurde aus dem Netzwerk <1> entfernt
+user.owner: <prefix>Spieler <1> ist nun Besitzer des Netzwerks <2>
+user.add.nochange: <prefix>Spieler <2> wurde bereits zum Netzwerk <1> hinzugefügt
+user.remove.nochange: <prefix>Spieler <2> war bereits kein Nutzer von <1>
+user.owner.nochange: <prefix>Spieler <2> ist bereits Besitzer von Netzwerk <1>
 
-merge.identical: <prefix><red>Sorry but the laws of physics can't be broken.
-merge.nopermission: <prefix><red>You need to be owner of both networks in order to merge them!
-merge.success: <prefix>Successfully merged network <2> into <1>
+merge.identical: <prefix><red>Tut mir leid, aber das ist leider nicht möglich
+merge.nopermission: <prefix><red>Zum Zusammenführen von zwei Netzwerken musst du beide besitzen!
+merge.success: <prefix>Netzwerk <2> wurde in Netzwerk <1> integriert
 
-rename.success: <prefix>Successfully renamed network <1> to <2>
-rename.taken: <prefix>Name <1> is already taken by another network.
+rename.success: <prefix>Netzwerk <1> wurde zu <2> umbenannt
+rename.taken: <prefix>Name <1> ist bereits in Verwendung.
 
-wand.mode: "<prefix><blue>Wand mode set to [<1>]"
+wand.mode: "<prefix><blue>Konfigurator Modus wurde zu [<1>] geändert"
 wand.mode.0: "Filter"
-wand.mode.1: "Priority"
-wand.info.input: "<prefix><green>Type: <reset>Input Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\n"
-wand.info.sorting: "<prefix><green>Type: <reset>Sorting Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset>%value<green>\nFilters: <reset><3>\n"
-wand.info.misc: "<prefix><green>Type: <reset>Misc Container<green>\ nNetwork: <reset><1><green>\nLocation: <reset><2>\nPriority: <reset>%value<green>\n"
+wand.mode.1: "Priorität"
+wand.info.input: "<green>Typ: <reset>Einfüllkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\n"
+wand.info.sorting: "<green>Typ: <reset>Sortierkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\nFilter: <reset><4>\n"
+wand.info.misc: "<green>Typ: <reset>Restekiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\n"
 
-items.noitems: "<prefix><red>There are no items in your storage network."
-items.message: "<green><bold>Total items in network <white><1><green>:"
+items.noitems: "<prefix><red>In diesem Netzwerk sind noch keine Items."
+items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:"
 
-value.notpositive: <prefix><red>This value needs to be positive, it was set back to 1.
-
-item.name.wand0: <reset><red>Network Wand
-item.name.wand1: <reset><blue>Priority Wand
-item.name.input: <reset>Input Container
-item.name.sorting: <reset>Sorting Container
-item.name.misc: <reset>Miscellaneous Container
-item.name.upgrade1: <reset><bold>Telemetry Antenna Tier 1
-item.name.upgrade2: <reset><bold>Telemetry Antenna Tier 2
-item.name.upgrade3: <reset><bold>Telemetry Antenna Tier 3
-item.name.upgrade4: <reset><bold>Telemetry Antenna Tier 4
+item.name.wand0: <reset><red>Netzwerk Konfigurator
+item.name.wand1: <reset><blue>Prioritäts Konfigurator
+item.name.input: <reset>Einfüllkiste
+item.name.sorting: <reset>Sortierkiste
+item.name.misc: <reset>Restekiste
+item.name.upgrade1: <reset><bold>Telemetrie Antenne Mk.1
+item.name.upgrade2: <reset><bold>Telemetrie Antenne Mk.2
+item.name.upgrade3: <reset><bold>Telemetrie Antenne Mk.3
+item.name.upgrade4: <reset><bold>Telemetrie Antenne Mk.4
 
 item.lore.wand0:
-  - "<reset>Right click any network component to show information about it"
-  - "<reset>Sneak + Right click on a sorting chest with an item in the offhand to apply a filter"
-  - "<reset>Sneak + Left click with an item in the offhand to remove a filter"
+  - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
+  - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
   - ""
-  - "<reset>Left click to switch mode"
+  - "<reset>Links klicken, um den Modus zu wechseln"
 
 item.lore.wand1:
-  - "<reset>Right click any network component to show information about it"
-  - "<reset>Sneak + Right click on a network component to increase its priority"
-  - "<reset>Sneak + Left click on a network component to decrease its priority"
+  - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Schleichen + Rechts klicken, um die Priorität eines Komponenten zu erhöhen"
+  - "<reset>Schleichen + Links klicken, um die Priorität eines Komponenten zu senken"
   - ""
-  - "<reset>Left click to switch mode"
+  - "<reset>Links klicken, um den Modus zu wechseln"
 
 item.lore.input:
-  - "<reset><blue>Sorts items into sorting containers and misc containers"
+  - "<reset><blue>Sortiert eingelegte Items in Sortier- und Restekisten ein"
 item.lore.sorting:
-  - "<reset><blue>Only accepts items that match the filter of this container"
+  - "<reset><blue>Akzeptiert nur Items, die dem Filter der Kiste entsprechen"
   - ""
   - "<reset>Filter Items:"
 item.lore.misc:
-  - "<reset><blue>All remaining items will go into these"
+  - "<reset><blue>Alle übrigen items gehen in diese Kisten"
 
 item.lore.upgrade:
-  - "<reset>Click on a network component to apply this upgrade on its network"
+  - "<reset>Klicke hiermit auf einen Netzwerkkomponenten, um diese Erweiterung zu installieren"
 
-notice: <yellow>Having inventory problems? Try out <white>/networks <yellow>to create a fully automated storage network!
+notice: <yellow>Inventar Probleme? Probier mal <white>/networks <yellow>und erstelle dein vollautomatisches Lagersystem!

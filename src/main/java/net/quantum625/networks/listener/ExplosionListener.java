@@ -1,7 +1,9 @@
 package net.quantum625.networks.listener;
 
 import net.quantum625.config.lang.Language;
+import net.quantum625.config.lang.LanguageController;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
+import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.component.InputContainer;
@@ -32,14 +34,14 @@ import java.util.UUID;
 public class ExplosionListener implements Listener {
 
     private Config config;
-    private Language lang;
+    private LanguageController lang;
     private NetworkManager net;
     private CraftingManager craftingManager;
 
-    public ExplosionListener(Config config, Language lang, NetworkManager net, CraftingManager craftingManager) {
-        this.config = config;
-        this.lang = lang;
-        this.net = net;
+    public ExplosionListener(Main main, CraftingManager craftingManager) {
+        this.config = main.getConfiguration();
+        this.lang = main.getLanguage();
+        this.net = main.getNetworkManager();
         this.craftingManager = craftingManager;
     }
 

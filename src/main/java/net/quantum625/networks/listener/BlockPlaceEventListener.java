@@ -1,6 +1,8 @@
 package net.quantum625.networks.listener;
 
 import net.quantum625.config.lang.Language;
+import net.quantum625.config.lang.LanguageController;
+import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.data.Config;
@@ -21,14 +23,14 @@ public class BlockPlaceEventListener implements Listener {
 
     private final NetworkManager net;
     private final Config config;
-    private final Language lang;
+    private final LanguageController lang;
 
     private final DoubleChestDisconnecter dcd;
 
-    public BlockPlaceEventListener (NetworkManager net, Config config, DoubleChestDisconnecter doubleChestDisconnecter, Language lang) {
-        this.net = net;
-        this.config = config;
-        this.lang = lang;
+    public BlockPlaceEventListener (Main main, DoubleChestDisconnecter doubleChestDisconnecter) {
+        this.net = main.getNetworkManager();
+        this.config = main.getConfiguration();
+        this.lang = main.getLanguage();
 
         dcd = doubleChestDisconnecter;
     }

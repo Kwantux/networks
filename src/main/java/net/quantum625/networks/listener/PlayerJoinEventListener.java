@@ -1,5 +1,6 @@
 package net.quantum625.networks.listener;
 
+import net.quantum625.networks.Main;
 import net.quantum625.networks.data.Config;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -16,8 +17,8 @@ public class PlayerJoinEventListener implements Listener {
     private String[] types = {"barrel", "chest", "dispenser", "dropper", "hopper", "trapped_chest"};
 
 
-    public PlayerJoinEventListener(Config config) {
-        this.config = config;
+    public PlayerJoinEventListener(Main main) {
+        this.config = main.getConfiguration();
     }
 
     @EventHandler

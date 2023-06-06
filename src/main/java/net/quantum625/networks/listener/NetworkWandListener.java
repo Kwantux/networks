@@ -1,7 +1,9 @@
 package net.quantum625.networks.listener;
 
 import net.quantum625.config.lang.Language;
+import net.quantum625.config.lang.LanguageController;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
+import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.component.*;
@@ -18,17 +20,19 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Arrays;
+
 public class NetworkWandListener implements Listener {
 
     private Config config;
     private NetworkManager net;
-    private Language lang;
+    private LanguageController lang;
     private CraftingManager crafting;
 
-    public NetworkWandListener(Config config, NetworkManager net, Language languageModule, CraftingManager craftingManager) {
-        this.config = config;
-        this.net = net;
-        this.lang = languageModule;
+    public NetworkWandListener(Main main, CraftingManager craftingManager) {
+        this.config = main.getConfiguration();
+        this.net = main.getNetworkManager();
+        this.lang = main.getLanguage();
         this.crafting = craftingManager;
     }
 
@@ -74,12 +78,12 @@ public class NetworkWandListener implements Listener {
                         }
 
                         if (component instanceof SortingContainer container) {
-                            lang.message(p, "wand.info.sorting", net.getNetworkWithComponent(l).getID(), l.toString(), container.getPriority()+"", container.getItems().toString());
+                            lang.message(p, "wand.info.sorting", net.getNetworkWithComponent(l).getID(), l.toString(), String.valueOf(container.getPriority()), Arrays.stream(container.getItems()).toList().toString());
 
                         }
 
                         if (component instanceof MiscContainer container) {
-                            lang.message(p, "wand.info.misc", net.getNetworkWithComponent(l).getID(), l.toString(), container.getPriority()+"");
+                            lang.message(p, "wand.info.misc", net.getNetworkWithComponent(l).getID(), l.toString(), String.valueOf(container.getPriority()));
 
                         }
                     }

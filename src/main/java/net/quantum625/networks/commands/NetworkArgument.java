@@ -11,6 +11,7 @@ import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.exceptions.parsing.NoInputProvidedException;
 import cloud.commandframework.exceptions.parsing.ParserException;
 import net.quantum625.config.lang.Language;
+import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
@@ -29,7 +30,7 @@ import java.util.function.BiFunction;
 public final class NetworkArgument<C> extends CommandArgument<C, Network> {
 
     static NetworkManager net;
-    static Language lang;
+    static LanguageController lang;
 
     private NetworkArgument(
             final boolean required,

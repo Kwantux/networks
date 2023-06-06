@@ -4,6 +4,7 @@ package net.quantum625.networks;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.quantum625.config.lang.Language;
+import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.component.BaseComponent;
 import net.quantum625.networks.component.SortingContainer;
 import net.quantum625.networks.data.Config;
@@ -33,14 +34,14 @@ public final class NetworkManager {
 
     private Config config;
     private File dataFolder;
-    private Language lang;
+    private LanguageController lang;
     private Logger logger;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();;
 
 
-    public NetworkManager(Main plugin, Config config) {
-        this.config = config;
+    public NetworkManager(Main plugin) {
         this.dataFolder = plugin.getDataFolder();
+        this.config = plugin.getConfiguration();
         this.lang = plugin.getLanguage();
         this.logger = plugin.getLogger();
     }

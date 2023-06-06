@@ -60,21 +60,6 @@ public final class Configuration extends RawConfiguration {
         ConfigurationManager.addConfiguration(this);
 
         update();
-        /*
-        System.out.println("starting reload");
-        reload();
-        System.out.println("Starting update");
-        plugin.saveResource(filepath, true);
-        System.out.println("File Replaced");
-        reload();
-        System.out.println(root.childrenList());
-        try {
-            loader.save(root);
-        } catch (ConfigurateException e) {
-            throw new RuntimeException(e);
-        }
-        */
-
     }
 
 

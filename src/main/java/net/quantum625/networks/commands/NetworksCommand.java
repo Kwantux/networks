@@ -7,7 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
 import net.quantum625.config.ConfigurationManager;
-import net.quantum625.config.lang.Language;
+import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
@@ -28,7 +28,7 @@ import java.util.UUID;
 
 public class NetworksCommand extends CommandHandler {
 
-    Language lang;
+    LanguageController lang;
     NetworkManager net;
 
     public NetworksCommand(Main plugin, CommandManager commandManager) {

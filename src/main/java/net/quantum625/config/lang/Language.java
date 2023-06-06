@@ -36,7 +36,7 @@ public class Language extends RawConfiguration {
     private final String langID;
     private final YamlConfigurationLoader loader;
     
-    private ConfigurationNode root;
+    private CommentedConfigurationNode root;
 
     public Language(@NotNull JavaPlugin plugin, @NotNull String langID) throws SerializationException {
 
@@ -194,58 +194,7 @@ public class Language extends RawConfiguration {
         return ingameEdit;
     }
 
-    
 
-
-
-    /**
-     * @param path The path of the requested node
-     * @return the given node
-     * @throws InvalidNodeException When you give a non-existent node
-     */
-    public Component get(String path) throws InvalidNodeException {
-        return mm.deserialize(getPreparedString(path));
-    }
-
-
-    /**
-     * @param path The path of the requested node
-     * @param replacements Will replace <1>, <2>... in the text with the given components (Start with <1>!)
-     * @return the given node
-     * @throws InvalidNodeException When you give a non-existent node
-     */
-    public Component get(String path, Component... replacements) throws InvalidNodeException {
-        List<TagResolver> resolvers = new ArrayList<TagResolver>();
-        for (int i = 0; i < replacements.length; i++) {
-            resolvers.add(Placeholder.component(String.valueOf(i+1), replacements[i]));
-        }
-        return mm.deserialize(getPreparedString(path), resolvers.toArray(new TagResolver[replacements.length]));
-    }
-
-
-    /**
-     * @param path The path of the requested node
-     * @param replacements TagResolvers, that should be applied to the deserializer
-     * @return the given node
-     * @throws InvalidNodeException When you give a non-existent node
-     */
-    public Component get(String path, TagResolver... replacements) throws InvalidNodeException {
-        return mm.deserialize(getPreparedString(path), replacements);
-    }
-
-    /**
-     * @param path The path of the requested node
-     * @param replacements Will replace <1>, <2>... in the text with the given components (Start with <1>!)
-     * @return the given node
-     * @throws InvalidNodeException When you give a non-existent node
-     */
-    public Component get(String path, String... replacements) throws InvalidNodeException {
-        List<TagResolver> resolvers = new ArrayList<TagResolver>();
-        for (int i = 0; i < replacements.length; i++) {
-            resolvers.add(Placeholder.component(String.valueOf(i+1), Component.text(replacements[i])));
-        }
-        return mm.deserialize(getPreparedString(path), resolvers.toArray(new TagResolver[replacements.length]));
-    }
 
 
     /**
@@ -261,7 +210,8 @@ public class Language extends RawConfiguration {
         return node.getString();
     }
 
-    private @NotNull String getPreparedString(@NotNull String path) throws InvalidNodeException {
+
+    public @NotNull String getPreparedString(@NotNull String path) throws InvalidNodeException {
         String result = getRaw(path);
         ConfigurationNode prefix = root.node("prefix");
         if (!prefix.isNull()) result = result.replaceAll("<prefix>", prefix.getString()+"<reset>");
@@ -270,7 +220,6 @@ public class Language extends RawConfiguration {
         }
         return result;
     }
-
 
 
     private List<String> getKeys() {
@@ -294,97 +243,6 @@ public class Language extends RawConfiguration {
             return node.getList(String.class);
         } catch (SerializationException e) {
             throw new RuntimeException("[QC] Node " + path + " in configuration " + this.path + " appears to not be a list: " + e);
-        }
-    }
-
-    public @Nullable Component getItemName(@NotNull String path) throws InvalidNodeException{
-        return get("item.name."+path);
-    }
-    public List<Component> getItemLore(String path) throws InvalidNodeException, SerializationException {
-        List<String> list = getList("item.lore."+path);
-        List<Component> result = new ArrayList<Component>();
-        for (String s : list) {
-            result.add(mm.deserialize(s));
-        }
-        return result;
-    }
-
-    private Component invalidKeyError(String key) {
-        return Component.text("[QC]").color(TextColor.color(0, 255, 100)).append(Component.text(" Invalid language key ").color(TextColor.color(255, 30, 30))).append(Component.text(key).color(TextColor.color(255, 255, 255))).append(Component.text(" not found in language file!").color(TextColor.color(255, 30, 30)));
-    }
-
-
-    /**
-     * Translates a key to a message and sends this message to a given reciever
-     * @param receiver Either a player or the console
-     * @param key The registry key of the text, you want to send
-     * @return true - When the message was successfully sent  |  false - When the language key doesn't exist
-     */
-    public boolean message(CommandSender receiver, String key) {
-        try {
-            receiver.sendMessage(get(key));
-            return true;
-        }
-        catch (InvalidNodeException e) {
-            receiver.sendMessage(invalidKeyError(key));
-            return false;
-        }
-    }
-
-
-
-    /**
-     * Translates a key to a message and sends this message to a given reciever
-     * @param receiver Either a player or the console
-     * @param key The registry key of the text, you want to send
-     * @return true - When the message was successfully sent  |  false - When the language key doesn't exist
-     */
-    public boolean message(CommandSender receiver, String key, Component... replacements) {
-        try {
-            receiver.sendMessage(get(key, replacements));
-            return true;
-        }
-        catch (InvalidNodeException e) {
-            receiver.sendMessage(invalidKeyError(key));
-            return false;
-        }
-    }
-
-    /**
-     * Translates a key to a message and sends this message to a given reciever
-     * @param receiver Either a player or the console
-     * @param key The registry key of the text, you want to send
-     * @return true - When the message was successfully sent  |  false - When the language key doesn't exist
-     */
-    public boolean message(CommandSender receiver, String key, String... replacements) {
-        try {
-            receiver.sendMessage(get(key, replacements));
-            return true;
-        }
-        catch (InvalidNodeException e) {
-            receiver.sendMessage(invalidKeyError(key));
-            return false;
-        }
-    }
-
-
-
-
-
-    /**
-     * Translates a key to a message and sends this message to a given reciever
-     * @param receiver Either a player or the console
-     * @param key The registry key of the text, you want to send
-     * @return true - When the message was successfully sent  |  false - When the language key doesn't exist
-     */
-    public boolean message(CommandSender receiver, String key, TagResolver... replacements) {
-        try {
-            receiver.sendMessage(get(key, replacements));
-            return true;
-        }
-        catch (InvalidNodeException e) {
-            receiver.sendMessage(invalidKeyError(key));
-            return false;
         }
     }
 
