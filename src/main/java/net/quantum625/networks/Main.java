@@ -7,21 +7,17 @@ import net.quantum625.networks.data.Config;
 import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.inventory.InventoryMenuManager;
 import net.quantum625.networks.utils.DoubleChestDisconnecter;
-import net.gravitydevelopment.updater.Updater;
 import net.quantum625.networks.listener.*;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.Bukkit;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 
 public final class Main extends JavaPlugin {
 
     private Logger logger;
-    private File dataFolder;
     private NetworkManager net;
     private Config config;
     private CraftingManager crafting;
@@ -32,8 +28,6 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
-
-
         logger = getLogger();
 
         logger.info(startMessage);
@@ -42,16 +36,17 @@ public final class Main extends JavaPlugin {
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
-        this.dataFolder = this.getDataFolder();
 
         try {
             this.config = new Config(this);
         }
         catch (SerializationException e) {
             logger.severe("Unable to load config, shutting down plugin…");
-            e.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
+            throw new RuntimeException(e);
         }
+
+        /* Updates are disabled for beta versions
 
         if (config.updateAllowed()) {
             Bukkit.getLogger().info("[Networks] Checking for updates...");
@@ -73,8 +68,7 @@ public final class Main extends JavaPlugin {
                     Bukkit.getLogger().warning("[Networks] An unexpected error occurred while trying to update the plugin");
             }
         }
-
-
+        */
 
 
         if (!error) {
@@ -107,7 +101,6 @@ public final class Main extends JavaPlugin {
             this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
             this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, crafting, config, dcd, lang), this);
             this.getServer().getPluginManager().registerEvents(new ExplosionListener(config, lang, net, crafting), this);
-            this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
             this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net), this);
             this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(net), this);
             this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(net, config), this);
@@ -120,6 +113,8 @@ public final class Main extends JavaPlugin {
             net.loadData();
         }
     }
+
+
 
 
     @Override
@@ -145,4 +140,6 @@ public final class Main extends JavaPlugin {
     public NetworkManager getNetworkManager() {
         return net;
     }
+
+
 }

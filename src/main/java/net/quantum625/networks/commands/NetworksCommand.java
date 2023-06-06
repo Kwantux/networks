@@ -6,6 +6,7 @@ import cloud.commandframework.context.CommandContext;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
+import net.quantum625.config.ConfigurationManager;
 import net.quantum625.config.lang.Language;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
@@ -13,11 +14,11 @@ import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.component.InputContainer;
 import net.quantum625.networks.component.MiscContainer;
 import net.quantum625.networks.component.SortingContainer;
+import net.quantum625.networks.inventory.InventoryMenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -41,6 +42,11 @@ public class NetworksCommand extends CommandHandler {
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .handler(this::help)
         );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("help")
+                .handler(this::help)
+        );
+        //TODO: Help to specific commands
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("create")
                 .argument(StringArgument.of("id"))
@@ -120,6 +126,46 @@ public class NetworksCommand extends CommandHandler {
                 .literal("items")
                 .handler(this::items)
         );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("view")
+                .senderType(Player.class)
+                .permission("networks.view")
+                .handler(this::view)
+        );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("data")
+                .literal("save")
+                .handler(this::saveNetworks)
+        );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("data")
+                .literal("save")
+                .literal("networks")
+                .handler(this::saveNetworks)
+        );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("data")
+                .literal("save")
+                .literal("config")
+                .handler(this::saveConfig)
+        );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("data")
+                .literal("reload")
+                .handler(this::reloadConfig)
+        );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("data")
+                .literal("reload")
+                .literal("networks")
+                .handler(this::reloadNetworks)
+        );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("data")
+                .literal("reload")
+                .literal("config")
+                .handler(this::reloadConfig)
+        );
     }
 
 
@@ -133,8 +179,29 @@ public class NetworksCommand extends CommandHandler {
     }
 
 
+    //TODO: Make help menu
     private void help(CommandContext<CommandSender> context) {
         context.getSender().sendMessage(Component.text("Networks - V2.0"));
+    }
+
+    private void saveNetworks(CommandContext<CommandSender> context) {
+        net.saveData();
+        lang.message(context.getSender(), "data.save.networks");
+    }
+
+    private void reloadNetworks(CommandContext<CommandSender> context) {
+        net.loadData();
+        lang.message(context.getSender(), "data.reload.networks");
+    }
+
+    private void saveConfig(CommandContext<CommandSender> context) {
+        ConfigurationManager.saveAll();
+        lang.message(context.getSender(), "data.save.config");
+    }
+
+    private void reloadConfig(CommandContext<CommandSender> context) {
+        ConfigurationManager.reloadAll();
+        lang.message(context.getSender(), "data.reload.config");
     }
 
     private void create(CommandContext<CommandSender> context) {
@@ -274,17 +341,17 @@ public class NetworksCommand extends CommandHandler {
         lang.message(sender, "info.name", network.getID());
         lang.message(sender, "info.owner", Bukkit.getOfflinePlayer(network.getOwner()).getName());
 
-        String users = "";
+        StringBuilder users = new StringBuilder();
 
         for (UUID uid : network.getUsers()) {
-            users += Bukkit.getOfflinePlayer(uid).getName() + ",  ";
+            users.append(Bukkit.getOfflinePlayer(uid).getName()).append(",  ");
         }
 
         if (users.length() > 0) {
-            users = users.substring(0, users.length()-4);
+            users = new StringBuilder(users.substring(0, users.length() - 3));
         }
 
-        lang.message(sender, "info.users", users);
+        lang.message(sender, "info.users", users.toString());
 
         lang.message(sender, "info.components.total", String.valueOf(network.getAllComponents().size()));
         lang.message(sender, "info.range", String.valueOf(network.getMaxRange()));
@@ -409,6 +476,13 @@ public class NetworksCommand extends CommandHandler {
         for (Map.Entry<Material, Integer> entry : network.countItems().entrySet()) {
             sender.sendMessage(Component.translatable(entry.getKey().translationKey()).append(Component.text(":  ").color(TextColor.color(0, 255, 230)).append(Component.text(entry.getValue())).color(TextColor.color(255, 255, 255))).hoverEvent(HoverEvent.showItem(HoverEvent.ShowItem.of(entry.getKey().key(), entry.getValue()))));
         }
+    }
+
+    private void view(CommandContext<CommandSender> context) {
+        CommandSender sender = context.getSender();
+        Network network = selection(sender);
+        InventoryMenuManager.addInventoryMenu((Player) sender, network);
+
     }
 
 

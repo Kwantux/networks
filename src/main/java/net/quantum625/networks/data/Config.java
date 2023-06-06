@@ -1,14 +1,14 @@
 package net.quantum625.networks.data;
 
 import net.quantum625.config.Configuration;
+import net.quantum625.config.ConfigurationManager;
+import net.quantum625.config.util.exceptions.ConfigAlreadyRegisteredException;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.utils.Location;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -21,8 +21,12 @@ public class Config {
 
     public Config(Main main) throws SerializationException {
         logger = main.getLogger();
-        this.config = Configuration.createMain(main, "networks.conf");
-        this.features = Configuration.createMain(main, "features.conf");
+        try {
+            this.config = Configuration.createMain(main, "networks.conf");
+            this.features = Configuration.create(main, "features.conf", "features");
+        } catch (ConfigAlreadyRegisteredException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean blastProofComponents() {return config.getFinalBoolean("blastProofComponents");}
@@ -76,5 +80,11 @@ public class Config {
             logger.severe("");
         }
         return null;
+    }
+
+    public void reload() {
+        config.reload();
+        ConfigurationManager.saveAll();
+        ConfigurationManager.reloadAll();
     }
 }

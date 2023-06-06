@@ -2,6 +2,7 @@ package net.quantum625.config;
 
 import net.quantum625.config.util.exceptions.ConfigAlreadyRegisteredException;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -11,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ConfigurationManager  {
+
+
+    static {
+        Bukkit.getLogger().info("Launching QuillConfig v1.0");
+    }
 
     /**
      * A list of all registered Configuration instances
@@ -87,6 +93,15 @@ public final class ConfigurationManager  {
     public static void saveAll() {
         for (Configuration c : rootNodes) {
             c.save();
+        }
+    }
+
+    /**
+     * Reloads all loaded configurations
+     */
+    public static void reloadAll() {
+        for (Configuration c : rootNodes) {
+            c.reload();
         }
     }
 

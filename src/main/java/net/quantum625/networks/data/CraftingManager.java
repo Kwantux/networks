@@ -2,6 +2,7 @@ package net.quantum625.networks.data;
 
 import net.quantum625.config.Configuration;
 import net.quantum625.config.lang.Language;
+import net.quantum625.config.util.exceptions.ConfigAlreadyRegisteredException;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
 import net.quantum625.networks.Main;
 import org.bukkit.Bukkit;
@@ -18,18 +19,9 @@ import java.io.File;
 
 public class CraftingManager {
 
-    private File file;
     private Configuration config;
     private Language lang;
 
-
-    public CraftingManager(Main main) {
-        try {
-            config = Configuration.create(main, "recipes", "recipes.conf");
-        } catch (SerializationException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
     public void save() {
@@ -136,7 +128,7 @@ public class CraftingManager {
 
         try {
             this.config = Configuration.create(main, "recipes", "recipes.conf");
-        } catch (SerializationException e) {
+        } catch (ConfigAlreadyRegisteredException e) {
             throw new RuntimeException(e);
         }
 

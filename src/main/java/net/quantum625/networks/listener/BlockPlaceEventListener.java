@@ -56,7 +56,6 @@ public class BlockPlaceEventListener implements Listener {
                         if (componentType.equals("input")) {
                             net.getSelectedNetwork(p).addInputContainer(pos);
                             dcd.checkChest(pos);
-                            net.selectComponentType(p, null);
                             lang.message(p, "component.input.add", network.getID(), pos.toString());
                             return;
                         }
@@ -67,7 +66,6 @@ public class BlockPlaceEventListener implements Listener {
 
                                 net.getSelectedNetwork(p).addItemContainer(pos, items);
                                 dcd.checkChest(pos);
-                                net.selectComponentType(p, null);
                                 lang.message(p, "component.sorting.add", network.getID(), pos.toString());
                                 return;
                             }
@@ -79,7 +77,6 @@ public class BlockPlaceEventListener implements Listener {
                         if (componentType.equals("misc")) {
                             net.getSelectedNetwork(p).addMiscContainer(pos);
                             dcd.checkChest(pos);
-                            net.selectComponentType(p, null);
                             lang.message(p, "component.misc.add", network.getID(), pos.toString());
                         }
 

@@ -1,6 +1,7 @@
 package net.quantum625.config;
 
 import net.quantum625.config.util.FileType;
+import net.quantum625.config.util.exceptions.ConfigAlreadyRegisteredException;
 import net.quantum625.config.util.exceptions.InvalidFileFormatExecption;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
 import org.bukkit.Bukkit;
@@ -37,7 +38,7 @@ public final class Configuration extends RawConfiguration {
 
 
     @ApiStatus.Internal
-    private Configuration(JavaPlugin plugin, String registeredPath, Path filePath) throws SerializationException {
+    private Configuration(JavaPlugin plugin, String registeredPath, Path filePath) throws ConfigAlreadyRegisteredException {
         this.plugin = plugin;
 
         if (registeredPath == null || registeredPath.equals("")) {
@@ -54,7 +55,9 @@ public final class Configuration extends RawConfiguration {
                 .build();
 
         this.logger = plugin.getLogger();
-
+        
+        
+        ConfigurationManager.addConfiguration(this);
 
         update();
         /*
@@ -123,9 +126,9 @@ public final class Configuration extends RawConfiguration {
      * Creates a configuration instance for a plugin's main config
      * @param plugin The Plugin, the config belongs to
      * @param file The file, which is loaded
-     * @throws SerializationException
+     * @throws ConfigAlreadyRegisteredException
      */
-    public static Configuration createMain(JavaPlugin plugin, File file) throws SerializationException {
+    public static Configuration createMain(JavaPlugin plugin, File file) throws ConfigAlreadyRegisteredException {
         return new Configuration(plugin, "", Paths.get(file.getAbsolutePath()));
     }
 
@@ -135,9 +138,9 @@ public final class Configuration extends RawConfiguration {
      * @param plugin The Plugin, the config belongs to
      * @param registeredPath The Path on which the config is registered in the ConfigurationManager
      * @param file The file, which is loaded
-     * @throws SerializationException
+     * @throws ConfigAlreadyRegisteredException
      */
-    public static Configuration create(JavaPlugin plugin, String registeredPath, File file) throws SerializationException {
+    public static Configuration create(JavaPlugin plugin, String registeredPath, File file) throws ConfigAlreadyRegisteredException {
         return new Configuration(plugin, registeredPath, Paths.get(file.getAbsolutePath()));
     }
 
@@ -147,9 +150,9 @@ public final class Configuration extends RawConfiguration {
      * Creates a configuration instance for a plugin's main config
      * @param plugin The Plugin, the config belongs to
      * @param filename The name of the config file (DO NOT add the Path!)
-     * @throws SerializationException
+     * @throws ConfigAlreadyRegisteredException
      */
-    public static Configuration createMain(JavaPlugin plugin, String filename) throws SerializationException {
+    public static Configuration createMain(JavaPlugin plugin, String filename) throws ConfigAlreadyRegisteredException {
 
         if (filename.endsWith(".conf")) {
             filename = filename.substring(0, filename.length()-5);
@@ -164,9 +167,9 @@ public final class Configuration extends RawConfiguration {
      * @param plugin The Plugin, the config belongs to
      * @param registeredPath The Path on which the config is registered in the ConfigurationManager
      * @param filename The name of the config file (Do not add the path!)
-     * @throws SerializationException
+     * @throws ConfigAlreadyRegisteredException
      */
-    public static Configuration create(JavaPlugin plugin, String registeredPath, String filename) throws SerializationException {
+    public static Configuration create(JavaPlugin plugin, String registeredPath, String filename) throws ConfigAlreadyRegisteredException {
 
 
         if (filename.endsWith(".conf")) {
@@ -181,9 +184,9 @@ public final class Configuration extends RawConfiguration {
      * @param plugin The Plugin, the config belongs to
      * @param filepath The Path of the file's path (Will be appended to the Plugin's data folder, Do not add the datafolder at the start or the filename at the end!)
      * @param filename The name of the config file (Without the .conf)
-     * @throws SerializationException
+     * @throws ConfigAlreadyRegisteredException
      */
-    public static Configuration createMain(JavaPlugin plugin, String filepath, String filename) throws SerializationException {
+    public static Configuration createMain(JavaPlugin plugin, String filepath, String filename) throws ConfigAlreadyRegisteredException {
 
 
         if (filename.endsWith(".conf")) {
@@ -208,9 +211,9 @@ public final class Configuration extends RawConfiguration {
      * @param registeredPath The Path on which the config is registered in the ConfigurationManager
      * @param filepath The Path of the file's path (Will be appended to the Plugin's data folder, Do not add the datafolder at the start or the filename at the end!)
      * @param filename The name of the config file (Without the .conf)
-     * @throws SerializationException
+     * @throws ConfigAlreadyRegisteredException
      */
-    public static Configuration create(JavaPlugin plugin, String registeredPath, String filepath, String filename) throws SerializationException {
+    public static Configuration create(JavaPlugin plugin, String registeredPath, String filepath, String filename) throws ConfigAlreadyRegisteredException {
 
 
         if (filename.endsWith(".conf")) {
