@@ -264,12 +264,13 @@ public class Language extends RawConfiguration {
     private @NotNull String getPreparedString(@NotNull String path) throws InvalidNodeException {
         String result = getRaw(path);
         ConfigurationNode prefix = root.node("prefix");
-        if (!prefix.isNull()) result = prefix.getString()+"<reset>"+result;
+        if (!prefix.isNull()) result = result.replaceAll("<prefix>", prefix.getString()+"<reset>");
         for (String key : getKeys()) {
             result = result.replaceAll("<replace: '"+key+"'>", getPreparedString(key)).replaceAll("<replace: \""+key+"\">", getPreparedString(key)).replaceAll("<replace: "+key+">", getPreparedString(key)).replaceAll("<replace:'"+key+"'>", getPreparedString(key)).replaceAll("<replace:\""+key+"\">", getPreparedString(key)).replaceAll("<replace:"+key+">", getPreparedString(key));
         }
         return result;
     }
+
 
 
     private List<String> getKeys() {
@@ -296,11 +297,16 @@ public class Language extends RawConfiguration {
         }
     }
 
-    public @Nullable String getItemName(@NotNull String path) throws InvalidNodeException{
-        return getRaw("item.name."+path);
+    public @Nullable Component getItemName(@NotNull String path) throws InvalidNodeException{
+        return get("item.name."+path);
     }
-    public List<String> getItemLore(String path) throws InvalidNodeException, SerializationException {
-        return getList("item.lore."+path);
+    public List<Component> getItemLore(String path) throws InvalidNodeException, SerializationException {
+        List<String> list = getList("item.lore."+path);
+        List<Component> result = new ArrayList<Component>();
+        for (String s : list) {
+            result.add(mm.deserialize(s));
+        }
+        return result;
     }
 
     private Component invalidKeyError(String key) {

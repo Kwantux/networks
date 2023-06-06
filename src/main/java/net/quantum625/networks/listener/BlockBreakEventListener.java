@@ -9,6 +9,7 @@ import net.quantum625.networks.component.InputContainer;
 import net.quantum625.networks.component.SortingContainer;
 import net.quantum625.networks.component.MiscContainer;
 import net.quantum625.networks.data.Config;
+import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.utils.DoubleChestDisconnecter;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
@@ -29,13 +30,15 @@ import java.util.List;
 public class BlockBreakEventListener implements Listener {
 
     private NetworkManager net;
+    private CraftingManager crafting;
     private Config config;
     private DoubleChestDisconnecter dcd;
     private Language lang;
 
 
-    public BlockBreakEventListener(NetworkManager networkManager, Config config, DoubleChestDisconnecter doubleChestDisconnecter, Language languageModule) {
+    public BlockBreakEventListener(NetworkManager networkManager, CraftingManager craftingManager, Config config, DoubleChestDisconnecter doubleChestDisconnecter, Language languageModule) {
         net = networkManager;
+        crafting = craftingManager;
         lang = languageModule;
         dcd = doubleChestDisconnecter;
         this.config = config;
@@ -52,47 +55,19 @@ public class BlockBreakEventListener implements Listener {
                     
                     if (net.checkNetworkPermission(event.getPlayer(), network) > 1) {
                         if (component instanceof InputContainer) {
-
-                            ItemStack inputContainer = new ItemStack(event.getBlock().getType());
-                            ItemMeta meta = inputContainer.getItemMeta();
-                            meta.setDisplayName(lang.getRaw("input"));
-                            meta.setLore(lang.getList("input"));
-                            PersistentDataContainer data = meta.getPersistentDataContainer();
-                            data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "input");
-                            inputContainer.setItemMeta(meta);
+                            ItemStack inputContainer = crafting.getInputContainer(event.getBlock().getType());
                             Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), inputContainer);
                             event.setDropItems(false);
                         }
                         if (component instanceof SortingContainer) {
 
-                            String items = "";
-                            List<String> itemslist = new ArrayList<String>();
-                            itemslist.addAll(0, lang.getList("sorting"));
-                            for (String item : ((SortingContainer) component).getItems()) {
-                                items += item + ",";
-                                itemslist.add("§r§f"+item);
-                            }
-
-                            ItemStack sortingContainer = new ItemStack(event.getBlock().getType());
-                            ItemMeta meta = sortingContainer.getItemMeta();
-                            meta.setDisplayName(lang.getRaw("sorting"));
-                            meta.setLore(itemslist);
-                            PersistentDataContainer data = meta.getPersistentDataContainer();
-                            data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "sorting");
-                            data.set(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING, items);
-                            sortingContainer.setItemMeta(meta);
+                            ItemStack sortingContainer = crafting.getSortingContainer(event.getBlock().getType());
                             Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), sortingContainer);
                             event.setDropItems(false);
                         }
                         if (component instanceof MiscContainer) {
 
-                            ItemStack miscContainer = new ItemStack(event.getBlock().getType());
-                            ItemMeta meta = miscContainer.getItemMeta();
-                            meta.setDisplayName(lang.getRaw("misc"));
-                            meta.setLore(lang.getList("misc"));
-                            PersistentDataContainer data = meta.getPersistentDataContainer();
-                            data.set(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING, "misc");
-                            miscContainer.setItemMeta(meta);
+                            ItemStack miscContainer = crafting.getMiscContainer(event.getBlock().getType());
                             Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), miscContainer);
                             event.setDropItems(false);
                         }

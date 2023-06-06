@@ -92,8 +92,6 @@ public final class Main extends JavaPlugin {
             this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
             this.crafting = new CraftingManager(this, config, lang);
 
-            net.add("test", UUID.randomUUID());
-
             // bStats Metrics
             int pluginId = 18609;
             Metrics metrics = new Metrics(this, pluginId);
@@ -112,7 +110,7 @@ public final class Main extends JavaPlugin {
             this.dcd = new DoubleChestDisconnecter(net);
 
             this.getServer().getPluginManager().registerEvents(new AutoSave(net), this);
-            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, config, dcd, lang), this);
+            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(net, crafting, config, dcd, lang), this);
             this.getServer().getPluginManager().registerEvents(new ExplosionListener(config, lang, net, crafting), this);
             this.getServer().getPluginManager().registerEvents(new RightClickEventListener(net, lang, config), this);
             this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(net), this);
@@ -147,5 +145,9 @@ public final class Main extends JavaPlugin {
 
     public Language getLanguage() {
         return lang;
+    }
+
+    public NetworkManager getNetworkManager() {
+        return net;
     }
 }

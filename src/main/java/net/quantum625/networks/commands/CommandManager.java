@@ -6,7 +6,6 @@ import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.common.collect.ImmutableList;
 import net.quantum625.networks.Main;
-import net.quantum625.networks.commands.handlers.NetworksCommand;
 import org.bukkit.command.CommandSender;
 
 import java.util.function.UnaryOperator;

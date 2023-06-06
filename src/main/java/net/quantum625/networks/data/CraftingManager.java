@@ -51,8 +51,8 @@ public class CraftingManager {
         ItemStack wand = new ItemStack(Material.BLAZE_ROD);
         ItemMeta meta = wand.getItemMeta();
         try {
-            meta.setDisplayName(lang.getItemName("wand"+mode));
-            meta.setLore(lang.getItemLore("wand"+mode));
+            meta.displayName(lang.getItemName("wand"+mode));
+            meta.lore(lang.getItemLore("wand"+mode));
         } catch (InvalidNodeException e) {
             throw new RuntimeException(e);
         } catch (SerializationException e) {
@@ -68,8 +68,8 @@ public class CraftingManager {
         ItemStack inputContainer = new ItemStack(material);
         ItemMeta meta = inputContainer.getItemMeta();
         try {
-            meta.setDisplayName(lang.getItemName("input"));
-            meta.setLore(lang.getItemLore("input"));
+            meta.displayName(lang.getItemName("input"));
+            meta.lore(lang.getItemLore("input"));
         } catch (InvalidNodeException e) {
             throw new RuntimeException(e);
         } catch (SerializationException e) {
@@ -85,8 +85,8 @@ public class CraftingManager {
         ItemStack sortingContainer = new ItemStack(material);
         ItemMeta meta = sortingContainer.getItemMeta();
         try {
-            meta.setDisplayName(lang.getItemName("sorting"));
-            meta.setLore(lang.getItemLore("sorting"));
+            meta.displayName(lang.getItemName("sorting"));
+            meta.lore(lang.getItemLore("sorting"));
         } catch (InvalidNodeException e) {
             throw new RuntimeException(e);
         } catch (SerializationException e) {
@@ -103,8 +103,8 @@ public class CraftingManager {
         ItemStack miscContainer = new ItemStack(material);
         ItemMeta meta = miscContainer.getItemMeta();
         try {
-            meta.setDisplayName(lang.getItemName("misc"));
-            meta.setLore(lang.getItemLore("misc"));
+            meta.displayName(lang.getItemName("misc"));
+            meta.lore(lang.getItemLore("misc"));
         } catch (InvalidNodeException e) {
             throw new RuntimeException(e);
         } catch (SerializationException e) {
@@ -120,8 +120,8 @@ public class CraftingManager {
         ItemStack upgrade = new ItemStack(Material.LIGHTNING_ROD);
         ItemMeta meta = upgrade.getItemMeta();
         try {
-            meta.setDisplayName(lang.getItemName("upgrade" + tier));
-            meta.setLore(lang.getItemLore("upgrade"));
+            meta.displayName(lang.getItemName("upgrade" + tier));
+            meta.lore(lang.getItemLore("upgrade"));
         } catch (SerializationException e) {
             throw new RuntimeException(e);
         }
@@ -269,8 +269,6 @@ public class CraftingManager {
                 shape = new String[9];
 
                 for (int i = 0; i < 9; i++) {
-                    System.out.println("J: " + j + "  I: " + i);
-                    System.out.println("Existent: " + config.has("upgrade" + j + ".ingredient" + (i + 1)));
                     if (!config.has("upgrade" + j + ".ingredient" + (i + 1))) running = false;
                     else {
                         ingredients[i] = config.getString("upgrade" + j + ".ingredient" + (i + 1));
@@ -296,8 +294,11 @@ public class CraftingManager {
                 }
 
             }
+
+            main.getLogger().info("Initialiased Crafting Recipes");
         }
         catch (InvalidNodeException e) {
+            main.getLogger().severe("Config error found during initialisation of crafting recipes, a configuration is missing a value");
             throw new RuntimeException(e);
         }
     }

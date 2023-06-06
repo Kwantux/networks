@@ -1,16 +1,22 @@
 package net.quantum625.networks;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.quantum625.networks.component.BaseComponent;
 import net.quantum625.networks.component.InputContainer;
 import net.quantum625.networks.component.SortingContainer;
 import net.quantum625.networks.component.MiscContainer;
 import net.quantum625.networks.data.JSONNetwork;
 import net.quantum625.networks.utils.Location;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+
+import static net.kyori.adventure.text.minimessage.tag.standard.StandardTags.hoverEvent;
 
 public class Network {
     private String id;
@@ -175,6 +181,9 @@ public class Network {
 
     public String getID() {
         return this.id;
+    }
+    public void setID(String newID) {
+        id = newID;
     }
 
     public UUID getOwner() {
@@ -345,4 +354,19 @@ public class Network {
         }
         return sortedMap;
     }
+
+    public Component displayText() {
+        Component hoverText = Component.empty();
+        if (Bukkit.getOfflinePlayer(owner).getName() != null) {
+            hoverText = Component.text(Bukkit.getOfflinePlayer(owner).getName()).decorate(TextDecoration.UNDERLINED).decorate(TextDecoration.BOLD);
+        }
+        for (UUID uid : users) {
+            hoverText = hoverText.appendNewline();
+            if(Bukkit.getOfflinePlayer(uid).getName() != null) {
+                hoverText = hoverText.append(Component.text(Bukkit.getOfflinePlayer(uid).getName()));
+            }
+        }
+        return Component.text(id).hoverEvent(HoverEvent.showText(hoverText));
+    }
+
 }

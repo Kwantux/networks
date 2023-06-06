@@ -18,9 +18,9 @@ public class JSONNetwork {
     private int maxContainers = 20;
     private int maxRange = 40;
 
-    private InputContainer[] input_containers;
-    private SortingContainer[] sorting_containers;
-    private MiscContainer[] misc_containers;
+    private final InputContainer[] input_containers;
+    private final SortingContainer[] sorting_containers;
+    private final MiscContainer[] misc_containers;
 
     public JSONNetwork(Network n) {
         this.id = n.getID();
@@ -35,9 +35,9 @@ public class JSONNetwork {
         this.maxContainers = n.getMaxContainers();
         this.maxRange = n.getMaxRange();
 
-        this.input_containers = n.getInputChests().toArray(new InputContainer[n.getInputChests().size()]);
-        this.sorting_containers = n.getSortingChests().toArray(new SortingContainer[n.getSortingChests().size()]);
-        this.misc_containers = n.getMiscChests().toArray(new MiscContainer[n.getMiscChests().size()]);
+        this.input_containers = n.getInputChests().toArray(new InputContainer[0]);
+        this.sorting_containers = n.getSortingChests().toArray(new SortingContainer[0]);
+        this.misc_containers = n.getMiscChests().toArray(new MiscContainer[0]);
     }
 
     public String getId() {

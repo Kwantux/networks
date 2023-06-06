@@ -1,6 +1,7 @@
 package net.quantum625.networks.listener;
 
 import net.quantum625.config.lang.Language;
+import net.quantum625.config.util.exceptions.InvalidNodeException;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.component.*;
@@ -32,10 +33,9 @@ public class NetworkWandListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent event) throws InvalidNodeException {
         Player p = event.getPlayer();
         Location l = null;
-        if (p == null) return;
         if (event.getClickedBlock() != null) l = new Location(event.getClickedBlock());
         Action action = event.getAction();
 
@@ -55,7 +55,9 @@ public class NetworkWandListener implements Listener {
                         if (!p.isSneaking()) {
                             mode++;
                             if (mode > 1) mode = 0;
-                            p.getInventory().setItemInMainHand(crafting.getNetworkWand(mode));
+                            //p.getInventory().setItemInMainHand(crafting.getNetworkWand(mode));
+                            event.getItem().setItemMeta(crafting.getNetworkWand(mode).getItemMeta());
+                            lang.message(p, "wand.mode", lang.getRaw("wand.mode."+mode));
                             return;
                         }
                     }
@@ -67,17 +69,17 @@ public class NetworkWandListener implements Listener {
                         }
 
                         if (component instanceof InputContainer) {
-                            lang.message(p, "info.input", net.getNetworkWithComponent(l).getID(), l.toString());
+                            lang.message(p, "wand.info.input", net.getNetworkWithComponent(l).getID(), l.toString());
 
                         }
 
                         if (component instanceof SortingContainer container) {
-                            lang.message(p, "info.sorting", net.getNetworkWithComponent(l).getID(), l.toString(), container.getPriority()+"", container.getItems().toString());
+                            lang.message(p, "wand.info.sorting", net.getNetworkWithComponent(l).getID(), l.toString(), container.getPriority()+"", container.getItems().toString());
 
                         }
 
                         if (component instanceof MiscContainer container) {
-                            lang.message(p, "info.misc", net.getNetworkWithComponent(l).getID(), l.toString(), container.getPriority()+"");
+                            lang.message(p, "wand.info.misc", net.getNetworkWithComponent(l).getID(), l.toString(), container.getPriority()+"");
 
                         }
                     }

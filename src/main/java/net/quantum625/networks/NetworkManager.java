@@ -11,6 +11,7 @@ import net.quantum625.networks.data.JSONNetwork;
 import net.quantum625.networks.utils.Location;
 import net.quantum625.networks.utils.PlayerData;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
@@ -136,27 +137,32 @@ public final class NetworkManager implements Serializable {
     }
 
 
-    public int checkNetworkPermission(Player player, Network network) {
+    public int checkNetworkPermission(CommandSender sender, Network network) {
 
-        if (player.hasPermission("networks.admin.foreign.owner")) {
-            //Bukkit.getLogger().info("[Networks] Player has admin permission for foreign owner");
-            return 2; // Server admin permission
-        }
-        if (player.hasPermission("networks.admin.foreign.user")) {
-            //Bukkit.getLogger().info("[Networks] Player has admin permission for foreign user");
-            return 1; // Server admin permission
+        if (sender instanceof Player player) {
+
+            if (player.hasPermission("networks.admin.foreign.owner")) {
+                //Bukkit.getLogger().info("[Networks] Player has admin permission for foreign owner");
+                return 2; // Server admin permission
+            }
+            if (player.hasPermission("networks.admin.foreign.user")) {
+                //Bukkit.getLogger().info("[Networks] Player has admin permission for foreign user");
+                return 1; // Server admin permission
+            }
+
+            if (network.getOwner().equals(player.getUniqueId())) {
+                //Bukkit.getLogger().info("[Networks] Player is an owner");
+                return 2; // Network Owner permission
+            }
+            if (listFromUser(player.getUniqueId()).contains(network)) {
+                //Bukkit.getLogger().info("[Networks] Player is a user");
+                return 1; // Network User permission
+            }
+
+            return 0; // No permission
         }
 
-        if (network.getOwner().equals(player.getUniqueId())) {
-            //Bukkit.getLogger().info("[Networks] Player is an owner");
-            return 2; // Network Owner permission
-        }
-        if (listFromUser(player.getUniqueId()).contains(network)) {
-            //Bukkit.getLogger().info("[Networks] Player is a user");
-            return 1; // Network User permission
-        }
-
-        return 0; // No permission
+        else return 2; // Console command
     }
     public int checkNetworkRank(Player player, Network network) {
 
@@ -224,25 +230,33 @@ public final class NetworkManager implements Serializable {
 
 
 
-    public void selectNetwork(Player player, Network network) {
-        for (PlayerData networkSelection : selections) {
-            if (networkSelection.getPlayer().equals(player)) {
-                networkSelection.setNetwork(network);
-                break;
+    public void selectNetwork(CommandSender sender, Network network) {
+        if (sender instanceof Player) {
+            for (PlayerData networkSelection : selections) {
+                if (networkSelection.getPlayer().equals((Player) sender)) {
+                    networkSelection.setNetwork(network);
+                    break;
+                }
             }
+            PlayerData pd = new PlayerData((Player) sender);
+            pd.setNetwork(network);
+            selections.add(pd);
         }
-        PlayerData pd = new PlayerData(player);
-        pd.setNetwork(network);
-        selections.add(pd);
+        else {
+            console_selection = network;
+        }
     }
 
-    public Network getSelectedNetwork(Player player) {
-        for (PlayerData networkSelection : selections) {
-            if (networkSelection.getPlayer().equals(player)) {
-                return networkSelection.getNetwork();
+    public Network getSelectedNetwork(CommandSender sender) {
+        if (sender instanceof Player) {
+            for (PlayerData networkSelection : selections) {
+                if (networkSelection.getPlayer().equals((Player) sender)) {
+                    return networkSelection.getNetwork();
+                }
             }
+            return null;
         }
-        return null;
+        else return console_selection;
     }
 
 
@@ -355,4 +369,5 @@ public final class NetworkManager implements Serializable {
     public void consoleSelectLocation(Location location) {console_location = location;}
 
     public Location getConsoleLocation() {return console_location;}
+
 }

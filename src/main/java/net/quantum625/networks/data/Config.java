@@ -47,7 +47,7 @@ public class Config {
         return config.getFinalList("containerWhitelist", String.class);
     }
     public boolean checkLocation(Location location, String component) {
-        List<String> whitelist = config.getFinalList("container_whitelist", String.class);
+        List<String> whitelist = config.getFinalList("containerWhitelist", String.class);
         for (String e : whitelist) {
             if (e.equalsIgnoreCase(location.getBukkitLocation().getBlock().getType().toString().toUpperCase())) {
                 return true;
