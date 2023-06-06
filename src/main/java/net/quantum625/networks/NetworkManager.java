@@ -237,6 +237,7 @@ public final class NetworkManager {
             logger.info("Network cache not empty, cleaning up..");
             networks = new ArrayList<>();
         }
+        new File(dataFolder, "networks/").mkdir();
         File[] files = new File(dataFolder, "networks/").listFiles();
         logger.info("Loading "+files.length+" networks..");
         for (int i = 0; i < files.length; i++) {

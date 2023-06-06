@@ -23,7 +23,7 @@ public class Config {
         logger = main.getLogger();
         try {
             this.config = Configuration.createMain(main, "networks.conf");
-            this.features = Configuration.create(main, "features.conf", "features");
+            this.features = Configuration.create(main, "features", "features.conf");
         } catch (ConfigAlreadyRegisteredException e) {
             throw new RuntimeException(e);
         }

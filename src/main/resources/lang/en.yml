@@ -1,12 +1,12 @@
 prefix: "<green>[Networks]<reset>  "
 
-data.load: <prefix>Reloaded data from files
-data.save: <prefix>Saved data to files
+data.reload.networks: <prefix>Reloaded network files
+data.save.networks: <prefix>Saved networks to files
+data.reload.config: <prefix>Reloaded config files
+data.save.config: <prefix>Saved config files
 
 create.success: <prefix>Successfully created storage network <green><1>
 create.exists: <prefix><yellow>There is already a network with this name, please select another name!
-create.noname: <prefix><yellow>You need to give your network a name, do <white>/net create \<name\>
-create.fail: <prefix><red>This name is already used, please select another name.
 
 delete.success: <prefix>Successfully deleted storage network <green><1>
 delete.confirm: <prefix>Are you sure you want to delete storage network <1>? Please confirm with <yellow>/net delete <1> confirm

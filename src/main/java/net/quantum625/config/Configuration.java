@@ -91,7 +91,7 @@ public final class Configuration extends RawConfiguration {
 
         try {
             HoconConfigurationLoader defaultLoader = HoconConfigurationLoader.builder()
-                    .path(Paths.get(plugin.getDataFolder().getAbsolutePath()+filename))
+                    .path(Paths.get(plugin.getDataFolder().getAbsolutePath()+"/"+filename))
                     .build();
 
 
@@ -108,6 +108,7 @@ public final class Configuration extends RawConfiguration {
         }
 
         root = root.mergeFrom(defaultConfig);
+
 
         try {
             loader.save(root);
