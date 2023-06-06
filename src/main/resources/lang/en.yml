@@ -69,6 +69,9 @@ merge.identical: <prefix><red>Sorry but the laws of physics can't be broken.
 merge.nopermission: <prefix><red>You need to be owner of both networks in order to merge them!
 merge.success: <prefix>Successfully merged network <2> into <1>
 
+rename.success: <prefix>Successfully renamed network <1> to <2>
+rename.taken: <prefix>Name <1> is already taken by another network.
+
 wand.mode: "<prefix><blue>Wand mode set to [<1>]"
 wand.mode.0: "Filter"
 wand.mode.1: "Priority"
@@ -77,7 +80,7 @@ wand.info.sorting: "<prefix><green>Type: <reset>Sorting Container<green>\nNetwor
 wand.info.misc: "<prefix><green>Type: <reset>Misc Container<green>\ nNetwork: <reset><1><green>\nLocation: <reset><2>\nPriority: <reset>%value<green>\n"
 
 items.noitems: "<prefix><red>There are no items in your storage network."
-items.message: "<prefix><green><bold>Total items in network <white><1><green>:"
+items.message: "<green><bold>Total items in network <white><1><green>:"
 
 value.notpositive: <prefix><red>This value needs to be positive, it was set back to 1.
 

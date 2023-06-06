@@ -5,6 +5,7 @@ import cloud.commandframework.bukkit.parsers.PlayerArgument;
 import cloud.commandframework.context.CommandContext;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextColor;
 import net.quantum625.config.lang.Language;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
@@ -16,9 +17,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -112,6 +115,10 @@ public class NetworksCommand extends CommandHandler {
                 .argument(NetworkArgument.of("final"))
                 .argument(NetworkArgument.of("other"))
                 .handler(this::merge)
+        );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("items")
+                .handler(this::items)
         );
     }
 
@@ -375,12 +382,33 @@ public class NetworksCommand extends CommandHandler {
             lang.message(sender, "merge.nopermission");
             return;
         }
-        
+
         if (finalNetwork.equals(otherNetwork)) {
             lang.message(sender, "merge.identical");
         }
         net.delete(otherNetwork.getID());
         lang.message(sender, "merge.success", Component.text(finalNetwork.getID()), Component.text(otherNetwork.getID()));
+    }
+
+    private void items(CommandContext<CommandSender> context) {
+        CommandSender sender = context.getSender();
+        Network network = selection(sender);
+
+        if (net.checkNetworkPermission(sender, network) < 1) {
+            lang.message(sender, "permission.user");
+            return;
+        }
+
+        if (network.countItems().entrySet().size() == 0) {
+            lang.message(sender, "items.noitems");
+            return;
+        }
+
+        lang.message(sender, "items.message", Component.text(network.getID()));
+
+        for (Map.Entry<Material, Integer> entry : network.countItems().entrySet()) {
+            sender.sendMessage(Component.translatable(entry.getKey().translationKey()).append(Component.text(":  ").color(TextColor.color(0, 255, 230)).append(Component.text(entry.getValue())).color(TextColor.color(255, 255, 255))).hoverEvent(HoverEvent.showItem(HoverEvent.ShowItem.of(entry.getKey().key(), entry.getValue()))));
+        }
     }
 
 
