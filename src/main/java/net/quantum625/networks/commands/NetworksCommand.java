@@ -199,8 +199,8 @@ public class NetworksCommand extends CommandHandler {
         CommandSender sender = context.getSender();
 
         if (net.checkNetworkPermission(sender, network) > 1) {
-            network.setID(newID);
-            lang.message(sender, "rename.success", network.getID());
+            if (net.rename(oldID, newID)) lang.message(sender, "rename.success", network.getID());
+            else lang.message(sender, "rename.taken", newID);
         }
 
         else {

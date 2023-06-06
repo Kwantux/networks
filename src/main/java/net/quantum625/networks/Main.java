@@ -21,11 +21,7 @@ import java.util.logging.Logger;
 public final class Main extends JavaPlugin {
 
     private Logger logger;
-
     private File dataFolder;
-
-    private Installer installer;
-
     private NetworkManager net;
     private Config config;
     private CraftingManager crafting;
@@ -47,7 +43,6 @@ public final class Main extends JavaPlugin {
             getDataFolder().mkdirs();
         }
         this.dataFolder = this.getDataFolder();
-        this.installer = new Installer(dataFolder, this);
 
         try {
             this.config = new Config(this);
@@ -89,7 +84,7 @@ public final class Main extends JavaPlugin {
                 logger.severe("Language file unable to load");
                 e.printStackTrace();
             }
-            this.net = new NetworkManager(this.config, this.dataFolder, this.lang);
+            this.net = new NetworkManager(this, this.config);
             this.crafting = new CraftingManager(this, config, lang);
 
             // bStats Metrics

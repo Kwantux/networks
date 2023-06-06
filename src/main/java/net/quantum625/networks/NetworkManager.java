@@ -18,10 +18,12 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.logging.Logger;
 
-public final class NetworkManager implements Serializable {
+public final class NetworkManager {
 
     private ArrayList<Network> networks = new ArrayList<Network>();
 
@@ -36,13 +38,15 @@ public final class NetworkManager implements Serializable {
     private Config config;
     private File dataFolder;
     private Language lang;
+    private Logger logger;
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();;
 
 
-    public NetworkManager(Config config, File dataFolder, Language lang) {
+    public NetworkManager(Main plugin, Config config) {
         this.config = config;
-        this.dataFolder = dataFolder;
-        this.lang = lang;
+        this.dataFolder = plugin.getDataFolder();
+        this.lang = plugin.getLanguage();
+        this.logger = plugin.getLogger();
     }
 
     public boolean add(String id, UUID owner) {
@@ -58,9 +62,33 @@ public final class NetworkManager implements Serializable {
             networks.remove(getFromID(id));
             File file = new File(dataFolder, "networks/"+id+".json");
             file.delete();
+            /* Network Archiving
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+            File newFile = new File(dataFolder, "networks/archive/"+id+" ["+dtf.format(now)+"].json");
+            try {
+                newFile.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            file.renameTo(newFile);
+             */
             return true;
         }
         return false;
+    }
+
+
+    public boolean rename(String id, String newid) {
+        Network network = getFromID(id);
+        if (network == null) return false;
+        if (getFromID(newid) != null) return false;
+        network.setID(newid);
+        File file = new File(dataFolder, "networks/"+id+".json");
+        file.delete();
+        saveData();
+        return true;
     }
 
 
@@ -142,20 +170,20 @@ public final class NetworkManager implements Serializable {
         if (sender instanceof Player player) {
 
             if (player.hasPermission("networks.admin.foreign.owner")) {
-                //Bukkit.getLogger().info("[Networks] Player has admin permission for foreign owner");
+                //logger.info("[Networks] Player has admin permission for foreign owner");
                 return 2; // Server admin permission
             }
             if (player.hasPermission("networks.admin.foreign.user")) {
-                //Bukkit.getLogger().info("[Networks] Player has admin permission for foreign user");
+                //logger.info("[Networks] Player has admin permission for foreign user");
                 return 1; // Server admin permission
             }
 
             if (network.getOwner().equals(player.getUniqueId())) {
-                //Bukkit.getLogger().info("[Networks] Player is an owner");
+                //logger.info("[Networks] Player is an owner");
                 return 2; // Network Owner permission
             }
             if (listFromUser(player.getUniqueId()).contains(network)) {
-                //Bukkit.getLogger().info("[Networks] Player is a user");
+                //logger.info("[Networks] Player is a user");
                 return 1; // Network User permission
             }
 
@@ -198,9 +226,9 @@ public final class NetworkManager implements Serializable {
 
             }
             catch (IOException e) {
-                Bukkit.getLogger().warning("[Networks] Failed to save network file " + n.getId() + ".json");
+                logger.warning("[Networks] Failed to save network file " + n.getId() + ".json");
                 e.printStackTrace();
-                Bukkit.getLogger().info(e.getStackTrace().toString());
+                logger.info(e.getStackTrace().toString());
             }
         }
 
@@ -219,9 +247,9 @@ public final class NetworkManager implements Serializable {
 
                 networks.add(new Network(gson.fromJson(json, JSONNetwork.class)));
 
-                //Bukkit.getLogger().info("[Networks] Successfully loaded network " + file.getName());
+                //logger.info("[Networks] Successfully loaded network " + file.getName());
             } catch (IOException e) {
-                Bukkit.getLogger().warning("[Networks] Failed to load network " + file.getName());
+                logger.warning("[Networks] Failed to load network " + file.getName());
                 e.printStackTrace();
             }
         }
