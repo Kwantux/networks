@@ -14,12 +14,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -33,7 +30,6 @@ public final class NetworkManager {
 
     private Map<Location, Network> input_locations = new HashMap<Location, Network>();
     private Network console_selection = null;
-    private Location console_location = null;
 
     private Config config;
     private File dataFolder;
@@ -237,22 +233,32 @@ public final class NetworkManager {
     }
 
     public void loadData() {
-        for (File file : new File(dataFolder, "networks/").listFiles()) {
-            try {
-                Scanner scanner = new Scanner(file);
-                String json = "";
-                while (scanner.hasNext()) {
-                    json += scanner.next();
-                }
-
-                networks.add(new Network(gson.fromJson(json, JSONNetwork.class)));
-
-                //logger.info("[Networks] Successfully loaded network " + file.getName());
-            } catch (IOException e) {
-                logger.warning("[Networks] Failed to load network " + file.getName());
-                e.printStackTrace();
-            }
+        if (networks.size() > 0) {
+            logger.info("Network cache not empty, cleaning up..");
+            networks = new ArrayList<>();
         }
+        File[] files = new File(dataFolder, "networks/").listFiles();
+        logger.info("Loading "+files.length+" networks..");
+        for (int i = 0; i < files.length; i++) {
+            File file = files[i];
+            if (file.isFile() && file.getName().endsWith(".json")) {
+                try {
+                    Scanner scanner = new Scanner(file);
+                    String json = "";
+                    while (scanner.hasNext()) {
+                        json += scanner.next();
+                    }
+
+                    networks.add(new Network(gson.fromJson(json, JSONNetwork.class)));
+                    logger.info("["+(i+1)+"/"+files.length+"] Loaded " + file.getName());
+                } catch (IOException e) {
+                    logger.severe("Failed to load network " + file.getName());
+                    throw new RuntimeException(e);
+                }
+            }
+            else logger.info("["+(i+1)+"/"+files.length+"] Skipping non JSON file…");
+        }
+        logger.info("All networks loaded.");
     }
 
 
@@ -287,76 +293,6 @@ public final class NetworkManager {
         else return console_selection;
     }
 
-
-
-    public void selectLocation(Player player, Location location) {
-        for (PlayerData LocationSelection : selections) {
-            if (LocationSelection.getPlayer().equals(player)) {
-                LocationSelection.setLocation(location);
-                break;
-            }
-        }
-        PlayerData pd = new PlayerData(player);
-        pd.setLocation(location);
-        selections.add(pd);
-    }
-
-    public Location getSelectedLocation(Player player) {
-        for (PlayerData locationSelection : selections) {
-            if (locationSelection.getPlayer().equals(player)) {
-                return locationSelection.getLocation();
-            }
-        }
-        return null;
-    }
-
-
-
-    public void selectComponentType(Player player, @Nullable String component) {
-        for (PlayerData componentSelection : selections) {
-            if (componentSelection.getPlayer().equals(player)) {
-                componentSelection.setComponentType(component);
-                break;
-            }
-        }
-        PlayerData pd = new PlayerData(player);
-        pd.setComponentType(component);
-        selections.add(pd);
-    }
-
-    public String getSelectedComponentType(Player player) {
-        for (PlayerData componentSelection : selections) {
-            if (componentSelection.getPlayer().equals(player)) {
-                return componentSelection.getComponentType();
-            }
-        }
-        return null;
-    }
-
-
-    public void selectItems(Player player, String[] items) {
-        for (PlayerData itemSelection : selections) {
-            if (itemSelection.getPlayer().equals(player)) {
-                for (String item : items) {
-                    item = item.toUpperCase();
-                }
-                itemSelection.setItems(items);
-                break;
-            }
-        }
-        PlayerData pd = new PlayerData(player);
-        pd.setItems(items);
-        selections.add(pd);
-    }
-
-    public String[] getSelectedItems(Player player) {
-        for (PlayerData itemSelection : selections) {
-            if (itemSelection.getPlayer().equals(player)) {
-                return itemSelection.getItems();
-            }
-        }
-        return null;
-    }
 
     public Network getNetworkWithComponent(Location location) {
         for (Network network : networks) {
@@ -393,9 +329,5 @@ public final class NetworkManager {
     public Network getConsoleSelection() {
         return console_selection;
     }
-
-    public void consoleSelectLocation(Location location) {console_location = location;}
-
-    public Location getConsoleLocation() {return console_location;}
 
 }
