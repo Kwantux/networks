@@ -3,6 +3,7 @@ package net.quantum625.updater;
 
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONArray;
@@ -13,6 +14,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.Buffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.security.MessageDigest;
@@ -88,16 +90,28 @@ public class Updater {
             String filename = "";
             String sha512 = "";
 
+
             try {
                 for (Object object : json) {
                     JSONObject jsonObject = (JSONObject) object;
                     String versionNumber = (String) jsonObject.get("version_number");
                     if (shouldUpdate(newestVersion, versionNumber) && ReleaseType.parse((String) jsonObject.get("version_type")) == type) {
-                        newestVersion = versionNumber;
-                        JSONObject files = (JSONObject) ((JSONArray) jsonObject.get("files")).get(0);
-                        newestURL = (String) files.get("url");
-                        filename = (String) files.get("filename");
-                        sha512 = (String) ((JSONObject) files.get("hashes")).get("sha512");
+
+                        JSONArray gameVersions = (JSONArray) jsonObject.get("game_versions");
+
+                        boolean supported = false;
+
+                        for (Object gv : gameVersions) {
+                            if (Bukkit.getMinecraftVersion().equalsIgnoreCase((String) gv)) supported = true;
+                        }
+
+                        if (supported) {
+                            newestVersion = versionNumber;
+                            JSONObject files = (JSONObject) ((JSONArray) jsonObject.get("files")).get(0);
+                            newestURL = (String) files.get("url");
+                            filename = (String) files.get("filename");
+                            sha512 = (String) ((JSONObject) files.get("hashes")).get("sha512");
+                        }
                     }
                 }
             }
