@@ -9,6 +9,7 @@ import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.inventory.InventoryMenuManager;
 import net.quantum625.networks.utils.DoubleChestDisconnecter;
 import net.quantum625.networks.listener.*;
+import net.quantum625.updater.Updater;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -51,10 +52,16 @@ public final class Main extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        /* Updates are disabled for beta versions
+        // For Modrinth
+
+
+
 
         if (config.updateAllowed()) {
-            Bukkit.getLogger().info("[Networks] Checking for updates...");
+            Updater updater = new Updater(this, "1.0.0-SNAPSHOT-2a", "Networks", "KKr3r1PM");
+            Updater.UpdateResult result = updater.update(Updater.ReleaseType.ALPHA, getFile());
+
+            /* For Bukkit
             Updater updater = new Updater(this, 687035, this.getFile(), Updater.UpdateType.DEFAULT, true);
             Updater.UpdateResult result = updater.getResult();
 
@@ -72,8 +79,8 @@ public final class Main extends JavaPlugin {
                 default:
                     Bukkit.getLogger().warning("[Networks] An unexpected error occurred while trying to update the plugin");
             }
+            */
         }
-        */
 
 
         if (!error) {
