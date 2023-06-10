@@ -15,6 +15,7 @@ import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.utils.DoubleChestDisconnecter;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -63,7 +64,8 @@ public class BlockBreakEventListener implements Listener {
                         }
                         if (component instanceof SortingContainer) {
 
-                            ItemStack sortingContainer = crafting.getSortingContainer(event.getBlock().getType());
+                            SortingContainer container = (SortingContainer) component;
+                            ItemStack sortingContainer = crafting.getSortingContainer(event.getBlock().getType(), container.getItems());
                             Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), sortingContainer);
                             event.setDropItems(false);
                         }

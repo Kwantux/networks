@@ -123,6 +123,7 @@ public class Updater {
 
             if (!filename.endsWith(".jar")) {
                 logger.severe("[PluginUpdater] The Plugin file on Modrinth is not a JAR file!, cancelling update…");
+                logger.severe("[PluginUpdater] File Name: " + filename);
                 return UpdateResult.ERROR;
             }
             if (newestURL.equals("")) {

@@ -2,6 +2,7 @@ package net.quantum625.config.lang;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -151,13 +152,13 @@ public class LanguageController {
     }
 
     public @Nullable Component getItemName(@NotNull String path) throws InvalidNodeException{
-        return get("item.name."+path);
+        return get("item.name."+path).decoration(TextDecoration.ITALIC, false);
     }
     public List<Component> getItemLore(String path) throws InvalidNodeException {
         List<String> list = getList("item.lore."+path);
         List<Component> result = new ArrayList<Component>();
         for (String s : list) {
-            result.add(mm.deserialize(s));
+            result.add(mm.deserialize(s).decoration(TextDecoration.ITALIC, false));
         }
         return result;
     }

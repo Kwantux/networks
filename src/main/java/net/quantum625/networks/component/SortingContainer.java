@@ -3,12 +3,18 @@ package net.quantum625.networks.component;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class SortingContainer extends BaseOutputContainer {
     private String[] items;
 
     public SortingContainer(Location pos, String[] items) {
         super(pos);
-        this.items = items;
+        List<String> list = new ArrayList<>(Arrays.stream(items).distinct().toList());
+        list.remove("");
+        this.items = list.toArray(new String[0]);
     }
 
     public void addItem(String item) {

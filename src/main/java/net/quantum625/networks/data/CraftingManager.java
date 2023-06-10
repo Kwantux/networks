@@ -1,5 +1,7 @@
 package net.quantum625.networks.data;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.quantum625.config.Configuration;
 import net.quantum625.config.lang.LanguageController;
 import net.quantum625.config.util.exceptions.ConfigAlreadyRegisteredException;
@@ -13,6 +15,8 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.List;
 
 public class CraftingManager {
 
@@ -81,6 +85,27 @@ public class CraftingManager {
         sortingContainer.setItemMeta(meta);
         return sortingContainer;
     }
+
+    public ItemStack getSortingContainer(Material material, String[] items) {
+        ItemStack sortingContainer = getSortingContainer(material);
+        ItemMeta meta = sortingContainer.getItemMeta();
+        PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
+        String itemString = "";
+        List<Component> lore = meta.lore();
+        for (String itemType : items) {
+            itemString += "," + itemType;
+            lore.add(Component.text(itemType.toUpperCase()).decoration(TextDecoration.ITALIC, false));
+        }
+        if (itemString.length() > 1) {
+            itemString = itemString.substring(1);
+        }
+        meta.lore(lore);
+        dataContainer.set(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING, itemString);
+        sortingContainer.setItemMeta(meta);
+        return sortingContainer;
+    }
+
+
 
     public ItemStack getMiscContainer(Material material) {
         ItemStack miscContainer = new ItemStack(material);

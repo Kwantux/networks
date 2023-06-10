@@ -46,7 +46,7 @@ public class ExplosionListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onBlockBreak(EntityExplodeEvent event) throws InvalidNodeException, SerializationException {
+    public void onBlockBreak(EntityExplodeEvent event) {
 
         ArrayList<Block> removeLater = new ArrayList<>();
 
@@ -64,21 +64,7 @@ public class ExplosionListener implements Listener {
                     Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), craftingManager.getInputContainer(block.getType()));
                 }
                 if (component instanceof SortingContainer) {
-
-                    String items = "";
-                    List<String> itemslist = new ArrayList<String>();
-                    itemslist.addAll(0, lang.getList("sorting"));
-                    for (String item : ((SortingContainer) component).getItems()) {
-                        items += item + ",";
-                        itemslist.add("§r§f" + item);
-                    }
-
-                    ItemStack sortingContainer = craftingManager.getSortingContainer(block.getType());
-                    ItemMeta meta = sortingContainer.getItemMeta();
-                    PersistentDataContainer data = meta.getPersistentDataContainer();
-                    data.set(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING, items);
-                    sortingContainer.setItemMeta(meta);
-                    Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), sortingContainer);
+                    Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), craftingManager.getSortingContainer(block.getType(), ((SortingContainer) component).getItems()));
                 }
                 if (component instanceof MiscContainer) {
                     Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(),craftingManager.getMiscContainer(block.getType()));
