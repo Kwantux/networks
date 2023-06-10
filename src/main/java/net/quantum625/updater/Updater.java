@@ -121,14 +121,14 @@ public class Updater {
                 return UpdateResult.INVALID_API_RESPONSE;
             }
 
+            if (newestURL.equals("")) {
+                logger.info("[PluginUpdater] Plugin is already up to date!");
+                return UpdateResult.NO_UPDATE;
+            }
             if (!filename.endsWith(".jar")) {
                 logger.severe("[PluginUpdater] The Plugin file on Modrinth is not a JAR file!, cancelling update…");
                 logger.severe("[PluginUpdater] File Name: " + filename);
                 return UpdateResult.ERROR;
-            }
-            if (newestURL.equals("")) {
-                logger.info("[PluginUpdater] Plugin is already up to date!");
-                return UpdateResult.NO_UPDATE;
             }
             if (!shouldUpdate(currentVersion, newestVersion)) {
                 logger.info("[PluginUpdater] Plugin is already up to date!");
