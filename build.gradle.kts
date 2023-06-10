@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "net.quantum625"
-version = "2.0.0-SNAPSHOT-2a"
+version = "2.0.0-SNAPSHOT-2b"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -39,6 +39,6 @@ bukkit {
 
 tasks {
     runServer {
-        minecraftVersion("1.19.3")
+        minecraftVersion("1.20")
     }
 }

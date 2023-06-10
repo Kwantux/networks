@@ -58,7 +58,7 @@ public final class Main extends JavaPlugin {
 
 
         if (config.updateAllowed()) {
-            Updater updater = new Updater(this, "1.0.0-SNAPSHOT-2a", "Networks", "KKr3r1PM");
+            Updater updater = new Updater(this, "2.0.0-SNAPSHOT-2b", "Networks", "KKr3r1PM");
             Updater.UpdateResult result = updater.update(Updater.ReleaseType.ALPHA, getFile());
 
             /* For Bukkit
