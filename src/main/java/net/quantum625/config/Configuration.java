@@ -29,6 +29,8 @@ import java.util.logging.Logger;
 
 public final class Configuration extends RawConfiguration {
 
+    private final boolean logging = true;
+
     private final String filepath;
     private final String filename;
 
