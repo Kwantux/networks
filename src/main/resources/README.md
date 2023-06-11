@@ -1,9 +1,9 @@
-# Networks Alpha Test v2.0-1a
+# Networks v2.0.0
 
-### Please note, that this alpha is NOT intended for use!
-### If you want to use the plugin, download the latest stable version v1.2.1 from modrinth
 
 ## Report any bugs on Discord or Github
+
+If you need help with the plugin, feel free to ask your question on our discord!
 
 ---
 
