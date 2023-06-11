@@ -6,6 +6,8 @@ import com.google.common.io.Files;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -13,12 +15,13 @@ import org.json.simple.JSONValue;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
-import java.nio.Buffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.logging.Logger;
 import java.lang.module.ModuleDescriptor.Version;
 
@@ -35,24 +38,32 @@ public class Updater {
 
     private final JavaPlugin plugin;
     private final String currentVersion;
+    private final boolean automaticInstallation;
 
     private final String projectName;
     private final String projectId;
 
     private final Logger logger;
 
-    public Updater(JavaPlugin plugin, String currentVersion, String projectName, String projectId) {
+    public Updater(JavaPlugin plugin, String currentVersion, String projectName, String projectId, boolean allowUpdate) {
         this.plugin = plugin;
         this.currentVersion = currentVersion;
         this.projectName = projectName;
         this.projectId = projectId;
         this.logger = plugin.getLogger();
+        this.automaticInstallation = updateAllowed() && allowUpdate;
     }
 
-    public UpdateResult update(ReleaseType type, File pluginFile) {
+    public LinkResult getLink(ReleaseType type) {
         logger.info("[PluginUpdater] Checking for updates...");
+        if (automaticInstallation) {
+            logger.info("[PluginUpdater] If you wish to disable this auto updater, open serverfiles/plugins/updater.yml and set 'allowUpdates' to false");
+        }
+        else {
+            logger.info("[PluginUpdater] Automatic update installation was disabled, only a version check will be done.");
+        }
         try {
-            URL url = new URL("https://api.modrinth.com/v2/project/"+projectId+"/version");
+            URL url = new URL("https://api.modrinth.com/v2/project/" + projectId + "/version");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("User-Agent", "Quantum625/PluginUpdater v1.0 (Updating Plugin '" + projectName + "')");
@@ -67,8 +78,8 @@ public class Updater {
             if (status > 299) {
                 streamReader = new InputStreamReader(con.getErrorStream());
                 logger.severe("[PluginUpdater] Unable to update plugin! Response code: " + status);
-                if (status == 404) return UpdateResult.INVALID_PROJECT;
-                return UpdateResult.INVALID_CONNECTION_CODE;
+                if (status == 404) return new LinkResult(UpdateResult.INVALID_PROJECT);
+                return new LinkResult(UpdateResult.INVALID_CONNECTION_CODE);
             } else {
                 streamReader = new InputStreamReader(con.getInputStream());
             }
@@ -114,35 +125,60 @@ public class Updater {
                         }
                     }
                 }
-            }
-            catch (NullPointerException | ClassCastException e) {
+            } catch (NullPointerException | ClassCastException e) {
                 e.printStackTrace();
                 logger.severe("[PluginUpdater] Invalid response from Modrinth API, cancelling update…");
-                return UpdateResult.INVALID_API_RESPONSE;
+                return new LinkResult(UpdateResult.INVALID_API_RESPONSE);
             }
 
             if (newestURL.equals("")) {
                 logger.info("[PluginUpdater] Plugin is already up to date!");
-                return UpdateResult.NO_UPDATE;
+                return new LinkResult(UpdateResult.NO_UPDATE);
             }
             if (!filename.endsWith(".jar")) {
                 logger.severe("[PluginUpdater] The Plugin file on Modrinth is not a JAR file!, cancelling update…");
                 logger.severe("[PluginUpdater] File Name: " + filename);
-                return UpdateResult.ERROR;
+                return new LinkResult(UpdateResult.ERROR);
             }
             if (!shouldUpdate(currentVersion, newestVersion)) {
                 logger.info("[PluginUpdater] Plugin is already up to date!");
-                return UpdateResult.NO_UPDATE;
+                return new LinkResult(UpdateResult.NO_UPDATE);
             }
 
-            logger.info("[PluginUpdater] Found newer version: " + newestVersion);
 
             if (!updateAllowed()) {
                 logger.info("[PluginUpdater] Automatic update installation is disabled.");
                 logger.info("[PluginUpdater] Please manually download the newest version of the plugin here:");
-                logger.info("[PluginUpdater] " + newestURL);
-                return UpdateResult.DISABLED;
+                logger.info("[PluginUpdater] " + url);
+                return new LinkResult(UpdateResult.DISABLED);
             }
+
+
+            logger.info("[PluginUpdater] Found newer version: " + newestVersion);
+
+            return new LinkResult(new URL(newestURL), newestVersion, filename, sha512);
+        } catch (ProtocolException e) {
+            throw new RuntimeException(e);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public UpdateResult update(ReleaseType type, File pluginFile) {
+
+        try {
+
+            LinkResult linkResult = getLink(type);
+
+            if (!linkResult.wasSuccessful()) {
+                return linkResult.getResult();
+            }
+            URL url = linkResult.getURL();
+            String version = linkResult.getVersion();
+            String filename = linkResult.getFilename();
+            String sha512 = linkResult.getHash();
 
 
             if (filename.equals(pluginFile.getName())) {
@@ -150,7 +186,6 @@ public class Updater {
                 return UpdateResult.NO_UPDATE;
             }
 
-            url = new URL(newestURL);
 
             ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
             FileOutputStream fileOutputStream = new FileOutputStream("plugins/"+filename);
@@ -158,7 +193,7 @@ public class Updater {
 
             if (verifyHash(new File("plugins/"+filename), sha512)) {
                 pluginFile.delete();
-                logger.info("[PluginUpdater] Successfully updated plugin to version " + newestVersion);
+                logger.info("[PluginUpdater] Successfully updated plugin to version " + version);
                 logger.info("[PluginUpdater] Restarting the server is recommended");
                 return UpdateResult.SUCCESS;
             }
@@ -230,6 +265,7 @@ public class Updater {
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
         if (config.get("allowUpdates") == null) {
             config.set("allowUpdates", true);
+            config.setComments("allowUpdates", List.of("This config only applies to plugins using the Updater by Quantum625", "See more info at https://github.com/Quantum625/Updater", "Plugins using other methods of automatic update installations will have their own config"));
             try {
                 config.save(file);
             } catch (IOException e) {
@@ -292,6 +328,49 @@ public class Updater {
         ERROR;
     }
 
+    public class LinkResult {
+        UpdateResult result;
+        URL url;
+        String version;
+        String filename;
+        String sha512;
+
+        public LinkResult(UpdateResult result) {
+            this.result = result;
+            this.url = null;
+        }
+
+        public LinkResult(@NotNull URL url, @NotNull String version, @NotNull String filename, @NotNull String sha512) {
+            this.result = null;
+            this.url = url;
+        }
+
+        public boolean wasSuccessful() {
+            return url != null && version != null && filename != null && sha512 != null;
+        }
+
+        public @Nullable URL getURL() {
+            return url;
+        }
+
+        public @Nullable String getVersion() {
+            return version;
+        }
+
+        public @Nullable String getFilename() {
+            return filename;
+        }
+
+        public @Nullable String getHash() {
+            return sha512;
+        }
+
+
+        public UpdateResult getResult() {
+            return result;
+        }
+    }
+
 
     public enum ReleaseType {
         STABLE,
@@ -301,14 +380,12 @@ public class Updater {
         UNKNOWN;
 
         static ReleaseType parse(String type) {
-            switch (type) {
-                case "stable":
-                    return STABLE;
-                case "release":
+            switch (type.toLowerCase()) {
+                case "stable", "release":
                     return STABLE;
                 case "beta":
                     return BETA;
-                case "alpha":
+                case "alpha", "dev", "snapshot":
                     return ALPHA;
             }
             return UNKNOWN;
