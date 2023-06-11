@@ -25,7 +25,7 @@ public final class Main extends JavaPlugin {
 
     // CONSTANTS:
     public static boolean forceDisableUpdates = false;
-    public static PublishingPlatform platform = PublishingPlatform.BUKKIT;
+    public static PublishingPlatform platform = PublishingPlatform.GITHUB;
 
 
     // Variables
@@ -64,7 +64,7 @@ public final class Main extends JavaPlugin {
 
 
 
-        if (config.updateAllowed()) {
+        if (config.updateAllowed() && !forceDisableUpdates) {
             if (platform.equals(PublishingPlatform.BUKKIT)) {
 
                 // Bukkit downloader
