@@ -216,6 +216,7 @@ public class NetworksCommand extends CommandHandler {
         else {
             net.add(id, player.getUniqueId());
             lang.message(player, "create.success", id);
+            net.selectNetwork(player, net.getFromID(id));
         }
     }
 
