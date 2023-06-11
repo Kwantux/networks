@@ -31,10 +31,8 @@ public class SortingContainer extends BaseOutputContainer {
 
     public int containsItem(String item) {
         for (int i = 0; i < items.length; i++) {
-            Bukkit.getLogger().info("Object in Array: "+ items[i] + " external object: " + item);
             if (items[i].equalsIgnoreCase(item)) return i;
         }
-        Bukkit.getLogger().info("No matching item found");
         return -1;
     }
     public void removeItem(String item) {

@@ -21,10 +21,4 @@ public class AutoSave implements Listener {
         net.saveData();
     }
 
-    /*
-    @EventHandler
-    public void onWorldLoad(WorldLoadEvent event) {
-        net.loadData();
-    }
-    */
 }

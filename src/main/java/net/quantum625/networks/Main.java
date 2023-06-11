@@ -11,10 +11,10 @@ import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.inventory.InventoryMenuManager;
 import net.quantum625.networks.utils.DoubleChestDisconnecter;
 import net.quantum625.networks.listener.*;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.io.File;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -41,8 +41,12 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
 
+        // Clear up old config files
+        new File(getDataFolder(), "recipes.yml").delete();
+        new File(getDataFolder(), "config.yml").delete();
 
         saveResource("README.md", true);
+
 
         logger = getLogger();
 
