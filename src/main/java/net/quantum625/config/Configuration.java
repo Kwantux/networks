@@ -249,8 +249,8 @@ public final class Configuration extends RawConfiguration {
             }
 
         } catch (final ConfigurateException e) {
-            logger.severe("[QC] An error occurred while loading configuration "+filename+": " + e.getMessage());
-            return;
+            logger.severe("[QC] Could not load configuration " + filename + ": Invalid Syntax");
+            throw new RuntimeException(e);
         }
 
         logger.info("[QC] Successfully loaded configuration file " + filename + " on root path " + path);

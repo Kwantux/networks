@@ -179,9 +179,10 @@ public class NetworksCommand extends CommandHandler {
     }
 
 
-    //TODO: Make help menu
     private void help(CommandContext<CommandSender> context) {
-        context.getSender().sendMessage(Component.text("Networks - V2.0"));
+        Player player = (Player) context.getSender();
+        if (player.hasPermission("networks.data")) lang.message(player, "help.admin");
+        else lang.message(player, "help");
     }
 
     private void saveNetworks(CommandContext<CommandSender> context) {

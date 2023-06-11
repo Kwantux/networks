@@ -13,10 +13,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
+import java.net.*;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.security.MessageDigest;
@@ -158,9 +155,14 @@ public class Updater {
 
             return new LinkResult(new URL(newestURL), newestVersion, filename, sha512);
         } catch (ProtocolException e) {
-            throw new RuntimeException(e);
+            logger.severe("[PluginUpdater] Unable to reach server: " + e.getMessage());
+            return new LinkResult(UpdateResult.NO_CONNECTION);
+        } catch (UnknownHostException e) {
+            logger.severe("[PluginUpdater] Unable to connect to server, cancelling update..");
+            return new LinkResult(UpdateResult.NO_CONNECTION);
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            logger.severe("[PluginUpdater] Malformed URL: " + e.getMessage());
+            return new LinkResult(UpdateResult.NO_CONNECTION);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

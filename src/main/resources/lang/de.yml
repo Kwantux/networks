@@ -1,6 +1,55 @@
-# Not yet fully translated!
-
 prefix: "<green>[Networks]<reset>  "
+
+help: "\n
+<bold><dark_green>          Networks v2.0 - Help Menu
+\n============================================</dark_green></bold>
+
+\n<click:suggest_command:/net create>/net create (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
+\n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
+\n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
+\n
+\n<click:suggest_command:/net select>/net select (id)</click> - <yellow>Ein Netzwerk auswählen</yellow>
+\n
+\n<click:suggest_command:/net list>/net list</click> - <yellow>Alle eigenen Netzwerke auflisten</yellow>
+\n<click:suggest_command:/net listall>/net listall</click> - <yellow>Alle Netzwerke auf dem Server auflisten</yellow>
+\n<click:suggest_command:/net list>/net list (player)</click> - <yellow>Alle Netzwerke eines anderen Spielers auflisten</yellow>
+\n
+\n<click:suggest_command:/net user add>/net user add (player)</click> - <yellow>Gibt einem Spieler Zugriff auf dein Netzwerk</yellow>
+\n<click:suggest_command:/net user remove>/net user remove (player)</click> - <yellow>Entziehe einem Spieler Rechte auf dein Netzwerk</yellow>
+\n
+\n<click:suggest_command:/net items>/net items</click> - <yellow>Listet alle Items in deinem Netzwerk nach Häufgkeit auf</yellow>
+\n<click:suggest_command:/net view>/net view</click> - <yellow>Öffnet ein Menü, mit allen deinen Items</yellow>
+\n
+\n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
+\n
+"
+
+help.admin: "\n
+<bold><dark_green>          Networks v2.0 - Help Menu
+\n============================================</dark_green></bold>
+
+\n<click:suggest_command:/net data save>/net data save</click> - <yellow>Alle Netzwerke speichern</yellow>
+\n<click:suggest_command:/net data reload>/net data reload</click> - <yellow>Lädt die Konfigurationsdateien neu</yellow>
+\n
+\n<click:suggest_command:/net create>/net create (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
+\n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
+\n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
+\n
+\n<click:suggest_command:/net select>/net select (id)</click> - <yellow>Ein Netzwerk auswählen</yellow>
+\n
+\n<click:suggest_command:/net list>/net list</click> - <yellow>Alle eigenen Netzwerke auflisten</yellow>
+\n<click:suggest_command:/net listall>/net listall</click> - <yellow>Alle Netzwerke auf dem Server auflisten</yellow>
+\n<click:suggest_command:/net list>/net list (player)</click> - <yellow>Alle Netzwerke eines anderen Spielers auflisten</yellow>
+\n
+\n<click:suggest_command:/net user add>/net user add (player)</click> - <yellow>Gibt einem Spieler Zugriff auf dein Netzwerk</yellow>
+\n<click:suggest_command:/net user remove>/net user remove (player)</click> - <yellow>Entziehe einem Spieler Rechte auf dein Netzwerk</yellow>
+\n
+\n<click:suggest_command:/net items>/net items</click> - <yellow>Listet alle Items in deinem Netzwerk nach Häufgkeit auf</yellow>
+\n<click:suggest_command:/net view>/net view</click> - <yellow>Öffnet ein Menü, mit allen deinen Items</yellow>
+\n
+\n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
+\n
+"
 
 data.reload.networks: <prefix>Netzwerke wurden neu geladen
 data.save.networks: <prefix>Netzwerke wurden gespeichert

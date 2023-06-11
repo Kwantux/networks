@@ -85,6 +85,7 @@ public class Language extends RawConfiguration {
         } catch (final ConfigurateException e) {
             logger.severe("[QC] Error while loading default config file from jar class");
             Bukkit.getPluginManager().disablePlugin(plugin);
+            throw new RuntimeException(e);
         }
 
         if (defaultConfig == null) {
@@ -93,6 +94,7 @@ public class Language extends RawConfiguration {
         }
 
         root = root.mergeFrom(defaultConfig);
+
 
         try {
             loader.save(root);
@@ -129,8 +131,8 @@ public class Language extends RawConfiguration {
             }
 
         } catch (final ConfigurateException e) {
-            logger.severe("[QC] An error occurred while loading configuration " + langID + ".yml: " + e.getMessage());
-            new RuntimeException(e);
+            logger.severe("[QC] Could not load configuration " + langID + ".yml: Invalid Syntax");
+            throw new RuntimeException(e);
         }
 
         logger.info("[QC] Successfully loaded configuration file " + langID + ".yml on root path " + path);
