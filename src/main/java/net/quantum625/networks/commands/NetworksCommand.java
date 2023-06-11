@@ -293,7 +293,7 @@ public class NetworksCommand extends CommandHandler {
                 lang.message(player, "list.owned");
                 for (Network network : owned) {
                     player.sendMessage(network.displayText());
-                    list.remove(owned);
+                    list.remove(network);
                 }
             }
             if (list.size() > 1) lang.message(player, "list");
@@ -333,6 +333,7 @@ public class NetworksCommand extends CommandHandler {
                 lang.message(sender, "list.foreign.owned", player.displayName());
                 for (Network network : owned) {
                     sender.sendMessage(network.displayText());
+                    list.remove(network);
                 }
             }
             lang.message(sender, "list.foreign", player.displayName());
