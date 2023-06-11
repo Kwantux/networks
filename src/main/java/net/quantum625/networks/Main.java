@@ -11,9 +11,11 @@ import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.inventory.InventoryMenuManager;
 import net.quantum625.networks.utils.DoubleChestDisconnecter;
 import net.quantum625.networks.listener.*;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -30,12 +32,11 @@ public final class Main extends JavaPlugin {
 
     // Variables
     private Logger logger;
-    private NetworkManager net;
+    private NetworkManager net = null;
     private Config config;
     private CraftingManager crafting;
     private DoubleChestDisconnecter dcd;
     private LanguageController lang;
-    private boolean error = false;
 
     @Override
     public void onEnable() {
@@ -63,7 +64,75 @@ public final class Main extends JavaPlugin {
         }
 
 
+        this.lang = new LanguageController(this, config.getLanguage(), "en", "de");
+        this.net = new NetworkManager(this);
+        this.crafting = new CraftingManager(this);
 
+
+        checkForUpdates();
+
+
+        // bStats Metrics
+        int pluginId = 18609;
+        Metrics metrics = new Metrics(this, pluginId);
+        metrics.addCustomChart(new Metrics.SingleLineChart("total_networks", () ->
+            net.listAll().size()
+        ));
+
+        try {
+            new CommandManager(this);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+        this.dcd = new DoubleChestDisconnecter(net);
+
+        this.getServer().getPluginManager().registerEvents(new AutoSave(this), this);
+        this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(this, crafting, dcd), this);
+        this.getServer().getPluginManager().registerEvents(new ExplosionListener(this, crafting), this);
+        this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(this, dcd), this);
+        this.getServer().getPluginManager().registerEvents(new NetworkWandListener(this, crafting), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new InventoryMenuListener(), this);
+
+        net.loadData();
+    }
+
+
+
+
+    @Override
+    public void onDisable() {
+        InventoryMenuManager.closeAll();
+        if (net != null) net.saveData();
+    }
+
+    private String startMessage =
+            "\n          _   __     __                      __                  ___    ____ "+
+            "\n         / | / /__  / /__      ______  _____/ /_______     _   _|__ \\  / __ \\"+
+            "\n        /  |/ / _ \\/ __/ | /| / / __ \\/ ___/ //_/ ___/    | | / /_/ / / / / /"+
+            "\n       / /|  /  __/ /_ | |/ |/ / /_/ / /  / ,< (__  )     | |/ / __/_/ /_/ /"+
+            "\n      /_/ |_/\\___/\\__/ |__/|__/\\____/_/  /_/|_/____/      |___/____(_)____/"+
+            "\n";
+
+    public LanguageController getLanguage() {
+        return lang;
+    }
+
+    public NetworkManager getNetworkManager() {
+        return net;
+    }
+
+    public Config getConfiguration() {
+        return config;
+    }
+
+    public void checkForUpdates() {
         if (config.updateAllowed() && !forceDisableUpdates) {
             if (platform.equals(PublishingPlatform.BUKKIT)) {
 
@@ -95,9 +164,11 @@ public final class Main extends JavaPlugin {
 
                 // Modrinth downloader
 
-                Updater updater = new Updater(this, "2.0.0", "Networks", "KKr3r1PM", true);
+                Updater updater = new Updater(this, "Networks", "KKr3r1PM", true);
                 Updater.UpdateResult result = updater.update(Updater.ReleaseType.STABLE, getFile());
-                logger.info("[PluginUpdater] Update Result: " + result.toString());
+                if (!List.of(Updater.UpdateResult.SUCCESS, Updater.UpdateResult.NO_UPDATE, Updater.UpdateResult.DISABLED).contains(result)) {
+                    logger.info("[PluginUpdater] Update Result: " + result);
+                }
             }
 
             if (platform.equals(PublishingPlatform.HANGAR)) {
@@ -113,7 +184,7 @@ public final class Main extends JavaPlugin {
 
         else {
             // Does not install the update, only checks for the version
-            Updater updater = new net.quantum625.updater.Updater(this, "2.0.0", "Networks", "KKr3r1PM", false);
+            Updater updater = new net.quantum625.updater.Updater(this, "Networks", "KKr3r1PM", false);
             Updater.LinkResult linkResult = updater.getLink(Updater.ReleaseType.STABLE);
             if (linkResult.wasSuccessful()) {
                 logger.info("[PluginUpdater] Version " + linkResult.getVersion() + " of Networks is now available!");
@@ -121,74 +192,6 @@ public final class Main extends JavaPlugin {
                 logger.info("[PluginUpdater] Download on Bukkit:    https://curseforge.com/minecraft/bukkit-plugins/networks");
             }
         }
-
-
-        if (!error) {
-            this.lang = new LanguageController(this, config.getLanguage(), "en", "de");
-            this.net = new NetworkManager(this);
-            this.crafting = new CraftingManager(this);
-
-            // bStats Metrics
-            int pluginId = 18609;
-            Metrics metrics = new Metrics(this, pluginId);
-            metrics.addCustomChart(new Metrics.SingleLineChart("total_networks", () ->
-                net.listAll().size()
-            ));
-
-            try {
-                new CommandManager(this);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-
-            this.dcd = new DoubleChestDisconnecter(net);
-
-            this.getServer().getPluginManager().registerEvents(new AutoSave(this), this);
-            this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(this, crafting, dcd), this);
-            this.getServer().getPluginManager().registerEvents(new ExplosionListener(this, crafting), this);
-            this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(this), this);
-            this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(this), this);
-            this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(this), this);
-            this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(this), this);
-            this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(this, dcd), this);
-            this.getServer().getPluginManager().registerEvents(new NetworkWandListener(this, crafting), this);
-            this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
-            this.getServer().getPluginManager().registerEvents(new InventoryMenuListener(), this);
-
-            net.loadData();
-        }
-    }
-
-
-
-
-    @Override
-    public void onDisable() {
-        if (!error) {
-            InventoryMenuManager.closeAll();
-            net.saveData();
-        }
-    }
-
-    private String startMessage =
-            "\n          _   __     __                      __                  ___    ____ "+
-            "\n         / | / /__  / /__      ______  _____/ /_______     _   _|__ \\  / __ \\"+
-            "\n        /  |/ / _ \\/ __/ | /| / / __ \\/ ___/ //_/ ___/    | | / /_/ / / / / /"+
-            "\n       / /|  /  __/ /_ | |/ |/ / /_/ / /  / ,< (__  )     | |/ / __/_/ /_/ /"+
-            "\n      /_/ |_/\\___/\\__/ |__/|__/\\____/_/  /_/|_/____/      |___/____(_)____/"+
-            "\n";
-
-    public LanguageController getLanguage() {
-        return lang;
-    }
-
-    public NetworkManager getNetworkManager() {
-        return net;
-    }
-
-    public Config getConfiguration() {
-        return config;
     }
 
 

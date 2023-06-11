@@ -45,9 +45,9 @@ public class Updater {
 
     private final Logger logger;
 
-    public Updater(JavaPlugin plugin, String currentVersion, String projectName, String projectId, boolean allowUpdate) {
+    public Updater(JavaPlugin plugin, String projectName, String projectId, boolean allowUpdate) {
         this.plugin = plugin;
-        this.currentVersion = currentVersion;
+        this.currentVersion = plugin.getPluginMeta().getVersion();
         this.projectName = projectName;
         this.projectId = projectId;
         this.logger = plugin.getLogger();
@@ -110,7 +110,7 @@ public class Updater {
 
                         JSONArray gameVersions = (JSONArray) jsonObject.get("game_versions");
 
-                        boolean supported = false;
+                        boolean supported = true;
 
                         for (Object gv : gameVersions) {
                             if (Bukkit.getMinecraftVersion().equalsIgnoreCase((String) gv)) supported = true;
@@ -166,13 +166,21 @@ public class Updater {
         }
     }
 
-    public UpdateResult update(ReleaseType type, File pluginFile) {
+    public @NotNull UpdateResult update(ReleaseType type, File pluginFile) {
 
         try {
 
             LinkResult linkResult = getLink(type);
 
             if (!linkResult.wasSuccessful()) {
+                if (linkResult.getResult() == null) {
+                    logger.info("[PluginUpdater] Missing data in API Response:");
+                    logger.info("[PluginUpdater] URL:" + linkResult.getURL());
+                    logger.info("[PluginUpdater] Version:" + linkResult.getVersion());
+                    logger.info("[PluginUpdater] Filename:" + linkResult.getFilename());
+                    logger.info("[PluginUpdater] Hash:" + linkResult.getHash());
+                    return UpdateResult.ERROR;
+                }
                 return linkResult.getResult();
             }
             URL url = linkResult.getURL();
@@ -343,6 +351,9 @@ public class Updater {
         public LinkResult(@NotNull URL url, @NotNull String version, @NotNull String filename, @NotNull String sha512) {
             this.result = null;
             this.url = url;
+            this.version = version;
+            this.filename = filename;
+            this.sha512 = sha512;
         }
 
         public boolean wasSuccessful() {
