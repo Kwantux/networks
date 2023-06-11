@@ -7,6 +7,12 @@ You host a Minecraft-Server with paper, bukkit or spigot and have issues with la
 This Project is developed by <a href="https://github.com/Quantum625">@Quantum625</a> and <a href="https://github.com/Schwerthecht">@Schwerthecht</a>. The idea came up, as we searched for such a plugin and there was none. Hopefully we can help you with this Project.
 
 
+### Links
+[Modrinth](https://modrinth.com/plugin/networks)
+
+[Bukkit](https://dev.bukkit.org/projects/networks)
+
+
 
 ### What is a network?
 
@@ -47,7 +53,7 @@ See a more detailed instruction at the [wiki](https://github.com/Quantum625/netw
 
 ## Installation
 
-[Download the newest version of the plugin](https://modrinth.com/plugin/networks/)
+[Download the newest version of the plugin](https://modrinth.com/plugin/networks/versions)
 
 Put it in your plugins folder inside your server files.
 
