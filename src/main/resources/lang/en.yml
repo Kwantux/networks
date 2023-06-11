@@ -29,8 +29,8 @@ list.foreign.empty: <prefix>Player <1> doesn't have any storage networks!
 list.foreign: "<prefix>Player <1> is added to the following storage networks:"
 list.foreign.owned: "<prefix>Player <1> owns the following storage networks:"
 
-listall.empty: <prefix>There are no storage networks on this server.
-listall: "<prefix>These storage networks exist:"
+list.all.empty: <prefix>There are no storage networks on this server.
+list.all: "<prefix>These storage networks exist:"
 
 info.title: "\n                <bold><dark_green>Network Information\n<reset><dark_green>=============================================\n"
 info.name: "Name:  <1>"

@@ -217,6 +217,7 @@ public class NetworksCommand extends CommandHandler {
             net.add(id, player.getUniqueId());
             lang.message(player, "create.success", id);
             net.selectNetwork(player, net.getFromID(id));
+            lang.message(player, "select.success", id);
         }
     }
 
@@ -292,9 +293,10 @@ public class NetworksCommand extends CommandHandler {
                 lang.message(player, "list.owned");
                 for (Network network : owned) {
                     player.sendMessage(network.displayText());
+                    list.remove(owned);
                 }
             }
-            lang.message(player, "list");
+            if (list.size() > 1) lang.message(player, "list");
             for (Network network : list) {
                 player.sendMessage(network.displayText());
             }
@@ -303,8 +305,14 @@ public class NetworksCommand extends CommandHandler {
     }
 
     private void listAll(CommandContext<CommandSender> context) {
+        CommandSender sender = context.getSender();
+        if (net.listAll().size() == 0) {
+            lang.message(sender, "list.all.empty");
+            return;
+        }
+        lang.message(sender, "list.all");
         for (Network network : net.listAll()) {
-            context.getSender().sendMessage(network.displayText());
+            sender.sendMessage(network.displayText());
         }
     }
 

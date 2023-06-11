@@ -30,8 +30,8 @@ list.foreign.empty: <prefix>Spieler <1> hat keine Netzwerke!
 list.foreign: "<prefix>Spieler <1> ist auf diesen Netzwerken hinzugefügt:"
 list.foreign.owned: "<prefix>Spieler <1> besitzt diese Netzwerke:"
 
-listall.empty: <prefix>Auf diesem Server gibt es keine Netzwerke!
-listall: "<prefix>Auf diesem Server gibt es folgende Netzwerke:"
+list.all.empty: <prefix>Auf diesem Server gibt es keine Netzwerke!
+list.all: "<prefix>Auf diesem Server gibt es folgende Netzwerke:"
 
 info.title: "\n              <bold><dark_green>Netzwerk Informationen\n<reset><dark_green>=============================================\n"
 info.name: "Name:  <1>"
