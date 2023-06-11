@@ -52,6 +52,7 @@ public class NetworksCommand extends CommandHandler {
                 .argument(StringArgument.of("id"))
                 .senderType(Player.class)
                 .handler(this::create)
+                .permission("networks.create")
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("delete")
@@ -86,12 +87,12 @@ public class NetworksCommand extends CommandHandler {
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("list")
                 .argument(PlayerArgument.of("player"))
-                .permission("networks.listall")
+                .permission("networks.listforeign")
                 .handler(this::listForeign)
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("listall")
-                .permission("networks.listall")
+                .permission("networks.listforeign")
                 .handler(this::listAll)
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
@@ -129,41 +130,47 @@ public class NetworksCommand extends CommandHandler {
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("view")
                 .senderType(Player.class)
-                .permission("networks.view")
+                .permission("networks.itemview")
                 .handler(this::view)
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("data")
                 .literal("save")
+                .permission("networks.data")
                 .handler(this::saveNetworks)
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("data")
                 .literal("save")
                 .literal("networks")
+                .permission("networks.data")
                 .handler(this::saveNetworks)
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("data")
                 .literal("save")
                 .literal("config")
+                .permission("networks.data")
                 .handler(this::saveConfig)
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("data")
                 .literal("reload")
+                .permission("networks.data")
                 .handler(this::reloadConfig)
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("data")
                 .literal("reload")
                 .literal("networks")
+                .permission("networks.data")
                 .handler(this::reloadNetworks)
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("data")
                 .literal("reload")
                 .literal("config")
+                .permission("networks.data")
                 .handler(this::reloadConfig)
         );
     }

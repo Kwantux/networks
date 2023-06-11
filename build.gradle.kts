@@ -35,6 +35,25 @@ bukkit {
     apiVersion = "1.19"
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
     authors = listOf("Quantum625")
+
+    permissions {
+        register("networks.create") {
+            description = "Allows you to create networks"
+            default = BukkitPluginDescription.Permission.Default.TRUE // TRUE, FALSE, OP or NOT_OP
+        }
+        register("networks.listforeign") {
+            description = "Allows you to list networks of other players"
+            default = BukkitPluginDescription.Permission.Default.TRUE // TRUE, FALSE, OP or NOT_OP
+        }
+        register("networks.itemview") {
+            description = "Allows you to run the test command"
+            default = BukkitPluginDescription.Permission.Default.TRUE // TRUE, FALSE, OP or NOT_OP
+        }
+        register("networks.data") {
+            description = "Allows you to save and reload config and network data"
+            default = BukkitPluginDescription.Permission.Default.OP // TRUE, FALSE, OP or NOT_OP
+        }
+    }
 }
 
 tasks {
