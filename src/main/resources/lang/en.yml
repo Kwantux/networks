@@ -1,120 +1,174 @@
-data.load: §aReloaded data from files
-data.save: §aSaved data to files
+prefix: "<green>[Networks]<reset>  "
 
-create.success: §aSuccessfully created storage network §f%network
-create.success.eco: §aSuccessfully created storage network %network for §r%value$
-create.exists: §eThere is already a network with this name, please select another name!
-create.noname: §eYou need to give your network a name, do §f/net create <name>
-create.fail: §cThis name is already used, please select another name.
-create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
-create.nomoney: §cYou are missing §r%value$§c to create a new network!
+help: "\n
+<bold><dark_green>          Networks v2.0 - Help Menu
+\n============================================</dark_green></bold>
 
-delete.success: §aSuccessfully deleted storage network §f%network
-delete.success.eco: §aSuccessfully deleted storage network %network, you were refunded §f%value$
-delete.confirm: §aAre you sure you want to delete storage network %network? Please confirm with §f/net delete <name> confirm
-delete.fail: §cThis network doesn't exist
-delete.nonetwork: §cPlease specify the network to delete!
+\n<click:suggest_command:/net create>/net create (id)</click> - <yellow>Create a new network</yellow>
+\n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Rename a network</yellow>
+\n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Delete a network</yellow>
+\n
+\n<click:suggest_command:/net select>/net select (id)</click> - <yellow>Select a network</yellow>
+\n
+\n<click:suggest_command:/net list>/net list</click> - <yellow>List all your networks</yellow>
+\n<click:suggest_command:/net listall>/net listall</click> - <yellow>List all of the networks on the server</yellow>
+\n<click:suggest_command:/net list>/net list (player)</click> - <yellow>List networks of another player</yellow>
+\n
+\n<click:suggest_command:/net user add>/net user add (player)</click> - <yellow>Give a player access to your network</yellow>
+\n<click:suggest_command:/net user remove>/net user remove (player)</click> - <yellow>Revoke a player's access to your network</yellow>
+\n
+\n<click:suggest_command:/net items>/net items</click> - <yellow>List all your items</yellow>
+\n<click:suggest_command:/net view>/net view</click> - <yellow>See all your items in a visual UI</yellow>
+\n
+\n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
+\n
+"
 
-select.noselection: §cNo network was selected. Please select a network using §f/net select <network>
-select.success: §aSuccessfully selected storage network %network
-select.notexisting: §cThis network doesn't exist!
-select.nonetwork: §cPlease specify a storage network you want to select.
+help.admin: "\n
+<bold><dark_green>          Networks v2.0 - Help Menu
+\n============================================</dark_green></bold>
 
-permission.server: §cThis command is only available for server administrators!
-permission.owner: §cYou don't have permissions to edit this network!\nYou need to be the network owner or a server administrator!
-permission.user: §cYou don't have permissions on this network!\nYou need to be a network user!
+\n<click:suggest_command:/net data save>/net data save</click> - <yellow>Save all networks</yellow>
+\n<click:suggest_command:/net data reload>/net data reload</click> - <yellow>Reload the configs</yellow>
+\n
+\n<click:suggest_command:/net create>/net create (id)</click> - <yellow>Create a new network</yellow>
+\n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Rename a network</yellow>
+\n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Delete a network</yellow>
+\n
+\n<click:suggest_command:/net select>/net select (id)</click> - <yellow>Select a network</yellow>
+\n
+\n<click:suggest_command:/net list>/net list</click> - <yellow>List all your networks</yellow>
+\n<click:suggest_command:/net listall>/net listall</click> - <yellow>List all of the networks on the server</yellow>
+\n<click:suggest_command:/net list>/net list (player)</click> - <yellow>List networks of another player</yellow>
+\n
+\n<click:suggest_command:/net user add>/net user add (player)</click> - <yellow>Give a player access to your network</yellow>
+\n<click:suggest_command:/net user remove>/net user remove (player)</click> - <yellow>Revoke a player's access to your network</yellow>
+\n
+\n<click:suggest_command:/net items>/net items</click> - <yellow>List all your items</yellow>
+\n<click:suggest_command:/net view>/net view</click> - <yellow>See all your items in a visual UI</yellow>
+\n
+\n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
+\n
+"
 
-list.empty: §cYou don't own any storage networks
-list.noplayer: §cCommand was not executed by player! Please specify the player with /net list <player>
-list: §aYou own the following storage networks
+data.reload.networks: <prefix>Reloaded network files
+data.save.networks: <prefix>Saved networks to files
+data.reload.config: <prefix>Reloaded config files
+data.save.config: <prefix>Saved config files
 
-listall.empty: §cThere are no storage networks
-listall: §aThese storage networks exist
+create.success: <prefix>Successfully created storage network <green><1>
+create.exists: <prefix><yellow>There is already a network with this name, please select another name!
 
-component.input.add: §aInput container at %position successfully added to %network!
-component.sorting.add: §aSorting container at %position successfully added to %network!
-component.sorting.noitem: §cYou need to specify the item for the sorting container!
-component.sorting.setitem: §aItem type %material was added to sorting container at %position.
-component.sorting.removeitem: §eItem type %material was removed from sorting container at %position.
-component.misc.add: §aMiscellaneous container at %position successfully added to %network!
-component.select: §aSelected component type, please right click the block you want to add
-component.remove: §cRemoved component at %position
-component.exploded: §4Component at §f%position§4 from network §f%network§4 was exploded!
-component.noaction: §cYou must specify the action you want to do!
-component.notype: §cYou must specify the type of component you want to add!
-component.limit: §cYou reached the limit of components you can add! Please upgrade the limit with §f/net upgrade limit
-component.invalid_block: §cBlocks of type %material are not allowed to be network components!
-component.nocomponent: §cThis block is not a network component!
-component.priority: §eComponent priority set to §f%value
+delete.success: <prefix>Successfully deleted storage network <green><1>
+delete.confirm: <prefix>Are you sure you want to delete storage network <1>? Please confirm with <yellow>/net delete <1> confirm
+delete.fail: <prefix><red>This network doesn't exist
 
-upgrade.noprice: §cThere is no price set for this upgrade, please contact your server administrator!
-upgrade.noeconomy: §cThe economy provider is null, please contact your server administrator!
-upgrade.maxed: §cYou reached the maximum amount of upgrades you can buy!
-upgrade.disabled: §cThis upgrade is disabled.
-upgrade.nomoney: §cYou don't have enough money to buy this upgrade! You are missing §f%value$
-upgrade.success: §aSuccessfully upgraded for §r%value$
+select.noselection: <prefix><red>No network was selected. Please select a network using <white>/net select <network>
+select.success: <prefix>Successfully selected storage network <green><1>
 
-rangeupgrade.last: §eYou already reached the maximum upgrade level.
-rangeupgrade.alreadyupgraded: §cYou already installed this upgrade, the next upgrade is range Tier %value.
-rangeupgrade.unlockfirst: §cYou need to unlock range Tier %value first!
-rangeupgrade.success: §aSuccessfully upgraded network §f%network§a to Tier %value!
+invalidnetwork: <prefix><1> <red>is not a valid network!
 
-location.none: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
-location.occupied: §cThere is already a component at this location
+permission.server: <prefix><red>This command is only available for server administrators!
+permission.owner: <prefix><red>You don't have permissions to edit this network!\nYou need to be the network owner or a server administrator!
+permission.user: <prefix><red>You don't have permissions on this network!\nYou need to be a network user!
 
-user.specify: §cYou need to specify the user you want to add.
-user.action: §cPlease specify the action you want to do.
-user.add: §aSuccessfully added §f%player§a to the network
-user.remove: §aSuccessfully removed §f%player§a from the network
+list.empty: <prefix>You don't have any storage networks!
+list: "<prefix>You are added the following storage networks:"
+list.owned: "<prefix>You own the following storage networks:"
 
-merge.identical: §cSorry but the laws of physics can't be broken.
-merge.invalid: §cThere is no network called §f%text
-merge.nopermission: §cYou need to be owner of both networks in order to merge them!
-merge.nonetwork: "§cYou need to give two network IDs:  §f/net merge <network1> <network2>"
-merge.success: §aSuccessfully merged network §f%net2 §ainto §f%net1
+list.foreign.empty: <prefix>Player <1> doesn't have any storage networks!
+list.foreign: "<prefix>Player <1> is added to the following storage networks:"
+list.foreign.owned: "<prefix>Player <1> owns the following storage networks:"
 
-info.input: "§aType: §rInput Container§a\nNetwork: §r%network§a\nLocation: §r%position§a\n"
-info.sorting: "§aType: §rSorting Container§a\nNetwork: §r%network§a\nLocation: §r%position§a\nPriority: §r%value§a\nFilters: §r%items\n"
-info.misc: "§aType: §rMisc Container§a\ nNetwork: §r%network§a\nLocation: §r%position\nPriority: §r%value§a\n"
+list.all.empty: <prefix>There are no storage networks on this server.
+list.all: "<prefix>These storage networks exist:"
 
-items.noitems: "§cThere are no items in your storage network."
-items.message: "§a§lTotal items in network §f%network§a:"
+info.title: "\n                <bold><dark_green>Network Information\n<reset><dark_green>=============================================\n"
+info.name: "Name:  <1>"
+info.owner: "Owner: <1>"
+info.users: "Users: <1>"
+info.components.total: "Components: <1>"
+info.range: "Max Range: <1>"
+info.components.input: "Input Containers: "
+info.components.sorting: "Sorting Containers: "
+info.components.misc: "Miscellaneous Containers: "
 
-value.notpositive: §cThis value needs to be positive, it was set back to 1.
 
-item.name.wand.0: §r§cNetwork Wand
-item.name.wand.1: §r§cPriority Wand
-item.name.input: §rInput Container
-item.name.sorting: §rSorting Container
-item.name.misc: §rMiscellaneous Container
-item.name.upgrade: §r§lTelemetry Antenna Tier %level
+component.input.add: <prefix>Input container at <1> successfully added to <2>!
+component.sorting.add: <prefix>Sorting container at <1> successfully added to <2>!
+component.sorting.setitem: <prefix>Item type <2> was added to sorting container at <1>.
+component.sorting.removeitem: <prefix>Item type <2> was removed from sorting container at <1>.
+component.misc.add: <prefix>Miscellaneous container at <1> successfully added to <2>!
+component.remove: <prefix><red>Removed component at <1>
+component.exploded: <prefix><dark_red>Component at <white><1><dark_red> from network <white><2><dark_red> was blown up!
+component.nocomponent: <prefix><yellow>This block is not a network component!
+component.priority: <prefix>Component priority set to <1>
 
-item.lore.wand.0:
-  - "§rRight click any network component to show information about it"
-  - "§rSneak + Right click on a sorting chest with an item in the offhand to apply a filter"
-  - "§rSneak + Left click with an item in the offhand to remove a filter"
+rangeupgrade.last: <prefix><yellow>You already reached the maximum upgrade level.
+rangeupgrade.alreadyupgraded: <prefix><yellow>You already installed this upgrade, the next upgrade is range Tier <white><1>
+rangeupgrade.unlockfirst: <prefix><yellow>You need to unlock range Tier <white><1><yellow> first!
+rangeupgrade.success: <prefix>Successfully upgraded network <2> to Tier <1>!
+
+user.add: <prefix>Successfully added <2> to the network <1>
+user.remove: <prefix>Successfully removed <2> from the network <1>
+user.owner: <prefix>Transferred ownership of <2> to the Player <1>
+user.add.nochange: <prefix>Player <2> is already added to network <1>
+user.remove.nochange: <prefix>Player <2> hasn't been added to network <1>
+user.owner.nochange: <prefix>Player <2> was already owner of network <1>
+
+merge.identical: <prefix><red>Sorry but the laws of physics can't be broken.
+merge.nopermission: <prefix><red>You need to be owner of both networks in order to merge them!
+merge.success: <prefix>Successfully merged network <2> into <1>
+
+rename.success: <prefix>Successfully renamed network <1> to <2>
+rename.taken: <prefix>Name <1> is already taken by another network.
+
+wand.mode: "<prefix><blue>Wand mode set to [<1>]"
+wand.mode.0: "Filter"
+wand.mode.1: "Priority"
+wand.info.input: "<green>Type: <reset>Input Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\n"
+wand.info.sorting: "<green>Type: <reset>Sorting Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\nFilters: <reset><4>\n"
+wand.info.misc: "<green>Type: <reset>Misc Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\n"
+
+items.noitems: "<prefix><red>There are no items in your storage network."
+items.message: "<green><bold>Total items in network <white><1><green>:"
+
+value.notpositive: <prefix><red>This value needs to be positive, it was set back to 1.
+
+item.name.wand0: <reset><red>Network Wand
+item.name.wand1: <reset><blue>Priority Wand
+item.name.input: <reset>Input Container
+item.name.sorting: <reset>Sorting Container
+item.name.misc: <reset>Miscellaneous Container
+item.name.upgrade1: <reset><bold>Telemetry Antenna Tier 1
+item.name.upgrade2: <reset><bold>Telemetry Antenna Tier 2
+item.name.upgrade3: <reset><bold>Telemetry Antenna Tier 3
+item.name.upgrade4: <reset><bold>Telemetry Antenna Tier 4
+
+item.lore.wand0:
+  - "<reset>Right click any network component to show information about it"
+  - "<reset>Sneak + Right click on a sorting chest with an item in the offhand to apply a filter"
+  - "<reset>Sneak + Left click with an item in the offhand to remove a filter"
   - ""
-  - "§rLeft click to switch mode"
+  - "<reset>Left click to switch mode"
 
-item.lore.wand.1:
-  - "§rRight click any network component to show information about it"
-  - "§rSneak + Right click on a network component to increase its priority"
-  - "§rSneak + Left click on a network component to decrease its priority"
+item.lore.wand1:
+  - "<reset>Right click any network component to show information about it"
+  - "<reset>Sneak + Right click on a network component to increase its priority"
+  - "<reset>Sneak + Left click on a network component to decrease its priority"
   - ""
-  - "§rLeft click to switch mode"
+  - "<reset>Left click to switch mode"
 
 item.lore.input:
-  - "§r§9Sorts items into sorting containers and misc containers"
+  - "<reset><blue>Sorts items into sorting containers and misc containers"
 item.lore.sorting:
-  - "§r§9Only accepts items that match the filter of this container"
+  - "<reset><blue>Only accepts items that match the filter of this container"
   - ""
-  - "§rFilter Items:"
+  - "<reset>Filter Items:"
 item.lore.misc:
-  - "§r§9All remaining items will go into these"
+  - "<reset><blue>All remaining items will go into these"
 
 item.lore.upgrade:
-  - "§rClick on a network component to apply this upgrade on its network"
+  - "<reset>Click on a network component to apply this upgrade on its network"
 
-notice: §eHaving inventory problems? Try out /networks to create a fully automated storage network!
-
-invalid: §cInvalid command, type /net help to see all available commands
+notice: <yellow>Having inventory problems? Try out <white>/networks <yellow>to create a fully automated storage network!

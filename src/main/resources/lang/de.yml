@@ -1,119 +1,171 @@
-data.load: §aDaten wurden erneut geladen
-data.save: §aDaten wurden gesichert
+prefix: "<green>[Networks]<reset>  "
 
-create.success: §aNetzwerk %network wurde erstellt
-create.success.eco: §aNetzwerk %network wurde für §r%value$§a erstellt
-create.exists: §bEs existiert bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen
-create.noname: §eDein Netzwerk benötigt einen Namen, um diesen zu vergeben, nutze §f/net create <name>
-create.fail: §cDas Netzwerk konnte nicht korrekt erstellt werden, bitte kontaktiere den Server Admin
-create.noowner: §cCommand was not executed by player!\nPlease specify the owner with /net create <name> <owner>
-create.nomoney: §cDir fehlen §r%value$§c um ein neues Netzwerk zu erstellen!
+help: "\n
+<bold><dark_green>          Networks v2.0 - Help Menu
+\n============================================</dark_green></bold>
 
-delete.success: §aNetzwerk %network wurde gelöscht
-delete.sucess.eco: §aNetzwerk %network wurde gelöscht, du hast §f%value$ §azurück erhalten
-delete.confirm: §aBist du dir sicher, dass du dieses Netzwerk löschen willst? Dann gib §f/net delete <name> confirm §aein
-delete.fail: §cDieses Netwerk existiert nicht, vielleicht hast du dich vertippt?
-delete.nonetwork: §cBitte gib das Netzwerk an, dass du löschen möchtest
+\n<click:suggest_command:/net create>/net create (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
+\n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
+\n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
+\n
+\n<click:suggest_command:/net select>/net select (id)</click> - <yellow>Ein Netzwerk auswählen</yellow>
+\n
+\n<click:suggest_command:/net list>/net list</click> - <yellow>Alle eigenen Netzwerke auflisten</yellow>
+\n<click:suggest_command:/net listall>/net listall</click> - <yellow>Alle Netzwerke auf dem Server auflisten</yellow>
+\n<click:suggest_command:/net list>/net list (player)</click> - <yellow>Alle Netzwerke eines anderen Spielers auflisten</yellow>
+\n
+\n<click:suggest_command:/net user add>/net user add (player)</click> - <yellow>Gibt einem Spieler Zugriff auf dein Netzwerk</yellow>
+\n<click:suggest_command:/net user remove>/net user remove (player)</click> - <yellow>Entziehe einem Spieler Rechte auf dein Netzwerk</yellow>
+\n
+\n<click:suggest_command:/net items>/net items</click> - <yellow>Listet alle Items in deinem Netzwerk nach Häufgkeit auf</yellow>
+\n<click:suggest_command:/net view>/net view</click> - <yellow>Öffnet ein Menü, mit allen deinen Items</yellow>
+\n
+\n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
+\n
+"
 
-select.noselection: §cEs wurde kein Netzwerk ausgewählt, bitte wähle ein Netzwerk aus mit §f/net select <network>
-select.success: §a%network wurde ausgewählt
-select.notexisting: §cDieses Netzwerk existiert nicht, vielleicht hast du dich vertippt?
-select.nonetwork: §cBitte gib das Netwerk an, dass du auswählen möchtest
+help.admin: "\n
+<bold><dark_green>          Networks v2.0 - Help Menu
+\n============================================</dark_green></bold>
 
-nopermission: §cAuf dieses Netzwerk hast du leider keine Rechte! Du musst entweder Netzwerk Besitzer sein oder die §cnetwork.admin§c Berechtigung haben!
+\n<click:suggest_command:/net data save>/net data save</click> - <yellow>Alle Netzwerke speichern</yellow>
+\n<click:suggest_command:/net data reload>/net data reload</click> - <yellow>Lädt die Konfigurationsdateien neu</yellow>
+\n
+\n<click:suggest_command:/net create>/net create (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
+\n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
+\n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
+\n
+\n<click:suggest_command:/net select>/net select (id)</click> - <yellow>Ein Netzwerk auswählen</yellow>
+\n
+\n<click:suggest_command:/net list>/net list</click> - <yellow>Alle eigenen Netzwerke auflisten</yellow>
+\n<click:suggest_command:/net listall>/net listall</click> - <yellow>Alle Netzwerke auf dem Server auflisten</yellow>
+\n<click:suggest_command:/net list>/net list (player)</click> - <yellow>Alle Netzwerke eines anderen Spielers auflisten</yellow>
+\n
+\n<click:suggest_command:/net user add>/net user add (player)</click> - <yellow>Gibt einem Spieler Zugriff auf dein Netzwerk</yellow>
+\n<click:suggest_command:/net user remove>/net user remove (player)</click> - <yellow>Entziehe einem Spieler Rechte auf dein Netzwerk</yellow>
+\n
+\n<click:suggest_command:/net items>/net items</click> - <yellow>Listet alle Items in deinem Netzwerk nach Häufgkeit auf</yellow>
+\n<click:suggest_command:/net view>/net view</click> - <yellow>Öffnet ein Menü, mit allen deinen Items</yellow>
+\n
+\n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
+\n
+"
 
-list.empty: §cDu besitzt derzeit noch keine Netzwerke
-list.noplayer: §cCommand was not executed by player! Please specify the player with /net list <player>
-list: §aDu besitzt die folgenden Netwerke
+data.reload.networks: <prefix>Netzwerke wurden neu geladen
+data.save.networks: <prefix>Netzwerke wurden gespeichert
+data.reload.config: <prefix>Konfiguration neu geladen
+data.save.config: <prefix>Konfiguration gespeichert
 
-listall.empty: §cAuf diesem Server gibt es derzeit keine Netzwerke
-listall: §aFolgende Netwerke existieren auf diesem Server
+create.success: <prefix>Netzwerk <green><1><white> wurde erstellt.
+create.exists: <prefix><yellow>Es gibt bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen!
 
-component.input.add: §aEinfüllkiste bei %position wurde zu %network hinzugefügt
-component.sorting.add: §aSortierkiste bei %position wurde zu %network hinzugefügt
-component.sorting.noitem: §cBitte gib an, welches item deine Sortierkiste erhalten soll
-component.sorting.setitem: §aItemtyp %material wurde zur Sortierkiste bei %position hinzugefügt.
-component.sorting.removeitem: §aItemtyp %material wurde von der Sortierkiste bei %position entfernt.
-component.misc.add: §aRestekiste bei %position wurde zu %network hinzugefügt
-component.select: §aKomponententyp wurde ausgewählt, bitte rechts klicke den Block, der hinzugefügt werden soll
-component.remove: §cKomponent bei %position wurde entfernt
-component.exploded: §4Komponent bei §f%position§4 aus dem Netzwerk §f%network§4 wurde durch eine Explosion zerstört!
-component.noaction: §cBitte gib an, was du tun möchtest. Hinzufügen oder löschen?
-component.notype: §cBitet gib die Art von Komponent an
-component.limit: §cDu hast das Limit an Komponenten erreicht, bitte erweitere das Limit mit §f/net upgrade limit
-component.invalid_block: §c%material Blöcke können keine Netzwerk Komponenten sein
-component.nocomponent: §cDieser Block ist kein Netzwerkkomponent!
-component.priority: §eDie Priorität des Komponenten wurde auf §f%value §egeändert.
+delete.success: <prefix>Netzwerk <green><1><white> wurde gelöscht.
+delete.confirm: <prefix>Bist du dir sicher, dass du Netzwerk <1> löschen möchtest? Bitte bestätige mit <yellow>/net delete <1> confirm
 
-upgrade.noprice: §cFür dieses Upgrade wurde kein Preis gesetzt, bitte kontaktiere deinen Server Administrator!
-upgrade.noeconomy: §cEin Problem mit dem Economy Provider ist aufgetreten, bitte kontaktiere deinen Server Administrator!
-upgrade.maxed: §cDu hast die maximale Anzahl an Upgrades erreicht.
-upgrade.disabled: §cDiese Upgrade ist deaktiviert.
-upgrade.nomoney: §cDir fehlen §f%value$§c um dieses Upgrade zu kaufen!
-upgrade.success: §aUpgrade wurde für §r%value$§a gekauft.
+select.noselection: <prefix><red>Kein Netzwerk wurde ausgewählt, bitte wähle ein Netzwerk aus mit <white>/net select <network>
+select.success: <prefix>Netzwerk <green><1><white> wurde ausgewählt.
 
-rangeupgrade.last: §eDu hast bereits die höchste Upgradestufe erreicht.
-rangeupgrade.alreadyupgraded: §cDieses Upgrade hast du bereits installiert. Das nächste Upgrade wäre §fReichweite %value.
-rangeupgrade.unlockfirst: §cDu musst zuerst das Upgrade §Reichweite %value§c freischalten.
-rangeupgrade.success: Reichweite %value§a wurde soeben auf dem Netzwerk §f%network§a freigeschalten!
+invalidnetwork: <prefix><red>Es gibt kein Netzwerk mit dem Namen <white><1>
 
-location.none: §cYou need to specify a container location\n/net container <type> <x> <y> <z> <world>
-location.occupied: §cAn dieser Position befindet sich bereits ein Komponent
+permission.server: <prefix><red>Dieser Befehl ist nur für Server Administratoren verfügbar!
+permission.owner: <prefix><red>Du hast keine Berechtigung, dieses Netzwerk zu bearbeiten!\nDu musst Netzwerkbesitzer oder Server Administrator sein!
+permission.user: <prefix><red>Du hast keine Rechte auf diesem Netzwerk!\nDu musst Nutzer des Netzwerks sein!
 
-user.specify: §cBitte gib den Spieler an, den du hinzufügen willst.
-user.action: §cBitte gib an, was du machen möchtest.
-user.add: §aNeuer Nutzer §f%player§a wurde dem Netzwerk hinzugefügt.
-user.remove: §f%player §awurde vom Netzwerk entfernt.
+list.empty: <prefix>Du hast keine Netzwerke!
+list: "<prefix>Du hast Rechte auf diesen Netzwerken:"
+list.owned: "<prefix>Du besitzt diese Netzwerke:"
 
-merge.identical: §cDas ist leider nicht möglich.
-merge.invalid: §cEs gibt kein Netzwerk namens §f%text
-merge.nopermission: §cZum Kombinieren von zwei Netzwerken musst du der Besitzer von beiden sein!
-merge.nonetwork: "§cZum Kombinieren musst du zwei Netzwerke angeben:  §f/net merge <netzwerk1> <netzwerk2>"
-merge.success: §aNetzwerke §f%net1 §aund §f%net2 §awurden erfolgreich kombiniert.
+list.foreign.empty: <prefix>Spieler <1> hat keine Netzwerke!
+list.foreign: "<prefix>Spieler <1> ist auf diesen Netzwerken hinzugefügt:"
+list.foreign.owned: "<prefix>Spieler <1> besitzt diese Netzwerke:"
 
-info.input: "§aTyp: §rEinfüllkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position"
-info.sorting: "§aTyp: §rSortierkiste§a\nNetzwerk: §r%network§a\nBlock: §r%position§a\nPriorität: §r%value§a\nFilter: §r%items"
-info.misc: "§aTyp: §rRestekiste§a\nNetzwerk: §r%network§a\nBlock: §r%position\n§aPriorität: §r%value§a"
+list.all.empty: <prefix>Auf diesem Server gibt es keine Netzwerke!
+list.all: "<prefix>Auf diesem Server gibt es folgende Netzwerke:"
 
-items.noitems: "§cIn diesem Netzwerk befinden sich noch keine Items."
-items.message: "§a§lItems im Netzwerk §f%network§a:"
-
-value.notpositive: §cDieser Wert muss größer als 0 sein, er wurde auf 1 gesetzt.
-
-item.name.wand.0: §r§cNetzwerk Konfigurator
-item.name.wand.1: §r§cPrioritäts Konfigurator
-item.name.input: §rEinfüllkiste
-item.name.sorting: §rSortierkiste
-item.name.misc: §rRestekiste
-item.name.upgrade: §r§lTelemetrie Antenne v%level
+info.title: "\n              <bold><dark_green>Netzwerk Informationen\n<reset><dark_green>=============================================\n"
+info.name: "Name:  <1>"
+info.owner: "Besitzer: <1>"
+info.users: "Nutzer: <1>"
+info.components.total: "Komponenten: <1>"
+info.range: "Maximale Reichweite: <1>"
+info.components.input: "Einfüllkisten: "
+info.components.sorting: "Sortierkisten: "
+info.components.misc: "Restekisten: "
 
 
-item.lore.wand.0:
-  - "§rRechts klicke auf einen Netzwerk Komponenten um Informationen über diesen zu sehen"
-  - "§rSchleiche und Rechts klicke auf eine Sortierkiste um das Item in deiner Zweithand als Filter hinzuzufügen"
-  - "§rSchleiche und Links klicke auf eine Sortierkiste um das Item in deiner Zweithand als Filter zu entfernen"
+component.input.add: <prefix>Einfüllkiste bei <1> wurde hinzugefügt zum Netzwerk <2>!
+component.sorting.add: <prefix>Sortierkiste bei <1> wurde hinzugefügt zum Netzwerk <2>!
+component.sorting.setitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> hinzugefügt.
+component.sorting.removeitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> entfernt.
+component.misc.add: <prefix>Restekiste <1> wurde hinzugefügt zum Netzwerk <2>!
+component.remove: <prefix><red>Komponent bei <1> wurde entfernt.
+component.exploded: <prefix><dark_red>Komponent bei <white><1><dark_red> aus dem Netzwerk <white><2><dark_red> wurde gesprengt!
+component.nocomponent: <prefix><yellow>Dies ist kein Netzwerkkomponent!
+component.priority: <prefix>Priorität wurde auf <1> gesetzt,
+
+rangeupgrade.last: <prefix><yellow>Du hast bereits die höchste Stufe erreicht.
+rangeupgrade.alreadyupgraded: <prefix><yellow>Diese Erweiterung hast du bereits installiert, die nächste Stufe ist <white>Telemetrie Antenne Mk.<1>
+rangeupgrade.unlockfirst: <prefix><yellow>Du musst zuerst Stufe <white><1><yellow> freischalten!
+rangeupgrade.success: <prefix>Reichweite <1> wurde im Netzwerk <2> installiert!
+
+user.add: <prefix>Spieler <2> wurde zum Netzwerk <1> hinzugefügt
+user.remove: <prefix>Spieler <2> wurde aus dem Netzwerk <1> entfernt
+user.owner: <prefix>Spieler <1> ist nun Besitzer des Netzwerks <2>
+user.add.nochange: <prefix>Spieler <2> wurde bereits zum Netzwerk <1> hinzugefügt
+user.remove.nochange: <prefix>Spieler <2> war bereits kein Nutzer von <1>
+user.owner.nochange: <prefix>Spieler <2> ist bereits Besitzer von Netzwerk <1>
+
+merge.identical: <prefix><red>Tut mir leid, aber das ist leider nicht möglich
+merge.nopermission: <prefix><red>Zum Zusammenführen von zwei Netzwerken musst du beide besitzen!
+merge.success: <prefix>Netzwerk <2> wurde in Netzwerk <1> integriert
+
+rename.success: <prefix>Netzwerk <1> wurde zu <2> umbenannt
+rename.taken: <prefix>Name <1> ist bereits in Verwendung.
+
+wand.mode: "<prefix><blue>Konfigurator Modus wurde zu [<1>] geändert"
+wand.mode.0: "Filter"
+wand.mode.1: "Priorität"
+wand.info.input: "<green>Typ: <reset>Einfüllkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\n"
+wand.info.sorting: "<green>Typ: <reset>Sortierkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\nFilter: <reset><4>\n"
+wand.info.misc: "<green>Typ: <reset>Restekiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\n"
+
+items.noitems: "<prefix><red>In diesem Netzwerk sind noch keine Items."
+items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:"
+
+item.name.wand0: <reset><red>Netzwerk Konfigurator
+item.name.wand1: <reset><blue>Prioritäts Konfigurator
+item.name.input: <reset>Einfüllkiste
+item.name.sorting: <reset>Sortierkiste
+item.name.misc: <reset>Restekiste
+item.name.upgrade1: <reset><bold>Telemetrie Antenne Mk.1
+item.name.upgrade2: <reset><bold>Telemetrie Antenne Mk.2
+item.name.upgrade3: <reset><bold>Telemetrie Antenne Mk.3
+item.name.upgrade4: <reset><bold>Telemetrie Antenne Mk.4
+
+item.lore.wand0:
+  - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
+  - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
   - ""
-  - "§rLinks klicke, um den Modus des Netzwerk Konfigurators zu ändern"
+  - "<reset>Links klicken, um den Modus zu wechseln"
 
-item.lore.wand.1:
-  - "§rRechts klicke auf einen Netzwerk Komponenten um Informationen über diesen zu sehen"
-  - "§rSchleiche und Rechts klicke auf einen Netzwerk Komponenten um dessen Priorität zu erhöhen"
-  - "§rSchleiche und Links klicke auf einen Netzwerk Komponenten um dessen Priorität zu senken"
+item.lore.wand1:
+  - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Schleichen + Rechts klicken, um die Priorität eines Komponenten zu erhöhen"
+  - "<reset>Schleichen + Links klicken, um die Priorität eines Komponenten zu senken"
   - ""
-  - "§rLinks klicke um den Modus des Netzwerk Konfigurators zu ändern"
+  - "<reset>Links klicken, um den Modus zu wechseln"
 
 item.lore.input:
-  - "§r§9Verteilt items automatisch in die entsprechenden Sortierkisten und Restekisten"
+  - "<reset><blue>Sortiert eingelegte Items in Sortier- und Restekisten ein"
 item.lore.sorting:
-  - "§r§9Nur items die dem Filter entsprechen gelangen in diese Kiste"
+  - "<reset><blue>Akzeptiert nur Items, die dem Filter der Kiste entsprechen"
   - ""
-  - "§rFilter Items:"
+  - "<reset>Filter Items:"
 item.lore.misc:
-  - "§r§9Items für die es keine Sortierkiste gibt landen hier"
+  - "<reset><blue>Alle übrigen items gehen in diese Kisten"
 
 item.lore.upgrade:
-  - "§rKlicke auf einen Netzwerkkomponenten um dessen Netzwerk zu upgraden"
+  - "<reset>Klicke hiermit auf einen Netzwerkkomponenten, um diese Erweiterung zu installieren"
 
-notice: §eVolles Inventar und unordentliche Kisten? Erstelle ein automatisches Sortiersystem mit §f/network§e!
-
-invalid: §cUngültiger Befehl, bitte gib §f/net help§c ein für alle Befehle
+notice: <yellow>Inventar Probleme? Probier mal <white>/networks <yellow>und erstelle dein vollautomatisches Lagersystem!
