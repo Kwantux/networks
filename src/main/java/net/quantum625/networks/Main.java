@@ -15,10 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -167,6 +163,8 @@ public final class Main extends JavaPlugin {
                     default:
                         getLogger().warning("[Updater] An unexpected error occurred while trying to update the plugin");
                 }
+
+                return;
             }
 
             if (platform.equals(PublishingPlatform.MODRINTH) || platform.equals(PublishingPlatform.GITHUB)) {
@@ -178,7 +176,11 @@ public final class Main extends JavaPlugin {
                 if (!List.of(Updater.UpdateResult.SUCCESS, Updater.UpdateResult.NO_UPDATE, Updater.UpdateResult.DISABLED).contains(result)) {
                     logger.info("[PluginUpdater] Update Result: " + result);
                 }
+
+                return;
             }
+
+
 
             if (platform.equals(PublishingPlatform.HANGAR)) {
                 //TODO: Implement this
@@ -191,15 +193,15 @@ public final class Main extends JavaPlugin {
 
         }
 
-        else {
-            // Does not install the update, only checks for the version
-            Updater updater = new net.quantum625.updater.Updater(this, "Networks", "KKr3r1PM", false);
-            Updater.LinkResult linkResult = updater.getLink(Updater.ReleaseType.STABLE);
-            if (linkResult.wasSuccessful()) {
-                logger.info("[PluginUpdater] Version " + linkResult.getVersion() + " of Networks is now available!");
-                logger.info("[PluginUpdater] Download on Modrinth:  https://modrinth.com/plugin/networks");
-                logger.info("[PluginUpdater] Download on Bukkit:    https://curseforge.com/minecraft/bukkit-plugins/networks");
-            }
+
+        // Does not install the update, only checks for the version
+        Updater updater = new net.quantum625.updater.Updater(this, "Networks", "KKr3r1PM", false);
+        Updater.LinkResult linkResult = updater.getLink(Updater.ReleaseType.STABLE);
+        if (linkResult.wasSuccessful()) {
+            logger.info("[PluginUpdater] Version " + linkResult.getVersion() + " of Networks is now available!");
+            logger.info("[PluginUpdater] Download on Modrinth:  https://modrinth.com/plugin/networks");
+            logger.info("[PluginUpdater] Download on Hangar:    https://hangar.papermc.io/quantum625/networks");
+            logger.info("[PluginUpdater] Download on Bukkit:    https://curseforge.com/minecraft/bukkit-plugins/networks");
         }
     }
 
