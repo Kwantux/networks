@@ -36,7 +36,7 @@ public class PlayerJoinEventListener implements Listener {
         }
 
         for (int i = 1; i <= config.getMaxRanges().length; i++) {
-            player.discoverRecipe(new NamespacedKey("networks","upgrade_" + i));
+            player.discoverRecipe(new NamespacedKey("networks","upgrade" + i));
         }
     }
 }
