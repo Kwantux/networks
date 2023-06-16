@@ -159,14 +159,15 @@ public class NetworkWandListener implements Listener {
                             item.setAmount(item.getAmount() - 1);
                             lang.message(p, "rangeupgrade.success", network.getID(), tier+"");
                         }
+                        if (tier == config.getMaxRanges().length) {
+                            lang.message(p, "rangeupgrade.last");
+                            return;
+                        }
                         if (upgradeTier < tier) {
                             lang.message(p, "rangeupgrade.alreadyupgraded", tier+"");
                         }
                         if (upgradeTier > tier) {
                             lang.message(p, "rangeupgrade.unlockfirst", tier+"");
-                        }
-                        if (tier == config.getMaxRanges().length) {
-                            lang.message(p, "rangeupgrade.last");
                         }
                     }
                 }
