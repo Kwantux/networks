@@ -1,5 +1,6 @@
 package net.quantum625.networks.component;
 
+import net.quantum625.networks.Main;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
@@ -29,6 +30,7 @@ public class BaseComponent {
         if (block.getState() instanceof InventoryHolder) {
             return ((InventoryHolder) block.getState()).getInventory();
         }
+        Main.getPlugin(Main.class).getNetworkManager().getNetworkWithComponent(pos).removeComponent(pos);
         return null;
     }
 

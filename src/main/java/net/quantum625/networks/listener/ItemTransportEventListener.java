@@ -20,6 +20,8 @@ public class ItemTransportEventListener implements Listener {
 
     @EventHandler(priority= EventPriority.MONITOR)
     public void onItemTransport(InventoryMoveItemEvent event) {
-        net.sortContainer(new Location(event.getDestination().getLocation()));
+        org.bukkit.Location loc = event.getDestination().getLocation();
+        if (loc == null) return;
+        net.sortContainer(new Location(loc));
     }
 }

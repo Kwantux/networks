@@ -32,6 +32,8 @@ public final class NetworkManager {
     private Map<Location, Network> input_locations = new HashMap<Location, Network>();
     private Network console_selection = null;
 
+    private int lastSave = 0;
+
     private Config config;
     private File dataFolder;
     private LanguageController lang;
@@ -205,6 +207,7 @@ public final class NetworkManager {
 
 
     public void saveData() {
+        if (Bukkit.getServer().getCurrentTick() == lastSave) return;
         for (int i = 0; i < networks.size(); i++) {
             JSONNetwork n = new JSONNetwork(networks.get(i));
             File file = new File(dataFolder, "networks/" + n.getId() + ".json");
@@ -228,9 +231,7 @@ public final class NetworkManager {
                 logger.info(e.getStackTrace().toString());
             }
         }
-
-
-
+        lastSave = Bukkit.getServer().getCurrentTick();
     }
 
     public void loadData() {

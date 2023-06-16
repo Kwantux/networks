@@ -317,6 +317,7 @@ public class Network {
     public ArrayList<ItemStack> getItems() {
         ArrayList<ItemStack> result = new ArrayList<ItemStack>();
         for (BaseComponent component : getAllComponents()) {
+            if (component.getInventory() == null) continue;
             for (ItemStack stack : component.getInventory().getContents()) {
                 if (stack != null) {
                     result.add(stack);
