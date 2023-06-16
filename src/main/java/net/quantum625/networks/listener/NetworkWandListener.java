@@ -10,6 +10,7 @@ import net.quantum625.networks.component.*;
 import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.data.Config;
 import net.quantum625.networks.utils.Location;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -49,6 +51,8 @@ public class NetworkWandListener implements Listener {
             if (wand.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER)) {
 
                 event.setCancelled(true);
+
+                if (!event.getHand().equals(EquipmentSlot.HAND)) return;
 
                 int mode = wand.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER);
                 BaseComponent component = net.getComponentByLocation(l);
@@ -87,6 +91,10 @@ public class NetworkWandListener implements Listener {
 
                         }
                     }
+                    return;
+                }
+
+                if (action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_AIR)) {
                     return;
                 }
 
