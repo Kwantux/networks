@@ -6,5 +6,6 @@ public enum ComponentType {
     INPUT,
     SORTING,
     MISC,
+    FURNACE,
     REQUEST,
 }
