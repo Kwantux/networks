@@ -78,7 +78,7 @@ public final class Configuration extends RawConfiguration {
         catch (IllegalArgumentException e) {
             logger.severe("[QC] Unable to update configuration file " + filename + ":");
             logger.severe("[QC] No such file called '" + filepath + "'");
-            logger.severe("[QC] This is a bug in either QuillConfig or this plugin, please contact the developers of the plugin.");
+            logger.severe("[QC] This is a bug in either QuillConfig or this plugin, please contact the developers of the plugin and the developers of QuillConfig");
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
 
