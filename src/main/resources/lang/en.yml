@@ -1,5 +1,7 @@
 prefix: "<green>[Networks]<reset>  "
 
+version: "<dark_green>Networks Plugin</dark_green> by <yellow>Quantum625</yellow>\n<aqua>Version: </aqua><1>"
+
 help: "\n
 <bold><dark_green>          Networks v2.0 - Help Menu
 \n============================================</dark_green></bold>

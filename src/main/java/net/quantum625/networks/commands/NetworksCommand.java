@@ -46,6 +46,10 @@ public class NetworksCommand extends CommandHandler {
                 .literal("help")
                 .handler(this::help)
         );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("version")
+                .handler(this::version)
+        );
         //TODO: Help to specific commands
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("create")
@@ -187,9 +191,18 @@ public class NetworksCommand extends CommandHandler {
 
 
     private void help(CommandContext<CommandSender> context) {
-        Player player = (Player) context.getSender();
-        if (player.hasPermission("networks.data")) lang.message(player, "help.admin");
-        else lang.message(player, "help");
+        CommandSender sender = context.getSender();
+        boolean admin = true;
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            admin = player.hasPermission("networks.admin");
+        }
+        if (admin) lang.message(sender, "help.admin");
+        else lang.message(sender, "help");
+    }
+
+    private void version(CommandContext<CommandSender> context) {
+        lang.message(context.getSender(), "version", plugin.getPluginMeta().getVersion());
     }
 
     private void saveNetworks(CommandContext<CommandSender> context) {

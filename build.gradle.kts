@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "net.quantum625"
-version = "2.0.2"
+version = "2.0.3"
 description = "A performance friendly way to sort your items"
 
 repositories {

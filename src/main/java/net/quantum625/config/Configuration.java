@@ -50,7 +50,7 @@ public final class Configuration extends RawConfiguration {
             this.path = plugin.getName().toLowerCase() + "." + registeredPath;
         }
         this.filename = filePath.toFile().getName();
-        this.filepath = filePath.toFile().getPath().replace(plugin.getDataFolder().getPath()+"/", "");
+        this.filepath = filePath.toFile().getPath().replace(plugin.getDataFolder().getPath()+"/", "").replace(plugin.getDataFolder().getPath()+"\\", "");
 
         this.loader = HoconConfigurationLoader.builder()
                 .path(Paths.get(plugin.getDataFolder().getAbsolutePath()+"/"+filename))
@@ -72,7 +72,15 @@ public final class Configuration extends RawConfiguration {
     @Override
     protected void update() {
         reload();
-        plugin.saveResource(filepath, true);
+        try {
+            plugin.saveResource(filepath, true);
+        }
+        catch (IllegalArgumentException e) {
+            logger.severe("[QC] Unable to update configuration file " + filename + ":");
+            logger.severe("[QC] No such file called '" + filepath + "'");
+            logger.severe("[QC] This is a bug in either QuillConfig or this plugin, please contact the developers of the plugin.");
+            Bukkit.getPluginManager().disablePlugin(plugin);
+        }
 
         CommentedConfigurationNode defaultConfig = null;
 
