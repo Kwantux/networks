@@ -201,8 +201,8 @@ public class NetworksCommand extends CommandHandler {
         if (sender instanceof Player player) {
             admin = player.hasPermission("networks.admin");
         }
-        if (admin) lang.message(sender, "help.admin");
-        else lang.message(sender, "help");
+        if (admin) lang.message(sender, "help.admin", plugin.getPluginMeta().getVersion());
+        else lang.message(sender, "help", plugin.getPluginMeta().getVersion());
     }
 
     private void manual(CommandContext<CommandSender> context) {
