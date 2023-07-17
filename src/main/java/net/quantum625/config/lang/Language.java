@@ -135,7 +135,9 @@ public class Language extends RawConfiguration {
             throw new RuntimeException(e);
         }
 
-        logger.info("[QC] Successfully loaded configuration file " + langID + ".yml on root path " + path);
+        if (testRequirements()) {
+            logger.info("[QC] Successfully loaded configuration file " + langID + ".yml on root path " + path);
+        }
     }
 
 

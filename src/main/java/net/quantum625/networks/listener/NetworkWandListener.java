@@ -26,10 +26,10 @@ import java.util.Arrays;
 
 public class NetworkWandListener implements Listener {
 
-    private Config config;
-    private NetworkManager net;
-    private LanguageController lang;
-    private CraftingManager crafting;
+    private final Config config;
+    private final NetworkManager net;
+    private final LanguageController lang;
+    private final CraftingManager crafting;
 
     public NetworkWandListener(Main main, CraftingManager craftingManager) {
         this.config = main.getConfiguration();
@@ -117,7 +117,7 @@ public class NetworkWandListener implements Listener {
                     if (mode == 1) {
                         if (component instanceof BaseOutputContainer container) {
                             container.incrementPriority();
-                            lang.message(p, "component.priority", container.getPriority()+"");
+                            lang.message(p, "component.priority", String.valueOf(container.getPriority()));
                         }
                     }
                 }
@@ -132,7 +132,7 @@ public class NetworkWandListener implements Listener {
                     if (mode == 1) {
                         if (component instanceof BaseOutputContainer container) {
                             container.decrementPriority();
-                            lang.message(p, "component.priority", container.getPriority()+"");
+                            lang.message(p, "component.priority", String.valueOf(container.getPriority()));
                         }
                     }
                 }
@@ -157,17 +157,17 @@ public class NetworkWandListener implements Listener {
                             network.setMaxRange(config.getMaxRanges()[tier]);
                             ItemStack item = p.getInventory().getItemInMainHand();
                             item.setAmount(item.getAmount() - 1);
-                            lang.message(p, "rangeupgrade.success", network.getID(), tier+"");
+                            lang.message(p, "rangeupgrade.success", network.getID(), String.valueOf(tier));
                         }
                         if (tier == config.getMaxRanges().length) {
                             lang.message(p, "rangeupgrade.last");
                             return;
                         }
                         if (upgradeTier < tier) {
-                            lang.message(p, "rangeupgrade.alreadyupgraded", tier+"");
+                            lang.message(p, "rangeupgrade.alreadyupgraded", String.valueOf(tier));
                         }
                         if (upgradeTier > tier) {
-                            lang.message(p, "rangeupgrade.unlockfirst", tier+"");
+                            lang.message(p, "rangeupgrade.unlockfirst", String.valueOf(tier));
                         }
                     }
                 }

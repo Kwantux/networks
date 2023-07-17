@@ -9,7 +9,7 @@ import org.bukkit.block.data.type.Chest;
 
 public class DoubleChestDisconnecter {
 
-    private NetworkManager net;
+    private final NetworkManager net;
 
     public DoubleChestDisconnecter(NetworkManager net) {
         this.net = net;

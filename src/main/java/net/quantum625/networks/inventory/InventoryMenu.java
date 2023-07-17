@@ -16,8 +16,8 @@ public class InventoryMenu {
 
     Player player;
     Network network;
-    private Inventory inventory;
-    private ArrayList<ArrayList<ItemStack>> contents = new ArrayList<>();
+    private final Inventory inventory;
+    private final ArrayList<ArrayList<ItemStack>> contents = new ArrayList<>();
     private int page;
     public InventoryMenu(Player player, Network network) {
 

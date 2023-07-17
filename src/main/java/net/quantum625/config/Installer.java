@@ -13,9 +13,9 @@ import java.util.logging.Logger;
 
 public class Installer {
 
-    private Logger logger;
-    private File dataFolder;
-    private JavaPlugin plugin;
+    private final Logger logger;
+    private final File dataFolder;
+    private final JavaPlugin plugin;
     public Installer(File dataFolder, JavaPlugin plugin) {
 
         this.logger = plugin.getLogger();

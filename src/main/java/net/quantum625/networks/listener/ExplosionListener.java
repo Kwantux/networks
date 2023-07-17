@@ -33,10 +33,10 @@ import java.util.UUID;
 
 public class ExplosionListener implements Listener {
 
-    private Config config;
-    private LanguageController lang;
-    private NetworkManager net;
-    private CraftingManager craftingManager;
+    private final Config config;
+    private final LanguageController lang;
+    private final NetworkManager net;
+    private final CraftingManager craftingManager;
 
     public ExplosionListener(Main main, CraftingManager craftingManager) {
         this.config = main.getConfiguration();

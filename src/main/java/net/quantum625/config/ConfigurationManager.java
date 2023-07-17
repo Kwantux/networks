@@ -25,7 +25,7 @@ public final class ConfigurationManager  {
     /**
      * A list of all registered Configuration instances
      */
-    private static List<Configuration> rootNodes = new ArrayList<Configuration>();
+    private static final List<Configuration> rootNodes = new ArrayList<Configuration>();
 
 
     /**

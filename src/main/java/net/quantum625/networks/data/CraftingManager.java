@@ -20,8 +20,8 @@ import java.util.List;
 
 public class CraftingManager {
 
-    private Configuration config;
-    private LanguageController lang;
+    private final Configuration config;
+    private final LanguageController lang;
 
 
 
@@ -30,7 +30,7 @@ public class CraftingManager {
     }
 
 
-    private char[] keys = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
+    private final char[] keys = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
 
     public ShapedRecipe wandRecipe;
     public ShapedRecipe inputContainerRecipe;
@@ -157,7 +157,7 @@ public class CraftingManager {
                 if (ingredients[i].equalsIgnoreCase("AIR") || ingredients[i].equalsIgnoreCase("EMPTY")) {
                     shape[i] = " ";
                 } else {
-                    shape[i] = "" + keys[i];
+                    shape[i] = String.valueOf(keys[i]);
                 }
 
             }
@@ -182,7 +182,7 @@ public class CraftingManager {
                     if (ingredients[i].equalsIgnoreCase("AIR") || ingredients[i].equalsIgnoreCase("EMPTY")) {
                         shape[i] = " ";
                     } else {
-                        shape[i] = "" + keys[i];
+                        shape[i] = String.valueOf(keys[i]);
                     }
 
                 }
@@ -209,7 +209,7 @@ public class CraftingManager {
                     if (ingredients[i].equalsIgnoreCase("AIR") || ingredients[i].equalsIgnoreCase("EMPTY")) {
                         shape[i] = " ";
                     } else {
-                        shape[i] = "" + keys[i];
+                        shape[i] = String.valueOf(keys[i]);
                     }
 
                 }
@@ -236,7 +236,7 @@ public class CraftingManager {
                     if (ingredients[i].equalsIgnoreCase("AIR") || ingredients[i].equalsIgnoreCase("EMPTY")) {
                         shape[i] = " ";
                     } else {
-                        shape[i] = "" + keys[i];
+                        shape[i] = String.valueOf(keys[i]);
                     }
 
                 }
@@ -278,7 +278,7 @@ public class CraftingManager {
                         if (ingredients[i].equalsIgnoreCase("AIR") || ingredients[i].equalsIgnoreCase("EMPTY")) {
                             shape[i] = " ";
                         } else {
-                            shape[i] = "" + keys[i];
+                            shape[i] = String.valueOf(keys[i]);
                         }
                     }
 

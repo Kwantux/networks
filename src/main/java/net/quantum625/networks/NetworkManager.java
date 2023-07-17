@@ -25,20 +25,20 @@ public final class NetworkManager {
 
     private ArrayList<Network> networks = new ArrayList<Network>();
 
-    private ArrayList<PlayerData> selections = new ArrayList<PlayerData>();
+    private final ArrayList<PlayerData> selections = new ArrayList<PlayerData>();
 
-    private ArrayList<UUID> noticedPlayers = new ArrayList<UUID>();
+    private final ArrayList<UUID> noticedPlayers = new ArrayList<UUID>();
 
-    private Map<Location, Network> input_locations = new HashMap<Location, Network>();
+    private final Map<Location, Network> input_locations = new HashMap<Location, Network>();
     private Network console_selection = null;
 
     private int lastSave = 0;
 
-    private Config config;
-    private File dataFolder;
-    private LanguageController lang;
-    private Logger logger;
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();;
+    private final Config config;
+    private final File dataFolder;
+    private final LanguageController lang;
+    private final Logger logger;
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 
     public NetworkManager(Main plugin) {

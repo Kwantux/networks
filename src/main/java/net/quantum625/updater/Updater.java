@@ -335,7 +335,7 @@ public class Updater {
         /**
          * A different error
          */
-        ERROR;
+        ERROR
     }
 
     public class LinkResult {

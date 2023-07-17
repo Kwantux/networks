@@ -1,0 +1,39 @@
+author: "Quantum625"
+name: "Networks Handbuch"
+pages:
+  - "
+<bold><dark_green>[Networks Handbuch]</dark_green></bold>\n
+  \n
+Networks ist ein Plugin, mit dem du deine Kisten zu vollautomatischen Lagersystemen verbinden kannst.\n
+Es gibt Einfüllkisten, Sortierkisten und Restekisten.\n\n
+<blue><click:open_url:https://discord.gg/wQXKdtVPMd>[Discord]</click></blue> <green><click:open_url:https://modrinth.com/plugin/networks>[Modrinth]</click></green>"
+
+  - "
+Alle items, die in eine Einfüllkiste gelegt werden, werden in ihre jeweiligen Sortierkisten gelegt oder in eine Restekiste.\n\n
+Sortierkisten können beliebig viele Items als Filter haben.\n"
+
+  - "\n
+<bold><dark_green>[Netzwerke Erstellen]</dark_green></bold>\n
+       \n
+Erstelle ein Netzwerk mit <red><click:suggest_command:/net create>/net create (id)</click></red> \n
+(id) ist der Name deines Netzwerks, du brauchst ihn zum bearbeiten. \n
+Dein Netzwerk kannst du mit <red><click:suggest_command:/net select>/net select (id)</click></red> auswählen.
+"
+
+  - "\n
+<bold><dark_green>[Kisten installieren]</dark_green></bold>\n
+     \n
+Um Komponenten (Einfüll-/Sortier-/Restekiste) zu deinem Netzwerk hinzuzufügen, musst du dein Netzwerk auswählen, die Komponenten craften und diese platzieren.\n"
+
+  - "
+Wenn du willst, dass ein Komponent deines Netzwerks eine Doppelkiste ist, platziere eine normale Kiste an ihn heran, sodass sie sich verbinden.\n
+Es ist nicht möglich, dass sich zwei Komponenten verbinden"
+
+  - "\n
+<bold><dark_green>[Netzwerk Konfigurator]</dark_green></bold>\n
+         \n
+Zum weiteren Bearbeiten deines Netzwerks benötigst du einen Netzwerk Konfigurator, diesen kannst du ebenfalls craften."
+
+  - "\n
+Mit dem Netzwerk Konfigurator kannst du Filter für Sortierkisten setzen, Informationen über einen Komponenten anzeigen und die Priorität eines Komponenten ändern. (Also welche Kiste zuerst gefüllt wird)
+"

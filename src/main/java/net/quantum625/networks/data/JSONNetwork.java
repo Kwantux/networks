@@ -10,10 +10,10 @@ import java.util.UUID;
 
 
 public class JSONNetwork {
-    private String id;
-    private String owner;
+    private final String id;
+    private final String owner;
 
-    private String[] users;
+    private final String[] users;
 
     private int maxContainers = 20;
     private int maxRange = 40;

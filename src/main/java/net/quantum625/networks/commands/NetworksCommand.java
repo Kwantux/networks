@@ -8,6 +8,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
 import net.quantum625.config.ConfigurationManager;
 import net.quantum625.config.lang.LanguageController;
+import net.quantum625.manual.ManualManager;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
@@ -45,6 +46,10 @@ public class NetworksCommand extends CommandHandler {
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("help")
                 .handler(this::help)
+        );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("manual")
+                .handler(this::manual)
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("version")
@@ -193,12 +198,15 @@ public class NetworksCommand extends CommandHandler {
     private void help(CommandContext<CommandSender> context) {
         CommandSender sender = context.getSender();
         boolean admin = true;
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
             admin = player.hasPermission("networks.admin");
         }
         if (admin) lang.message(sender, "help.admin");
         else lang.message(sender, "help");
+    }
+
+    private void manual(CommandContext<CommandSender> context) {
+        ManualManager.open((Player) context.getSender(), "networks.main");
     }
 
     private void version(CommandContext<CommandSender> context) {

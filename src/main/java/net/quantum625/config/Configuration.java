@@ -34,7 +34,7 @@ public final class Configuration extends RawConfiguration {
     private final String filepath;
     private final String filename;
 
-    private HoconConfigurationLoader loader;
+    private final HoconConfigurationLoader loader;
     private CommentedConfigurationNode root;
 
 
@@ -261,8 +261,11 @@ public final class Configuration extends RawConfiguration {
             throw new RuntimeException(e);
         }
 
-        logger.info("[QC] Successfully loaded configuration file " + filename + " on root path " + path);
+        if (testRequirements()) logger.info("[QC] Successfully loaded configuration file " + filename + " on root path " + path);
+
     }
+
+
 
 
     /**

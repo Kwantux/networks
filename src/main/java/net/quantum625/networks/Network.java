@@ -3,10 +3,7 @@ package net.quantum625.networks;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.quantum625.networks.component.BaseComponent;
-import net.quantum625.networks.component.InputContainer;
-import net.quantum625.networks.component.SortingContainer;
-import net.quantum625.networks.component.MiscContainer;
+import net.quantum625.networks.component.*;
 import net.quantum625.networks.data.JSONNetwork;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
@@ -28,9 +25,10 @@ public class Network {
 
     private int sorting_counter = 0;
 
-    private ArrayList<InputContainer> input_containers = new ArrayList<InputContainer>();
-    private ArrayList<SortingContainer> sorting_containers = new ArrayList<SortingContainer>();
-    private ArrayList<MiscContainer> misc_containers = new ArrayList<MiscContainer>();
+    private final ArrayList<InputContainer> input_containers = new ArrayList<>();
+    private final ArrayList<SortingContainer> sorting_containers = new ArrayList<>();
+    private final ArrayList<MiscContainer> misc_containers = new ArrayList<>();
+    private final ArrayList<Furnace> furnaces = new ArrayList<>();
 
 
 
@@ -50,17 +48,11 @@ public class Network {
         this.maxContainers = net.getMaxContainers();
         this.maxRange = net.getMaxRange();
 
-        for (InputContainer i: net.getInputContainers()) {
-            input_containers.add(i);
-        }
+        Collections.addAll(input_containers, net.getInputContainers());
 
-        for (SortingContainer i: net.getSortingContainers()) {
-            sorting_containers.add(i);
-        }
+        Collections.addAll(sorting_containers, net.getSortingContainers());
 
-        for (MiscContainer i: net.getMiscContainers()) {
-            misc_containers.add(i);
-        }
+        Collections.addAll(misc_containers, net.getMiscContainers());
     }
 
     public InputContainer getInputContainerByLocation(Location pos) {
@@ -85,6 +77,32 @@ public class Network {
         SortingContainer best = null;
 
         for (SortingContainer i : sorting_containers) {
+            if (Arrays.stream(i.getItems()).toList().contains(item) && i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {
+
+                if (best != null) {
+                    if (best.getPriority() < i.getPriority()) {
+                        best = i;
+                    }
+                    else if (best.getPriority() == i.getPriority()) {
+                        if (best.countItems() > i.countItems()) {
+                            best = i;
+                        }
+                    }
+                }
+
+                else {
+                    best = i;
+                }
+            }
+        }
+
+        return best;
+    }
+
+    private Furnace getFurnace(Location pos, String item) {
+        Furnace best = null;
+
+        for (Furnace i : furnaces) {
             if (Arrays.stream(i.getItems()).toList().contains(item) && i.getInventory().firstEmpty() != -1 && i.getPos().getDistance(pos) <= maxRange) {
 
                 if (best != null) {
@@ -292,6 +310,16 @@ public class Network {
 
                     sorting_counter += 1;
 
+                    /*
+                    if (stack.getType().isFuel()) {
+                        Furnace furnace = getFurnace(pos, stack.getType().toString().toUpperCase());
+                        if (furnace != null) {
+                            furnace.setFuelSlot(stack);
+                            inventory.removeItem(stack);
+                        }
+                    }
+                    */
+
                     SortingContainer sortingContainer = getSortingContainerByItem(pos, stack.getType().toString().toUpperCase());
                     if (sortingContainer != null) {
                         if (!sortingContainer.getInventory().equals(inventory)) {
@@ -333,7 +361,7 @@ public class Network {
 
         for (ItemStack stack : getItems()) {
             if (stack != null) {
-                if (map.keySet().contains(stack.getType())) {
+                if (map.containsKey(stack.getType())) {
                     map.replace(stack.getType(), map.get(stack.getType()) + stack.getAmount());
                 } else map.put(stack.getType(), stack.getAmount());
             }
