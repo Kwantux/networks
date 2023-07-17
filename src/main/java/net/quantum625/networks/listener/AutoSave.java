@@ -9,7 +9,7 @@ import org.bukkit.event.world.WorldSaveEvent;
 
 public class AutoSave implements Listener {
 
-    private NetworkManager net;
+    private final NetworkManager net;
 
     public AutoSave(Main main) {
         this.net = main.getNetworkManager();

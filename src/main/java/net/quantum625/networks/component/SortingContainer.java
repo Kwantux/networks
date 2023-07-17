@@ -1,14 +1,13 @@
 package net.quantum625.networks.component;
 
 import net.quantum625.networks.utils.Location;
-import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class SortingContainer extends BaseOutputContainer {
-    private String[] items;
+    protected String[] items;
 
     public SortingContainer(Location pos, String[] items) {
         super(pos);

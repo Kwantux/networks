@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 
 
 public class InventoryOpenEventListener implements Listener {
-    private NetworkManager net;
+    private final NetworkManager net;
 
     public InventoryOpenEventListener(Main main) {
         net = main.getNetworkManager();

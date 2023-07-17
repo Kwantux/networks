@@ -3,7 +3,7 @@ prefix: "<green>[Networks]<reset>  "
 version: "<dark_green>Networks Plugin</dark_green> by <yellow>Quantum625</yellow>\n<aqua>Version: </aqua><1>"
 
 help: "\n
-<bold><dark_green>          Networks v2.0 - Help Menu
+<bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
 \n<click:suggest_command:/net create>/net create (id)</click> - <yellow>Create a new network</yellow>
@@ -24,10 +24,12 @@ help: "\n
 \n
 \n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
 \n
+\n<blue><click:run_command:/net manual>Open the user manual</click></blue>
+\n
 "
 
 help.admin: "\n
-<bold><dark_green>          Networks v2.0 - Help Menu
+<bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
 \n<click:suggest_command:/net data save>/net data save</click> - <yellow>Save all networks</yellow>
@@ -50,6 +52,8 @@ help.admin: "\n
 \n<click:suggest_command:/net view>/net view</click> - <yellow>See all your items in a visual UI</yellow>
 \n
 \n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
+\n
+\n<blue><click:run_command:/net manual>Open the user manual</click></blue>
 \n
 "
 
@@ -174,3 +178,19 @@ item.lore.upgrade:
   - "<reset>Click on a network component to apply this upgrade on its network"
 
 notice: <yellow>Having inventory problems? Try out <white>/networks <yellow>to create a fully automated storage network!
+
+
+# Networks Manual
+
+manual.help: "\n
+<bold><dark_green>            Manuals v1.0 - Help Menu
+\n============================================</dark_green></bold>
+\n
+\n<click:suggest_command:/manuals list>/manuals list</click> - <yellow>List all existing manuals</yellow>
+\n<click:suggest_command:/manuals read >/manuals read (id)</click> - <yellow>Open a manual</yellow>
+\n
+"
+manual.version: "<dark_green>Manuals</dark_green> by <yellow>Quantum625</yellow>\n<aqua>Version: </aqua><1>"
+manual.list: "<green>[Manuals]<reset>  Available manuals:"
+manual.list.empty: "<green>[Manuals]<reset>  There are no manuals."
+manual.read: "<green>[Manuals]<reset>  Opened manual <yellow><1></yellow>"

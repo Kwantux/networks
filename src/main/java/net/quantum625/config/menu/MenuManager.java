@@ -12,7 +12,7 @@ public class MenuManager {
 
     private final JavaPlugin plugin;
 
-    private ArrayList<BookMenu> menus = new ArrayList<>();
+    private final ArrayList<BookMenu> menus = new ArrayList<>();
 
     public MenuManager(JavaPlugin plugin) {
         this.plugin = plugin;

@@ -39,7 +39,7 @@ public class Config {
         config.set("lang", language);
     }
     public String getLanguage() {
-        return config.getFinalString("lang").toString();
+        return config.getFinalString("lang");
     }
 
 

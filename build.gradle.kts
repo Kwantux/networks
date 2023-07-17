@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "net.quantum625"
-version = "2.0.3"
+version = "2.1.0"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -23,7 +23,7 @@ dependencies {
     bukkitLibrary("org.spongepowered", "configurate-hocon", "4.1.2")
     bukkitLibrary("org.spongepowered", "configurate-yaml", "4.1.2")
     bukkitLibrary("cloud.commandframework", "cloud-paper", "1.8.1")
-    bukkitLibrary("com.google.code.gson", "gson", "2.9.0");
+    bukkitLibrary("com.google.code.gson", "gson", "2.9.0")
 }
 
 java {

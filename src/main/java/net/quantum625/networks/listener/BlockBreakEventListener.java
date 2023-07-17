@@ -32,11 +32,11 @@ import java.util.List;
 
 public class BlockBreakEventListener implements Listener {
 
-    private NetworkManager net;
-    private CraftingManager crafting;
+    private final NetworkManager net;
+    private final CraftingManager crafting;
     private Config config;
-    private DoubleChestDisconnecter dcd;
-    private LanguageController lang;
+    private final DoubleChestDisconnecter dcd;
+    private final LanguageController lang;
 
 
     public BlockBreakEventListener(Main main, CraftingManager craftingManager, DoubleChestDisconnecter doubleChestDisconnecter) {
@@ -62,9 +62,8 @@ public class BlockBreakEventListener implements Listener {
                             Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), inputContainer);
                             event.setDropItems(false);
                         }
-                        if (component instanceof SortingContainer) {
+                        if (component instanceof SortingContainer container) {
 
-                            SortingContainer container = (SortingContainer) component;
                             ItemStack sortingContainer = crafting.getSortingContainer(event.getBlock().getType(), container.getItems());
                             Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), sortingContainer);
                             event.setDropItems(false);

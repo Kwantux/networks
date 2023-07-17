@@ -24,7 +24,7 @@ public class LanguageController {
     private final Logger logger;
     private final MiniMessage mm;
 
-    private List<Language> languages = new ArrayList<Language>();
+    private final List<Language> languages = new ArrayList<Language>();
 
     public LanguageController(JavaPlugin plugin, String... order) {
         logger = plugin.getLogger();

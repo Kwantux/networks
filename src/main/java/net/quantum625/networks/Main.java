@@ -3,6 +3,8 @@ package net.quantum625.networks;
 
 
 import net.quantum625.config.ConfigurationManager;
+import net.quantum625.manual.Manual;
+import net.quantum625.manual.ManualManager;
 import net.quantum625.updater.Updater;
 import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.commands.CommandManager;
@@ -47,6 +49,9 @@ public final class Main extends JavaPlugin {
 
         saveResource("README.md", true);
 
+        saveResource("manuals/main/de.yml", true);
+        saveResource("manuals/main/en.yml", true);
+
 
         logger = getLogger();
 
@@ -73,6 +78,14 @@ public final class Main extends JavaPlugin {
         this.net = new NetworkManager(this);
         this.crafting = new CraftingManager(this);
 
+        new Manual(this, "main", config.getLanguage());
+
+        try {
+            new net.quantum625.manual.commands.CommandManager(this);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
 
         checkForUpdates();
 
@@ -83,6 +96,7 @@ public final class Main extends JavaPlugin {
         metrics.addCustomChart(new Metrics.SingleLineChart("total_networks", () ->
             net.listAll().size()
         ));
+        metrics.addCustomChart(new Metrics.SimplePie("distribution_site", () -> platform.toString()));
 
         try {
             new CommandManager(this);
@@ -117,12 +131,12 @@ public final class Main extends JavaPlugin {
         if (net != null) net.saveData();
     }
 
-    private String startMessage =
-            "\n          _   __     __                      __                  ___    ____ "+
-            "\n         / | / /__  / /__      ______  _____/ /_______     _   _|__ \\  / __ \\"+
-            "\n        /  |/ / _ \\/ __/ | /| / / __ \\/ ___/ //_/ ___/    | | / /_/ / / / / /"+
-            "\n       / /|  /  __/ /_ | |/ |/ / /_/ / /  / ,< (__  )     | |/ / __/_/ /_/ /"+
-            "\n      /_/ |_/\\___/\\__/ |__/|__/\\____/_/  /_/|_/____/      |___/____(_)____/"+
+    private final String startMessage =
+            "\n        _   __     __                      __                ___    ___" +
+            "\n       / | / /__  / /__      ______  _____/ /_______   _   _|__ \\ /_  /" +
+            "\n      /  |/ / _ \\/ __/ | /| / / __ \\/ ___/ //_/ ___/  | | / /_/ /  / / " +
+            "\n     / /|  /  __/ /_ | |/ |/ / /_/ / /  / ,< (__  )   | |/ / __/_ / /  " +
+            "\n    /_/ |_/\\___/\\__/ |__/|__/\\____/_/  /_/|_/____/    |___/____(_)_/   " +
             "\n";
 
     public LanguageController getLanguage() {
@@ -212,7 +226,7 @@ public final class Main extends JavaPlugin {
         SPIGOT,
         HANGAR,
         GITHUB,
-        OTHER;
+        OTHER
     }
 
 

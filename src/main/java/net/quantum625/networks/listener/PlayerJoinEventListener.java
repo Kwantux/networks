@@ -13,8 +13,8 @@ public class PlayerJoinEventListener implements Listener {
 
     Config config;
 
-    private String[] modes = {"input", "sorting", "misc"};
-    private String[] types = {"barrel", "chest", "dispenser", "dropper", "hopper", "trapped_chest"};
+    private final String[] modes = {"input", "sorting", "misc"};
+    private final String[] types = {"barrel", "chest", "dispenser", "dropper", "hopper", "trapped_chest"};
 
 
     public PlayerJoinEventListener(Main main) {

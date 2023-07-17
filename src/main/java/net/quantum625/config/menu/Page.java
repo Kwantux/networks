@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Page {
 
-    private List<Component> components = new ArrayList<>();
+    private final List<Component> components = new ArrayList<>();
     @Nullable Component footer = null;
 
 
@@ -20,16 +20,14 @@ public class Page {
 
     public boolean addComponent(Component component) {
         components.add(component);
-        if (countLines() > 14) return false;
-        return true;
+        return countLines() <= 14;
     }
 
     public boolean addComponents(List<Component> component) {
         for (Component c : component) {
             components.add(c);
         }
-        if (countLines() > 14) return false;
-        return true;
+        return countLines() <= 14;
     }
 
     private int countLines() {

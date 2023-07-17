@@ -4,7 +4,7 @@ import net.quantum625.networks.Network;
 import org.bukkit.entity.Player;
 
 public class PlayerData {
-    private Player player;
+    private final Player player;
     private Network selectedNetwork;
 
 

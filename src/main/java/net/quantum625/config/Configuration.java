@@ -34,7 +34,7 @@ public final class Configuration extends RawConfiguration {
     private final String filepath;
     private final String filename;
 
-    private HoconConfigurationLoader loader;
+    private final HoconConfigurationLoader loader;
     private CommentedConfigurationNode root;
 
 
@@ -78,7 +78,7 @@ public final class Configuration extends RawConfiguration {
         catch (IllegalArgumentException e) {
             logger.severe("[QC] Unable to update configuration file " + filename + ":");
             logger.severe("[QC] No such file called '" + filepath + "'");
-            logger.severe("[QC] This is a bug in either QuillConfig or this plugin, please contact the developers of the plugin.");
+            logger.severe("[QC] This is a bug in either QuillConfig or this plugin, please contact the developers of the plugin and the developers of QuillConfig");
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
 
@@ -261,8 +261,11 @@ public final class Configuration extends RawConfiguration {
             throw new RuntimeException(e);
         }
 
-        logger.info("[QC] Successfully loaded configuration file " + filename + " on root path " + path);
+        if (testRequirements()) logger.info("[QC] Successfully loaded configuration file " + filename + " on root path " + path);
+
     }
+
+
 
 
     /**

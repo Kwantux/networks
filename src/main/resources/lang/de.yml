@@ -3,7 +3,7 @@ prefix: "<green>[Networks]<reset>  "
 version: "<dark_green>Networks Plugin</dark_green> von <yellow>Quantum625</yellow>\n<aqua>Version: </aqua><1>"
 
 help: "\n
-<bold><dark_green>          Networks v2.0 - Help Menu
+<bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
 \n<click:suggest_command:/net create>/net create (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
@@ -24,10 +24,12 @@ help: "\n
 \n
 \n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
 \n
+\n<blue><click:run_command:/net manual>Öffne das Networks Nutzerhandbuch</click></blue>
+\n
 "
 
 help.admin: "\n
-<bold><dark_green>          Networks v2.0 - Help Menu
+<bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
 \n<click:suggest_command:/net data save>/net data save</click> - <yellow>Alle Netzwerke speichern</yellow>
@@ -50,6 +52,8 @@ help.admin: "\n
 \n<click:suggest_command:/net view>/net view</click> - <yellow>Öffnet ein Menü, mit allen deinen Items</yellow>
 \n
 \n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
+\n
+\n<blue><click:run_command:/net manual>Öffne das Networks Nutzerhandbuch</click></blue>
 \n
 "
 
@@ -171,3 +175,19 @@ item.lore.upgrade:
   - "<reset>Klicke hiermit auf einen Netzwerkkomponenten, um diese Erweiterung zu installieren"
 
 notice: <yellow>Inventar Probleme? Probier mal <white>/networks <yellow>und erstelle dein vollautomatisches Lagersystem!
+
+
+# Networks Manual
+
+manual.help: "\n
+<bold><dark_green>            Manuals v1.0 - Hilfe Menü
+\n============================================</dark_green></bold>
+\n
+\n<click:suggest_command:/manuals list>/manuals list</click> - <yellow>Liste alle Handbücher auf</yellow>
+\n<click:suggest_command:/manuals read >/manuals read (id)</click> - <yellow>Öffne ein Handbuch</yellow>
+\n
+"
+manual.version: "<dark_green>Manuals</dark_green> von <yellow>Quantum625</yellow>\n<aqua>Version: </aqua><1>"
+manual.list: "<green>[Manuals]<reset>  Handbücher auf diesem Server:"
+manual.list.empty: "<green>[Manuals]<reset>  Es gibt keine Handbücher auf diesem Server."
+manual.read: "<green>[Manuals]<reset>  Handbuch <yellow><1></yellow> geöffnet."

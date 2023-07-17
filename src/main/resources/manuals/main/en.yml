@@ -1,0 +1,37 @@
+author: "Quantum625"
+name: "Networks Manual"
+pages:
+  - "\n
+  <bold><dark_green>[Networks Manual]</dark_green></bold>\n
+  \n
+Networks is a plugin, that allows you to link chests together to form automated storage networks.\n\n
+These networks have input, sorting and misc chests.\n\n
+<blue><click:open_url:https://discord.gg/wQXKdtVPMd>[Discord]</click></blue> <green><click:open_url:https://modrinth.com/plugin/networks>[Modrinth]</click></green>"
+
+  - "
+All items put into input chests will be automatically sorted into their respective sorting chests or into any misc chest, if there is no fitting sorting chest.\n\n
+Sorting chests can have multiple item filters, including unstackable items.\n"
+
+  - "\n
+       <bold><dark_green>[Network Creation]</dark_green></bold>\n
+       \n
+To create a network, type <red><click:suggest_command:/net create>/net create (id)</click></red> \n
+(id) is the unique identifier of your network, you need it to edit your network. \n
+To edit your network, type <red><click:suggest_command:/net select>/net select (id)</click></red> to select your network.
+"
+
+  - "\n
+  <bold><dark_green>[Installing Components]</dark_green></bold>\n
+     \n
+To install components (input/sorting/misc chests), first select your network, then craft these at the crafting table and place them down.\n"
+
+  - "
+If you want your component to be a double chest, just place a normal chest next to it, so they connect.\n\n"
+
+  - "\n
+         <bold><dark_green>[Network Wand]</dark_green></bold>\n
+         \n
+You should craft a network wand to configure the filters of your sorting containers.\n\n"
+  - "\n
+The network wand can also be used to view information about a component and to define container priorities (What chest should be filled up first)
+"

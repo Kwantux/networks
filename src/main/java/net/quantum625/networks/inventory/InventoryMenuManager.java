@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class InventoryMenuManager {
 
-    static private ArrayList<InventoryMenu> list = new ArrayList<>();
+    static private final ArrayList<InventoryMenu> list = new ArrayList<>();
 
 
     static public void updateMenus() {

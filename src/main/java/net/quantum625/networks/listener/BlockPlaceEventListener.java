@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class BlockPlaceEventListener implements Listener {
 
@@ -47,7 +48,7 @@ public class BlockPlaceEventListener implements Listener {
 
                 ItemStack item = event.getItemInHand().clone();
                 item.getItemMeta().setDisplayName(" ");
-                item.getItemMeta().setLore(Arrays.asList());
+                item.getItemMeta().setLore(List.of());
 
                 if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING)) {
 
