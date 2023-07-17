@@ -4,7 +4,6 @@ package net.quantum625.networks;
 
 import net.quantum625.config.ConfigurationManager;
 import net.quantum625.manual.Manual;
-import net.quantum625.manual.ManualManager;
 import net.quantum625.updater.Updater;
 import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.commands.CommandManager;
