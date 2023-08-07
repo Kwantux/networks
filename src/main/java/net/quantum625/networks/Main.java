@@ -61,9 +61,8 @@ public final class Main extends JavaPlugin {
             getDataFolder().mkdirs();
         }
 
-        ConfigurationManager.register(this);
-
         try {
+            logger.info("Loading config files...");
             this.config = new Config(this);
         }
         catch (SerializationException e) {

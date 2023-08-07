@@ -20,7 +20,6 @@ public class ManualManager {
 
     public static void register(Manual manual) {
         list.put(manual.getId(), manual);
-        logger.info("[Manuals] Manual '"+manual.getId()+"' was registered by Plugin " + manual.getPlugin().getName());
     }
 
 

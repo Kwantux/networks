@@ -45,8 +45,6 @@ public class Language extends RawConfiguration {
         this.plugin = plugin;
         this.langID = langID;
 
-        this.ingameEdit = true;
-
         this.path = plugin.getName().toLowerCase() + ".lang." + langID ;
 
         this.logger = plugin.getLogger();
@@ -123,13 +121,6 @@ public class Language extends RawConfiguration {
                 Bukkit.getPluginManager().disablePlugin(plugin);
             }
 
-            try {
-                ingameEdit = Boolean.parseBoolean(getRaw("allowIngameEdit"));
-            }
-            catch (InvalidNodeException e) {
-                root.node("allowIngameEdit").set(ingameEdit);
-            }
-
         } catch (final ConfigurateException e) {
             logger.severe("[QC] Could not load configuration " + langID + ".yml: Invalid Syntax");
             throw new RuntimeException(e);
@@ -148,54 +139,10 @@ public class Language extends RawConfiguration {
      */
     public void save() {
         try {
-            root.node("allowIngameEdit").set(ingameEdit);
-        }
-        catch (SerializationException e) {
-            logger.severe("[QC] Unable to edit configuration file entry 'allowIngameEdit' in file " + langID + ".yml:\n" + e.getMessage());
-        }
-        try {
             loader.save(root);
         } catch (final ConfigurateException e) {
             logger.severe("[QC] Unable to save configuration file " + langID + ".yml:\n" + e.getMessage());
         }
-    }
-
-
-    /**
-     * Enables the /config edit command for this file
-     * (Disabled by default)
-     */
-    public void enableIngameChange() {
-        ingameEdit = true;
-        try {
-            root.node("allowIngameEdit").set(ingameEdit);
-        }
-        catch (SerializationException e) {
-            logger.severe("[QC] Unable to edit configuration file entry 'allowIngameEdit' in file " + langID + ".yml:\n" + e.getMessage());
-        }
-    }
-
-
-    /**
-     * Disables the /config edit command for this file
-     * (Disabled by default)
-     */
-    public void disableIngameChange() {
-        ingameEdit = false;
-        try {
-            root.node("allowIngameEdit").set(ingameEdit);
-        }
-        catch (SerializationException e) {
-            logger.severe("[QC] Unable to edit configuration file entry 'allowIngameEdit' in file " + langID + ".yml:\n" + e.getMessage());
-        }
-    }
-
-
-    /**
-     * @return Whether, using /config edit is allowed for this config file
-     */
-    public boolean ingameChangeEnabled() {
-        return ingameEdit;
     }
 
 
