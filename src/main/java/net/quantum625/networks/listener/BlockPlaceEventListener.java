@@ -1,5 +1,6 @@
 package net.quantum625.networks.listener;
 
+import net.kyori.adventure.text.Component;
 import net.quantum625.config.lang.Language;
 import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.Main;
@@ -47,8 +48,8 @@ public class BlockPlaceEventListener implements Listener {
             if (config.checkLocation(pos, "container")) {
 
                 ItemStack item = event.getItemInHand().clone();
-                item.getItemMeta().setDisplayName(" ");
-                item.getItemMeta().setLore(List.of());
+                item.getItemMeta().displayName(Component.text(" "));
+                item.getItemMeta().lore(List.of());
 
                 if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING)) {
 
