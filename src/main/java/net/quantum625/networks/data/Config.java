@@ -26,6 +26,18 @@ public class Config {
         try {
             this.config = Configuration.createMain(main, "networks.conf");
             this.features = Configuration.create(main, "features", "features.conf");
+
+            config.require("blastProofComponents");
+            config.require("autoUpdate");
+            config.require("notice");
+            config.require("lang");
+            config.require("containerWhitelist");
+            config.require("range");
+            config.require("material.component");
+            config.require("material.range");
+            config.require("logStartupInformation");
+            config.require("logoOnLaunch");
+
         } catch (ConfigAlreadyRegisteredException e) {
             throw new RuntimeException(e);
         }
@@ -89,6 +101,11 @@ public class Config {
             logger.severe(getString("material.range") + " is not a valid material, please change your config!");
         }
         return Material.LIGHTNING_ROD;
+    }
+
+
+    public boolean logoOnLaunch() {
+        return Boolean.TRUE.equals(config.getFinalBoolean("logoOnLaunch"));
     }
 
 

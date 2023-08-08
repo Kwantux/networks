@@ -15,6 +15,8 @@ If you need help with the plugin, feel free to ask your question on our discord!
 
 [Bukkit](https://dev.bukkit.org/projects/networks)
 
+[Hangar](https://hangar.papermc.io/Quantum625/Networks)
+
 Wiki (Coming Soon!)
 
 ---

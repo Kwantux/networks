@@ -18,8 +18,8 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Dictionary;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 import java.lang.module.ModuleDescriptor.Version;
 
@@ -36,29 +36,38 @@ public class Updater {
 
     private final JavaPlugin plugin;
     private final String currentVersion;
-    private final boolean automaticInstallation;
-
     private final String projectName;
     private final String projectId;
 
     private final Logger logger;
 
-    public Updater(JavaPlugin plugin, String projectName, String projectId, boolean allowUpdate) {
+    private UpdaterConfig config;
+
+    public UpdateResult updateResult;
+    public LinkResult linkResult;
+
+    public Updater(JavaPlugin plugin, File pluginFile, String projectName, String projectId) {
         this.plugin = plugin;
         this.currentVersion = plugin.getPluginMeta().getVersion();
         this.projectName = projectName;
         this.projectId = projectId;
         this.logger = plugin.getLogger();
-        this.automaticInstallation = updateAllowed() && allowUpdate;
+        config = new UpdaterConfig();
+        if (config.updateType.equals(UpdateType.DISABLED)) return;
+        updateResult = update(config.releaseType, pluginFile);
     }
+
+    public UpdateResult result() { return updateResult; }
+    public LinkResult linkResult() { return linkResult; }
 
     public LinkResult getLink(ReleaseType type) {
         logger.info("[PluginUpdater] Checking for updates...");
-        if (automaticInstallation) {
+        if (config.updateAllowed()) {
             logger.info("[PluginUpdater] If you wish to disable this auto updater, open serverfiles/plugins/updater.yml and set 'allowUpdates' to false");
         }
         else {
             logger.info("[PluginUpdater] Automatic update installation was disabled, only a version check will be done.");
+            logger.info("[PluginUpdater] If you wish to have updates automatically installed, enable 'auto-updates' in the networks config");
         }
         try {
             URL url = new URL("https://api.modrinth.com/v2/project/" + projectId + "/version");
@@ -103,7 +112,7 @@ public class Updater {
                 for (Object object : json) {
                     JSONObject jsonObject = (JSONObject) object;
                     String versionNumber = (String) jsonObject.get("version_number");
-                    if (shouldUpdate(newestVersion, versionNumber) && ReleaseType.parse((String) jsonObject.get("version_type")) == type) {
+                    if (config.shouldUpdate(newestVersion, versionNumber) && ReleaseType.parse((String) jsonObject.get("version_type")) == type) {
 
                         JSONArray gameVersions = (JSONArray) jsonObject.get("game_versions");
 
@@ -137,13 +146,13 @@ public class Updater {
                 logger.severe("[PluginUpdater] File Name: " + filename);
                 return new LinkResult(UpdateResult.ERROR);
             }
-            if (!shouldUpdate(currentVersion, newestVersion)) {
+            if (!config.shouldUpdate(currentVersion, newestVersion)) {
                 logger.info("[PluginUpdater] Plugin is already up to date!");
                 return new LinkResult(UpdateResult.NO_UPDATE);
             }
 
 
-            if (!updateAllowed()) {
+            if (!config.updateAllowed()) {
                 logger.info("[PluginUpdater] Automatic update installation is disabled.");
                 logger.info("[PluginUpdater] Please manually download the newest version of the plugin here:");
                 logger.info("[PluginUpdater] " + url);
@@ -177,7 +186,7 @@ public class Updater {
 
         try {
 
-            LinkResult linkResult = getLink(type);
+            linkResult = getLink(type);
 
             if (!linkResult.wasSuccessful()) {
                 if (linkResult.getResult() == null) {
@@ -243,51 +252,6 @@ public class Updater {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static String hashFile(File file)
-            throws NoSuchAlgorithmException, IOException {
-        // Set your algorithm
-        // "MD2","MD5","SHA","SHA-1","SHA-256","SHA-384","SHA-512"
-        MessageDigest md = MessageDigest.getInstance("SHA-512");
-        FileInputStream fis = new FileInputStream(file);
-        byte[] dataBytes = new byte[1024];
-
-        int nread = 0;
-        while ((nread = fis.read(dataBytes)) != -1) {
-            md.update(dataBytes, 0, nread);
-        }
-
-        byte[] mdbytes = md.digest();
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < mdbytes.length; i++) {
-            sb.append(Integer.toString((mdbytes[i] & 0xff) + 0x100, 16).substring(1));
-        }
-        return sb.toString();
-    }
-
-
-
-    public boolean shouldUpdate(String oldVersion, String newVersion) {
-        Version oldV = Version.parse(oldVersion);
-        Version newV = Version.parse(newVersion);
-        return oldV.compareTo(newV) < 0;
-    }
-
-    public boolean updateAllowed() {
-        File file = new File(plugin.getDataFolder().getParentFile(), "updater.yml");
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        if (config.get("allowUpdates") == null) {
-            config.set("allowUpdates", true);
-            config.setComments("allowUpdates", List.of("This config only applies to plugins using the Updater by Quantum625", "See more info at https://github.com/Quantum625/Updater", "Plugins using other methods of automatic update installations will have their own config"));
-            try {
-                config.save(file);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return config.getBoolean("allowUpdates");
     }
 
 
@@ -397,16 +361,14 @@ public class Updater {
 
         UNKNOWN;
 
-        static ReleaseType parse(String type) {
-            switch (type.toLowerCase()) {
-                case "stable", "release":
-                    return STABLE;
-                case "beta":
-                    return BETA;
-                case "alpha", "dev", "snapshot":
-                    return ALPHA;
-            }
-            return UNKNOWN;
+        static ReleaseType parse(@Nullable String type) {
+            if (type == null) return ALPHA;
+            return switch (type.toLowerCase()) {
+                case "stable", "release" -> STABLE;
+                case "beta" -> BETA;
+                case "alpha", "dev", "snapshot" -> ALPHA;
+                default -> UNKNOWN;
+            };
         }
 
         static boolean shouldUpdate(ReleaseType minimum, String releaseType) {
@@ -420,6 +382,64 @@ public class Updater {
                     return (parse(releaseType) == STABLE);
             }
             return false;
+        }
+    }
+
+    public enum UpdateType {
+        ENABLED,        // Automatically install updates
+        VERSION_CHECK,  // Only check for newer versions
+        DISABLED;       // Do not check for versions
+
+        public static @NotNull UpdateType parse(@Nullable String updateType) {
+            if (updateType == null) return VERSION_CHECK;
+            if (updateType.equalsIgnoreCase("true")) return ENABLED;
+            if (updateType.equalsIgnoreCase("false")) return DISABLED;
+            try {
+                return valueOf(updateType.toUpperCase());
+            } catch (IllegalArgumentException  e) {
+                Bukkit.getLogger().severe("[PluginUpdater] Invalid Update Type: " + updateType);
+                Bukkit.getLogger().severe("[PluginUpdater] Version check mode will be used.");
+                return VERSION_CHECK;
+            }
+        }
+    }
+
+    public class UpdaterConfig {
+
+        public UpdateType updateType;
+        public ReleaseType releaseType;
+
+        public UpdaterConfig() {
+            try {
+                load(new File(plugin.getDataFolder().getParentFile(), "updater.yml"));
+            } catch (IOException e) {
+                try {
+                    load(new File(plugin.getDataFolder(), "updater.yml"));
+                } catch (IOException e1) {
+                    Bukkit.getLogger().severe("[PluginUpdater] Plugin " + plugin.getName() + " seems to have no write access on its data folder.");
+                    updateType = UpdateType.DISABLED;
+                    throw new RuntimeException(e1);
+                }
+            }
+        }
+        public boolean shouldUpdate(String oldVersion, String newVersion) {
+            Version oldV = Version.parse(oldVersion);
+            Version newV = Version.parse(newVersion);
+            return oldV.compareTo(newV) < 0;
+        }
+
+        public boolean updateAllowed() { return updateType.equals(UpdateType.ENABLED); }
+
+        private UpdateType load(File file) throws IOException {
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+            updateType = UpdateType.parse(config.getString("allowUpdates"));
+            releaseType = ReleaseType.parse(config.getString("releaseChannel"));
+            config.set("allowUpdates", updateType.name());
+            config.set("releaseChannel", releaseType.name());
+            config.setComments("allowUpdates", List.of("This config only applies to plugins using the Updater by Quantum625", "See more info at https://github.com/Quantum625/Updater", "Plugins using other methods of automatic update installations will have their own config", "Possible values:","ENABLED (automatic update installation)","VERSION_CHECK (will search for updates, but not install them)", "DISABLED (Updater won't run)"));
+            config.setComments("releaseChannel", List.of("Release channel that will be used for the updates (Stable/Beta/Alpha)"));
+            config.save(file);
+            return updateType;
         }
     }
 }
