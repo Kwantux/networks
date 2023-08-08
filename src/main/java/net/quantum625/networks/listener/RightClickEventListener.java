@@ -53,6 +53,9 @@ public class RightClickEventListener implements Listener {
             NamespacedKey key = new NamespacedKey(plugin, "component");
 
             if (data.has(key)) {
+
+                event.setCancelled(true);
+
                 ComponentType componentType = ComponentType.get(data.get(key, PersistentDataType.STRING));
                 Network network = net.getSelectedNetwork(p);
 
@@ -68,7 +71,10 @@ public class RightClickEventListener implements Listener {
 
                 if (!config.checkLocation(pos, "container")) {
                     lang.message(p, "component.invalid_block", Component.translatable(event.getClickedBlock().getType().getBlockTranslationKey()));
+                    return;
                 }
+
+                if (componentType == null) return;
 
                 switch (componentType) {
                     case INPUT -> {
