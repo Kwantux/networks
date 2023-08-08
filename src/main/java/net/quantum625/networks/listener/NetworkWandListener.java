@@ -157,7 +157,7 @@ public class NetworkWandListener implements Listener {
                             network.setMaxRange(config.getMaxRanges()[tier]);
                             ItemStack item = p.getInventory().getItemInMainHand();
                             item.setAmount(item.getAmount() - 1);
-                            lang.message(p, "rangeupgrade.success", network.getID(), String.valueOf(tier));
+                            lang.message(p, "rangeupgrade.success", String.valueOf(tier), network.getID());
                         }
                         if (tier == config.getMaxRanges().length) {
                             lang.message(p, "rangeupgrade.last");
