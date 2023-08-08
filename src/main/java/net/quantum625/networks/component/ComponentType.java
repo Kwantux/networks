@@ -14,7 +14,7 @@ public enum ComponentType {
 
     public static ComponentType get(String componentType) {
         try  {
-            return ComponentType.valueOf(componentType);
+            return ComponentType.valueOf(componentType.toUpperCase());
         } catch (IllegalArgumentException | EnumConstantNotPresentException e) {
             return null;
         }
