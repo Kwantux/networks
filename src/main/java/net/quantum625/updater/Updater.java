@@ -19,6 +19,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 import java.lang.module.ModuleDescriptor.Version;
 
@@ -73,7 +74,6 @@ public class Updater {
             Reader streamReader = null;
 
             if (status > 299) {
-                streamReader = new InputStreamReader(con.getErrorStream());
                 logger.severe("[PluginUpdater] Unable to update plugin! Response code: " + status);
                 if (status == 404) return new LinkResult(UpdateResult.INVALID_PROJECT);
                 return new LinkResult(UpdateResult.INVALID_CONNECTION_CODE);
@@ -163,8 +163,13 @@ public class Updater {
         } catch (MalformedURLException e) {
             logger.severe("[PluginUpdater] Malformed URL: " + e.getMessage());
             return new LinkResult(UpdateResult.NO_CONNECTION);
+        } catch (SocketTimeoutException e) {
+            logger.severe("[PluginUpdater] Connection timeout");
+            return new LinkResult(UpdateResult.NO_CONNECTION);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.severe("[PluginUpdater] Unknown IO Error occurred");
+            e.printStackTrace();
+            return new LinkResult(UpdateResult.ERROR);
         }
     }
 
