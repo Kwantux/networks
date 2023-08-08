@@ -214,8 +214,8 @@ public class CraftingManager {
     private void registerRecipes() {
         registerItem("wand", getNetworkWand(0));
         registerItem("component.input.upgrade", getInputContainer());
-        registerItem("component.sorting.upgrade", getInputContainer());
-        registerItem("component.misc.upgrade", getInputContainer());
+        registerItem("component.sorting.upgrade", getSortingContainer());
+        registerItem("component.misc.upgrade", getMiscContainer());
         registerRangeUpgrades();
     }
 
