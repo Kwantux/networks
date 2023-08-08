@@ -143,10 +143,10 @@ item.name.wand1: <reset><blue>Prioritäts Konfigurator
 item.name.input: <reset>Einfüllkiste
 item.name.sorting: <reset>Sortierkiste
 item.name.misc: <reset>Restekiste
-item.name.upgrade1: <reset><bold>Telemetrie Antenne Mk.1
-item.name.upgrade2: <reset><bold>Telemetrie Antenne Mk.2
-item.name.upgrade3: <reset><bold>Telemetrie Antenne Mk.3
-item.name.upgrade4: <reset><bold>Telemetrie Antenne Mk.4
+item.name.upgrade.range.0: <reset><bold>Telemetrie Antenne Mk.1
+item.name.upgrade.range.1: <reset><bold>Telemetrie Antenne Mk.2
+item.name.upgrade.range.2: <reset><bold>Telemetrie Antenne Mk.3
+item.name.upgrade.range.3: <reset><bold>Telemetrie Antenne Mk.4
 
 item.lore.wand0:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"

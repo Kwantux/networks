@@ -6,6 +6,7 @@ import net.quantum625.config.util.exceptions.ConfigAlreadyRegisteredException;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.utils.Location;
+import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -70,6 +71,24 @@ public class Config {
         } catch (SerializationException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Material getComponentUpgradeMaterial() {
+        try {
+            return Material.getMaterial(getString("material.component"));
+        } catch (EnumConstantNotPresentException e) {
+            logger.severe(getString("material.component") + " is not a valid material, please change your config!");
+        }
+        return Material.ITEM_FRAME;
+    }
+
+    public Material getRangeUpgradeMaterial() {
+        try {
+            return Material.getMaterial(getString("material.range"));
+        } catch (EnumConstantNotPresentException e) {
+            logger.severe(getString("material.range") + " is not a valid material, please change your config!");
+        }
+        return Material.LIGHTNING_ROD;
     }
 
 
