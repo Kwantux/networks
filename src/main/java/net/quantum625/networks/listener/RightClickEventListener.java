@@ -69,13 +69,13 @@ public class RightClickEventListener implements Listener {
                     return;
                 }
 
-                if (network == null) {
-                    lang.message(p, "select.noselection");
+                if (!config.checkLocation(pos, "container")) {
+                    lang.message(p, "component.invalid_block", Component.translatable(event.getClickedBlock().getType().getBlockTranslationKey()));
                     return;
                 }
 
-                if (!config.checkLocation(pos, "container")) {
-                    lang.message(p, "component.invalid_block", Component.translatable(event.getClickedBlock().getType().getBlockTranslationKey()));
+                if (network == null) {
+                    lang.message(p, "select.noselection");
                     return;
                 }
 

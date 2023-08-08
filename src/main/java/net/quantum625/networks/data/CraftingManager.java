@@ -116,7 +116,7 @@ public class CraftingManager {
             throw new RuntimeException(e);
         }
         PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(plugin, "component"), PersistentDataType.STRING, "sorting");
+        data.set(new NamespacedKey(plugin, "component_type"), PersistentDataType.STRING, "sorting");
         sortingContainer.setItemMeta(meta);
         return sortingContainer;
     }
@@ -167,7 +167,7 @@ public class CraftingManager {
             throw new RuntimeException(e);
         }
         PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(plugin, "component"), PersistentDataType.STRING, "misc");
+        data.set(new NamespacedKey(plugin, "component_type"), PersistentDataType.STRING, "misc");
         miscContainer.setItemMeta(meta);
         return miscContainer;
     }
@@ -178,7 +178,7 @@ public class CraftingManager {
         meta.displayName(lang.getItemName("upgrade.range." + tier));
         meta.lore(lang.getItemLore("upgrade.range"));
         PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(plugin, "upgrade"), PersistentDataType.INTEGER, tier+1);
+        data.set(new NamespacedKey(plugin, "upgrade.range"), PersistentDataType.INTEGER, tier+1);
         upgrade.setItemMeta(meta);
         return upgrade;
     }

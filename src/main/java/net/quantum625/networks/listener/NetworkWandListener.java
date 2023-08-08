@@ -138,7 +138,7 @@ public class NetworkWandListener implements Listener {
                 }
             }
 
-            if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade"), PersistentDataType.INTEGER)) {
+            if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)) {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                     event.setCancelled(true);
                     if (net.getComponentByLocation(l) != null) {
@@ -151,7 +151,7 @@ public class NetworkWandListener implements Listener {
                             else break;
                         }
 
-                        int upgradeTier = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "upgrade"), PersistentDataType.INTEGER);
+                        int upgradeTier = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER);
 
                         if (upgradeTier == tier) {
                             network.setMaxRange(config.getMaxRanges()[tier]);
