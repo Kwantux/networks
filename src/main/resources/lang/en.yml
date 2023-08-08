@@ -111,6 +111,8 @@ component.invalid_block: <prefix><red>Blocks of type </red><1><red> are not allo
 component.nocomponent: <prefix><yellow>This block is not a network component!
 component.priority: <prefix>Component priority set to <1>
 
+location.occupied: <prefix><red>There is already a component at this location!
+
 rangeupgrade.last: <prefix><yellow>You already reached the maximum upgrade level.
 rangeupgrade.alreadyupgraded: <prefix><yellow>You already installed this upgrade, the next upgrade is range Tier <white><1>
 rangeupgrade.unlockfirst: <prefix><yellow>You need to unlock range Tier <white><1><yellow> first!
@@ -139,8 +141,6 @@ wand.info.misc: "<green>Type: <reset>Misc Container<green>\nNetwork: <reset><1><
 
 items.noitems: "<prefix><red>There are no items in your storage network."
 items.message: "<green><bold>Total items in network <white><1><green>:"
-
-value.notpositive: <prefix><red>This value needs to be positive, it was set back to 1.
 
 item.name.wand0: <reset><red>Network Wand
 item.name.wand1: <reset><blue>Priority Wand

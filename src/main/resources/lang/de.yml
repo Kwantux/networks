@@ -110,6 +110,8 @@ component.invalid_block: <prefix><red>Blöcke vom Typ </red><1><red> können kei
 component.nocomponent: <prefix><yellow>Dies ist kein Netzwerkkomponent!
 component.priority: <prefix>Priorität wurde auf <1> gesetzt,
 
+location.occupied: <prefix><red>There is already a component at this location!
+
 rangeupgrade.last: <prefix><yellow>Du hast bereits die höchste Stufe erreicht.
 rangeupgrade.alreadyupgraded: <prefix><yellow>Diese Erweiterung hast du bereits installiert, die nächste Stufe ist <white>Telemetrie Antenne Mk.<1>
 rangeupgrade.unlockfirst: <prefix><yellow>Du musst zuerst Stufe <white><1><yellow> freischalten!
