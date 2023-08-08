@@ -1,7 +1,5 @@
 package net.quantum625.networks.component;
 
-import javax.print.DocFlavor;
-
 public enum ComponentType {
 
     EMPTY,
