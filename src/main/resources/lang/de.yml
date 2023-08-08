@@ -106,6 +106,7 @@ component.sorting.removeitem: <prefix>Item Typ <2> wurde als Filter für die Sor
 component.misc.add: <prefix>Restekiste <1> wurde hinzugefügt zum Netzwerk <2>!
 component.remove: <prefix><red>Komponent bei <1> wurde entfernt.
 component.exploded: <prefix><dark_red>Komponent bei <white><1><dark_red> aus dem Netzwerk <white><2><dark_red> wurde gesprengt!
+component.invalid_block: <prefix><red>Blöcke vom Typ </red><1><red> können keine Netzwerkkomponenten sein!</red>
 component.nocomponent: <prefix><yellow>Dies ist kein Netzwerkkomponent!
 component.priority: <prefix>Priorität wurde auf <1> gesetzt,
 

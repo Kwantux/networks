@@ -114,6 +114,7 @@ public final class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(this), this);
         this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(this, dcd), this);
         this.getServer().getPluginManager().registerEvents(new NetworkWandListener(this, crafting), this);
+        this.getServer().getPluginManager().registerEvents(new RightClickEventListener(this), this);
         this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
         this.getServer().getPluginManager().registerEvents(new InventoryMenuListener(), this);
 
