@@ -9,6 +9,7 @@ import net.quantum625.networks.component.ComponentType;
 import net.quantum625.networks.data.Config;
 import net.quantum625.networks.utils.DoubleChestDisconnecter;
 import net.quantum625.networks.utils.Location;
+import org.bukkit.GameMode;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,7 +20,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.checkerframework.checker.units.qual.N;
+
+import java.util.logging.Logger;
 
 public class RightClickEventListener implements Listener {
 
@@ -29,6 +31,8 @@ public class RightClickEventListener implements Listener {
     private final LanguageController lang;
     private final Config config;
 
+    private final Logger logger;
+
     private DoubleChestDisconnecter dcd;
 
     public RightClickEventListener(Main main) {
@@ -36,6 +40,7 @@ public class RightClickEventListener implements Listener {
         this.net = main.getNetworkManager();
         this.lang = main.getLanguage();
         this.config = main.getConfiguration();
+        this.logger = main.getLogger();
 
         dcd = new DoubleChestDisconnecter(net);
     }
@@ -59,13 +64,13 @@ public class RightClickEventListener implements Listener {
                 ComponentType componentType = ComponentType.get(data.get(key, PersistentDataType.STRING));
                 Network network = net.getSelectedNetwork(p);
 
-                if (network == null) {
-                    lang.message(p, "select.noselection");
+                if (componentType == null) {
+                    logger.severe("Invalid component type: " + data.get(key, PersistentDataType.STRING));
                     return;
                 }
 
-                if (net.getComponentByLocation(pos) != null) {
-                    lang.message(p, "location.occupied");
+                if (network == null) {
+                    lang.message(p, "select.noselection");
                     return;
                 }
 
@@ -74,21 +79,27 @@ public class RightClickEventListener implements Listener {
                     return;
                 }
 
-                if (componentType == null) return;
+                if (net.getComponentByLocation(pos) != null) {
+                    lang.message(p, "location.occupied");
+                    return;
+                }
 
                 switch (componentType) {
                     case INPUT -> {
                         network.addInputContainer(pos);
+                        if (p.getGameMode() != GameMode.CREATIVE) stack.setAmount(stack.getAmount()-1);
                         dcd.checkChest(pos);
                         lang.message(p, "component.input.add", pos.toString(), network.getID());
                     }
                     case SORTING -> {
                         network.addItemContainer(pos, new String[0]);
+                        if (p.getGameMode() != GameMode.CREATIVE) stack.setAmount(stack.getAmount()-1);
                         dcd.checkChest(pos);
                         lang.message(p, "component.sorting.add", pos.toString(), network.getID());
                     }
                     case MISC -> {
                         network.addMiscContainer(pos);
+                        if (p.getGameMode() != GameMode.CREATIVE) stack.setAmount(stack.getAmount()-1);
                         dcd.checkChest(pos);
                         lang.message(p, "component.misc.add", pos.toString(), network.getID());
                     }
