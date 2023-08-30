@@ -18,6 +18,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,11 +35,11 @@ public class CraftingManager {
     private final Config pluginconfig;
 
 
-    private Material rangeUpgradeMaterial;
-    private Material componentUpgradeMaterial;
+    private final Material rangeUpgradeMaterial;
+    private final Material componentUpgradeMaterial;
 
 
-    public static List<NamespacedKey> recipes;
+    public static List<NamespacedKey> recipes = new ArrayList<>();
 
 
 
@@ -207,11 +208,6 @@ public class CraftingManager {
         rangeUpgradeMaterial = pluginconfig.getRangeUpgradeMaterial();
 
         registerRecipes();
-        /*try {
-        } catch (InvalidNodeException e) {
-            logger.severe("A recipe couln't be loaded, because the config file recipes.yml is missing data. Please delete that file and restart the server!");
-            throw new RuntimeException(e);
-        }*/
 
         main.getLogger().info("Initialiased Crafting Recipes");
     }
@@ -266,6 +262,7 @@ public class CraftingManager {
             logger.severe("==============================================================================================================================================");
             File file = new File(plugin.getDataFolder(), "recipes.conf");
             file.delete();
+            e.printStackTrace();
             Bukkit.shutdown();
         }
 
@@ -277,7 +274,56 @@ public class CraftingManager {
 
             ItemStack stack = function.apply(Material.valueOf(container_key));
 
-            registerItem("component." + type + ".block." + container_key, stack);
+            String configPath = "component."+ type + ".block";
+            String registerPath = configPath + "." + container_key;
+
+            try {
+                NamespacedKey key = new NamespacedKey(plugin, registerPath.replace(".", "_"));
+                ShapedRecipe recipe = new ShapedRecipe(key, stack);
+
+                List<String> ingredients = config.getList(configPath, String.class);
+
+                for (String i : ingredients) {
+                    if (i.equalsIgnoreCase("BASE_ITEM")) i = container_key;
+                }
+
+                String[] shape = new String[9];
+
+                for (int i = 0; i < 9; i++) {
+                    if (ingredients.get(i).equalsIgnoreCase("BASE_ITEM")) ingredients.set(i, container_key);
+                    if (ingredients.get(i).equalsIgnoreCase("AIR") || ingredients.get(i).equalsIgnoreCase("EMPTY")) {
+                        shape[i] = " ";
+                    } else {
+                        shape[i] = String.valueOf(keys[i]);
+                    }
+
+                }
+
+                recipe.shape(shape[0] + shape[1] + shape[2], shape[3] + shape[4] + shape[5], shape[6] + shape[7] + shape[8]);
+
+                for (int i = 0; i < 9; i++) {
+                    if (!shape[i].equalsIgnoreCase(" ")) {
+                        try {
+                            recipe.setIngredient(keys[i], Material.valueOf(ingredients.get(i)));
+                        }
+                        catch (IllegalArgumentException e) {
+                            logger.severe(ingredients.get(i) + " is not a valid material, it will replaced with AIR. Recipe " + configPath + " may be broken.");
+                            recipe.setIngredient(keys[i], Material.AIR);
+                        }
+                    }
+                }
+
+                Bukkit.addRecipe(recipe);
+                recipes.add(key);
+            }
+            catch (InvalidNodeException | SerializationException e) {
+                logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, the config file was deleted, server will be restarted...");
+                logger.severe("==============================================================================================================================================");
+                File file = new File(plugin.getDataFolder(), "recipes.conf");
+                file.delete();
+                e.printStackTrace();
+                Bukkit.shutdown();
+            }
 
         }
 

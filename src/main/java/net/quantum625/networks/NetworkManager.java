@@ -3,7 +3,6 @@ package net.quantum625.networks;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.quantum625.config.lang.Language;
 import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.component.BaseComponent;
 import net.quantum625.networks.component.SortingContainer;
@@ -14,6 +13,8 @@ import net.quantum625.networks.utils.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -29,7 +30,7 @@ public final class NetworkManager {
 
     private final ArrayList<UUID> noticedPlayers = new ArrayList<UUID>();
 
-    private final Map<Location, Network> input_locations = new HashMap<Location, Network>();
+    private Map<Location, Network> locations = new HashMap<Location, Network>();
     private Network console_selection = null;
 
     private int lastSave = 0;
@@ -100,20 +101,16 @@ public final class NetworkManager {
         return null;
     }
 
-    public boolean sortContainer(Location pos) {
-        if (input_locations.get(pos) != null) {
-            input_locations.get(pos).sort(pos);
-            return true;
-        }
-        else {
-            for (Network network : listAll()) {
-                if (network.getInputContainerByLocation(pos) != null) {
-                    network.sort(pos);
-                    return true;
-                }
-            }
-        }
-        return false;
+    public void sortContainer(Location pos) {
+        Network n = getNetworkWithComponent(pos);
+        if (n == null) return;
+        n.sort(pos);
+    }
+
+    public void sortItem(ItemStack stack, Location pos, Inventory inventory){
+        Network n = getNetworkWithComponent(pos);
+        if (n == null) return;
+        n.sortItem(stack, pos, inventory);
     }
 
     public ArrayList<Network> listAll() {
@@ -298,12 +295,25 @@ public final class NetworkManager {
 
 
     public Network getNetworkWithComponent(Location location) {
-        for (Network network : networks) {
-            if (network.getComponentByLocation(location) != null) {
-                return network;
+
+        if (locations.get(location) == null) {
+            for (Network network : networks) {
+                if (network.getComponentByLocation(location) != null) {
+                    locations.put(location, network);
+                    return network;
+                }
             }
+            return null;
         }
-        return null;
+        else return locations.get(location);
+    }
+
+    public void clearChache() {
+        locations = new HashMap<Location, Network>();
+    }
+
+    public void removeFromCache(Location location) {
+        locations.remove(location);
     }
 
     public BaseComponent getComponentByLocation(Location location) {

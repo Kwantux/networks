@@ -7,7 +7,7 @@ import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.component.ComponentType;
 import net.quantum625.networks.data.Config;
-import net.quantum625.networks.utils.DoubleChestDisconnecter;
+import net.quantum625.networks.utils.DoubleChestUtils;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.GameMode;
 import org.bukkit.NamespacedKey;
@@ -33,7 +33,7 @@ public class RightClickEventListener implements Listener {
 
     private final Logger logger;
 
-    private DoubleChestDisconnecter dcd;
+    private DoubleChestUtils dcd;
 
     public RightClickEventListener(Main main) {
         plugin = main;
@@ -42,7 +42,7 @@ public class RightClickEventListener implements Listener {
         this.config = main.getConfiguration();
         this.logger = main.getLogger();
 
-        dcd = new DoubleChestDisconnecter(net);
+        dcd = new DoubleChestUtils(net);
     }
 
     @EventHandler(priority= EventPriority.MONITOR, ignoreCancelled = false)

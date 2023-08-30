@@ -9,6 +9,7 @@ import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.component.*;
 import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.data.Config;
+import net.quantum625.networks.utils.DoubleChestUtils;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -30,12 +31,14 @@ public class NetworkWandListener implements Listener {
     private final NetworkManager net;
     private final LanguageController lang;
     private final CraftingManager crafting;
+    private final DoubleChestUtils dcu;
 
-    public NetworkWandListener(Main main, CraftingManager craftingManager) {
+    public NetworkWandListener(Main main, CraftingManager craftingManager, DoubleChestUtils dcu) {
         this.config = main.getConfiguration();
         this.net = main.getNetworkManager();
         this.lang = main.getLanguage();
         this.crafting = craftingManager;
+        this.dcu = dcu;
     }
 
     @EventHandler

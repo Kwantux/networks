@@ -25,6 +25,7 @@ public class InventoryMenuListener implements Listener {
             InventoryMenu menu = InventoryMenuManager.getMenuForPlayer(player);
 
             event.setCancelled(true);
+            if (event.getCurrentItem().getItemMeta() == null) return;
             if (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "menuicon"), PersistentDataType.INTEGER)) {
                 switch (event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "menuicon"), PersistentDataType.INTEGER)) {
                     case 0:

@@ -1,13 +1,12 @@
 package net.quantum625.networks.listener;
 
 import net.kyori.adventure.text.Component;
-import net.quantum625.config.lang.Language;
 import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.data.Config;
-import net.quantum625.networks.utils.DoubleChestDisconnecter;
+import net.quantum625.networks.utils.DoubleChestUtils;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -18,7 +17,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class BlockPlaceEventListener implements Listener {
@@ -27,9 +25,9 @@ public class BlockPlaceEventListener implements Listener {
     private final Config config;
     private final LanguageController lang;
 
-    private final DoubleChestDisconnecter dcd;
+    private final DoubleChestUtils dcd;
 
-    public BlockPlaceEventListener (Main main, DoubleChestDisconnecter doubleChestDisconnecter) {
+    public BlockPlaceEventListener (Main main, DoubleChestUtils doubleChestDisconnecter) {
         this.net = main.getNetworkManager();
         this.config = main.getConfiguration();
         this.lang = main.getLanguage();
