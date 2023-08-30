@@ -17,9 +17,11 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 public class CraftingManager {
@@ -34,6 +36,9 @@ public class CraftingManager {
 
     private Material rangeUpgradeMaterial;
     private Material componentUpgradeMaterial;
+
+
+    public static List<NamespacedKey> recipes;
 
 
 
@@ -216,12 +221,16 @@ public class CraftingManager {
         registerItem("component.input.upgrade", getInputContainer());
         registerItem("component.sorting.upgrade", getSortingContainer());
         registerItem("component.misc.upgrade", getMiscContainer());
+        registerComponent("input", this::getInputContainer);
+        registerComponent("sorting", this::getSortingContainer);
+        registerComponent("misc", this::getMiscContainer);
         registerRangeUpgrades();
     }
 
     private void registerItem(String path, ItemStack result) {
         try {
-            ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, path.replace(".", "_")), result);
+            NamespacedKey key = new NamespacedKey(plugin, path.replace(".", "_"));
+            ShapedRecipe recipe = new ShapedRecipe(key, result);
 
             List<String> ingredients = config.getList(path, String.class);
             String[] shape = new String[9];
@@ -250,69 +259,28 @@ public class CraftingManager {
             }
 
             Bukkit.addRecipe(recipe);
+            recipes.add(key);
         }
         catch (InvalidNodeException | SerializationException e) {
-            logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, please delete this file, restart the server and try again!");
-            throw new RuntimeException(e);
+            logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, the config file was deleted, server will be restarted...");
+            logger.severe("==============================================================================================================================================");
+            File file = new File(plugin.getDataFolder(), "recipes.conf");
+            file.delete();
+            Bukkit.shutdown();
         }
 
     }
 
-    private void registerComponent(String type, Map<Material, ItemStack> component, ItemStack installable) {
+    private void registerComponent(String type, Function<Material, ItemStack> function) {
 
-        registerItem("component." + type + ".upgrade", installable);
+        for (String container_key : pluginconfig.getContainerWhitelist()) {
 
-        String path = "component." + type + ".block";
+            ItemStack stack = function.apply(Material.valueOf(container_key));
 
-        try {
+            registerItem("component." + type + ".block." + container_key, stack);
 
-            for (String container_key : pluginconfig.getContainerWhitelist()) {
-
-                Material baseMaterial = Material.valueOf(container_key);
-
-                ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, path.replace(".", "_") + container_key.toLowerCase()), component.get(baseMaterial));
-
-                List<String> ingredients = config.getList(path, String.class);
-                String[] shape = new String[9];
-
-                for (int i = 0; i < 9; i++) {
-                    if (ingredients.get(i).equalsIgnoreCase("AIR") || ingredients.get(i).equalsIgnoreCase("EMPTY")) {
-                        shape[i] = " ";
-                    } else {
-                        shape[i] = String.valueOf(keys[i]);
-                    }
-
-                }
-
-                recipe.shape(shape[0] + shape[1] + shape[2], shape[3] + shape[4] + shape[5], shape[6] + shape[7] + shape[8]);
-
-                for (int i = 0; i < 9; i++) {
-                    if (!shape[i].equalsIgnoreCase(" ")) {
-
-                        Material material;
-                        try {
-                            material = Material.valueOf(ingredients.get(i));
-                        }
-                        catch (EnumConstantNotPresentException e) {
-                            if (ingredients.get(i).equalsIgnoreCase("BASE_ITEM")) {
-                                material = baseMaterial;
-                            }
-                            else  {
-                                logger.severe(ingredients.get(i) + " is not a valid material, it will replaced with AIR. Recipe " + path + " may be broken.");
-                                material = Material.AIR;
-                            }
-                        }
-                        recipe.setIngredient(keys[i], material);
-                    }
-                }
-
-                Bukkit.addRecipe(recipe);
-            }
         }
-        catch (InvalidNodeException | SerializationException e) {
-            logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, please delete this file, restart the server and try again!");
-            throw new RuntimeException(e);
-        }
+
     }
 
     private void registerRangeUpgrades() {
