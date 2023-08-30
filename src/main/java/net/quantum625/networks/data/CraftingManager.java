@@ -178,7 +178,7 @@ public class CraftingManager {
     }
 
     public ItemStack getRangeUpgrade(int tier) throws InvalidNodeException {
-        ItemStack upgrade = new ItemStack(Material.LIGHTNING_ROD);
+        ItemStack upgrade = new ItemStack(rangeUpgradeMaterial);
         ItemMeta meta = upgrade.getItemMeta();
         meta.displayName(lang.getItemName("upgrade.range." + tier));
         meta.lore(lang.getItemLore("upgrade.range"));
