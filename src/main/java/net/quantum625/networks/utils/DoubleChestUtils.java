@@ -7,14 +7,22 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Chest;
 
-public class DoubleChestDisconnecter {
+public class DoubleChestUtils {
 
     private final NetworkManager net;
 
-    public DoubleChestDisconnecter(NetworkManager net) {
+    public DoubleChestUtils(NetworkManager net) {
         this.net = net;
     }
 
+    public BaseComponent componentAt(Location pos) {
+        BaseComponent component = net.getComponentByLocation(pos);
+        if (component == null && pos.getBlock().getType().equals(Material.CHEST)) {
+            Chest chest = (Chest) pos.getBlock().getBlockData();
+            component = net.getComponentByLocation(shift(pos, chest.getType(), chest.getFacing()));
+        }
+        return component;
+    }
 
     public void checkChest(Location pos) {
 

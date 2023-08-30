@@ -7,7 +7,7 @@ import net.quantum625.networks.commands.CommandManager;
 import net.quantum625.networks.data.Config;
 import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.inventory.InventoryMenuManager;
-import net.quantum625.networks.utils.DoubleChestDisconnecter;
+import net.quantum625.networks.utils.DoubleChestUtils;
 import net.quantum625.networks.listener.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -27,7 +27,7 @@ public final class Main extends JavaPlugin {
     private NetworkManager net = null;
     private Config config;
     private CraftingManager crafting;
-    private DoubleChestDisconnecter dcd;
+    private DoubleChestUtils dcu;
     private LanguageController lang;
 
     @Override
@@ -91,18 +91,18 @@ public final class Main extends JavaPlugin {
         }
 
 
-        this.dcd = new DoubleChestDisconnecter(net);
+        this.dcu = new DoubleChestUtils(net);
 
         this.getServer().getPluginManager().registerEvents(new AutoSave(this), this);
-        this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(this, crafting, dcd), this);
+        this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(this, crafting, dcu), this);
         this.getServer().getPluginManager().registerEvents(new ExplosionListener(this, crafting), this);
-        this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(this, dcu), this);
         this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(this), this);
         this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(this), this);
-        this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(this, dcd), this);
-        this.getServer().getPluginManager().registerEvents(new NetworkWandListener(this, crafting), this);
+        this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(this, dcu), this);
+        this.getServer().getPluginManager().registerEvents(new NetworkWandListener(this, crafting, dcu), this);
         this.getServer().getPluginManager().registerEvents(new RightClickEventListener(this), this);
-        this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
         this.getServer().getPluginManager().registerEvents(new InventoryMenuListener(), this);
 
         if (config.noticeEnabled()) this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(this), this);
