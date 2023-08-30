@@ -9,6 +9,7 @@ import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.component.*;
 import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.data.Config;
+import net.quantum625.networks.utils.DoubleChestUtils;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -30,12 +31,14 @@ public class NetworkWandListener implements Listener {
     private final NetworkManager net;
     private final LanguageController lang;
     private final CraftingManager crafting;
+    private final DoubleChestUtils dcu;
 
-    public NetworkWandListener(Main main, CraftingManager craftingManager) {
+    public NetworkWandListener(Main main, CraftingManager craftingManager, DoubleChestUtils dcu) {
         this.config = main.getConfiguration();
         this.net = main.getNetworkManager();
         this.lang = main.getLanguage();
         this.crafting = craftingManager;
+        this.dcu = dcu;
     }
 
     @EventHandler
@@ -138,7 +141,7 @@ public class NetworkWandListener implements Listener {
                 }
             }
 
-            if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade"), PersistentDataType.INTEGER)) {
+            if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)) {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                     event.setCancelled(true);
                     if (net.getComponentByLocation(l) != null) {
@@ -151,13 +154,13 @@ public class NetworkWandListener implements Listener {
                             else break;
                         }
 
-                        int upgradeTier = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "upgrade"), PersistentDataType.INTEGER);
+                        int upgradeTier = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER);
 
                         if (upgradeTier == tier) {
                             network.setMaxRange(config.getMaxRanges()[tier]);
                             ItemStack item = p.getInventory().getItemInMainHand();
                             item.setAmount(item.getAmount() - 1);
-                            lang.message(p, "rangeupgrade.success", network.getID(), String.valueOf(tier));
+                            lang.message(p, "rangeupgrade.success", String.valueOf(tier), network.getID());
                         }
                         if (tier == config.getMaxRanges().length) {
                             lang.message(p, "rangeupgrade.last");

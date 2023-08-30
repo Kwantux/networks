@@ -303,40 +303,41 @@ public class Network {
                 return;
             }
 
-
             for (ItemStack stack : inventory.getContents()) {
-
                 if (stack != null) {
+                    sortItem(stack, pos, inventory);
+                }
+            }
+        }
+    }
 
-                    sorting_counter += 1;
+    public void sortItem(ItemStack stack, Location pos, Inventory inventory) {
+        sorting_counter += 1;
 
-                    /*
-                    if (stack.getType().isFuel()) {
-                        Furnace furnace = getFurnace(pos, stack.getType().toString().toUpperCase());
-                        if (furnace != null) {
-                            furnace.setFuelSlot(stack);
-                            inventory.removeItem(stack);
-                        }
-                    }
-                    */
+        /*
+        if (stack.getType().isFuel()) {
+            Furnace furnace = getFurnace(pos, stack.getType().toString().toUpperCase());
+            if (furnace != null) {
+                furnace.setFuelSlot(stack);
+                inventory.removeItem(stack);
+            }
+        }
+        */
 
-                    SortingContainer sortingContainer = getSortingContainerByItem(pos, stack.getType().toString().toUpperCase());
-                    if (sortingContainer != null) {
-                        if (!sortingContainer.getInventory().equals(inventory)) {
-                            sortingContainer.getInventory().addItem(stack);
-                            inventory.removeItem(stack);
-                        }
-                    }
+        SortingContainer sortingContainer = getSortingContainerByItem(pos, stack.getType().toString().toUpperCase());
+        if (sortingContainer != null) {
+            if (!sortingContainer.getInventory().equals(inventory)) {
+                sortingContainer.getInventory().addItem(stack);
+                inventory.removeItem(stack);
+            }
+        }
 
-                    else {
-                        MiscContainer miscContainer = getMiscContainer(pos);
-                        if (miscContainer != null) {
-                            if (!miscContainer.getInventory().equals(inventory)) {
-                                miscContainer.getInventory().addItem(stack);
-                                inventory.removeItem(stack);
-                            }
-                        }
-                    }
+        else {
+            MiscContainer miscContainer = getMiscContainer(pos);
+            if (miscContainer != null) {
+                if (!miscContainer.getInventory().equals(inventory)) {
+                    miscContainer.getInventory().addItem(stack);
+                    inventory.removeItem(stack);
                 }
             }
         }

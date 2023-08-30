@@ -13,15 +13,6 @@ import java.util.List;
 
 public final class ConfigurationManager  {
 
-
-    static {
-        Bukkit.getLogger().info("[QuillConfig] Launching QuillConfig v1.0");
-    }
-
-    public static void register(JavaPlugin plugin) {
-        Bukkit.getLogger().info("[QuillConfig] Plugin " + plugin.getName() + " registered on QC ConfigurationManager");
-    }
-
     /**
      * A list of all registered Configuration instances
      */

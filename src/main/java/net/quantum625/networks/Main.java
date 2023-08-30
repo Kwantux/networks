@@ -1,17 +1,13 @@
 package net.quantum625.networks;
 
-
-
-import net.quantum625.config.ConfigurationManager;
 import net.quantum625.manual.Manual;
-import net.quantum625.manual.ManualManager;
 import net.quantum625.updater.Updater;
 import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.commands.CommandManager;
 import net.quantum625.networks.data.Config;
 import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.inventory.InventoryMenuManager;
-import net.quantum625.networks.utils.DoubleChestDisconnecter;
+import net.quantum625.networks.utils.DoubleChestUtils;
 import net.quantum625.networks.listener.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -21,23 +17,17 @@ import java.util.List;
 import java.util.logging.Logger;
 
 
-import static net.gravitydevelopment.updater.Updater.UpdateType.DEFAULT;
-
-
-
 public final class Main extends JavaPlugin {
 
     // CONSTANTS:
     public static boolean forceDisableUpdates = false;
-    public static PublishingPlatform platform = PublishingPlatform.GITHUB;
-
 
     // Variables
     private Logger logger;
     private NetworkManager net = null;
     private Config config;
     private CraftingManager crafting;
-    private DoubleChestDisconnecter dcd;
+    private DoubleChestUtils dcu;
     private LanguageController lang;
 
     @Override
@@ -55,16 +45,13 @@ public final class Main extends JavaPlugin {
 
         logger = getLogger();
 
-        logger.info(startMessage);
-
 
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
 
-        ConfigurationManager.register(this);
-
         try {
+            logger.info("Loading config files...");
             this.config = new Config(this);
         }
         catch (SerializationException e) {
@@ -96,7 +83,6 @@ public final class Main extends JavaPlugin {
         metrics.addCustomChart(new Metrics.SingleLineChart("total_networks", () ->
             net.listAll().size()
         ));
-        metrics.addCustomChart(new Metrics.SimplePie("distribution_site", () -> platform.toString()));
 
         try {
             new CommandManager(this);
@@ -105,21 +91,25 @@ public final class Main extends JavaPlugin {
         }
 
 
-        this.dcd = new DoubleChestDisconnecter(net);
+        this.dcu = new DoubleChestUtils(net);
 
         this.getServer().getPluginManager().registerEvents(new AutoSave(this), this);
-        this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(this, crafting, dcd), this);
+        this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(this, crafting, dcu), this);
         this.getServer().getPluginManager().registerEvents(new ExplosionListener(this, crafting), this);
-        this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(this), this);
-        this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(this, dcu), this);
         this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(this), this);
         this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(this), this);
-        this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(this, dcd), this);
-        this.getServer().getPluginManager().registerEvents(new NetworkWandListener(this, crafting), this);
-        this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(this, dcu), this);
+        this.getServer().getPluginManager().registerEvents(new NetworkWandListener(this, crafting, dcu), this);
+        this.getServer().getPluginManager().registerEvents(new RightClickEventListener(this), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
         this.getServer().getPluginManager().registerEvents(new InventoryMenuListener(), this);
 
+        if (config.noticeEnabled()) this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(this), this);
+
         net.loadData();
+
+        if (config.logoOnLaunch()) logger.info(startMessage);
     }
 
 
@@ -152,81 +142,12 @@ public final class Main extends JavaPlugin {
     }
 
     public void checkForUpdates() {
-        if (config.updateAllowed() && !forceDisableUpdates) {
-            if (platform.equals(PublishingPlatform.BUKKIT)) {
+        // Updates are disabled by default, but can be manually enabled
 
-                // Bukkit downloader
-
-                logger.info("[Updater] Checking for updates...");
-                logger.info("[Updater] If you like to disable this updater, open networks.conf and set 'autoUpdate' to false");
-
-                net.gravitydevelopment.updater.Updater updater = new net.gravitydevelopment.updater.Updater(this, 687035, this.getFile(), DEFAULT, true);
-                net.gravitydevelopment.updater.Updater.UpdateResult result = updater.getResult();
-
-                switch (result) {
-                    case SUCCESS:
-                        getLogger().info("[Updater] Successfully updated plugin.");
-                        getLogger().info("[Updater] It is recommended to restart the server now.");
-                        break;
-                    case NO_UPDATE:
-                        getLogger().info("[Updater] No update found.");
-                        break;
-                    case DISABLED:
-                        getLogger().info("[Updater] Updating was disabled in the configs.");
-                        break;
-                    default:
-                        getLogger().warning("[Updater] An unexpected error occurred while trying to update the plugin");
-                }
-
-                return;
-            }
-
-            if (platform.equals(PublishingPlatform.MODRINTH) || platform.equals(PublishingPlatform.GITHUB)) {
-
-                // Modrinth downloader
-
-                Updater updater = new Updater(this, "Networks", "KKr3r1PM", true);
-                Updater.UpdateResult result = updater.update(Updater.ReleaseType.STABLE, getFile());
-                if (!List.of(Updater.UpdateResult.SUCCESS, Updater.UpdateResult.NO_UPDATE, Updater.UpdateResult.DISABLED).contains(result)) {
-                    logger.info("[PluginUpdater] Update Result: " + result);
-                }
-
-                return;
-            }
-
-
-
-            if (platform.equals(PublishingPlatform.HANGAR)) {
-                //TODO: Implement this
-            }
-
-            if (platform.equals(PublishingPlatform.SPIGOT)) {
-                //TODO: Implement this
-            }
-
-
+        Updater updater = new Updater(this, getFile(), "Networks", "KKr3r1PM");
+        if (!List.of(Updater.UpdateResult.SUCCESS, Updater.UpdateResult.NO_UPDATE, Updater.UpdateResult.DISABLED).contains(updater.updateResult)) {
+            logger.info("[PluginUpdater] Update Result: " + updater.updateResult);
         }
-
-
-        // Does not install the update, only checks for the version
-        Updater updater = new net.quantum625.updater.Updater(this, "Networks", "KKr3r1PM", false);
-        Updater.LinkResult linkResult = updater.getLink(Updater.ReleaseType.STABLE);
-        if (linkResult.wasSuccessful()) {
-            logger.info("[PluginUpdater] Version " + linkResult.getVersion() + " of Networks is now available!");
-            logger.info("[PluginUpdater] Download on Modrinth:  https://modrinth.com/plugin/networks");
-            logger.info("[PluginUpdater] Download on Hangar:    https://hangar.papermc.io/quantum625/networks");
-            logger.info("[PluginUpdater] Download on Bukkit:    https://curseforge.com/minecraft/bukkit-plugins/networks");
-        }
-    }
-
-
-    public enum PublishingPlatform {
-        MODRINTH,
-        BUKKIT,
-        SPIGOT,
-        HANGAR,
-        GITHUB,
-        OTHER
     }
 
 

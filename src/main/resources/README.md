@@ -1,4 +1,4 @@
-# Networks v2.1.0
+# Networks v2.1.1
 
 
 ## Report any bugs on Discord or Github
@@ -14,6 +14,8 @@ If you need help with the plugin, feel free to ask your question on our discord!
 [Modrinth](https://modrinth.com/plugin/networks)
 
 [Bukkit](https://dev.bukkit.org/projects/networks)
+
+[Hangar](https://hangar.papermc.io/Quantum625/Networks)
 
 Wiki (Coming Soon!)
 

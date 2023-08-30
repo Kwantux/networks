@@ -1,6 +1,5 @@
 package net.quantum625.networks.listener;
 
-import net.quantum625.config.lang.Language;
 import net.quantum625.config.lang.LanguageController;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
 import net.quantum625.networks.Main;
@@ -10,41 +9,30 @@ import net.quantum625.networks.component.BaseComponent;
 import net.quantum625.networks.component.InputContainer;
 import net.quantum625.networks.component.SortingContainer;
 import net.quantum625.networks.component.MiscContainer;
-import net.quantum625.networks.data.Config;
 import net.quantum625.networks.data.CraftingManager;
-import net.quantum625.networks.utils.DoubleChestDisconnecter;
+import net.quantum625.networks.utils.DoubleChestUtils;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.spongepowered.configurate.serialize.SerializationException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BlockBreakEventListener implements Listener {
 
     private final NetworkManager net;
     private final CraftingManager crafting;
-    private Config config;
-    private final DoubleChestDisconnecter dcd;
+    private final DoubleChestUtils dcu;
     private final LanguageController lang;
 
 
-    public BlockBreakEventListener(Main main, CraftingManager craftingManager, DoubleChestDisconnecter doubleChestDisconnecter) {
+    public BlockBreakEventListener(Main main, CraftingManager craftingManager, DoubleChestUtils doubleChestDisconnecter) {
         net = main.getNetworkManager();
         crafting = craftingManager;
         lang = main.getLanguage();
-        dcd = doubleChestDisconnecter;
-        this.config = config;
+        dcu = doubleChestDisconnecter;
     }
 
     @EventHandler (priority = EventPriority.HIGHEST)
@@ -54,7 +42,7 @@ public class BlockBreakEventListener implements Listener {
             for (BaseComponent component : network.getAllComponents()) {
                 if (component.getPos().equals(new Location(event.getBlock()))) {
                     
-                    dcd.disconnectChests(component.getPos());
+                    dcu.disconnectChests(component.getPos());
                     
                     if (net.checkNetworkPermission(event.getPlayer(), network) > 1) {
                         if (component instanceof InputContainer) {
@@ -80,7 +68,9 @@ public class BlockBreakEventListener implements Listener {
                                 Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), stack);
                             }
                         }
-                        network.removeComponent(new Location(event.getBlock()));
+                        Location location = new Location(event.getBlock());
+                        network.removeComponent(location);
+                        net.removeFromCache(location);
                         lang.message(event.getPlayer(), "component.remove", new Location(event.getBlock()).toString());
                     }
                     else {

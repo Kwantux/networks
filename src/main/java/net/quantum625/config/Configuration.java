@@ -249,13 +249,6 @@ public final class Configuration extends RawConfiguration {
                 Bukkit.getPluginManager().disablePlugin(plugin);
             }
 
-            try {
-                ingameEdit = getBoolean("allowIngameEdit");
-            }
-            catch (InvalidNodeException e) {
-                set("allowIngameEdit", ingameEdit);
-            }
-
         } catch (final ConfigurateException e) {
             logger.severe("[QC] Could not load configuration " + filename + ": Invalid Syntax");
             throw new RuntimeException(e);
@@ -278,35 +271,6 @@ public final class Configuration extends RawConfiguration {
         } catch (final ConfigurateException e) {
             logger.severe("[QC] Unable to save configuration file " + filename + ":\n" + e.getMessage());
         }
-    }
-
-
-    /**
-     * Enables the /config edit command for this file
-     * (Disabled by default)
-     */
-    public void enableIngameChange() {
-        ingameEdit = true;
-        set("allowIngameEdit", ingameEdit, "Whether values in this config files are changable via /config set ");
-    }
-
-
-    /**
-     * Disables the /config edit command for this file
-     * (Disabled by default)
-     */
-    public void disableIngameChange() {
-        ingameEdit = false;
-        set("allowIngameEdit", ingameEdit, "Whether values in this config files are changable via /config set ");
-
-    }
-
-
-    /**
-     * @return Whether, using /config edit is allowed for this config file
-     */
-    public boolean ingameChangeEnabled() {
-        return ingameEdit;
     }
 
 

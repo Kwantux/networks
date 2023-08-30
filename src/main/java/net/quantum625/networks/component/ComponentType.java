@@ -4,8 +4,17 @@ public enum ComponentType {
 
     EMPTY,
     INPUT,
+    FILTERED_INPUT,
     SORTING,
     MISC,
     FURNACE,
-    REQUEST,
+    REQUEST;
+
+    public static ComponentType get(String componentType) {
+        try  {
+            return ComponentType.valueOf(componentType.toUpperCase());
+        } catch (IllegalArgumentException | EnumConstantNotPresentException e) {
+            return null;
+        }
+    }
 }

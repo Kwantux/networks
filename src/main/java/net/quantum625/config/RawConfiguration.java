@@ -16,7 +16,6 @@ public abstract class RawConfiguration {
     protected JavaPlugin plugin;
     protected Logger logger = Bukkit.getLogger();
     protected String path;
-    protected boolean ingameEdit = false;
     protected List<String> requirements = new ArrayList<String>();
 
 
@@ -69,12 +68,6 @@ public abstract class RawConfiguration {
         }
         return result;
     }
-
-
-    public abstract void enableIngameChange();
-
-    public abstract void disableIngameChange();
-    public abstract boolean ingameChangeEnabled();
 
 
     //abstract ConfigurationNode get(String path) throws InvalidNodeException;
