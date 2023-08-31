@@ -29,9 +29,15 @@ To install components (input/sorting/misc chests), first select your network, th
 If you want your component to be a double chest, just place a normal chest next to it, so they connect.\n\n"
 
   - "\n
-         <bold><dark_green>[Network Wand]</dark_green></bold>\n
-         \n
-You should craft a network wand to configure the filters of your sorting containers.\n\n"
+           <bold><dark_green>[Network Wand]</dark_green></bold>\n
+           \n
+  You should craft a network wand to configure the filters of your sorting containers.\n\n"
   - "\n
-The network wand can also be used to view information about a component and to define container priorities (What chest should be filled up first)
-"
+  The network wand can also be used to view information about a component and to define container priorities (What chest should be filled up first)
+  "
+
+  - "\n
+           <bold><dark_green>[Range Upgrades]</dark_green></bold>\n
+ \n
+  An input chest can only transfer items a specific distance.\n\n
+  Increase this by crafting antennas and right click them on any network component."

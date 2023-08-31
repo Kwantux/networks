@@ -37,3 +37,9 @@ Zum weiteren Bearbeiten deines Netzwerks benötigst du einen Netzwerk Konfigurat
   - "\n
 Mit dem Netzwerk Konfigurator kannst du Filter für Sortierkisten setzen, Informationen über einen Komponenten anzeigen und die Priorität eines Komponenten ändern. (Also welche Kiste zuerst gefüllt wird)
 "
+
+  - "\n
+            <bold><dark_green>[Reichweite]</dark_green></bold>\n
+  \n
+  Eine Einfüllkiste kann die Items nur eien bestimmte Distanz teleportieren.\n\n
+  Diese kannst du erhöhen, indem du Antennen craftest und damit auf eine Netzwerkkiste klickst."
