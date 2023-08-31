@@ -174,7 +174,7 @@ item.lore.sorting:
 item.lore.misc:
   - "<reset><blue>Alle übrigen items gehen in diese Kisten"
 
-item.lore.upgrade:
+item.lore.upgrade.range:
   - "<reset>Klicke hiermit auf einen Netzwerkkomponenten, um diese Erweiterung zu installieren"
 
 notice: <yellow>Inventar Probleme? Probier mal <white>/networks <yellow>und erstelle dein vollautomatisches Lagersystem!

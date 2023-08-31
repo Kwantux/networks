@@ -33,7 +33,7 @@ public class RightClickEventListener implements Listener {
 
     private final Logger logger;
 
-    private DoubleChestUtils dcd;
+    private DoubleChestUtils dcu;
 
     public RightClickEventListener(Main main) {
         plugin = main;
@@ -42,7 +42,7 @@ public class RightClickEventListener implements Listener {
         this.config = main.getConfiguration();
         this.logger = main.getLogger();
 
-        dcd = new DoubleChestUtils(net);
+        dcu = new DoubleChestUtils(net);
     }
 
     @EventHandler(priority= EventPriority.MONITOR, ignoreCancelled = false)
@@ -88,19 +88,20 @@ public class RightClickEventListener implements Listener {
                     case INPUT -> {
                         network.addInputContainer(pos);
                         if (p.getGameMode() != GameMode.CREATIVE) stack.setAmount(stack.getAmount()-1);
-                        dcd.checkChest(pos);
+                        dcu.checkChest(pos);
+
                         lang.message(p, "component.input.add", pos.toString(), network.getID());
                     }
                     case SORTING -> {
                         network.addItemContainer(pos, new String[0]);
                         if (p.getGameMode() != GameMode.CREATIVE) stack.setAmount(stack.getAmount()-1);
-                        dcd.checkChest(pos);
+                        dcu.checkChest(pos);
                         lang.message(p, "component.sorting.add", pos.toString(), network.getID());
                     }
                     case MISC -> {
                         network.addMiscContainer(pos);
                         if (p.getGameMode() != GameMode.CREATIVE) stack.setAmount(stack.getAmount()-1);
-                        dcd.checkChest(pos);
+                        dcu.checkChest(pos);
                         lang.message(p, "component.misc.add", pos.toString(), network.getID());
                     }
                 }

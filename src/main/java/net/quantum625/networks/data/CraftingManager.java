@@ -15,8 +15,10 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.checkerframework.checker.units.qual.N;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import javax.naming.Name;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -335,7 +337,9 @@ public class CraftingManager {
 
                 String path = "upgrade.range." + i;
 
-                ShapedRecipe recipe = new ShapedRecipe(new NamespacedKey(plugin, path.replace(".", "_")), getRangeUpgrade(i));
+                NamespacedKey key = new NamespacedKey(plugin, path.replace(".", "_"));
+
+                ShapedRecipe recipe = new ShapedRecipe(key, getRangeUpgrade(i));
 
                 List<String> ingredients = config.getList(path, String.class);
                 String[] shape = new String[9];
@@ -363,6 +367,7 @@ public class CraftingManager {
                 }
 
                 Bukkit.addRecipe(recipe);
+                recipes.add(key);
             }
         }
         catch (InvalidNodeException | SerializationException e) {
