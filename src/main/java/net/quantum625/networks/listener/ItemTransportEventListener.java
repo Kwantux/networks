@@ -4,7 +4,6 @@ import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
 import net.quantum625.networks.component.InputContainer;
-import net.quantum625.networks.data.Config;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

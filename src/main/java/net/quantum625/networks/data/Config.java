@@ -10,7 +10,6 @@ import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 
-import java.io.File;
 import java.util.List;
 import java.util.logging.Logger;
 

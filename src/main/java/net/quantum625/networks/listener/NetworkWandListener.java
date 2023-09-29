@@ -1,6 +1,5 @@
 package net.quantum625.networks.listener;
 
-import net.quantum625.config.lang.Language;
 import net.quantum625.config.lang.LanguageController;
 import net.quantum625.config.util.exceptions.InvalidNodeException;
 import net.quantum625.networks.Main;
@@ -11,7 +10,6 @@ import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.data.Config;
 import net.quantum625.networks.utils.DoubleChestUtils;
 import net.quantum625.networks.utils.Location;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
