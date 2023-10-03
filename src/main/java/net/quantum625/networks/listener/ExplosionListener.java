@@ -1,8 +1,6 @@
 package net.quantum625.networks.listener;
 
-import net.quantum625.config.lang.Language;
 import net.quantum625.config.lang.LanguageController;
-import net.quantum625.config.util.exceptions.InvalidNodeException;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
@@ -15,20 +13,14 @@ import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class ExplosionListener implements Listener {
