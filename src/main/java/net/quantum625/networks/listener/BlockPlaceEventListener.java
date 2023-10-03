@@ -63,16 +63,17 @@ public class BlockPlaceEventListener implements Listener {
                         }
 
                         if (componentType.equals("sorting")) {
-                            if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING)) {
-                                String[] items = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING).toUpperCase().split(",");
 
-                                net.getSelectedNetwork(p).addItemContainer(pos, items);
-                                dcd.checkChest(pos);
-                                lang.message(p, "component.sorting.add", network.getID(), pos.toString());
-                                return;
+                            String[] items = {};
+
+                            if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING)) {
+
+                                items = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "filter_items"), PersistentDataType.STRING).toUpperCase().split(",");
                             }
 
-                            lang.message(p, "component.sorting.noitem");
+                            net.getSelectedNetwork(p).addItemContainer(pos, items);
+                            dcd.checkChest(pos);
+                            lang.message(p, "component.sorting.add", network.getID(), pos.toString());
                             return;
                         }
 
