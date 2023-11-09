@@ -1,4 +1,4 @@
-# Networks v2.1.3
+# Networks v2.1.4
 
 
 ## Report any bugs on Discord or Github
@@ -17,8 +17,7 @@ If you need help with the plugin, feel free to ask your question on our discord!
 
 [Hangar](https://hangar.papermc.io/NanoFlux/Networks)
 
-Wiki (Coming Soon!)
-
+[Wiki](https://networks.quantumflux.de)
 ---
 
 # Configurations
