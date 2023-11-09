@@ -75,7 +75,6 @@ public final class Configuration extends RawConfiguration {
     protected void update() {
         reload();
         try {
-            System.out.println(filepath);
             plugin.saveResource(filepath, true);
         }
         catch (IllegalArgumentException e) {
