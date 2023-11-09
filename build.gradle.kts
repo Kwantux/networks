@@ -6,6 +6,7 @@ plugins {
     signing
     id("xyz.jpenilla.run-paper") version "2.0.1"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "net.quantum625"
@@ -20,8 +21,8 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
     implementation("net.kyori", "adventure-text-minimessage", "4.13.1")
-    bukkitLibrary("org.spongepowered", "configurate-hocon", "4.1.2")
-    bukkitLibrary("org.spongepowered", "configurate-yaml", "4.1.2")
+    implementation("org.spongepowered", "configurate-hocon", "4.1.2")
+    implementation("org.spongepowered", "configurate-yaml", "4.1.2")
     bukkitLibrary("cloud.commandframework", "cloud-paper", "1.8.1")
     bukkitLibrary("com.google.code.gson", "gson", "2.9.0")
 }
@@ -57,7 +58,11 @@ bukkit {
 }
 
 tasks {
+    shadowJar {
+        relocate("org.spongepowered", "net.quantum625.config")
+        relocate("org.spongepowered", "net.quantum625.config")
+    }
     runServer {
-        minecraftVersion("1.20")
+        minecraftVersion("1.20.2")
     }
 }

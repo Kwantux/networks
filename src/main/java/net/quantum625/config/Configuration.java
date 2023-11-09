@@ -57,6 +57,8 @@ public final class Configuration extends RawConfiguration {
                 .build();
 
         this.logger = plugin.getLogger();
+
+
         
         
         ConfigurationManager.addConfiguration(this);
@@ -73,6 +75,7 @@ public final class Configuration extends RawConfiguration {
     protected void update() {
         reload();
         try {
+            System.out.println(filepath);
             plugin.saveResource(filepath, true);
         }
         catch (IllegalArgumentException e) {
@@ -94,12 +97,12 @@ public final class Configuration extends RawConfiguration {
 
         } catch (final ConfigurateException e) {
             logger.severe("[QC] Error while loading default config file from jar class:");
-            new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
         if (defaultConfig == null) {
             logger.severe("[QC] Error while loading default config file from jar class");
-            new RuntimeException("Default config is null!");
+            throw new RuntimeException("Default config is null!");
         }
 
         root = root.mergeFrom(defaultConfig);
@@ -317,6 +320,7 @@ public final class Configuration extends RawConfiguration {
             return get(path).getList(type);
         }
         catch (SerializationException e) {
+            e.printStackTrace();
             throw new SerializationException("Unmatching data types found while serializing node " + path);
         }
     }
@@ -382,9 +386,11 @@ public final class Configuration extends RawConfiguration {
             return get(path).getList(type);
         }
         catch (SerializationException e) {
+            e.printStackTrace();
             logger.severe("[QC] SerializationException: Unmatching data types found while serializing node " + path);
         }
         catch (InvalidNodeException e) {
+            e.printStackTrace();
             logger.severe("[QC] InvalidNodeException: Request for non-existent node: " + path);
         }
         return null;

@@ -8,6 +8,8 @@ public class InputContainer extends BaseComponent {
         super(pos);
     }
 
+    private int range = 0;
+
     @Override
     public ComponentType getType() {return ComponentType.INPUT;}
 }
