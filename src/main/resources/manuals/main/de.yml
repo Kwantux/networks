@@ -15,9 +15,9 @@ Sortierkisten können beliebig viele Items als Filter haben.\n"
   - "\n
 <bold><dark_green>[Netzwerke Erstellen]</dark_green></bold>\n
        \n
-Erstelle ein Netzwerk mit <red><click:suggest_command:/net create>/net create (id)</click></red> \n
+Erstelle ein Netzwerk mit <red><click:suggest_command:/manager create>/manager create (id)</click></red> \n
 (id) ist der Name deines Netzwerks, du brauchst ihn zum bearbeiten. \n
-Dein Netzwerk kannst du mit <red><click:suggest_command:/net select>/net select (id)</click></red> auswählen.
+Dein Netzwerk kannst du mit <red><click:suggest_command:/manager select>/manager select (id)</click></red> auswählen.
 "
 
   - "\n

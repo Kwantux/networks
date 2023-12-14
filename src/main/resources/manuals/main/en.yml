@@ -15,9 +15,9 @@ Sorting chests can have multiple item filters, including unstackable items.\n"
   - "\n
        <bold><dark_green>[Network Creation]</dark_green></bold>\n
        \n
-To create a network, type <red><click:suggest_command:/net create>/net create (id)</click></red> \n
+To create a network, type <red><click:suggest_command:/manager create>/manager create (id)</click></red> \n
 (id) is the unique identifier of your network, you need it to edit your network. \n
-To edit your network, type <red><click:suggest_command:/net select>/net select (id)</click></red> to select your network.
+To edit your network, type <red><click:suggest_command:/manager select>/manager select (id)</click></red> to select your network.
 "
 
   - "\n

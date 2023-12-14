@@ -1,15 +1,18 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+import net.minecrell.pluginyml.paper.PaperPluginDescription
 
 plugins {
     `java-library`
     `maven-publish`
     signing
-    id("xyz.jpenilla.run-paper") version "2.0.1"
-    id("net.minecrell.plugin-yml.bukkit") version "0.5.3"
+    id("xyz.jpenilla.run-paper") version "2.2.2"
+    id("net.minecrell.plugin-yml.paper") version "0.6.0"
 }
 
-group = "net.quantum625"
-version = "2.1.2"
+runPaper.folia.registerTask()
+
+group = "dev.nanoflux"
+version = "3.0.0"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -19,22 +22,25 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
-    implementation("net.kyori", "adventure-text-minimessage", "4.13.1")
-    bukkitLibrary("org.spongepowered", "configurate-hocon", "4.1.2")
-    bukkitLibrary("org.spongepowered", "configurate-yaml", "4.1.2")
-    bukkitLibrary("cloud.commandframework", "cloud-paper", "1.8.1")
-    bukkitLibrary("com.google.code.gson", "gson", "2.9.0")
+    paperLibrary("net.kyori", "adventure-text-minimessage", "4.13.1")
+    paperLibrary("org.spongepowered", "configurate-hocon", "4.1.2")
+    paperLibrary("org.spongepowered", "configurate-yaml", "4.1.2")
+    paperLibrary("cloud.commandframework", "cloud-paper", "1.8.4")
+    paperLibrary("com.google.code.gson", "gson", "2.10.1")
 }
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
-bukkit {
-    main = "net.quantum625.networks.Main"
+paper {
+    main = "dev.nanoflux.networks.Main"
+    loader = "dev.nanoflux.networks.Loader"
     apiVersion = "1.19"
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
-    authors = listOf("Quantum625")
+    website = "https://github.com/NanoFlux/Networks"
+    authors = listOf("NanoFlux")
+    prefix = "networks"
 
     permissions {
         register("networks.create") {
@@ -54,10 +60,14 @@ bukkit {
             default = BukkitPluginDescription.Permission.Default.OP // TRUE, FALSE, OP or NOT_OP
         }
     }
+
+    generateLibrariesJson = true
+
+    foliaSupported = true
 }
 
 tasks {
     runServer {
-        minecraftVersion("1.20")
+        minecraftVersion("1.20.2")
     }
 }
