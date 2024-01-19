@@ -311,7 +311,7 @@ public class Network {
         }
     }
 
-    public void sortItem(ItemStack stack, Location pos, Inventory inventory) {
+    public boolean sortItem(ItemStack stack, Location pos, Inventory inventory) {
         sorting_counter += 1;
 
         /*
@@ -329,18 +329,20 @@ public class Network {
             if (!sortingContainer.getInventory().equals(inventory)) {
                 sortingContainer.getInventory().addItem(stack);
                 inventory.removeItem(stack);
+                return true;
             }
         }
 
-        else {
-            MiscContainer miscContainer = getMiscContainer(pos);
-            if (miscContainer != null) {
-                if (!miscContainer.getInventory().equals(inventory)) {
-                    miscContainer.getInventory().addItem(stack);
-                    inventory.removeItem(stack);
-                }
+        MiscContainer miscContainer = getMiscContainer(pos);
+        if (miscContainer != null) {
+            if (!miscContainer.getInventory().equals(inventory)) {
+                miscContainer.getInventory().addItem(stack);
+                inventory.removeItem(stack);
+                return true;
             }
         }
+
+        return false;
     }
 
     public ArrayList<ItemStack> getItems() {

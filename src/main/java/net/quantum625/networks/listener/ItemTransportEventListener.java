@@ -28,8 +28,9 @@ public class ItemTransportEventListener implements Listener {
         if (network == null) return;
         InputContainer container = network.getInputContainerByLocation(location);
         if (container != null) {
-            net.sortItem(event.getItem().clone(), location, container.getInventory());
-            event.setItem(new ItemStack(Material.AIR));
+            if (net.sortItem(event.getItem().clone(), location, container.getInventory())) {
+                event.setItem(new ItemStack(Material.AIR));
+            }
         }
     }
 }
