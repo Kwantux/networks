@@ -32,9 +32,10 @@ public class HopperCollectEventListener implements Listener {
             InputContainer container = network.getInputContainerByLocation(location);
             if (container != null) {
                 ItemStack stack = event.getItem().getItemStack();
-                net.sortItem(stack, location, container.getInventory());
-                event.setCancelled(true);
-                event.getItem().remove();
+                if (net.sortItem(stack, location, container.getInventory())) {
+                    event.setCancelled(true);
+                    event.getItem().remove();
+                }
             }
         }
     }

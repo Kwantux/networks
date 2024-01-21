@@ -28,6 +28,7 @@ public class Config {
 
             config.require("blastProofComponents");
             config.require("autoUpdate");
+            config.require("maxNetworks");
             config.require("notice");
             config.require("lang");
             config.require("containerWhitelist");
@@ -46,6 +47,10 @@ public class Config {
 
     public boolean updateAllowed() {return config.getFinalBoolean("autoUpdate");}
     public boolean noticeEnabled() {return config.getFinalBoolean("notice");}
+
+    public int maxNetworks() {
+        return config.getFinalInt("maxNetworks");
+    }
 
     public void setLanguage(String language) {
         config.set("lang", language);

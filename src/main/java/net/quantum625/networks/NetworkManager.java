@@ -107,10 +107,10 @@ public final class NetworkManager {
         n.sort(pos);
     }
 
-    public void sortItem(ItemStack stack, Location pos, Inventory inventory){
+    public boolean sortItem(ItemStack stack, Location pos, Inventory inventory){
         Network n = getNetworkWithComponent(pos);
-        if (n == null) return;
-        n.sortItem(stack, pos, inventory);
+        if (n == null) return false;
+        return n.sortItem(stack, pos, inventory);
     }
 
     public ArrayList<Network> listAll() {
