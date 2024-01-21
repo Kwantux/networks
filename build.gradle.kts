@@ -63,6 +63,6 @@ tasks {
         relocate("org.spongepowered", "net.quantum625.config")
     }
     runServer {
-        minecraftVersion("1.20.2")
+        minecraftVersion("1.20.4")
     }
 }
