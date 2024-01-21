@@ -1,7 +1,6 @@
 package net.quantum625.networks;
 
 import net.quantum625.manual.Manual;
-import net.quantum625.updater.Updater;
 import net.quantum625.config.lang.LanguageController;
 import net.quantum625.networks.commands.CommandManager;
 import net.quantum625.networks.data.Config;
@@ -18,9 +17,6 @@ import java.util.logging.Logger;
 
 
 public final class Main extends JavaPlugin {
-
-    // CONSTANTS:
-    public static boolean forceDisableUpdates = false;
 
     // Variables
     private Logger logger;
@@ -72,10 +68,6 @@ public final class Main extends JavaPlugin {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-        checkForUpdates();
-
 
         // bStats Metrics
         int pluginId = 18609;
@@ -139,15 +131,6 @@ public final class Main extends JavaPlugin {
 
     public Config getConfiguration() {
         return config;
-    }
-
-    public void checkForUpdates() {
-        // Updates are disabled by default, but can be manually enabled
-
-        Updater updater = new Updater(this, getFile(), "Networks", "KKr3r1PM");
-        if (!List.of(Updater.UpdateResult.SUCCESS, Updater.UpdateResult.NO_UPDATE, Updater.UpdateResult.DISABLED).contains(updater.updateResult)) {
-            logger.info("[PluginUpdater] Update Result: " + updater.updateResult);
-        }
     }
 
 
