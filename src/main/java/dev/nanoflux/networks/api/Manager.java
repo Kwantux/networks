@@ -2,9 +2,13 @@ package dev.nanoflux.networks.api;
 
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.component.NetworkComponent;
-import dev.nanoflux.networks.utils.Location;
+import dev.nanoflux.networks.utils.BlockLocation;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -14,14 +18,14 @@ public interface Manager {
 
     Network getFromName(String id);
 
-    NetworkComponent getComponent(Location location);
-    Network getNetworkWithComponent(Location location);
+    NetworkComponent getComponent(BlockLocation location);
+    Network getNetworkWithComponent(BlockLocation location);
 
     boolean delete(String id);
 
     boolean rename(String id, String newid);
 
-    ArrayList<Network> getNetworks();
+    Collection<Network> getNetworks();
 
     Set<String> getNetworkIDs();
 
@@ -29,4 +33,18 @@ public interface Manager {
     void loadData();
 
     void saveData();
+
+    List<Network> withUser(UUID uniqueId);
+
+    List<Network> withOwner(UUID uniqueId);
+
+    @Nullable Network selection(CommandSender sender);
+    void select(CommandSender sender, Network network);
+
+    boolean permissionOwner(CommandSender sender, Network network);
+    boolean permissionUser(CommandSender sender, Network network);
+
+
+    boolean force(Player player);
+    boolean forceToggle(Player player);
 }

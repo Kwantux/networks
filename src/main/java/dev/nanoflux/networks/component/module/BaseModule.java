@@ -1,9 +1,9 @@
 package dev.nanoflux.networks.component.module;
 
-import dev.nanoflux.networks.utils.Location;
+import dev.nanoflux.networks.utils.BlockLocation;
 import org.bukkit.inventory.Inventory;
 
 public interface BaseModule {
-    Location pos();
+    BlockLocation pos();
     Inventory inventory();
 }

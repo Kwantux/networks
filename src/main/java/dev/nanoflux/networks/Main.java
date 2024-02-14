@@ -2,18 +2,16 @@ package dev.nanoflux.networks;
 
 import dev.nanoflux.config.lang.LanguageController;
 import dev.nanoflux.manual.Manual;
-import dev.nanoflux.manual.commands.CommandManager;
-import dev.nanoflux.networks.component.ComponentType;
-import dev.nanoflux.networks.component.component.InputContainer;
+import dev.nanoflux.networks.commands.CommandManager;
 import dev.nanoflux.networks.component.component.MiscContainer;
 import dev.nanoflux.networks.component.component.SortingContainer;
+import dev.nanoflux.networks.event.ComponentListener;
+import dev.nanoflux.networks.utils.BlockLocation;
 import dev.nanoflux.networks.utils.DoubleChestUtils;
-import dev.nanoflux.networks.utils.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
-import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -66,12 +64,6 @@ public final class Main extends JavaPlugin {
 
         new Manual(this, "main", config.getLanguage());
 
-        try {
-            new dev.nanoflux.manual.commands.CommandManager(this);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
 
         // bStats Metrics
         int pluginId = 18609;
@@ -105,14 +97,15 @@ public final class Main extends JavaPlugin {
 
         manager.loadData();
 
+        new ComponentListener(this);
+
         if (config.logoOnLaunch()) logger.info(startMessage);
 
-        manager.create("test", UUID.randomUUID());
-        Network network =manager.getFromName("test");
-        manager.addComponent("test", new MiscContainer(new Location(0, 0, 0, UUID.randomUUID())));
-        String[] filters = {"grass_block", "dirt"};
-        manager.addComponent("test", new SortingContainer(new Location(0, 0, 0, UUID.randomUUID()), filters));
-        manager.saveData();
+//        manager.constructor("test", UUID.randomUUID());
+//        manager.addComponent("test", new MiscContainer(new BlockLocation(0, 0, 0, UUID.randomUUID())));
+//        String[] filters = {"grass_block", "dirt"};
+//        manager.addComponent("test", new SortingContainer(new BlockLocation(0, 0, 0, UUID.randomUUID()), filters));
+//        manager.saveData();
     }
 
 
@@ -124,14 +117,6 @@ public final class Main extends JavaPlugin {
         if (manager != null) manager.saveData();
     }
 
-
-    private final String oldStartMessage =
-            "\n        _   __     __                      __                ___    ___" +
-            "\n       / | / /__  / /__      ______  _____/ /_______   _   _|__ \\ /_  /" +
-            "\n      /  |/ / _ \\/ __/ | /| / / __ \\/ ___/ //_/ ___/  | | / /_/ /  / / " +
-            "\n     / /|  /  __/ /_ | |/ |/ / /_/ / /  / ,< (__  )   | |/ / __/_ / /  " +
-            "\n    /_/ |_/\\___/\\__/ |__/|__/\\____/_/  /_/|_/____/    |___/____(_)_/   " +
-            "\n";
 
     private final String largeStartMessage =
     """
@@ -150,7 +135,6 @@ public final class Main extends JavaPlugin {
       / |/ /__ / /__    _____  ____/ /__ ___    _  __|_  / / _ \\
      /    / -_) __/ |/|/ / _ \\/ __/  '_/(_-<   | |/ //_ <_/ // /
     /_/|_/\\__/\\__/|__,__/\\___/_/ /_/\\_\\/___/   |___/____(_)___/\s
-                                                               \s
     """;
 
     public LanguageController getLanguage() {

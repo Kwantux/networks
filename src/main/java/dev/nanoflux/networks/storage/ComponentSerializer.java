@@ -13,8 +13,9 @@ public class ComponentSerializer implements JsonDeserializer<NetworkComponent>, 
     @Override
     public NetworkComponent deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
-        Class<? extends NetworkComponent> clazz = ComponentType.get(jsonObject.get("type").getAsString()).componentClass();
-        if (clazz == null) throw new JsonParseException("Error while deserializing network: " + jsonObject.get("name").getAsString());
+        ComponentType type = ComponentType.get(jsonObject.get("type").getAsString());
+        if (type == null) throw new JsonParseException("Error while deserializing network component. Unknown type: " + jsonObject.get("type").getAsString());
+        Class<? extends NetworkComponent> clazz = type.clazz;
         return gson.fromJson(json, clazz);
     }
 

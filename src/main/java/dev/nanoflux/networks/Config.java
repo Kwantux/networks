@@ -6,11 +6,12 @@ import dev.nanoflux.config.util.exceptions.ConfigAlreadyRegisteredException;
 import dev.nanoflux.config.util.exceptions.InvalidNodeException;
 import dev.nanoflux.networks.component.ComponentType;
 import dev.nanoflux.networks.storage.NetworkProperties;
-import dev.nanoflux.networks.utils.Location;
+import dev.nanoflux.networks.utils.BlockLocation;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -63,13 +64,15 @@ public class Config {
         return config.getFinalInt(id);
     }
 
-    public List<String> componentBlocks(String componentType) {
-        return config.getFinalList("component."+componentType, String.class);
+    public List<Material> componentBlocks(ComponentType componentType) {
+        List<Material> allowed = new ArrayList<>();
+        config.getFinalList("component."+componentType.tag, String.class).forEach(mat -> allowed.add(Material.getMaterial(mat)));
+        return allowed;
     }
-    public boolean checkLocation(Location location, String component) {
-        List<String> whitelist = config.getFinalList("containerWhitelist", String.class);
-        for (String e : whitelist) {
-            if (e.equalsIgnoreCase(location.getBukkitLocation().getBlock().getType().toString().toUpperCase())) {
+    public boolean checkLocation(BlockLocation location, ComponentType componentType) {
+        List<Material> whitelist = componentBlocks(componentType);
+        for (Material mat : whitelist) {
+            if (location.getBukkitLocation().getBlock().getType().equals(mat)) {
                 return true;
             }
         }

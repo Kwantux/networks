@@ -1,4 +1,4 @@
-package quantum625.networks.commands;
+package dev.nanoflux.networks.commands;
 
 import cloud.commandframework.ArgumentDescription;
 import cloud.commandframework.arguments.CommandArgument;
@@ -9,7 +9,7 @@ import cloud.commandframework.captions.CaptionVariable;
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.exceptions.parsing.NoInputProvidedException;
 import cloud.commandframework.exceptions.parsing.ParserException;
-import net.quantum625.config.lang.LanguageController;
+import dev.nanoflux.config.lang.LanguageController;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.Manager;
@@ -111,7 +111,7 @@ public final class NetworkArgument<C> extends CommandArgument<C, Network> {
                 return ArgumentParseResult.failure(new NoInputProvidedException(NetworkArgument.NetworkParser.class, commandContext));
             }
 
-            Network network = net.getFromID(input);
+            Network network = net.getFromName(input);
 
             if (network == null) {
                 return ArgumentParseResult.failure(new NetworkParseException(input, commandContext));
@@ -130,13 +130,13 @@ public final class NetworkArgument<C> extends CommandArgument<C, Network> {
             List<String> output = new ArrayList<>();
 
             if (commandContext.getSender() instanceof Player) {
-                for (Network network : net.listFromUser(((Player) commandContext.getSender()).getUniqueId())) {
-                    output.add(network.getID());
+                for (Network network : net.withUser(((Player) commandContext.getSender()).getUniqueId())) {
+                    output.add(network.name());
                 }
             }
             else {
-                for (Network network : net.listAll()) {
-                    output.add(network.getID());
+                for (Network network : net.getNetworks()) {
+                    output.add(network.name());
                 }
             }
 

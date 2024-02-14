@@ -245,8 +245,8 @@ public class Updater {
 
             boolean result = fileHash.equalsIgnoreCase(sha512);
             if (!result) {
-                System.out.println("Hash of File:        " + fileHash);
-                System.out.println("Hash from Modrinth:  " + sha512);
+                logger.severe("Hash of File:        " + fileHash);
+                logger.severe("Hash from Modrinth:  " + sha512);
             }
             return result;
         } catch (IOException e) {

@@ -1,4 +1,4 @@
-package quantum625.networks.inventory;
+package dev.nanoflux.networks.inventory;
 
 import dev.nanoflux.networks.Network;
 import org.bukkit.Bukkit;
@@ -24,7 +24,7 @@ public class InventoryMenu {
         this.player = player;
         this.network = network;
 
-        inventory = Bukkit.createInventory(player, 54, "Content of network " + network.getID());
+        inventory = Bukkit.createInventory(player, 54, "Content of network " + network.name());
         inventory.setMaxStackSize(127);
 
         updateInventory();
@@ -37,7 +37,7 @@ public class InventoryMenu {
         int slot = 0;
 
         ArrayList<ItemStack> currentPage = new ArrayList<ItemStack>();
-        ArrayList<ItemStack> items = network.getItems();
+        ArrayList<ItemStack> items = network.items();
 
         for (int i = 0; i < maxPages()*45; i++) {
 
@@ -130,7 +130,7 @@ public class InventoryMenu {
     }
 
     public void incrementPage() {
-        if (page < Math.ceil(network.getItems().size()/45)) page++;
+        if (page < Math.ceil(network.items().size()/45)) page++;
         renderInventory();
     }
 
@@ -140,12 +140,12 @@ public class InventoryMenu {
     }
 
     public void toLastPage() {
-        page = (int) Math.ceil(network.getItems().size()/45);
+        page = (int) Math.ceil(network.items().size()/45);
         renderInventory();
     }
 
     private int maxPages() {
-        return (int) Math.ceil(network.getItems().size()/45) + 1;
+        return (int) Math.ceil(network.items().size()/45) + 1;
     }
 
 }

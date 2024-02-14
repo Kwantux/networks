@@ -1,4 +1,4 @@
-package dev.nanoflux.manual.commands;
+package dev.nanoflux.networks.commands;
 
 
 import dev.nanoflux.networks.Main;

@@ -1,4 +1,4 @@
-package quantum625.networks.commands;
+package dev.nanoflux.networks.commands;
 
 import cloud.commandframework.brigadier.CloudBrigadierManager;
 import cloud.commandframework.bukkit.CloudBukkitCapabilities;

@@ -2,8 +2,6 @@ package dev.nanoflux.networks.utils;
 
 import dev.nanoflux.networks.Manager;
 import dev.nanoflux.networks.component.NetworkComponent;
-import dev.nanoflux.networks.utils.Location;
-import dev.nanoflux.networks.component.NetworkComponent;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -17,7 +15,7 @@ public class DoubleChestUtils {
         this.net = net;
     }
 
-    public NetworkComponent componentAt(Location pos) {
+    public NetworkComponent componentAt(BlockLocation pos) {
         NetworkComponent component = net.getComponent(pos);
         if (component == null && pos.getBlock().getType().equals(Material.CHEST)) {
             Chest chest = (Chest) pos.getBlock().getBlockData();
@@ -26,7 +24,7 @@ public class DoubleChestUtils {
         return component;
     }
 
-    public void checkChest(Location pos) {
+    public void checkChest(BlockLocation pos) {
 
         Block block = pos.getBlock();
 
@@ -50,7 +48,7 @@ public class DoubleChestUtils {
 
     }
 
-    public void disconnectChests(Location pos) {
+    public void disconnectChests(BlockLocation pos) {
 
         Block block = pos.getBlock();
 
@@ -75,29 +73,29 @@ public class DoubleChestUtils {
 
     }
 
-    private Location shift(Location location, Chest.Type type, BlockFace face) {
+    private BlockLocation shift(BlockLocation location, Chest.Type type, BlockFace face) {
         if (type.equals(Chest.Type.LEFT)) {
             switch (face) {
                 case NORTH:
-                    return new Location(location.getX()+1, location.getY(), location.getZ(), location.getWorld());
+                    return new BlockLocation(location.getX()+1, location.getY(), location.getZ(), location.getWorld());
                 case WEST:
-                    return new Location(location.getX(), location.getY(), location.getZ()-1, location.getWorld());
+                    return new BlockLocation(location.getX(), location.getY(), location.getZ()-1, location.getWorld());
                 case SOUTH:
-                    return new Location(location.getX()-1, location.getY(), location.getZ(), location.getWorld());
+                    return new BlockLocation(location.getX()-1, location.getY(), location.getZ(), location.getWorld());
                 case EAST:
-                    return new Location(location.getX(), location.getY(), location.getZ()+1, location.getWorld());
+                    return new BlockLocation(location.getX(), location.getY(), location.getZ()+1, location.getWorld());
             }
         }
         if (type.equals(Chest.Type.RIGHT)) {
             switch (face) {
                 case NORTH:
-                    return new Location(location.getX()-1, location.getY(), location.getZ(), location.getWorld());
+                    return new BlockLocation(location.getX()-1, location.getY(), location.getZ(), location.getWorld());
                 case WEST:
-                    return new Location(location.getX(), location.getY(), location.getZ()+1, location.getWorld());
+                    return new BlockLocation(location.getX(), location.getY(), location.getZ()+1, location.getWorld());
                 case SOUTH:
-                    return new Location(location.getX()+1, location.getY(), location.getZ(), location.getWorld());
+                    return new BlockLocation(location.getX()+1, location.getY(), location.getZ(), location.getWorld());
                 case EAST:
-                    return new Location(location.getX(), location.getY(), location.getZ()-1, location.getWorld());
+                    return new BlockLocation(location.getX(), location.getY(), location.getZ()-1, location.getWorld());
             }
         }
         return null;

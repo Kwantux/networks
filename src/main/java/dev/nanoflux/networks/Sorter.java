@@ -4,6 +4,7 @@ import dev.nanoflux.networks.storage.InterThreadTransmissionController;
 import dev.nanoflux.networks.component.module.*;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class Sorter {
@@ -11,7 +12,7 @@ public class Sorter {
     private static boolean ittc = false;
 
 
-    public static void transmit(ItemStack stack, BaseModule source, BaseModule target) {
+    public static void transmit(@Nonnull ItemStack stack, BaseModule source, BaseModule target) {
         if (ittc) {
             InterThreadTransmissionController.transmit(stack, source, target);
         }
@@ -24,6 +25,7 @@ public class Sorter {
     public static void donate(Network network, Donator donator) {
         List<? extends Acceptor> acceptors = network.acceptors();
         for (ItemStack item : donator.donate()) {
+            if (item == null) continue;
             for (Acceptor acceptor : acceptors) {
                 if (acceptor.accept(item)) {
                     transmit(item, donator, acceptor);

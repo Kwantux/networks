@@ -6,7 +6,7 @@ help: "\n
 <bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
-\n<click:suggest_command:/manager create>/manager create (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
+\n<click:suggest_command:/manager constructor>/manager constructor (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
 \n<click:suggest_command:/manager rename>/manager rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
 \n<click:suggest_command:/manager delete>/manager delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
 \n
@@ -35,7 +35,7 @@ help.admin: "\n
 \n<click:suggest_command:/manager data save>/manager data save</click> - <yellow>Alle Netzwerke speichern</yellow>
 \n<click:suggest_command:/manager data reload>/manager data reload</click> - <yellow>Lädt die Konfigurationsdateien neu</yellow>
 \n
-\n<click:suggest_command:/manager create>/manager create (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
+\n<click:suggest_command:/manager constructor>/manager constructor (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
 \n<click:suggest_command:/manager rename>/manager rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
 \n<click:suggest_command:/manager delete>/manager delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
 \n
@@ -143,9 +143,9 @@ items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:"
 
 item.name.wand0: <reset><red>Netzwerk Konfigurator
 item.name.wand1: <reset><blue>Prioritäts Konfigurator
-item.name.input: <reset>Einfüllkiste
-item.name.sorting: <reset>Sortierkiste
-item.name.misc: <reset>Restekiste
+item.name.component.input: <reset>Einfüllkiste
+item.name.component.sorting: <reset>Sortierkiste
+item.name.component.misc: <reset>Restekiste
 item.name.upgrade.range.0: <reset><bold>Telemetrie Antenne Mk.1
 item.name.upgrade.range.1: <reset><bold>Telemetrie Antenne Mk.2
 item.name.upgrade.range.2: <reset><bold>Telemetrie Antenne Mk.3
@@ -165,13 +165,13 @@ item.lore.wand1:
   - ""
   - "<reset>Links klicken, um den Modus zu wechseln"
 
-item.lore.input:
+item.lore.component.input:
   - "<reset><blue>Sortiert eingelegte Items in Sortier- und Restekisten ein"
-item.lore.sorting:
+item.lore.component.sorting:
   - "<reset><blue>Akzeptiert nur Items, die dem Filter der Kiste entsprechen"
   - ""
   - "<reset>Filter Items:"
-item.lore.misc:
+item.lore.component.misc:
   - "<reset><blue>Alle übrigen items gehen in diese Kisten"
 
 item.lore.upgrade.range:

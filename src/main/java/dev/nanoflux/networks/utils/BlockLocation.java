@@ -6,7 +6,7 @@ import org.bukkit.block.Block;
 import java.util.UUID;
 
 
-public class Location {
+public class BlockLocation {
     private int x;
     private int y;
     private int z;
@@ -14,21 +14,21 @@ public class Location {
     private UUID world;
 
 
-    public Location(int x, int y, int z, UUID world) {
+    public BlockLocation(int x, int y, int z, UUID world) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.world = world;
     }
 
-    public Location(org.bukkit.Location location) {
+    public BlockLocation(org.bukkit.Location location) {
         this.x = location.getBlockX();
         this.y = location.getBlockY();
         this.z = location.getBlockZ();
         this.world = location.getWorld().getUID();
     }
 
-    public Location(org.bukkit.block.Block block) {
+    public BlockLocation(org.bukkit.block.Block block) {
         this.x = block.getX();
         this.y = block.getY();
         this.z = block.getZ();
@@ -79,13 +79,16 @@ public class Location {
     }
 
 
-    public boolean equals(Location other) {
-        return (other.getX() == this.getX() && other.getY() == this.getY() && other.getZ() == this.getZ() && other.getWorld().equals(this.getWorld()));
+    @Override
+    public boolean equals(Object otherObject) {
+        if (otherObject instanceof BlockLocation other)
+            return (other.getX() == this.getX() && other.getY() == this.getY() && other.getZ() == this.getZ() && other.getWorld().equals(this.getWorld()));
+        return false;
     }
 
-    public double getDistance(Location second) {
+    public double getDistance(BlockLocation second) {
         if (!second.getWorld().equals(this.getWorld())) {
-            return 2147483647;
+            return Integer.MAX_VALUE;
         }
         return Math.sqrt(Math.pow(this.x-second.getX(),2)+Math.pow(this.y-second.getY(),2)+Math.pow(this.z-second.getZ(),2));
     }

@@ -6,7 +6,7 @@ help: "\n
 <bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
-\n<click:suggest_command:/manager create>/manager create (id)</click> - <yellow>Create a new network</yellow>
+\n<click:suggest_command:/manager constructor>/manager constructor (id)</click> - <yellow>Create a new network</yellow>
 \n<click:suggest_command:/manager rename>/manager rename (id)</click> - <yellow>Rename a network</yellow>
 \n<click:suggest_command:/manager delete>/manager delete (id)</click> - <yellow>Delete a network</yellow>
 \n
@@ -35,7 +35,7 @@ help.admin: "\n
 \n<click:suggest_command:/manager data save>/manager data save</click> - <yellow>Save all networks</yellow>
 \n<click:suggest_command:/manager data reload>/manager data reload</click> - <yellow>Reload the configs</yellow>
 \n
-\n<click:suggest_command:/manager create>/manager create (id)</click> - <yellow>Create a new network</yellow>
+\n<click:suggest_command:/manager constructor>/manager constructor (id)</click> - <yellow>Create a new network</yellow>
 \n<click:suggest_command:/manager rename>/manager rename (id)</click> - <yellow>Rename a network</yellow>
 \n<click:suggest_command:/manager delete>/manager delete (id)</click> - <yellow>Delete a network</yellow>
 \n
@@ -144,9 +144,9 @@ items.message: "<green><bold>Total items in network <white><1><green>:"
 
 item.name.wand0: <reset><red>Network Wand
 item.name.wand1: <reset><blue>Priority Wand
-item.name.input: <reset>Input Container
-item.name.sorting: <reset>Sorting Container
-item.name.misc: <reset>Miscellaneous Container
+item.name.component.input: <reset>Input Container
+item.name.component.sorting: <reset>Sorting Container
+item.name.component.misc: <reset>Miscellaneous Container
 item.name.upgrade.range.0: <reset><bold>Telemetry Antenna Tier 1
 item.name.upgrade.range.1: <reset><bold>Telemetry Antenna Tier 2
 item.name.upgrade.range.2: <reset><bold>Telemetry Antenna Tier 3
@@ -166,19 +166,19 @@ item.lore.wand1:
   - ""
   - "<reset>Left click to switch mode"
 
-item.lore.input:
+item.lore.component.input:
   - "<reset><blue>Sorts items into sorting containers and misc containers"
-item.lore.sorting:
+item.lore.component.sorting:
   - "<reset><blue>Only accepts items that match the filter of this container"
   - ""
   - "<reset>Filter Items:"
-item.lore.misc:
+item.lore.component.misc:
   - "<reset><blue>All remaining items will go into these"
 
 item.lore.upgrade.range:
   - "<reset>Click on a network component to apply this upgrade on its network"
 
-notice: <yellow>Having inventory problems? Try out <white>/networks <yellow>to create a fully automated storage network!
+notice: <yellow>Having inventory problems? Try out <white>/networks <yellow>to constructor a fully automated storage network!
 
 
 # Networks Manual

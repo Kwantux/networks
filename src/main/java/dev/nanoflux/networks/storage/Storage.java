@@ -73,8 +73,6 @@ public class Storage implements dev.nanoflux.networks.api.Storage {
     public Network loadNetwork(String id) {
         try {
             String json = Files.readString(path.resolve(id+".json"), StandardCharsets.UTF_8);
-            System.out.println(json);
-            System.out.println(new Network(id, gson.fromJson(json, SerializableNetwork.class)));
             return new Network(id, gson.fromJson(json, SerializableNetwork.class));
         } catch (IOException e) {
             throw new RuntimeException("Unable to load Network with ID " + id + ": " + e);

@@ -1,4 +1,4 @@
-package quantum625.networks.inventory;
+package dev.nanoflux.networks.inventory;
 
 import dev.nanoflux.networks.Network;
 import org.bukkit.entity.Player;

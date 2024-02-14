@@ -65,31 +65,4 @@ public abstract class ComponentBuilder{
     public static Component command(String text, String command) {
         return Component.text(text).clickEvent(ClickEvent.runCommand(command));
     }
-
-
-
-
-    // Configuration menu generation:
-
-    public static Component valueBoolean(String id, String name, boolean value) {
-        if (value) {
-            return StyleSheet.defaultStyle.booleanTrue.append(text(name)).hoverEvent(HoverEvent.showText(text(id))).clickEvent(ClickEvent.runCommand("/config set " + id + " false"));
-        }
-        return StyleSheet.defaultStyle.booleanFalse.append(text(name)).hoverEvent(HoverEvent.showText(text(id))).clickEvent(ClickEvent.runCommand("/config set " + id + " true"));
-    }
-
-    public static Component valueInt(String id, String name, int value) {
-        return StyleSheet.defaultStyle.editSign.append(text(name + ":  ")).append(Component.text(value)).hoverEvent(HoverEvent.showText(text(id))).clickEvent(ClickEvent.runCommand("/config edit int " + id));
-    }
-
-    public static Component valueDouble(String id, String name, double value) {
-        return StyleSheet.defaultStyle.editSign.append(text(name + ":  ")).append(Component.text(value)).hoverEvent(HoverEvent.showText(text(id))).clickEvent(ClickEvent.runCommand("/config edit double " + id));
-    }
-
-    public static Component valueString(String id, String name, String value) {
-        return StyleSheet.defaultStyle.editSign.append(text(name + ":  ")).append(text(value)).hoverEvent(HoverEvent.showText(text(id))).clickEvent(ClickEvent.runCommand("/config edit string " + id));
-    }
-
-    //TODO: Selection, Multiselection, Free entry List
-
 }
