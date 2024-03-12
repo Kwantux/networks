@@ -7,6 +7,7 @@ import dev.nanoflux.networks.component.module.Supplier;
 import dev.nanoflux.networks.utils.BlockLocation;
 import dev.nanoflux.networks.utils.NamespaceUtils;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -107,8 +108,6 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
     }
 
     public void removeFilter(String material) {
-        List list = Arrays.stream(filters).toList();
-        list.remove(material);
-        filters = (String[]) list.toArray(new String[0]);
+        filters = ArrayUtils.removeElement(filters, material);
     }
 }
