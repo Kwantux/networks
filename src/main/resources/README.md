@@ -1,4 +1,4 @@
-# Networks v2.1.1
+# Networks v3.0.0
 
 
 ## Report any bugs on Discord or Github
@@ -7,7 +7,7 @@ If you need help with the plugin, feel free to ask your question on our discord!
 
 ---
 
-[Github](https://github.com/Quantum625/networks)
+[Github](https://github.com/nanoflux/networks)
 
 [Discord](https://discord.gg/wQXKdtVPMd)
 
@@ -15,7 +15,7 @@ If you need help with the plugin, feel free to ask your question on our discord!
 
 [Bukkit](https://dev.bukkit.org/projects/networks)
 
-[Hangar](https://hangar.papermc.io/Quantum625/Networks)
+[Hangar](https://hangar.papermc.io/NanoFlux/Networks)
 
 Wiki (Coming Soon!)
 

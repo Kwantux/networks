@@ -8,9 +8,14 @@ This Project is developed by <a href="https://github.com/Quantum625">@Quantum625
 
 
 ### Links
+[Discord](https://discord.gg/wQXKdtVPMd)
+
 [Modrinth](https://modrinth.com/plugin/networks)
 
+[Hangar](https://hangar.papermc.io/NanoFlux/Networks)
+
 [Bukkit](https://dev.bukkit.org/projects/networks)
+
 
 
 
