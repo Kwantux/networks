@@ -42,8 +42,8 @@ public class Network {
         this.id = id;
         this.owner = network.owner();
         properties(network.properties());
-        users = List.copyOf(Arrays.stream(network.users()).toList());
-        components = List.copyOf(Arrays.stream(network.components()).toList());
+        users = new ArrayList<>(Arrays.stream(network.users()).toList());
+        components = new ArrayList<>(Arrays.stream(network.components()).toList());
     }
 
 

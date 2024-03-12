@@ -19,20 +19,27 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class SortingContainer extends NetworkComponent implements Acceptor, Supplier {
 
     private String[] filters;
-    private int acceptorPriority = -10;
+    private int acceptorPriority = 10;
     private int supplierPriority = 0;
 
     public static SortingContainer create(BlockLocation pos, PersistentDataContainer container) {
-        return new SortingContainer(pos, container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING).split(","));
+        return new SortingContainer(pos,
+                Objects.requireNonNullElse(container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING).split(","), new String[0]),
+                Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), 10),
+                Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 0)
+        );
     }
 
-    public SortingContainer(BlockLocation pos, String[] filters) {
+    public SortingContainer(BlockLocation pos, String[] filters, int acceptorPriority, int supplierPriority) {
         super(pos);
         this.filters = filters;
+        this.acceptorPriority = acceptorPriority;
+        this.supplierPriority = supplierPriority;
     }
 
     private static ItemStack newBlockItem(Material material) {

@@ -12,15 +12,18 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class MiscContainer extends NetworkComponent implements Acceptor, Supplier {
 
-    private int acceptorPriority = -10;
-    private int supplierPriority = 0;
+    private int acceptorPriority = -20;
+    private int supplierPriority = 5;
 
     public static MiscContainer create(BlockLocation pos, PersistentDataContainer container) {
-        return new MiscContainer(pos, container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER),
-                container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER));
+        return new MiscContainer(pos,
+                Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), -20),
+                Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 5)
+        );
     }
 
     public MiscContainer(BlockLocation pos, int acceptorPriority, int supplierPriority) {

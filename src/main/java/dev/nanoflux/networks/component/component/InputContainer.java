@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class InputContainer extends NetworkComponent implements Donator {
 
@@ -21,7 +22,9 @@ public class InputContainer extends NetworkComponent implements Donator {
 
 
     public static InputContainer create(BlockLocation pos, PersistentDataContainer container) {
-        return new InputContainer(pos, container.get(NamespaceUtils.RANGE.key(), PersistentDataType.INTEGER));
+        return new InputContainer(pos,
+                Objects.requireNonNullElse(container.get(NamespaceUtils.RANGE.key(), PersistentDataType.INTEGER), 0)
+        );
     }
 
     public InputContainer(BlockLocation pos, int range) {
