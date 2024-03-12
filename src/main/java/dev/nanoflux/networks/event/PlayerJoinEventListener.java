@@ -1,6 +1,6 @@
-package quantum625.networks.listener;
+package dev.nanoflux.networks.event;
 
-import net.quantum625.networks.data.CraftingManager;
+import dev.nanoflux.networks.CraftingManager;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
