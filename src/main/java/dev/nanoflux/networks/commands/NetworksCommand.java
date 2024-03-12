@@ -54,7 +54,11 @@ public class NetworksCommand extends CommandHandler {
                 .handler(this::version)
         );
         //TODO: Help to specific commands
-
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("force")
+                .permission("networks.force")
+                .handler(this::force)
+        );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("create")
                 .argument(StringArgument.of("id"))
@@ -210,6 +214,11 @@ public class NetworksCommand extends CommandHandler {
 
     private void version(CommandContext<CommandSender> context) {
         lang.message(context.getSender(), "version", plugin.getPluginMeta().getVersion());
+    }
+
+    private void force(CommandContext<CommandSender> context) {
+        manager.forceToggle((Player) context.getSender());
+        lang.message(context.getSender(), "force");
     }
 
     private void saveNetworks(CommandContext<CommandSender> context) {
