@@ -57,6 +57,7 @@ public class BlockPlaceListener implements Listener {
 
                 if (network == null) {
                     lang.message(p, "select.noselection");
+                    event.setCancelled(true);
                     return;
                 }
 
