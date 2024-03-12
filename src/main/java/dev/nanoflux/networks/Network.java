@@ -108,7 +108,7 @@ public class Network {
     /**
      * Add a component to the network
      * ONLY FOR INTERNAL USAGE
-     * Use {@link Manager#addComponent(String, NetworkComponent)} instead
+     * Use {@link Manager#addComponent(Network, NetworkComponent)} instead
      */
     public void addComponent(NetworkComponent component) {
         components.add(component);
@@ -125,10 +125,10 @@ public class Network {
     }
 
     public Component displayText() {
-        Component userlist = Bukkit.getPlayer(owner()).displayName().decorate(TextDecoration.UNDERLINED).decorate(TextDecoration.BOLD);
+        Component userlist = Component.text(Objects.requireNonNullElse(Bukkit.getOfflinePlayer(owner).getName(), owner.toString())).decorate(TextDecoration.UNDERLINED).decorate(TextDecoration.BOLD);
         userlist = userlist.append(Component.newline().decoration(TextDecoration.BOLD, false).decoration(TextDecoration.UNDERLINED, false));
         for (UUID user : users) {
-            userlist = userlist.append(Bukkit.getPlayer(user).displayName().decorate(TextDecoration.UNDERLINED).decorate(TextDecoration.BOLD));
+            userlist = userlist.append(Component.text(Objects.requireNonNullElse(Bukkit.getOfflinePlayer(user).getName(), user.toString())).decorate(TextDecoration.UNDERLINED).decorate(TextDecoration.BOLD));
             userlist = userlist.append(Component.newline());
         }
         return Component.text(name()).hoverEvent(HoverEvent.showText(userlist));
