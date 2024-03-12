@@ -5,7 +5,9 @@ import dev.nanoflux.manual.Manual;
 import dev.nanoflux.networks.commands.CommandManager;
 import dev.nanoflux.networks.component.component.MiscContainer;
 import dev.nanoflux.networks.component.component.SortingContainer;
+import dev.nanoflux.networks.event.BlockPlaceListener;
 import dev.nanoflux.networks.event.ComponentListener;
+import dev.nanoflux.networks.event.WandListener;
 import dev.nanoflux.networks.utils.BlockLocation;
 import dev.nanoflux.networks.utils.DoubleChestUtils;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -98,6 +100,8 @@ public final class Main extends JavaPlugin {
         manager.loadData();
 
         new ComponentListener(this);
+        new BlockPlaceListener(this, dcu);
+        new WandListener(this, crafting, dcu);
 
         if (config.logoOnLaunch()) logger.info(startMessage);
 

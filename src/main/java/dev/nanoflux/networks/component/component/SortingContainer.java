@@ -16,6 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SortingContainer extends NetworkComponent implements Acceptor, Supplier {
@@ -66,8 +67,28 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
         return acceptorPriority;
     }
 
+    /**
+     *
+     */
+    @Override
+    public void incrementAcceptorPriority() {
+        acceptorPriority++;
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void decrementAcceptorPriority() {
+        acceptorPriority--;
+    }
+
     public int supplierPriority() {
         return supplierPriority;
+    }
+
+    public String[] filters() {
+        return filters;
     }
 
 
@@ -78,5 +99,16 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
             put("supplierPriority", supplierPriority);
             put("filters", filters);
         }};
+    }
+
+    public void addFilter(String material) {
+        filters = Arrays.copyOf(filters, filters.length + 1);
+        filters[filters.length - 1] = material;
+    }
+
+    public void removeFilter(String material) {
+        List list = Arrays.stream(filters).toList();
+        list.remove(material);
+        filters = (String[]) list.toArray(new String[0]);
     }
 }

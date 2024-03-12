@@ -139,15 +139,9 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
      */
     @Override
     public NetworkComponent getComponent(BlockLocation location) {
-        Network network = locations.get(location);
-        for (BlockLocation loc : locations.keySet()) {
-            if (location.equals(loc)) {
-                network = locations.get(loc);
-                break;
-            }
-        }
+        Network network = getNetworkWithComponent(location);
         if (network == null) return null;
-        return network.componentAt(location);
+        return network.getComponent(location);
     }
 
     /**
@@ -156,7 +150,15 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
      */
     @Override
     public Network getNetworkWithComponent(BlockLocation location) {
-        return locations.get(location);
+        Network network = null;
+        for (BlockLocation loc : locations.keySet()) {
+            if (location.equals(loc)) {
+                network = locations.get(loc);
+                break;
+            }
+        }
+        if (network == null) return null;
+        return network;
     }
 
     @Override

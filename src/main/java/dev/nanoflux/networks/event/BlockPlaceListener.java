@@ -28,10 +28,12 @@ public class BlockPlaceListener implements Listener {
 
     private final DoubleChestUtils dcd;
 
-    public BlockPlaceListener (Main main, DoubleChestUtils doubleChestDisconnecter) {
-        this.net = main.getNetworkManager();
-        this.config = main.getConfiguration();
-        this.lang = main.getLanguage();
+    public BlockPlaceListener (Main plugin, DoubleChestUtils doubleChestDisconnecter) {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        this.net = plugin.getNetworkManager();
+        this.config = plugin.getConfiguration();
+        this.lang = plugin.getLanguage();
 
         dcd = doubleChestDisconnecter;
     }

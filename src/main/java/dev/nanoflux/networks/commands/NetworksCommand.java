@@ -54,12 +54,13 @@ public class NetworksCommand extends CommandHandler {
                 .handler(this::version)
         );
         //TODO: Help to specific commands
+
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
-                .literal("constructor")
+                .literal("create")
                 .argument(StringArgument.of("id"))
                 .senderType(Player.class)
                 .handler(this::create)
-                .permission("networks.constructor")
+                .permission("networks.create")
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("delete")

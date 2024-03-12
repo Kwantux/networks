@@ -1,6 +1,5 @@
 package dev.nanoflux.networks;
 
-import dev.nanoflux.networks.component.ComponentType;
 import dev.nanoflux.networks.component.NetworkComponent;
 import dev.nanoflux.networks.component.module.Acceptor;
 import dev.nanoflux.networks.component.module.Supplier;
@@ -13,7 +12,6 @@ import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -97,7 +95,7 @@ public class Network {
         return acceptors.stream().sorted(Comparator.comparingInt(Acceptor::acceptorPriority).reversed()).toList();
     }
 
-    public NetworkComponent componentAt(BlockLocation location) {
+    public NetworkComponent getComponent(BlockLocation location) {
         for (NetworkComponent component : components) {
             if (component.pos().equals(location)) {
                 return component;

@@ -8,4 +8,7 @@ public interface Acceptor extends BaseModule {
     }
 
     int acceptorPriority();
+
+    void incrementAcceptorPriority();
+    void decrementAcceptorPriority();
 }

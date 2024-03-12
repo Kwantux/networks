@@ -52,6 +52,22 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
         return acceptorPriority;
     }
 
+    /**
+     *
+     */
+    @Override
+    public void incrementAcceptorPriority() {
+        acceptorPriority++;
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void decrementAcceptorPriority() {
+        acceptorPriority--;
+    }
+
     public int supplierPriority() {
         return supplierPriority;
     }

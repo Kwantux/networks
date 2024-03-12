@@ -21,7 +21,8 @@ public enum NamespaceUtils {
     // Items
     WAND,
 
-    ;
+    // UI
+    BUTTON;
 
     private static final Main main = Main.getPlugin(Main.class);
 

@@ -1,13 +1,19 @@
 package dev.nanoflux.networks.event;
 
 import dev.nanoflux.config.lang.LanguageController;
+import dev.nanoflux.config.util.exceptions.InvalidNodeException;
+import dev.nanoflux.networks.Config;
 import dev.nanoflux.networks.CraftingManager;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Manager;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.component.NetworkComponent;
+import dev.nanoflux.networks.component.component.InputContainer;
+import dev.nanoflux.networks.component.component.MiscContainer;
+import dev.nanoflux.networks.component.component.SortingContainer;
+import dev.nanoflux.networks.component.module.Acceptor;
 import dev.nanoflux.networks.utils.BlockLocation;
-import dev.nanoflux.networks.utils.NamespaceUtils;
+import dev.nanoflux.networks.utils.DoubleChestUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -19,47 +25,59 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
-import static dev.nanoflux.networks.Main.config;
+import java.util.Arrays;
 
 public class WandListener implements Listener {
 
-    private final Manager manager;
-    private final CraftingManager crafting;
+    private final Config config;
+    private final Manager net;
     private final LanguageController lang;
-    
-    
-    public WandListener(Main plugin, CraftingManager crafting) {
-        this.manager = plugin.getNetworkManager();
-        this.crafting = crafting;
-        this.lang = plugin.getLanguage();
-        
+    private final CraftingManager crafting;
+    private final DoubleChestUtils dcu;
+
+    public WandListener(Main plugin, CraftingManager craftingManager, DoubleChestUtils dcu) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+
+        this.config = plugin.getConfiguration();
+        this.net = plugin.getNetworkManager();
+        this.lang = plugin.getLanguage();
+        this.crafting = craftingManager;
+        this.dcu = dcu;
     }
 
-
-
     @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(PlayerInteractEvent event) throws InvalidNodeException {
         Player p = event.getPlayer();
         BlockLocation l = null;
         if (event.getClickedBlock() != null) l = new BlockLocation(event.getClickedBlock());
         Action action = event.getAction();
 
-        if (action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_AIR)) {
-            return;
-        }
-
         ItemStack wand = p.getInventory().getItemInMainHand();
 
         if (!wand.getType().equals(Material.AIR)) {
-            if (wand.getItemMeta().getPersistentDataContainer().has(NamespaceUtils.WAND.key())) {
+            if (wand.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER)) {
 
                 event.setCancelled(true);
 
                 if (!event.getHand().equals(EquipmentSlot.HAND)) return;
 
-                NetworkComponent component = manager.getComponent(l);
+                int mode = wand.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER);
+                
+                if (!p.isSneaking()) {
+                    if (action.equals(Action.LEFT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR)) {
+                        if (!p.isSneaking()) {
+                            mode++;
+                            if (mode > 1) mode = 0;
+                            //p.getInventory().setItemInMainHand(crafting.getNetworkWand(mode));
+                            event.getItem().setItemMeta(crafting.getNetworkWand(mode).getItemMeta());
+                            lang.message(p, "wand.mode", lang.getRaw("wand.mode." + mode));
+                            return;
+                        }
+                    }
+                }
 
+                Network network = net.getNetworkWithComponent(l);
+                NetworkComponent component = net.getComponent(l);
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
@@ -69,35 +87,79 @@ public class WandListener implements Listener {
                             return;
                         }
 
-                        lang.message(p, "wand.info", manager.getNetworkWithComponent(l).name(), l.toString(), component.type().tag);
-                        for (String key : component.properties().keySet()) {
-                            lang.message(p, "component.info." + key, component.properties().get(key).toString());
+                        if (component instanceof InputContainer) {
+                            lang.message(p, "wand.info.input", network.name(), l.toString());
+
+                        }
+
+                        if (component instanceof SortingContainer container) {
+                            lang.message(p, "wand.info.sorting", network.name(), l.toString(), String.valueOf(container.acceptorPriority()), Arrays.stream(container.filters()).toList().toString());
+
+                        }
+
+                        if (component instanceof MiscContainer container) {
+                            lang.message(p, "wand.info.misc", network.name(), l.toString(), String.valueOf(container.acceptorPriority()));
+
                         }
                     }
                     return;
                 }
 
+                if (action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_AIR)) {
+                    return;
+                }
 
                 if (component == null) {
                     lang.message(p, "component.nocomponent");
                     return;
                 }
 
-                if (manager.permissionUser(p, manager.getNetworkWithComponent(l))) {
+                if (!net.permissionUser(p, network)) {
                     lang.message(p, "permission.user");
                     return;
                 }
 
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
-                    //TODO: Open Config UI
+
+                    if (mode == 0 && !p.getInventory().getItemInOffHand().getType().equals(Material.AIR) && net.getComponent(l) instanceof SortingContainer) {
+                        NetworkComponent c = net.getComponent(l);
+                        if (c instanceof SortingContainer container) {
+                            container.addFilter(p.getInventory().getItemInOffHand().getType().toString().toUpperCase());
+                            lang.message(p, "component.sorting.setitem", l.toString(), p.getInventory().getItemInOffHand().getType().toString());
+                        }
+                    }
+                    if (mode == 1) {
+                        if (component instanceof Acceptor container) {
+                            container.incrementAcceptorPriority();
+                            lang.message(p, "component.priority", String.valueOf(container.acceptorPriority()));
+                        }
+                    }
+                }
+
+                if (action.equals(Action.LEFT_CLICK_BLOCK)) {
+
+                    if (mode == 0 && net.getComponent(l) instanceof SortingContainer && !p.getInventory().getItemInOffHand().getType().equals(Material.AIR) && p.isSneaking()) {
+                        NetworkComponent c = net.getComponent(l);
+                        if (c instanceof SortingContainer container) {
+                            container.removeFilter(p.getInventory().getItemInOffHand().getType().toString().toUpperCase());
+                            lang.message(p, "component.sorting.removeitem", l.toString(), p.getInventory().getItemInOffHand().getType().toString());
+                        }
+                    }
+
+                    if (mode == 1) {
+                        if (component instanceof Acceptor container) {
+                            container.decrementAcceptorPriority();
+                            lang.message(p, "component.priority", String.valueOf(container.acceptorPriority()));
+                        }
+                    }
                 }
             }
 
             if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)) {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                     event.setCancelled(true);
-                    if (manager.getComponent(l) != null) {
-                        Network network = manager.getNetworkWithComponent(l);
+                    if (net.getComponent(l) != null) {
+                        Network network = net.getNetworkWithComponent(l);
 
                         int tier = 0;
                         for (int i = 0; i < config.getMaxRanges().length; i++) {

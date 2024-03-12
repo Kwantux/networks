@@ -48,7 +48,7 @@ To remove a chest from your network, simply just break it
 ## More information
 
 Most commands and their functionalities can be seen in <code>/networks help</code>
-See a more detailed instruction at the [wiki](https://github.com/Quantum625/networks/wiki)
+See a more detailed instruction at the [wiki](https://github.com/nanoflux/networks/wiki)
 
 
 ## Installation
