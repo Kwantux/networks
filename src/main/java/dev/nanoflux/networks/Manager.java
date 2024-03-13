@@ -128,8 +128,24 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
             return false;
         }
         network.addComponent(component);
-        locations.put(component.pos(), networks.get(network));
+        locations.put(component.pos(), network);
         return true;
+    }
+
+    public void removeComponent(Network network, NetworkComponent component) {
+        if (!locations.containsKey(component.pos())) {
+            throw new IllegalArgumentException("Component " + component + " does not exist");
+        }
+        network.removeComponent(component);
+        locations.remove(component.pos());
+    }
+
+    public void removeComponent(BlockLocation component) {
+        if (!locations.containsKey(component)) {
+            throw new IllegalArgumentException("Component " + component + " does not exist");
+        }
+        locations.get(component).removeComponent(component);
+        locations.remove(component);
     }
 
 

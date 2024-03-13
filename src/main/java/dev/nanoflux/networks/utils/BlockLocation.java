@@ -75,15 +75,21 @@ public class BlockLocation {
 
     @Override
     public String toString() {
-        return "[" + world + ", " + x + ", " + y + ", " + z + "]";
+        return "[" + x + ", " + y + ", " + z + "]";
     }
 
 
     @Override
     public boolean equals(Object otherObject) {
-        if (otherObject instanceof BlockLocation other)
+        if (otherObject instanceof BlockLocation other) {
             return (other.getX() == this.getX() && other.getY() == this.getY() && other.getZ() == this.getZ() && other.getWorld().equals(this.getWorld()));
+        }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return (world.toString() + "," + x + "," + y + "," + z).hashCode();
     }
 
     public double getDistance(BlockLocation second) {

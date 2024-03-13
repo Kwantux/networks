@@ -18,11 +18,7 @@ import java.util.Map;
 
 public abstract class NetworkComponent {
 
-    protected static ComponentType type;
-
-    public static ComponentType type() {
-        return type;
-    }
+    public static ComponentType type;
 
     protected BlockLocation pos;
 

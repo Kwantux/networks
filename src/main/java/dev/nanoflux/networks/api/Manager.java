@@ -47,4 +47,6 @@ public interface Manager {
 
     boolean force(Player player);
     boolean forceToggle(Player player);
+
+    void removeComponent(BlockLocation location);
 }

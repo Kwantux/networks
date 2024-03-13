@@ -5,6 +5,7 @@ import dev.nanoflux.manual.Manual;
 import dev.nanoflux.networks.commands.CommandManager;
 import dev.nanoflux.networks.component.component.MiscContainer;
 import dev.nanoflux.networks.component.component.SortingContainer;
+import dev.nanoflux.networks.event.BlockBreakListener;
 import dev.nanoflux.networks.event.BlockPlaceListener;
 import dev.nanoflux.networks.event.ComponentListener;
 import dev.nanoflux.networks.event.WandListener;
@@ -84,7 +85,7 @@ public final class Main extends JavaPlugin {
         dcu = new DoubleChestUtils(manager);
 
 //        this.getServer().getPluginManager().registerEvents(new AutoSave(this), this);
-//        this.getServer().getPluginManager().registerEvents(new BlockBreakEventListener(this, crafting, dcu), this);
+//        this.getServer().getPluginManager().registerEvents(new BlockBreakListener(this, crafting, dcu), this);
 //        this.getServer().getPluginManager().registerEvents(new ExplosionListener(this, crafting), this);
 //        this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(this, dcu), this);
 //        this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(this), this);
@@ -101,6 +102,7 @@ public final class Main extends JavaPlugin {
 
         new ComponentListener(this);
         new BlockPlaceListener(this, dcu);
+        new BlockBreakListener(this, crafting, dcu);
         new WandListener(this, crafting, dcu);
 
         if (config.logoOnLaunch()) logger.info(startMessage);

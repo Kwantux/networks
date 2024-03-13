@@ -114,6 +114,23 @@ public class Network {
         components.add(component);
     }
 
+    /**
+     * Add a component to the network
+     * ONLY FOR INTERNAL USAGE
+     * Use {@link Manager#removeComponent(Network, NetworkComponent)} instead
+     */
+    public void removeComponent(NetworkComponent component) {
+        components.remove(component);
+    }
+    /**
+     * Add a component to the network
+     * ONLY FOR INTERNAL USAGE
+     * Use {@link Manager#removeComponent(Network, NetworkComponent)} instead
+     */
+    public void removeComponent(BlockLocation blockLocation) {
+        components.remove(getComponent(blockLocation));
+    }
+
     public NetworkProperties properties() {
         return new NetworkProperties(range, maxComponents, maxUsers);
     }
@@ -158,5 +175,6 @@ public class Network {
         if (o instanceof Network network) return Objects.equals(network.id, id);
         return false;
     }
+
 
 }
