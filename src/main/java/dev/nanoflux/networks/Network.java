@@ -177,4 +177,7 @@ public class Network {
     }
 
 
+    public int range() {
+        return range;
+    }
 }

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface Donator extends BaseModule {
     List<ItemStack> donate();
+
+    int range();
 }

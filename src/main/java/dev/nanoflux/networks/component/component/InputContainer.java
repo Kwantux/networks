@@ -57,6 +57,9 @@ public class InputContainer extends NetworkComponent implements Donator {
         return Arrays.asList(inventory().getContents());
     }
 
+    public int range() {
+        return range;
+    }
 
     @Override
     public Map<String, Object> properties() {

@@ -27,7 +27,7 @@ public class Sorter {
         for (ItemStack item : donator.donate()) {
             if (item == null) continue;
             for (Acceptor acceptor : acceptors) {
-                if (acceptor.accept(item)) {
+                if (acceptor.pos().getDistance(donator.pos()) >= donator.range() + network.range() && acceptor.accept(item)) {
                     transmit(item, donator, acceptor);
                     break;
                 }
@@ -39,7 +39,7 @@ public class Sorter {
         List<? extends Supplier> suppliers = network.suppliers();
         for (ItemStack item : requestor.requested()) {
             for (Supplier supplier : suppliers) {
-                if (supplier.supply().contains(item)) {
+                if (supplier.pos().getDistance(requestor.pos()) >= requestor.range() + network.range() && supplier.supply().contains(item)) {
                     transmit(item, supplier, requestor);
                     break;
                 }

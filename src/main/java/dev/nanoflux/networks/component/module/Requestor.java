@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface Requestor extends BaseModule {
     List<ItemStack> requested();
-
+    int range();
 }
