@@ -15,6 +15,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -36,6 +39,14 @@ public final class Main extends JavaPlugin {
         // Clear up old config files
         new File(getDataFolder(), "recipes.yml").delete();
         new File(getDataFolder(), "config.yml").delete();
+
+        // Create folders
+        try {
+            Files.createDirectories(Path.of(getDataFolder().getAbsolutePath(), "networks"));
+            Files.createDirectories(Path.of(getDataFolder().getAbsolutePath(), "manuals"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         saveResource("README.md", true);
 
