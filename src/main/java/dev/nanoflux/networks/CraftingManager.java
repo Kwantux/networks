@@ -100,6 +100,7 @@ public class CraftingManager {
         for (ComponentType type : ComponentType.types.values()) {
             registerComponent(type);
         };
+        registerRangeUpgrades();
     }
 
     private void registerItem(String path, ItemStack result) {
@@ -250,6 +251,7 @@ public class CraftingManager {
 
                 Bukkit.addRecipe(recipe);
                 recipes.add(key);
+                System.out.println("recipe " + i);
             }
         }
         catch (InvalidNodeException | SerializationException e) {
