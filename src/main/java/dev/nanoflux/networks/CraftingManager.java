@@ -251,7 +251,6 @@ public class CraftingManager {
 
                 Bukkit.addRecipe(recipe);
                 recipes.add(key);
-                System.out.println("recipe " + i);
             }
         }
         catch (InvalidNodeException | SerializationException e) {
