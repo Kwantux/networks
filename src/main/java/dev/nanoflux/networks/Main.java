@@ -9,6 +9,7 @@ import dev.nanoflux.networks.event.BlockBreakListener;
 import dev.nanoflux.networks.event.BlockPlaceListener;
 import dev.nanoflux.networks.event.ComponentListener;
 import dev.nanoflux.networks.event.WandListener;
+import dev.nanoflux.networks.event.PlayerJoinListener;
 import dev.nanoflux.networks.utils.BlockLocation;
 import dev.nanoflux.networks.utils.DoubleChestUtils;
 import org.bukkit.plugin.java.JavaPlugin;
