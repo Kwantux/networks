@@ -247,12 +247,12 @@ public class NetworksCommand extends CommandHandler {
         Player player = (Player) context.getSender();
 
         if (manager.getFromName(id) != null) {
-            lang.message(player, "constructor.exists");
+            lang.message(player, "create.exists");
         }
 
         else {
             manager.create(id, player.getUniqueId());
-            lang.message(player, "constructor.success", id);
+            lang.message(player, "create.success", id);
             manager.select(player, manager.getFromName(id));
             lang.message(player, "select.success", id);
         }
