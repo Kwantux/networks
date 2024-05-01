@@ -158,33 +158,36 @@ public class WandListener implements Listener {
             if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)) {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                     event.setCancelled(true);
-                    if (net.getComponent(l) != null) {
-                        Network network = net.getNetworkWithComponent(l);
+                    NetworkComponent component = net.getComponent(l);
+                    if (component == null) {
+                        lang.message(p, "component.nocomponent");
+                        return;
+                    }
+                    Network network = net.getNetworkWithComponent(l);
 
-                        int tier = 0;
-                        for (int i = 0; i < config.getMaxRanges().length; i++) {
-                            if (network.properties().baseRange() >= config.getMaxRanges()[i]) tier = i+1;
-                            else break;
-                        }
+                    int tier = 0;
+                    for (int i = 0; i < config.getMaxRanges().length; i++) {
+                        if (network.properties().baseRange() >= config.getMaxRanges()[i]) tier = i+1;
+                        else break;
+                    }
 
-                        int upgradeTier = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER);
+                    int upgradeTier = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER);
 
-                        if (upgradeTier == tier) {
-                            network.properties().baseRange(config.getMaxRanges()[tier]);
-                            ItemStack item = p.getInventory().getItemInMainHand();
-                            item.setAmount(item.getAmount() - 1);
-                            lang.message(p, "rangeupgrade.success", String.valueOf(tier), network.name());
-                        }
-                        if (tier == config.getMaxRanges().length) {
-                            lang.message(p, "rangeupgrade.last");
-                            return;
-                        }
-                        if (upgradeTier < tier) {
-                            lang.message(p, "rangeupgrade.alreadyupgraded", String.valueOf(tier));
-                        }
-                        if (upgradeTier > tier) {
-                            lang.message(p, "rangeupgrade.unlockfirst", String.valueOf(tier));
-                        }
+                    if (upgradeTier == tier) {
+                        network.properties().baseRange(config.getMaxRanges()[tier]);
+                        ItemStack item = p.getInventory().getItemInMainHand();
+                        item.setAmount(item.getAmount() - 1);
+                        lang.message(p, "rangeupgrade.success", String.valueOf(tier), network.name());
+                    }
+                    if (tier == config.getMaxRanges().length) {
+                        lang.message(p, "rangeupgrade.last");
+                        return;
+                    }
+                    if (upgradeTier < tier) {
+                        lang.message(p, "rangeupgrade.alreadyupgraded", String.valueOf(tier));
+                    }
+                    if (upgradeTier > tier) {
+                        lang.message(p, "rangeupgrade.unlockfirst", String.valueOf(tier));
                     }
                 }
             }
