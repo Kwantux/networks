@@ -133,6 +133,11 @@ public class NetworksCommand extends CommandHandler {
                 .handler(this::owner)
         );
         commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+                .literal("accept")
+                .argument(NetworkArgument.of("network"))
+                .handler(this::acceptTransfer)
+        );
+        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
                 .literal("merge")
                 .argument(NetworkArgument.of("final"))
                 .argument(NetworkArgument.of("other"))
@@ -455,6 +460,7 @@ public class NetworksCommand extends CommandHandler {
 
     private void owner(CommandContext<CommandSender> context) {
         CommandSender sender = context.getSender();
+        boolean request = config.requestOwnershipTransfers() && !sender.hasPermission("network.transfer_without_request");
         Player target = context.get("player");
         Network network = selection(sender);
         if (network == null) return;
@@ -474,11 +480,38 @@ public class NetworksCommand extends CommandHandler {
             return;
         }
 
-        network.removeUser(target.getUniqueId());
-        network.addUser(network.owner());
-        network.owner(target.getUniqueId());
-        lang.message(sender, "user.owner", Component.text(network.name()), target.displayName());
+        if (request) {
+            lang.message(sender, "user.owner.request.donator", Component.text(network.name()), target.displayName());
+            lang.message(target, "user.owner.request.acceptor", network.name(), Bukkit.getOfflinePlayer(network.owner()).getName());
+            manager.requestTransfer(network, target);
+        }
 
+        else {
+            network.removeUser(target.getUniqueId());
+            network.addUser(network.owner());
+            network.owner(target.getUniqueId());
+        }
+    }
+    
+
+    private void acceptTransfer(CommandContext<CommandSender> context) {
+        Player sender = (Player) context.getSender();
+        Network network = context.get("network");
+
+        if (!manager.canTransfer(network, sender)) {
+            lang.message(sender, "user.owner.norequest");
+            return;
+        }
+
+        lang.message(sender, "user.owner.accept.acceptor", Component.text(network.name()));
+        Player owner = Bukkit.getPlayer(network.owner());
+        if (owner != null) lang.message(owner, "user.owner.accept.donator", sender.displayName());
+
+        manager.acceptTransfer(network);
+
+        network.removeUser(sender.getUniqueId());
+        network.addUser(network.owner());
+        network.owner(sender.getUniqueId());
     }
 
 

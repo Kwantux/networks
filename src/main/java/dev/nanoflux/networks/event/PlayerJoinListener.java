@@ -16,7 +16,6 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         for (NamespacedKey key : CraftingManager.recipes) {
-            System.out.println(key);
             event.getPlayer().discoverRecipe(key);
         }
     }

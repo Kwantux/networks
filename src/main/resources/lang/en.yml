@@ -1,6 +1,6 @@
 prefix: "<green>[Networks]<reset>  "
 
-version: "<dark_green>Networks Plugin</dark_green> by <yellow>Quantum625</yellow>\n<aqua>Version: </aqua><1>"
+version: "<dark_green>Networks Plugin</dark_green> by <yellow>NanoFlux</yellow>\n<aqua>Version: </aqua><1>"
 
 help: "\n
 <bold><dark_green>          Networks v<1> - Help Menu
@@ -121,10 +121,15 @@ rangeupgrade.success: <prefix>Successfully upgraded network <2> to Tier <1>!
 
 user.add: <prefix>Successfully added <2> to the network <1>
 user.remove: <prefix>Successfully removed <2> from the network <1>
-user.owner: <prefix>Transferred ownership of <2> to the Player <1>
 user.add.nochange: <prefix>Player <2> is already added to network <1>
 user.remove.nochange: <prefix>Player <2> hasn't been added to network <1>
+user.owner: <prefix>Transferred ownership of <2> to player <1>
 user.owner.nochange: <prefix>Player <2> was already owner of network <1>
+user.owner.norequest: <prefix><red>Nothing to accept</red>
+user.owner.request.acceptor: <prefix>Player <green><2></green> want's to make you the owner of network <green><1><newline></green>Run <yellow><click:suggest_command:/net accept >/net accept <1></click></yellow> to accept.
+user.owner.request.donator: <prefix>Request was sent to player <1>
+user.owner.accept.acceptor: <prefix>Network <green><1></green> is now your's. The original owner is still added as a user.
+user.owner.accept.donator: <prefix>Transfer request was accepted by <green><1></green>
 
 merge.identical: <prefix><red>Sorry but the laws of physics can't be broken.
 merge.nopermission: <prefix><red>You need to be owner of both networks in order to merge them!

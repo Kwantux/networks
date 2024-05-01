@@ -38,6 +38,7 @@ public class Config {
             config.require("material.range");
             config.require("logStartupInformation");
             config.require("logoOnLaunch");
+            config.require("requestOwnershipTransfers");
             config.require("humanReadableJson");
             config.require("archiveNetworksOnDelete");
 
@@ -50,6 +51,7 @@ public class Config {
     public boolean noticeEnabled() {return config.getFinalBoolean("notice");}
     public boolean humanReadableJson() {return config.getFinalBoolean("humanReadableJson");}
     public boolean archiveNetworksOnDelete() {return config.getFinalBoolean("archiveNetworksOnDelete");}
+    public boolean requestOwnershipTransfers() {return config.getFinalBoolean("requestOwnershipTransfers");}
 
     public void setLanguage(String language) {
         config.set("lang", language);

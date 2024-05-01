@@ -234,4 +234,26 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
         }
     }
 
+
+    //
+    // Owner Transfer
+    //
+
+    Map<Network, Player> transferRequests = new HashMap<>();
+
+    public boolean canTransfer(Network network, Player player) {
+        if (transferRequests.containsKey(network)){
+            return transferRequests.get(network).equals(player);
+        }
+        return false;
+    }
+
+    public void acceptTransfer(Network network) {
+        transferRequests.remove(network);
+    }
+
+    public void requestTransfer(Network network, Player player) {
+        transferRequests.put(network, player);
+    }
+
 }
