@@ -150,6 +150,9 @@ item.name.upgrade.range.0: <reset><bold>Telemetrie Antenne Mk.1
 item.name.upgrade.range.1: <reset><bold>Telemetrie Antenne Mk.2
 item.name.upgrade.range.2: <reset><bold>Telemetrie Antenne Mk.3
 item.name.upgrade.range.3: <reset><bold>Telemetrie Antenne Mk.4
+item.name.upgrade.range.4: <reset><bold>Telemetrie Antenne Mk.5
+# Add more here if you want to add more tiers of upgrades
+
 
 item.lore.wand0:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
@@ -178,19 +181,3 @@ item.lore.upgrade.range:
   - "<reset>Klicke hiermit auf einen Netzwerkkomponenten, um diese Erweiterung zu installieren"
 
 notice: <yellow>Inventar Probleme? Probier mal <white>/networks <yellow>und erstelle dein vollautomatisches Lagersystem!
-
-
-# Networks Manual
-
-manual.help: "\n
-<bold><dark_green>            Manuals v1.0 - Hilfe Menü
-\n============================================</dark_green></bold>
-\n
-\n<click:suggest_command:/manuals list>/manuals list</click> - <yellow>Liste alle Handbücher auf</yellow>
-\n<click:suggest_command:/manuals read >/manuals read (id)</click> - <yellow>Öffne ein Handbuch</yellow>
-\n
-"
-manual.version: "<dark_green>Manuals</dark_green> von <yellow>Quantum625</yellow>\n<aqua>Version: </aqua><1>"
-manual.list: "<green>[Manuals]<reset>  Handbücher auf diesem Server:"
-manual.list.empty: "<green>[Manuals]<reset>  Es gibt keine Handbücher auf diesem Server."
-manual.read: "<green>[Manuals]<reset>  Handbuch <yellow><1></yellow> geöffnet."

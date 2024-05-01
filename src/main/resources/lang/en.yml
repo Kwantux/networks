@@ -152,11 +152,7 @@ item.name.upgrade.range.1: <reset><bold>Telemetry Antenna Tier 2
 item.name.upgrade.range.2: <reset><bold>Telemetry Antenna Tier 3
 item.name.upgrade.range.3: <reset><bold>Telemetry Antenna Tier 4
 item.name.upgrade.range.4: <reset><bold>Telemetry Antenna Tier 5
-# The following are only spare tags, but aren't used in the plugin
-item.name.upgrade.range.5: <reset><bold>Telemetry Antenna Tier 6
-item.name.upgrade.range.6: <reset><bold>Telemetry Antenna Tier 7
-item.name.upgrade.range.7: <reset><bold>Telemetry Antenna Tier 8
-item.name.upgrade.range.8: <reset><bold>Telemetry Antenna Tier 9
+# Add more here if you want to add more tiers of upgrades
 
 
 item.lore.wand0:
@@ -186,19 +182,3 @@ item.lore.upgrade.range:
   - "<reset>Click on a network component to apply this upgrade on its network"
 
 notice: <yellow>Having inventory problems? Try out <white>/networks <yellow>to constructor a fully automated storage network!
-
-
-# Networks Manual
-
-manual.help: "\n
-<bold><dark_green>            Manuals v1.0 - Help Menu
-\n============================================</dark_green></bold>
-\n
-\n<click:suggest_command:/manuals list>/manuals list</click> - <yellow>List all existing manuals</yellow>
-\n<click:suggest_command:/manuals read >/manuals read (id)</click> - <yellow>Open a manual</yellow>
-\n
-"
-manual.version: "<dark_green>Manuals</dark_green> by <yellow>Quantum625</yellow>\n<aqua>Version: </aqua><1>"
-manual.list: "<green>[Manuals]<reset>  Available manuals:"
-manual.list.empty: "<green>[Manuals]<reset>  There are no manuals."
-manual.read: "<green>[Manuals]<reset>  Opened manual <yellow><1></yellow>"
