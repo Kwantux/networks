@@ -141,8 +141,8 @@ wand.info.misc: "<green>Typ: <reset>Restekiste<green>\nNetzwerk: <reset><1><gree
 items.noitems: "<prefix><red>In diesem Netzwerk sind noch keine Items."
 items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:"
 
-item.name.wand0: <reset><red>Netzwerk Konfigurator
-item.name.wand1: <reset><blue>Prioritäts Konfigurator
+item.name.wand0: <reset><red>Netzwerk Konfigurator <green>[Filter]
+item.name.wand1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
 item.name.component.input: <reset>Einfüllkiste
 item.name.component.sorting: <reset>Sortierkiste
 item.name.component.misc: <reset>Restekiste
