@@ -11,6 +11,7 @@ import dev.nanoflux.config.ConfigurationManager;
 import dev.nanoflux.config.lang.LanguageController;
 import dev.nanoflux.manual.ManualManager;
 import dev.nanoflux.networks.Main;
+import dev.nanoflux.networks.Config;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.Manager;
 import org.bukkit.Bukkit;
@@ -29,11 +30,13 @@ public class NetworksCommand extends CommandHandler {
 
     LanguageController lang;
     Manager manager;
+    Config config;
 
     public NetworksCommand(Main plugin, CommandManager commandManager) {
         super(plugin, commandManager);
         lang = plugin.getLanguage();
         manager = plugin.getNetworkManager();
+        config = plugin.getConfiguration();
     }
 
     @Override
@@ -246,16 +249,20 @@ public class NetworksCommand extends CommandHandler {
         String id = context.get("id");
         Player player = (Player) context.getSender();
 
-        if (manager.getFromName(id) != null) {
-            lang.message(player, "create.exists");
+        if (!(manager.withOwner(player.getUniqueId()).size() < config.getMaxNetworks() || player.hasPermission("networks.bypass_limit"))) {
+            lang.message(context.getSender(), "create.limit", player.displayName());
+            return;
         }
 
-        else {
-            manager.create(id, player.getUniqueId());
-            lang.message(player, "create.success", id);
-            manager.select(player, manager.getFromName(id));
-            lang.message(player, "select.success", id);
+        if (manager.getFromName(id) != null) {
+            lang.message(player, "create.exists");
+            return;
         }
+
+        manager.create(id, player.getUniqueId());
+        lang.message(player, "create.success", id);
+        manager.select(player, manager.getFromName(id));
+        lang.message(player, "select.success", id);
     }
 
     private void deleteAsk(CommandContext<CommandSender> context) {
@@ -451,6 +458,11 @@ public class NetworksCommand extends CommandHandler {
         Player target = context.get("player");
         Network network = selection(sender);
         if (network == null) return;
+
+        if (!(manager.withOwner(target.getUniqueId()).size() < config.getMaxNetworks() || sender.hasPermission("networks.bypass_limit"))) {
+            lang.message(context.getSender(), "create.limit", target.displayName());
+            return;
+        }
 
         if (!manager.permissionOwner(sender, selection(sender))) {
             lang.message(sender, "permission.owner");

@@ -79,6 +79,9 @@ public class Config {
         return false;
     }
 
+    public int getMaxNetworks() {
+        return config.getFinalInt("maxNetworks");
+    }
 
     public NetworkProperties defaultProperties() {
         return new NetworkProperties(

@@ -64,6 +64,7 @@ data.save.config: <prefix>Konfiguration gespeichert
 
 create.success: <prefix>Netzwerk <green><1><white> wurde erstellt.
 create.exists: <prefix><yellow>Es gibt bereits ein Netzwerk mit diesem Namen, bitte wähle einen anderen Namen!
+create.limit: <prefix><red>Spieler <white><1></white> kann keine weiteren Netzwerke besitzen!
 
 delete.success: <prefix>Netzwerk <green><1><white> wurde gelöscht.
 delete.confirm: <prefix>Bist du dir sicher, dass du Netzwerk <1> löschen möchtest? Bitte bestätige mit <yellow>/manager delete <1> confirm

@@ -51,9 +51,13 @@ paper {
             description = "Allows you to list networks of other players"
             default = BukkitPluginDescription.Permission.Default.TRUE // TRUE, FALSE, OP or NOT_OP
         }
+        register("networks.bypass_limit") {
+            description = "Allows you to bypass the network owning limit"
+            default = BukkitPluginDescription.Permission.Default.OP // TRUE, FALSE, OP or NOT_OP
+        }
         register("networks.itemview") {
-            description = "Allows you to run the test command"
-            default = BukkitPluginDescription.Permission.Default.TRUE // TRUE, FALSE, OP or NOT_OP
+            description = "Allows you to open the interactive item viem"
+            default = BukkitPluginDescription.Permission.Default.OP // TRUE, FALSE, OP or NOT_OP
         }
         register("networks.data") {
             description = "Allows you to save and reload config and network data"
