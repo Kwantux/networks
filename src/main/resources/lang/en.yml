@@ -135,7 +135,7 @@ rename.taken: <prefix>Name <1> is already taken by another network.
 wand.mode: "<prefix><blue>Wand mode set to [<1>]"
 wand.mode.0: "Filter"
 wand.mode.1: "Priority"
-wand.info.input: "<green>Type: <reset>Input Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\n"
+wand.info.input: "<green>Type: <reset>Input Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nExtra Range: <reset><3><green>\n"
 wand.info.sorting: "<green>Type: <reset>Sorting Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\nFilters: <reset><4>\n"
 wand.info.misc: "<green>Type: <reset>Misc Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\n"
 

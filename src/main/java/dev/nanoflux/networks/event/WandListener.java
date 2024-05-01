@@ -89,8 +89,8 @@ public class WandListener implements Listener {
                             return;
                         }
 
-                        if (component instanceof InputContainer) {
-                            lang.message(p, "wand.info.input", network.name(), l.toString());
+                        if (component instanceof InputContainer container) {
+                            lang.message(p, "wand.info.input", network.name(), l.toString(), container.range());
 
                         }
 
