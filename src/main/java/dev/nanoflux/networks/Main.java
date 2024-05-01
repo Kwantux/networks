@@ -115,6 +115,7 @@ public final class Main extends JavaPlugin {
         new BlockPlaceListener(this, dcu);
         new BlockBreakListener(this, crafting, dcu);
         new WandListener(this, crafting, dcu);
+        new PlayerJoinListener(this);
 
         if (config.logoOnLaunch()) logger.info(startMessage);
 
