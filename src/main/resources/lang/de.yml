@@ -75,8 +75,8 @@ select.success: <prefix>Netzwerk <green><1><white> wurde ausgewählt.
 invalidnetwork: <prefix><red>Es gibt kein Netzwerk mit dem Namen <white><1>
 
 permission.server: <prefix><red>Dieser Befehl ist nur für Server Administratoren verfügbar!
-permission.owner: <prefix><red>Du hast keine Berechtigung, dieses Netzwerk zu bearbeiten!\nDu musst Netzwerkbesitzer oder Server Administrator sein!
-permission.user: <prefix><red>Du hast keine Rechte auf diesem Netzwerk!\nDu musst Nutzer des Netzwerks sein!
+permission.owner: "<prefix><red>Du hast keine Berechtigung, dieses Netzwerk zu bearbeiten!\nDu musst Netzwerkbesitzer oder Server Administrator sein!"
+permission.user: "<prefix><red>Du hast keine Rechte auf diesem Netzwerk!\nDu musst Nutzer des Netzwerks sein!"
 
 list.empty: <prefix>Du hast keine Netzwerke!
 list: "<prefix>Du hast Rechte auf diesen Netzwerken:"
