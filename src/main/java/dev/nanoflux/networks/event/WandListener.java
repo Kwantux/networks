@@ -78,6 +78,7 @@ public class WandListener implements Listener {
                     }
                 }
 
+                if (l == null) return;
                 Network network = net.getNetworkWithComponent(l);
                 NetworkComponent component = net.getComponent(l);
 
