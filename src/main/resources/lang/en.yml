@@ -6,25 +6,25 @@ help: "\n
 <bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
-\n<click:suggest_command:/manager constructor>/manager constructor (id)</click> - <yellow>Create a new network</yellow>
-\n<click:suggest_command:/manager rename>/manager rename (id)</click> - <yellow>Rename a network</yellow>
-\n<click:suggest_command:/manager delete>/manager delete (id)</click> - <yellow>Delete a network</yellow>
+\n<click:suggest_command:/net constructor>/net constructor (id)</click> - <yellow>Create a new network</yellow>
+\n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Rename a network</yellow>
+\n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Delete a network</yellow>
 \n
-\n<click:suggest_command:/manager select>/manager select (id)</click> - <yellow>Select a network</yellow>
+\n<click:suggest_command:/net select>/net select (id)</click> - <yellow>Select a network</yellow>
 \n
-\n<click:suggest_command:/manager list>/manager list</click> - <yellow>List all your networks</yellow>
-\n<click:suggest_command:/manager listall>/manager listall</click> - <yellow>List all of the networks on the server</yellow>
-\n<click:suggest_command:/manager list>/manager list (player)</click> - <yellow>List networks of another player</yellow>
+\n<click:suggest_command:/net list>/net list</click> - <yellow>List all your networks</yellow>
+\n<click:suggest_command:/net listall>/net listall</click> - <yellow>List all of the networks on the server</yellow>
+\n<click:suggest_command:/net list>/net list (player)</click> - <yellow>List networks of another player</yellow>
 \n
-\n<click:suggest_command:/manager user add>/manager user add (player)</click> - <yellow>Give a player access to your network</yellow>
-\n<click:suggest_command:/manager user remove>/manager user remove (player)</click> - <yellow>Revoke a player's access to your network</yellow>
+\n<click:suggest_command:/net user add>/net user add (player)</click> - <yellow>Give a player access to your network</yellow>
+\n<click:suggest_command:/net user remove>/net user remove (player)</click> - <yellow>Revoke a player's access to your network</yellow>
 \n
-\n<click:suggest_command:/manager items>/manager items</click> - <yellow>List all your items</yellow>
-\n<click:suggest_command:/manager view>/manager view</click> - <yellow>See all your items in a visual UI</yellow>
+\n<click:suggest_command:/net items>/net items</click> - <yellow>List all your items</yellow>
+\n<click:suggest_command:/net view>/net view</click> - <yellow>See all your items in a visual UI</yellow>
 \n
-\n<click:suggest_command:/manager merge>/manager merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
+\n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
 \n
-\n<blue><click:run_command:/manager manual>Open the user manual</click></blue>
+\n<blue><click:run_command:/net manual>Open the user manual</click></blue>
 \n
 "
 
@@ -32,28 +32,28 @@ help.admin: "\n
 <bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
-\n<click:suggest_command:/manager data save>/manager data save</click> - <yellow>Save all networks</yellow>
-\n<click:suggest_command:/manager data reload>/manager data reload</click> - <yellow>Reload the configs</yellow>
+\n<click:suggest_command:/net data save>/net data save</click> - <yellow>Save all networks</yellow>
+\n<click:suggest_command:/net data reload>/net data reload</click> - <yellow>Reload the configs</yellow>
 \n
-\n<click:suggest_command:/manager constructor>/manager constructor (id)</click> - <yellow>Create a new network</yellow>
-\n<click:suggest_command:/manager rename>/manager rename (id)</click> - <yellow>Rename a network</yellow>
-\n<click:suggest_command:/manager delete>/manager delete (id)</click> - <yellow>Delete a network</yellow>
+\n<click:suggest_command:/net constructor>/net constructor (id)</click> - <yellow>Create a new network</yellow>
+\n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Rename a network</yellow>
+\n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Delete a network</yellow>
 \n
-\n<click:suggest_command:/manager select>/manager select (id)</click> - <yellow>Select a network</yellow>
+\n<click:suggest_command:/net select>/net select (id)</click> - <yellow>Select a network</yellow>
 \n
-\n<click:suggest_command:/manager list>/manager list</click> - <yellow>List all your networks</yellow>
-\n<click:suggest_command:/manager listall>/manager listall</click> - <yellow>List all of the networks on the server</yellow>
-\n<click:suggest_command:/manager list>/manager list (player)</click> - <yellow>List networks of another player</yellow>
+\n<click:suggest_command:/net list>/net list</click> - <yellow>List all your networks</yellow>
+\n<click:suggest_command:/net listall>/net listall</click> - <yellow>List all of the networks on the server</yellow>
+\n<click:suggest_command:/net list>/net list (player)</click> - <yellow>List networks of another player</yellow>
 \n
-\n<click:suggest_command:/manager user add>/manager user add (player)</click> - <yellow>Give a player access to your network</yellow>
-\n<click:suggest_command:/manager user remove>/manager user remove (player)</click> - <yellow>Revoke a player's access to your network</yellow>
+\n<click:suggest_command:/net user add>/net user add (player)</click> - <yellow>Give a player access to your network</yellow>
+\n<click:suggest_command:/net user remove>/net user remove (player)</click> - <yellow>Revoke a player's access to your network</yellow>
 \n
-\n<click:suggest_command:/manager items>/manager items</click> - <yellow>List all your items</yellow>
-\n<click:suggest_command:/manager view>/manager view</click> - <yellow>See all your items in a visual UI</yellow>
+\n<click:suggest_command:/net items>/net items</click> - <yellow>List all your items</yellow>
+\n<click:suggest_command:/net view>/net view</click> - <yellow>See all your items in a visual UI</yellow>
 \n
-\n<click:suggest_command:/manager merge>/manager merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
+\n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
 \n
-\n<blue><click:run_command:/manager manual>Open the user manual</click></blue>
+\n<blue><click:run_command:/net manual>Open the user manual</click></blue>
 \n
 "
 
@@ -69,10 +69,10 @@ create.illegal_name: <prefix><red>Network names must only contain A-Z, 0-9, _ an
 
 
 delete.success: <prefix>Successfully deleted storage network <green><1>
-delete.confirm: <prefix>Are you sure you want to delete storage network <1>? Please confirm with <yellow>/manager delete <1> confirm
+delete.confirm: <prefix>Are you sure you want to delete storage network <1>? Please confirm with <yellow>/net delete <1> confirm
 delete.fail: <prefix><red>This network doesn't exist
 
-select.noselection: <prefix><red>No network was selected. Please select a network using <white>/manager select <network>
+select.noselection: <prefix><red>No network was selected. Please select a network using <white>/net select <network>
 select.success: <prefix>Successfully selected storage network <green><1>
 
 invalidnetwork: <prefix><1> <red>is not a valid network!

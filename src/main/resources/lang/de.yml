@@ -6,25 +6,25 @@ help: "\n
 <bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
-\n<click:suggest_command:/manager constructor>/manager constructor (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
-\n<click:suggest_command:/manager rename>/manager rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
-\n<click:suggest_command:/manager delete>/manager delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
+\n<click:suggest_command:/net constructor>/net constructor (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
+\n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
+\n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
 \n
-\n<click:suggest_command:/manager select>/manager select (id)</click> - <yellow>Ein Netzwerk auswählen</yellow>
+\n<click:suggest_command:/net select>/net select (id)</click> - <yellow>Ein Netzwerk auswählen</yellow>
 \n
-\n<click:suggest_command:/manager list>/manager list</click> - <yellow>Alle eigenen Netzwerke auflisten</yellow>
-\n<click:suggest_command:/manager listall>/manager listall</click> - <yellow>Alle Netzwerke auf dem Server auflisten</yellow>
-\n<click:suggest_command:/manager list>/manager list (Spieler)</click> - <yellow>Alle Netzwerke eines anderen Spielers auflisten</yellow>
+\n<click:suggest_command:/net list>/net list</click> - <yellow>Alle eigenen Netzwerke auflisten</yellow>
+\n<click:suggest_command:/net listall>/net listall</click> - <yellow>Alle Netzwerke auf dem Server auflisten</yellow>
+\n<click:suggest_command:/net list>/net list (Spieler)</click> - <yellow>Alle Netzwerke eines anderen Spielers auflisten</yellow>
 \n
-\n<click:suggest_command:/manager user add>/manager user add (Spieler)</click> - <yellow>Gibt einem Spieler Zugriff auf dein Netzwerk</yellow>
-\n<click:suggest_command:/manager user remove>/manager user remove (Spieler)</click> - <yellow>Entziehe einem Spieler Rechte auf dein Netzwerk</yellow>
+\n<click:suggest_command:/net user add>/net user add (Spieler)</click> - <yellow>Gibt einem Spieler Zugriff auf dein Netzwerk</yellow>
+\n<click:suggest_command:/net user remove>/net user remove (Spieler)</click> - <yellow>Entziehe einem Spieler Rechte auf dein Netzwerk</yellow>
 \n
-\n<click:suggest_command:/manager items>/manager items</click> - <yellow>Listet alle Items in deinem Netzwerk nach Häufgkeit auf</yellow>
-\n<click:suggest_command:/manager view>/manager view</click> - <yellow>Öffnet ein Menü, mit allen deinen Items</yellow>
+\n<click:suggest_command:/net items>/net items</click> - <yellow>Listet alle Items in deinem Netzwerk nach Häufgkeit auf</yellow>
+\n<click:suggest_command:/net view>/net view</click> - <yellow>Öffnet ein Menü, mit allen deinen Items</yellow>
 \n
-\n<click:suggest_command:/manager merge>/manager merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
+\n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
 \n
-\n<blue><click:run_command:/manager manual>Öffne das Networks Nutzerhandbuch</click></blue>
+\n<blue><click:run_command:/net manual>Öffne das Networks Nutzerhandbuch</click></blue>
 \n
 "
 
@@ -32,28 +32,28 @@ help.admin: "\n
 <bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
-\n<click:suggest_command:/manager data save>/manager data save</click> - <yellow>Alle Netzwerke speichern</yellow>
-\n<click:suggest_command:/manager data reload>/manager data reload</click> - <yellow>Lädt die Konfigurationsdateien neu</yellow>
+\n<click:suggest_command:/net data save>/net data save</click> - <yellow>Alle Netzwerke speichern</yellow>
+\n<click:suggest_command:/net data reload>/net data reload</click> - <yellow>Lädt die Konfigurationsdateien neu</yellow>
 \n
-\n<click:suggest_command:/manager constructor>/manager constructor (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
-\n<click:suggest_command:/manager rename>/manager rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
-\n<click:suggest_command:/manager delete>/manager delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
+\n<click:suggest_command:/net constructor>/net constructor (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
+\n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
+\n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
 \n
-\n<click:suggest_command:/manager select>/manager select (id)</click> - <yellow>Ein Netzwerk auswählen</yellow>
+\n<click:suggest_command:/net select>/net select (id)</click> - <yellow>Ein Netzwerk auswählen</yellow>
 \n
-\n<click:suggest_command:/manager list>/manager list</click> - <yellow>Alle eigenen Netzwerke auflisten</yellow>
-\n<click:suggest_command:/manager listall>/manager listall</click> - <yellow>Alle Netzwerke auf dem Server auflisten</yellow>
-\n<click:suggest_command:/manager list>/manager list (Spieler)</click> - <yellow>Alle Netzwerke eines anderen Spielers auflisten</yellow>
+\n<click:suggest_command:/net list>/net list</click> - <yellow>Alle eigenen Netzwerke auflisten</yellow>
+\n<click:suggest_command:/net listall>/net listall</click> - <yellow>Alle Netzwerke auf dem Server auflisten</yellow>
+\n<click:suggest_command:/net list>/net list (Spieler)</click> - <yellow>Alle Netzwerke eines anderen Spielers auflisten</yellow>
 \n
-\n<click:suggest_command:/manager user add>/manager user add (Spieler)</click> - <yellow>Gibt einem Spieler Zugriff auf dein Netzwerk</yellow>
-\n<click:suggest_command:/manager user remove>/manager user remove (Spieler)</click> - <yellow>Entziehe einem Spieler Rechte auf dein Netzwerk</yellow>
+\n<click:suggest_command:/net user add>/net user add (Spieler)</click> - <yellow>Gibt einem Spieler Zugriff auf dein Netzwerk</yellow>
+\n<click:suggest_command:/net user remove>/net user remove (Spieler)</click> - <yellow>Entziehe einem Spieler Rechte auf dein Netzwerk</yellow>
 \n
-\n<click:suggest_command:/manager items>/manager items</click> - <yellow>Listet alle Items in deinem Netzwerk nach Häufgkeit auf</yellow>
-\n<click:suggest_command:/manager view>/manager view</click> - <yellow>Öffnet ein Menü, mit allen deinen Items</yellow>
+\n<click:suggest_command:/net items>/net items</click> - <yellow>Listet alle Items in deinem Netzwerk nach Häufgkeit auf</yellow>
+\n<click:suggest_command:/net view>/net view</click> - <yellow>Öffnet ein Menü, mit allen deinen Items</yellow>
 \n
-\n<click:suggest_command:/manager merge>/manager merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
+\n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
 \n
-\n<blue><click:run_command:/manager manual>Öffne das Networks Nutzerhandbuch</click></blue>
+\n<blue><click:run_command:/net manual>Öffne das Networks Nutzerhandbuch</click></blue>
 \n
 "
 
@@ -68,9 +68,9 @@ create.limit: <prefix><red>Spieler <white><1></white> kann keine weiteren Netzwe
 create.illegal_name: <prefix><red>Netzwerknamen können nur A-Z, 0-9, _ und - beinhalten und nicht über 20 Zeichen lang sein!
 
 delete.success: <prefix>Netzwerk <green><1><white> wurde gelöscht.
-delete.confirm: <prefix>Bist du dir sicher, dass du Netzwerk <1> löschen möchtest? Bitte bestätige mit <yellow>/manager delete <1> confirm
+delete.confirm: <prefix>Bist du dir sicher, dass du Netzwerk <1> löschen möchtest? Bitte bestätige mit <yellow>/net delete <1> confirm
 
-select.noselection: <prefix><red>Kein Netzwerk wurde ausgewählt, bitte wähle ein Netzwerk aus mit <white>/manager select <network>
+select.noselection: <prefix><red>Kein Netzwerk wurde ausgewählt, bitte wähle ein Netzwerk aus mit <white>/net select <network>
 select.success: <prefix>Netzwerk <green><1><white> wurde ausgewählt.
 
 invalidnetwork: <prefix><red>Es gibt kein Netzwerk mit dem Namen <white><1>
