@@ -45,6 +45,11 @@ public class LanguageController {
         File[] files = new File(plugin.getDataFolder(), "lang/").listFiles();
         for (File file : files) {
             try {
+                // Fix for running a server that is stored on a mounted folder and there are one or more .fuse_hidden files
+                // Ie. storage is an NFS share mounted to /mnt/servers
+                // That folder is then bind mounted into a docker container that runs the actual server.
+                if (!file.getName().endsWith(".yml")) continue;
+
                 String key = file.getName().toLowerCase().replaceAll(".yml", "");
                 if (!orderString.contains(key)) {
                     languages.add(new Language(plugin, key));
