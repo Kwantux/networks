@@ -36,7 +36,7 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
     }
 
     public boolean create(String name, UUID owner) {
-        if (this.getFromName(name) == null) {
+        if (this.networks.get(name) == null) {
             networks.put(name, new Network(name, owner));
             storage.create(name, owner);
             return true;
@@ -45,7 +45,7 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
     }
 
     public boolean delete(String id) {
-        if (getFromName(id) != null) {
+        if (networks.get(id) != null) {
             networks.remove(id);
             storage.delete(id);
             return true;
@@ -55,9 +55,9 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
 
 
     public boolean rename(String name, String newname) {
-        Network network = getFromName(name);
+        Network network = networks.get(name);
         if (network == null) return false;
-        if (getFromName(newname) != null) return false;
+        if (networks.get(newname) != null) return false;
         network.name(newname);
         storage.renameNetwork(name, newname);
         return true;
@@ -87,8 +87,8 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
         networks.clear();
         for (String id : storage.getNetworkIDs()) {
             networks.put(id, storage.loadNetwork(id));
-            for (NetworkComponent coponent : getFromName(id).components()) {
-                locations.put(coponent.pos(), getFromName(id));
+            for (NetworkComponent coponent : networks.get(id).components()) {
+                locations.put(coponent.pos(), networks.get(id));
             }
         }
         logger.info("Loaded " + networks.size() + " Networks");
@@ -107,12 +107,7 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
 
 
     public Network getFromName(String name) {
-        for (Network network : networks.values()) {
-            if (network.name().equalsIgnoreCase(name)) {
-                return network;
-            }
-        }
-        return null;
+        return networks.get(name);
     }
 
 

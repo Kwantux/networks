@@ -6,7 +6,7 @@ import java.util.*;
 
 public interface Storage {
 
-    void create(String id, UUID owner);
+    boolean create(String id, UUID owner);
     void delete(String id);
     void renameNetwork(String id, String newName);
 

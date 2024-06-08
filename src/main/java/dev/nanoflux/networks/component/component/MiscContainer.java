@@ -41,6 +41,10 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
         this.acceptorPriority = acceptorPriority;
         this.supplierPriority = supplierPriority;
     }
+    public MiscContainer(BlockLocation pos, int acceptorPriority) {
+        super(pos);
+        this.acceptorPriority = acceptorPriority;
+    }
     public MiscContainer(BlockLocation pos) {
         super(pos);
     }

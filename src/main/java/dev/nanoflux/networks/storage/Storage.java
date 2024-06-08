@@ -4,12 +4,11 @@ import com.google.gson.*;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.component.NetworkComponent;
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,8 +17,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static dev.nanoflux.networks.Main.logger;
+
 public class Storage implements dev.nanoflux.networks.api.Storage {
 
+    private static final Logger log = LoggerFactory.getLogger(Storage.class);
     private final Main plugin;
     private final Path path;
 
@@ -45,8 +47,10 @@ public class Storage implements dev.nanoflux.networks.api.Storage {
      * @return
      */
     @Override
-    public void create(String id, UUID owner) {
+    public boolean create(String id, UUID owner) {
+        if (path.resolve(id+".json").toFile().exists()) return false;
         saveNetwork(id, new Network(id, owner));
+        return true;
     }
 
     /**
@@ -73,9 +77,23 @@ public class Storage implements dev.nanoflux.networks.api.Storage {
     public Network loadNetwork(String id) {
         try {
             String json = Files.readString(path.resolve(id+".json"), StandardCharsets.UTF_8);
-            return new Network(id, gson.fromJson(json, SerializableNetwork.class));
+            try {
+                // Try modern format
+                return new Network(id, gson.fromJson(json, SerializableNetwork.class));
+            } catch (RuntimeException e) {
+                try {
+                    // Try legacy format
+                    Network network = gson.fromJson(json, LegacyNetwork.class).convert(id);
+                    saveNetwork(id, network);
+                    return network;
+                } catch (RuntimeException ignored) {
+                    logger.severe("Unable to load Network with ID " + id + "\n" + "The network file is likely corrupted.");
+                    throw e;
+                }
+            }
         } catch (IOException e) {
-            throw new RuntimeException("Unable to load Network with ID " + id + ": " + e);
+            logger.severe("Unable to load Network with ID " + id + "\n" + "This is likely due to incorrectly set file permissions.");
+            throw new RuntimeException(e);
         }
     }
 

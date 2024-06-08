@@ -41,6 +41,12 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
         );
     }
 
+    public SortingContainer(BlockLocation pos, String[] filters, int acceptorPriority) {
+        super(pos);
+        this.filters = filters;
+        this.acceptorPriority = acceptorPriority;
+    }
+
     public SortingContainer(BlockLocation pos, String[] filters, int acceptorPriority, int supplierPriority) {
         super(pos);
         this.filters = filters;

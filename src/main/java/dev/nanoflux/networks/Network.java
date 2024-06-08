@@ -117,6 +117,15 @@ public class Network {
     /**
      * Add a component to the network
      * ONLY FOR INTERNAL USAGE
+     * Use {@link Manager#addComponent(Network, NetworkComponent)} instead
+     */
+    public void addComponents(List<NetworkComponent> components) {
+        components.addAll(components);
+    }
+
+    /**
+     * Add a component to the network
+     * ONLY FOR INTERNAL USAGE
      * Use {@link Manager#removeComponent(Network, NetworkComponent)} instead
      */
     public void removeComponent(NetworkComponent component) {
