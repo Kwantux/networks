@@ -8,7 +8,7 @@ public interface Storage {
 
     boolean create(String id, UUID owner);
     void delete(String id);
-    void renameNetwork(String id, String newName);
+    boolean renameNetwork(String id, String newName);
 
     Set<String> getNetworkIDs();
 

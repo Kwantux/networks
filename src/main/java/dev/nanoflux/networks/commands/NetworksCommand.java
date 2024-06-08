@@ -252,6 +252,10 @@ public class NetworksCommand extends CommandHandler {
     private void create(CommandContext<CommandSender> context) {
 
         String id = context.get("id");
+        if (!Network.validName(id)) {
+            lang.message(context.getSender(), "create.illegal_name");
+            return;
+        }
         Player player = (Player) context.getSender();
 
         if (!(manager.withOwner(player.getUniqueId()).size() < config.getMaxNetworks() || player.hasPermission("networks.bypass_limit"))) {
@@ -264,7 +268,10 @@ public class NetworksCommand extends CommandHandler {
             return;
         }
 
-        manager.create(id, player.getUniqueId());
+        if (!manager.create(id, player.getUniqueId())) {
+            lang.message(player, "create.unknown_fail");
+            return;
+        }
         lang.message(player, "create.success", id);
         manager.select(player, manager.getFromName(id));
         lang.message(player, "select.success", id);
@@ -313,6 +320,10 @@ public class NetworksCommand extends CommandHandler {
     private void rename(CommandContext<CommandSender> context) {
         Network network = context.get("network");
         String newID = context.get("newID");
+        if (!Network.validName(newID)) {
+            lang.message(context.getSender(), "create.illegal_name");
+            return;
+        }
         String oldID = network.name();
         CommandSender sender = context.getSender();
 

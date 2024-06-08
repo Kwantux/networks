@@ -47,6 +47,11 @@ public class Network {
     }
 
 
+    static public boolean validName(String name) {
+        return name.matches("^[a-zA-Z0-9_-]*$") && name.length() <= 20;
+    }
+
+
     public String name() {
         return this.id;
     }
@@ -57,6 +62,7 @@ public class Network {
     public UUID owner() {
         return this.owner;
     }
+
 
     public void owner(UUID owner) {
         this.owner = owner;

@@ -4,7 +4,6 @@ import com.google.gson.*;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.component.NetworkComponent;
-import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +47,7 @@ public class Storage implements dev.nanoflux.networks.api.Storage {
      */
     @Override
     public boolean create(String id, UUID owner) {
+        if (!Network.validName(id)) return false; // Illegal characters
         if (path.resolve(id+".json").toFile().exists()) return false;
         saveNetwork(id, new Network(id, owner));
         return true;
@@ -104,12 +104,15 @@ public class Storage implements dev.nanoflux.networks.api.Storage {
      * @return
      */
     @Override
-    public void renameNetwork(String id, String newName) {
+    public boolean renameNetwork(String id, String newName) {
+        if (!Network.validName(id)) return false; // Illegal characters
+        if (path.resolve(id+".json").toFile().exists()) return false;
         try {
             Files.move(path.resolve(id+".json"), path.resolve(newName+".json"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 
 
