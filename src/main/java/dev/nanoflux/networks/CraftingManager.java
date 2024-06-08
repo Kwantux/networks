@@ -150,7 +150,6 @@ public class CraftingManager {
 
     private void registerComponent(ComponentType type) {
 
-
         String configPath = "component."+ type.tag + ".block";
 
         for (Material mat : pluginconfig.componentBlocks(type)) {

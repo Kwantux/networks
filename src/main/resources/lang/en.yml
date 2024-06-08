@@ -153,6 +153,9 @@ item.name.wand1: <reset><red>Network Wand <blue>[Priority]
 item.name.component.input: <reset>Input Container
 item.name.component.sorting: <reset>Sorting Container
 item.name.component.misc: <reset>Miscellaneous Container
+item.name.component.input.upgrade: <reset>Input Container Upgrade
+item.name.component.sorting.upgrade: <reset>Sorting Container Upgrade
+item.name.component.misc.upgrade: <reset>Miscellaneous Container Upgrade
 item.name.upgrade.range.0: <reset><bold>Telemetry Antenna Tier 1
 item.name.upgrade.range.1: <reset><bold>Telemetry Antenna Tier 2
 item.name.upgrade.range.2: <reset><bold>Telemetry Antenna Tier 3
@@ -182,6 +185,18 @@ item.lore.component.sorting:
   - ""
   - "<reset>Filter Items:"
 item.lore.component.misc:
+  - "<reset><blue>All remaining items will go into these"
+
+item.lore.component.input.upgrade:
+  - "<reset><blue>Right click on a chest to make it an input container"
+  - "<reset><blue>Sorts items into sorting containers and misc containers"
+item.lore.component.sorting.upgrade:
+  - "<reset><blue>Right click on a chest to make it a sorting container"
+  - "<reset><blue>Only accepts items that match the filter of this container"
+  - ""
+  - "<reset>Filter Items:"
+item.lore.component.misc.upgrade:
+  - "<reset><blue>Right click on a chest to make it a misc container"
   - "<reset><blue>All remaining items will go into these"
 
 item.lore.upgrade.range:

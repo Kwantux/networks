@@ -45,7 +45,7 @@ public class BlockBreakListener implements Listener {
                     
                     if (net.permissionUser(event.getPlayer(), network)) {
 
-                        ItemStack item = component.type.blockItem(event.getBlock().getType());
+                        ItemStack item = component.type().blockItem(event.getBlock().getType());
                         Bukkit.getServer().getWorld(component.pos().getWorld()).dropItem(component.pos().getBukkitLocation(), item);
                         event.setDropItems(false);
 

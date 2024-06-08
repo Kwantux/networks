@@ -18,7 +18,7 @@ import java.util.Map;
 
 public abstract class NetworkComponent {
 
-    public static ComponentType type;
+    public abstract ComponentType type();
 
     protected BlockLocation pos;
 
@@ -39,35 +39,5 @@ public abstract class NetworkComponent {
         }
         // TODO: Remove Component from database
         return null;
-    }
-
-    
-    
-    protected static ItemStack blockItem(Material material) {
-        ItemStack stack = new ItemStack(material);
-        ItemMeta meta = stack.getItemMeta();
-        try {
-            meta.displayName(Main.lang.getItemName("component." + type.tag()));
-            meta.lore(Main.lang.getItemLore("component." + type.tag()));
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        }
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-        stack.setItemMeta(meta);
-        return stack;
-    }
-
-    protected static ItemStack upgradeItem(Material material) {
-        ItemStack stack = new ItemStack(material);
-        ItemMeta meta = stack.getItemMeta();
-        try {
-            meta.displayName(Main.lang.getItemName("component." + type.tag() + ".upgrade.name"));
-            meta.lore(Main.lang.getItemLore("component." + type.tag() + ".upgrade.description"));
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        }
-        stack.setItemMeta(meta);
-        return stack;
     }
 }
