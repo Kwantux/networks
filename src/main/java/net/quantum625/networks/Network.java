@@ -30,7 +30,9 @@ public class Network {
     private final ArrayList<MiscContainer> misc_containers = new ArrayList<>();
     private final ArrayList<Furnace> furnaces = new ArrayList<>();
 
-
+    static public boolean validName(String name) {
+        return name.matches("^[a-zA-Z0-9_-]*$") && name.length() <= 20;
+    }
 
     public Network(String id, UUID owner, int maxContainers, int maxRange) {
         this.id = id;

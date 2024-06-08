@@ -64,6 +64,7 @@ data.save.config: <prefix>Saved config files
 
 create.success: <prefix>Successfully created storage network <green><1>
 create.exists: <prefix><yellow>There is already a network with this name, please select another name!
+create.illegal_name: <prefix><red>Network names must only contain A-Z, 0-9, _ and - and must be at most 20 characters long!
 
 delete.success: <prefix>Successfully deleted storage network <green><1>
 delete.confirm: <prefix>Are you sure you want to delete storage network <1>? Please confirm with <yellow>/net delete <1> confirm

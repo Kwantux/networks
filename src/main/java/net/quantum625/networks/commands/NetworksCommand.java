@@ -238,6 +238,11 @@ public class NetworksCommand extends CommandHandler {
         String id = context.get("id");
         Player player = (Player) context.getSender();
 
+        if (!Network.validName(id)) {
+            lang.message(context.getSender(), "create.illegal_name");
+            return;
+        }
+
         if (net.getFromID(id) != null) {
             lang.message(player, "create.exists");
         }
@@ -295,6 +300,11 @@ public class NetworksCommand extends CommandHandler {
         String newID = context.get("newID");
         String oldID = network.getID();
         CommandSender sender = context.getSender();
+
+        if (!Network.validName(newID)) {
+            lang.message(context.getSender(), "create.illegal_name");
+            return;
+        }
 
         if (net.checkNetworkPermission(sender, network) > 1) {
             if (net.rename(oldID, newID)) lang.message(sender, "rename.success", network.getID());
