@@ -1,5 +1,6 @@
 package net.quantum625.networks.listener;
 
+import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
@@ -19,7 +20,7 @@ public class ItemTransportEventListener implements Listener {
         net = main.getNetworkManager();
     }
 
-    @EventHandler(priority= EventPriority.MONITOR)
+    @EventHandler(priority= EventPriority.HIGH)
     public void onItemTransport(InventoryMoveItemEvent event) {
         org.bukkit.Location loc = event.getDestination().getLocation();
         if (loc == null) return;
@@ -28,8 +29,15 @@ public class ItemTransportEventListener implements Listener {
         if (network == null) return;
         InputContainer container = network.getInputContainerByLocation(location);
         if (container != null) {
-            if (net.sortItem(event.getItem().clone(), location, container.getInventory())) {
-                event.setItem(new ItemStack(Material.AIR));
+            if (net.sortItem(event.getItem(), location, container.getInventory())) {
+                event.setCancelled(true);
+                for (ItemStack stack : event.getSource().getContents()) {
+                    if (stack == null) continue;
+                    if (stack.isSimilar(event.getItem())) {
+                        stack.setAmount(stack.getAmount() - 1);
+                        break;
+                    }
+                }
             }
         }
     }
