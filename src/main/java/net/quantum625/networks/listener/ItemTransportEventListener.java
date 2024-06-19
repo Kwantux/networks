@@ -12,6 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class ItemTransportEventListener implements Listener {
     private final NetworkManager net;
@@ -29,16 +30,12 @@ public class ItemTransportEventListener implements Listener {
         if (network == null) return;
         InputContainer container = network.getInputContainerByLocation(location);
         if (container != null) {
-            if (net.sortItem(event.getItem(), location, container.getInventory())) {
-                event.setCancelled(true);
-                for (ItemStack stack : event.getSource().getContents()) {
-                    if (stack == null) continue;
-                    if (stack.isSimilar(event.getItem())) {
-                        stack.setAmount(stack.getAmount() - 1);
-                        break;
-                    }
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    network.sort(container.getPos());
                 }
-            }
+            }.runTask(Main.getInstance());
         }
     }
 }

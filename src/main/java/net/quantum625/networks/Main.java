@@ -8,6 +8,7 @@ import net.quantum625.networks.data.CraftingManager;
 import net.quantum625.networks.inventory.InventoryMenuManager;
 import net.quantum625.networks.utils.DoubleChestUtils;
 import net.quantum625.networks.listener.*;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -25,6 +26,10 @@ public final class Main extends JavaPlugin {
     private CraftingManager crafting;
     private DoubleChestUtils dcu;
     private LanguageController lang;
+
+    public static Plugin getInstance() {
+        return JavaPlugin.getPlugin(Main.class);
+    }
 
     @Override
     public void onEnable() {
