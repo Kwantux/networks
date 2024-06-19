@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "net.quantum625"
-version = "2.1.6"
+version = "2.1.7"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -28,7 +28,7 @@ dependencies {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 bukkit {
@@ -59,6 +59,6 @@ bukkit {
 
 tasks {
     runServer {
-        minecraftVersion("1.20.4")
+        minecraftVersion("1.21")
     }
 }
