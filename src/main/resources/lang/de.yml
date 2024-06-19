@@ -67,7 +67,7 @@ create.exists: <prefix><yellow>Es gibt bereits ein Netzwerk mit diesem Namen, bi
 
 delete.success: <prefix>Netzwerk <green><1><white> wurde gelöscht.
 delete.confirm: <prefix>Bist du dir sicher, dass du Netzwerk <1> löschen möchtest? Bitte bestätige mit <yellow>/net delete <1> confirm
-create.illegal_name: <prefix><red>Netzwerknamen können nur A-Z, 0-9, _ und - beinhalten und nicht über 20 Zeichen lang sein!
+create.illegal_name: "<prefix><red>Netzwerknamen können nur A-Z, 0-9, _ und - beinhalten und nicht über 20 Zeichen lang sein!"
 
 select.noselection: <prefix><red>Kein Netzwerk wurde ausgewählt, bitte wähle ein Netzwerk aus mit <white>/net select <network>
 select.success: <prefix>Netzwerk <green><1><white> wurde ausgewählt.
