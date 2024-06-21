@@ -12,7 +12,7 @@ This Project is developed by <a href="https://github.com/nanoflux">@NanoFlux</a>
 
 [Bukkit](https://dev.bukkit.org/projects/networks)
 
-[Wiki](https://wiki.quantumflux.de)
+[Wiki](https://networks.quantumflux.de)
 
 ### What is a network?
 
