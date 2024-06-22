@@ -21,6 +21,7 @@ public class ComponentListener implements Listener {
     public ComponentListener(Main plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         this.manager = plugin.getNetworkManager();
+        Sorter.setConfig(plugin.getConfiguration());
     }
 
     private void check(org.bukkit.Location location) {
