@@ -7,9 +7,13 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Chest;
 
+import java.util.List;
+
 public class DoubleChestUtils {
 
     private final NetworkManager net;
+
+    private static final List<Material> CHESTS = List.of(Material.CHEST, Material.TRAPPED_CHEST);
 
     public DoubleChestUtils(NetworkManager net) {
         this.net = net;
@@ -17,7 +21,7 @@ public class DoubleChestUtils {
 
     public BaseComponent componentAt(Location pos) {
         BaseComponent component = net.getComponentByLocation(pos);
-        if (component == null && pos.getBlock().getType().equals(Material.CHEST)) {
+        if (component == null && CHESTS.contains(pos.getBlock().getType())) {
             Chest chest = (Chest) pos.getBlock().getBlockData();
             component = net.getComponentByLocation(shift(pos, chest.getType(), chest.getFacing()));
         }
