@@ -4,7 +4,10 @@ import it.unimi.dsi.fastutil.objects.Object2ReferenceArrayMap;
 import net.quantum625.networks.Main;
 import net.quantum625.networks.Network;
 import net.quantum625.networks.NetworkManager;
+import net.quantum625.networks.component.BaseComponent;
+import net.quantum625.networks.component.ComponentType;
 import net.quantum625.networks.component.InputContainer;
+import net.quantum625.networks.utils.DoubleChestUtils;
 import net.quantum625.networks.utils.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -16,9 +19,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ItemTransportEventListener implements Listener {
     private final NetworkManager net;
+    private final DoubleChestUtils dcu;
 
     public ItemTransportEventListener(Main main) {
         net = main.getNetworkManager();
+        dcu = new DoubleChestUtils(net);
     }
 
     @EventHandler(priority= EventPriority.HIGH)
@@ -26,16 +31,15 @@ public class ItemTransportEventListener implements Listener {
         org.bukkit.Location loc = event.getDestination().getLocation();
         if (loc == null) return;
         Location location = new Location(loc);
-        Network network = net.getNetworkWithComponent(location);
-        if (network == null) return;
-        InputContainer container = network.getInputContainerByLocation(location);
-        if (container != null) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    network.sort(container.getPos());
-                }
-            }.runTask(Main.getInstance());
-        }
+        BaseComponent component = dcu.componentAt(location);
+        if (!(component instanceof InputContainer)) return;
+        Network network = net.getNetworkWithComponent(component.getPos());
+        assert network != null; // If there's a component, there should be a network with that component
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                network.sort(component.getPos());
+            }
+        }.runTask(Main.getInstance());
     }
 }
