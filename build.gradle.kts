@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "net.quantum625"
-version = "2.1.8"
+version = "2.1.9"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -28,7 +28,7 @@ dependencies {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 bukkit {
