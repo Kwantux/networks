@@ -44,7 +44,7 @@ public class BlockBreakEventListener implements Listener {
                     
                     dcu.disconnectChests(component.getPos());
                     
-                    if (net.checkNetworkPermission(event.getPlayer(), network) > 1) {
+                    if (net.checkNetworkPermission(event.getPlayer(), network) > 0) {
                         if (component instanceof InputContainer) {
                             ItemStack inputContainer = crafting.getInputContainer(event.getBlock().getType());
                             Bukkit.getServer().getWorld(component.getPos().getDim()).dropItem(component.getPos().getBukkitLocation(), inputContainer);
