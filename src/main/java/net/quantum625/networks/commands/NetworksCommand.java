@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -318,12 +319,12 @@ public class NetworksCommand extends CommandHandler {
 
     private void list(CommandContext<CommandSender> context) {
         Player player = (Player) context.getSender();
-        List<Network> list = net.listFromUser(player.getUniqueId());
-        List<Network> owned = net.listFromUser(player.getUniqueId());
+        Set<Network> list = net.listFromUser(player.getUniqueId());
+        Set<Network> owned = net.listFromUser(player.getUniqueId());
 
 
 
-        if (list.size() == 0) {
+        if (list.isEmpty()) {
             lang.message(player, "list.empty");
         }
 
@@ -359,8 +360,8 @@ public class NetworksCommand extends CommandHandler {
 
         Player player = context.get("player");
         CommandSender sender = context.getSender();
-        List<Network> list = net.listFromUser(player.getUniqueId());
-        List<Network> owned = net.listFromOwner(player.getUniqueId());
+        Set<Network> list = net.listFromUser(player.getUniqueId());
+        Set<Network> owned = net.listFromOwner(player.getUniqueId());
 
 
         if (list.size() == 0) {
