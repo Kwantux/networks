@@ -117,8 +117,8 @@ public final class NetworkManager {
         return this.networks;
     }
 
-    public ArrayList<Network> listFromOwner(UUID player) {
-        ArrayList<Network> result = new ArrayList<Network>();
+    public Set<Network> listFromOwner(UUID player) {
+        Set<Network> result = new HashSet<>();
         for (Network network : networks) {
             if (network.getOwner().equals(player)) {
                 result.add(network);
@@ -127,8 +127,8 @@ public final class NetworkManager {
         return result;
     }
 
-    public ArrayList<Network> listFromUser(UUID player) {
-        ArrayList<Network> result = new ArrayList<Network>();
+    public Set<Network> listFromUser(UUID player) {
+        Set<Network> result = new HashSet<>();
         for (Network network : networks) {
             if (network.getUsers().contains(player)) {
                 result.add(network);
@@ -144,7 +144,7 @@ public final class NetworkManager {
     public ArrayList<UUID> getNoticedPlayers() {
         ArrayList<UUID> result = new ArrayList<>(noticedPlayers);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (listFromUser(player.getUniqueId()).size() > 0) {
+            if (!listFromUser(player.getUniqueId()).isEmpty()) {
                 result.add(player.getUniqueId());
             }
         }

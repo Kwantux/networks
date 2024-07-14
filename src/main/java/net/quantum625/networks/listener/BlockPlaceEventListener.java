@@ -51,7 +51,7 @@ public class BlockPlaceEventListener implements Listener {
 
                 if (item.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING)) {
 
-                    if (net.getSelectedNetwork(p) != null) {
+                    if (net.getSelectedNetwork(p) != null && net.checkNetworkPermission(p, network) > 0) {
 
                         String componentType = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "component_type"), PersistentDataType.STRING);
 
