@@ -34,6 +34,15 @@ public final class Main extends JavaPlugin {
     public static DoubleChestUtils dcu;
     public static LanguageController lang;
 
+    private static boolean isFolia() {
+        try {
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
     @Override
     public void onEnable() {
 
@@ -117,6 +126,10 @@ public final class Main extends JavaPlugin {
         new BlockBreakListener(this, crafting, dcu);
         new WandListener(this, crafting, dcu);
         new PlayerJoinListener(this);
+
+        if (isFolia()) {
+            logger.warning("Folia support on Networks is still in beta, please report any issues");
+        }
 
         if (config.logoOnLaunch()) logger.info(startMessage);
 
