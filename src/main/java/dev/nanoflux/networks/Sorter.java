@@ -31,7 +31,7 @@ public class Sorter {
         for (ItemStack item : donator.donate()) {
             if (item == null) continue;
             for (Acceptor acceptor : acceptors) {
-                if (acceptor.pos().getDistance(donator.pos()) >= ranges[donator.range()] + network.range() && acceptor.accept(item)) {
+                if (acceptor.pos().getDistance(donator.pos()) <= ranges[donator.range()] + network.range() && acceptor.accept(item)) {
                     transmit(item, donator, acceptor);
                     break;
                 }
