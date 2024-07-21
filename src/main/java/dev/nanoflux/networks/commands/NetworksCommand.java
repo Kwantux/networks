@@ -225,8 +225,9 @@ public class NetworksCommand extends CommandHandler {
     }
 
     private void force(CommandContext<CommandSender> context) {
-        manager.forceToggle((Player) context.getSender());
-        lang.message(context.getSender(), "force");
+        boolean active = manager.forceToggle((Player) context.getSender());
+        if (active) lang.message(context.getSender(), "force.enable");
+        else lang.message(context.getSender(), "force.disable");
     }
 
     private void saveNetworks(CommandContext<CommandSender> context) {

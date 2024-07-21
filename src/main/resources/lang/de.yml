@@ -57,6 +57,9 @@ help.admin: "\n
 \n
 "
 
+force.enable: <prefix>Admin Modus <green>aktiviert</green>
+force.disable: <prefix>Admin Modus <green>deaktiviert</green>
+
 data.reload.networks: <prefix>Netzwerke wurden neu geladen
 data.save.networks: <prefix>Netzwerke wurden gespeichert
 data.reload.config: <prefix>Konfiguration neu geladen

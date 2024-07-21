@@ -57,6 +57,9 @@ help.admin: "\n
 \n
 "
 
+force.enable: <prefix>Force mode <green>enabled</green>
+force.disable: <prefix>Force mode <green>disabled</green>
+
 data.reload.networks: <prefix>Reloaded network files
 data.save.networks: <prefix>Saved networks to files
 data.reload.config: <prefix>Reloaded config files
