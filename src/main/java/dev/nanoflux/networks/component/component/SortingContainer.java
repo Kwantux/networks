@@ -34,6 +34,7 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
     private int supplierPriority = 0;
 
     public static SortingContainer create(BlockLocation pos, PersistentDataContainer container) {
+        if (container == null) return new SortingContainer(pos, new String[0], 10);
         return new SortingContainer(pos,
                 Objects.requireNonNullElse(container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING).split(","), new String[0]),
                 Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), 10),

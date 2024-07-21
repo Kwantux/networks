@@ -30,6 +30,7 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
     private int supplierPriority = 5;
 
     public static MiscContainer create(BlockLocation pos, PersistentDataContainer container) {
+        if (container == null) return new MiscContainer(pos);
         return new MiscContainer(pos,
                 Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), -20),
                 Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 5)

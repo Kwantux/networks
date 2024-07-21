@@ -6,6 +6,7 @@ import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.paper.PaperCommandManager;
 import com.google.common.collect.ImmutableList;
 import dev.nanoflux.networks.Main;
+import dev.nanoflux.networks.tests.StressTest;
 import org.bukkit.command.CommandSender;
 
 import java.util.function.UnaryOperator;
@@ -39,6 +40,7 @@ public class CommandManager extends PaperCommandManager<CommandSender> {
 
         ImmutableList.of(
                 new NetworksCommand(plugin, this)
+                ,new StressTest(plugin, this)
         ).forEach(CommandHandler::register);
 
 

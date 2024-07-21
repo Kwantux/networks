@@ -31,6 +31,7 @@ public class InputContainer extends NetworkComponent implements Donator {
 
 
     public static InputContainer create(BlockLocation pos, PersistentDataContainer container) {
+        if (container == null) return new InputContainer(pos);
         return new InputContainer(pos,
                 Objects.requireNonNullElse(container.get(NamespaceUtils.RANGE.key(), PersistentDataType.INTEGER), 0)
         );
