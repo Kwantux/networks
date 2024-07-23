@@ -9,7 +9,7 @@ If you need help with the plugin, feel free to ask your question on our discord!
 
 [Github](https://github.com/nanoflux/networks)
 
-[Discord](https://discord.gg/wQXKdtVPMd)
+[Discord](https://discord.gg/Q65TqRwnce)
 
 [Modrinth](https://modrinth.com/plugin/networks)
 
@@ -17,7 +17,7 @@ If you need help with the plugin, feel free to ask your question on our discord!
 
 [Hangar](https://hangar.papermc.io/NanoFlux/Networks)
 
-Wiki (Coming Soon!)
+[Wiki](https://nanoflux.github.io/networks-docs/)
 
 ---
 

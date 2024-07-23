@@ -4,9 +4,9 @@ pages:
   - "\n
   <bold><dark_green>[Networks Manual]</dark_green></bold>\n
   \n
-Networks is a plugin, that allows you to link chests together to form automated storage networks.\n\n
+Networks is a plugin, to link chests together to form automated storage networks.\n\n
 These networks have input, sorting and misc chests.\n\n
-<blue><click:open_url:https://discord.gg/wQXKdtVPMd>[Discord]</click></blue> <green><click:open_url:https://modrinth.com/plugin/networks>[Modrinth]</click></green>"
+<blue><click:open_url:https://discord.gg/Q65TqRwnce>[Discord]</click></blue> <green><click:open_url:https://modrinth.com/plugin/networks>[Modrinth]</click></green>"
 
   - "
 All items put into input chests will be automatically sorted into their respective sorting chests or into any misc chest, if there is no fitting sorting chest.\n\n
