@@ -44,7 +44,8 @@ public class Sorter {
                 }
             }
             catch (Throwable e) {
-                logger.log(Level.FINE, "Failed to sort item: " + e.getMessage());
+                if (!FoliaUtils.folia) logger.severe("Failed to sort item: " + e.getMessage());
+                else logger.log(Level.FINER, "Failed to sort item (this will be regularly thrown if Folia is used): " + e.getMessage());
             } // Folia compatibility
         }
     }
@@ -62,7 +63,8 @@ public class Sorter {
                 }
             }
             catch (Throwable e) {
-                logger.log(Level.FINE, "Failed to sort item: " + e.getMessage());
+                if (!FoliaUtils.folia) logger.severe("Failed to sort item: " + e.getMessage());
+                else logger.log(Level.FINER, "Failed to sort item (this will be regularly thrown if Folia is used): " + e.getMessage());
             } // Folia compatibility
         }
     }
