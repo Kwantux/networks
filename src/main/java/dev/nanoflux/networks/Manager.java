@@ -122,8 +122,8 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
             return false;
         }
         network.addComponent(component);
-        dcu.checkChest(component.pos());
         locations.put(component.pos(), network);
+        dcu.checkChest(component.pos());
         return true;
     }
 
