@@ -40,7 +40,7 @@ public class CommandManager extends PaperCommandManager<CommandSender> {
 
         ImmutableList.of(
                 new NetworksCommand(plugin, this)
-                ,new StressTest(plugin, this)
+                //,new StressTest(plugin, this)
         ).forEach(CommandHandler::register);
 
 
