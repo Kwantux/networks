@@ -114,8 +114,7 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
     public void createComponent(Network network, Material material, ComponentType type, BlockLocation pos, PersistentDataContainer container) {
         NetworkComponent component = type.create(pos, container);
         addComponent(network, component);
-        pos.getBlock().setType(material);
-        dcu.checkChest(pos);
+        if (!pos.getBlock().getType().equals(material)) pos.getBlock().setType(material);
     }
 
     public boolean addComponent(Network network, NetworkComponent component) {
@@ -123,6 +122,7 @@ public final class Manager implements dev.nanoflux.networks.api.Manager {
             return false;
         }
         network.addComponent(component);
+        dcu.checkChest(component.pos());
         locations.put(component.pos(), network);
         return true;
     }
