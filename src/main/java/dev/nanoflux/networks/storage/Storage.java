@@ -4,6 +4,7 @@ import com.google.gson.*;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.component.NetworkComponent;
+import dev.nanoflux.networks.legacy.LegacyNetwork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
