@@ -34,21 +34,9 @@ public final class Main extends JavaPlugin {
     public static DoubleChestUtils dcu;
     public static LanguageController lang;
 
-    private static boolean isFolia() {
-        try {
-            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
-            return true;
-        } catch (ClassNotFoundException e) {
-            return false;
-        }
-    }
 
     @Override
     public void onEnable() {
-
-        // Clear up old config files
-        new File(getDataFolder(), "recipes.yml").delete();
-        new File(getDataFolder(), "config.yml").delete();
 
         // Create folders
         try {
@@ -104,21 +92,6 @@ public final class Main extends JavaPlugin {
 
 
         dcu = new DoubleChestUtils(manager);
-
-//        this.getServer().getPluginManager().registerEvents(new AutoSave(this), this);
-//        this.getServer().getPluginManager().registerEvents(new BlockBreakListener(this, crafting, dcu), this);
-//        this.getServer().getPluginManager().registerEvents(new ExplosionListener(this, crafting), this);
-//        this.getServer().getPluginManager().registerEvents(new InventoryCloseEventListener(this, dcu), this);
-//        this.getServer().getPluginManager().registerEvents(new ItemTransportEventListener(this), this);
-//        this.getServer().getPluginManager().registerEvents(new HopperCollectEventListener(this), this);
-//        this.getServer().getPluginManager().registerEvents(new BlockPlaceEventListener(this, dcu), this);
-//        this.getServer().getPluginManager().registerEvents(new NetworkWandListener(this, crafting, dcu), this);
-//        this.getServer().getPluginManager().registerEvents(new RightClickEventListener(this), this);
-//        this.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(), this);
-//        this.getServer().getPluginManager().registerEvents(new InventoryMenuListener(), this);
-//
-//        if (config.noticeEnabled()) this.getServer().getPluginManager().registerEvents(new InventoryOpenEventListener(this), this);
-
         manager.loadData();
 
         new ComponentListener(this);
@@ -127,17 +100,18 @@ public final class Main extends JavaPlugin {
         new WandListener(this, crafting, dcu);
         new PlayerJoinListener(this);
 
-        if (isFolia()) {
-            logger.warning("Folia support on Networks is still in beta, please report any issues");
+        if (FoliaUtils.folia) {
+            logger.warning("Folia support on Networks is still in beta, please report any bugs.");
+            for (int i : config.getMaxRanges()) {
+                if (i > 1000) {
+                    logger.warning("You are running Networks on Folia and enabled a maximum network range of more than 1000 blocks. Be aware that on Folia, you might not be able to transmit items that far.");
+                    break;
+                }
+            }
         }
 
         if (config.logoOnLaunch()) logger.info(startMessage);
 
-//        manager.constructor("test", UUID.randomUUID());
-//        manager.addComponent("test", new MiscContainer(new BlockLocation(0, 0, 0, UUID.randomUUID())));
-//        String[] filters = {"grass_block", "dirt"};
-//        manager.addComponent("test", new SortingContainer(new BlockLocation(0, 0, 0, UUID.randomUUID()), filters));
-//        manager.saveData();
     }
 
 

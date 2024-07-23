@@ -21,7 +21,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
+    //compileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
+    compileOnly("dev.folia", "folia-api", "1.19.4-R0.1-SNAPSHOT")
     paperLibrary("net.kyori", "adventure-text-minimessage", "4.13.1")
     paperLibrary("org.spongepowered", "configurate-hocon", "4.1.2")
     paperLibrary("org.spongepowered", "configurate-yaml", "4.1.2")

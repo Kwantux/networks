@@ -5,7 +5,12 @@ import dev.nanoflux.networks.component.module.*;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+
+import static dev.nanoflux.networks.Main.logger;
 
 public class Sorter {
 
@@ -30,24 +35,35 @@ public class Sorter {
         List<? extends Acceptor> acceptors = network.acceptors();
         for (ItemStack item : donator.donate()) {
             if (item == null) continue;
-            for (Acceptor acceptor : acceptors) {
-                if (acceptor.pos().getDistance(donator.pos()) <= ranges[donator.range()] + network.range() && acceptor.accept(item)) {
-                    transmit(item, donator, acceptor);
-                    break;
+            try {
+                for (Acceptor acceptor : acceptors) {
+                    if (acceptor.pos().getDistance(donator.pos()) <= ranges[donator.range()] + network.range() && acceptor.accept(item)) {
+                        transmit(item, donator, acceptor);
+                        break;
+                    }
                 }
             }
+            catch (Throwable e) {
+                logger.log(Level.FINE, "Failed to sort item: " + e.getMessage());
+            } // Folia compatibility
         }
     }
 
     public static void request(Network network, Requestor requestor) {
         List<? extends Supplier> suppliers = network.suppliers();
         for (ItemStack item : requestor.requested()) {
-            for (Supplier supplier : suppliers) {
-                if (supplier.pos().getDistance(requestor.pos()) >= ranges[requestor.range()] + network.range() && supplier.supply().contains(item)) {
-                    transmit(item, supplier, requestor);
-                    break;
+            if (item == null) continue;
+            try {
+                for (Supplier supplier : suppliers) {
+                    if (supplier.pos().getDistance(requestor.pos()) <= ranges[requestor.range()] + network.range() && supplier.supply().contains(item)) {
+                        transmit(item, supplier, requestor);
+                        break;
+                    }
                 }
             }
+            catch (Throwable e) {
+                logger.log(Level.FINE, "Failed to sort item: " + e.getMessage());
+            } // Folia compatibility
         }
     }
 }
