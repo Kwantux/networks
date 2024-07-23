@@ -24,7 +24,7 @@ public class Config {
     public Config(Main main) throws SerializationException {
         logger = main.getLogger();
         try {
-            this.config = Configuration.createMain(main, "networks.conf");
+            this.config = Configuration.createMain(main, "general.conf");
 
             config.require("blastProofComponents");
             config.require("notice");
