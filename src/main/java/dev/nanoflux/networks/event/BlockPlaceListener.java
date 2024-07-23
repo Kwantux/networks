@@ -65,13 +65,14 @@ public class BlockPlaceListener implements Listener {
 
                 manager.createComponent(network, event.getBlock().getType(), type, pos, container);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
+                dcd.checkChest(new BlockLocation(event.getBlock()));
 
             }
         }
     }
 
     @EventHandler(priority= EventPriority.LOW)
-    public void onBlockPlace(PlayerInteractEvent event) {
+    public void onComponentInstall(PlayerInteractEvent event) {
         if (!event.isCancelled()) {
 
             if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
@@ -101,6 +102,7 @@ public class BlockPlaceListener implements Listener {
                 manager.createComponent(network, event.getClickedBlock().getType(), type, pos, container);
                 item.setAmount(item.getAmount() - 1);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
+                dcd.checkChest(pos);
 
             }
         }
