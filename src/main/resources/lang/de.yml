@@ -6,7 +6,7 @@ help: "\n
 <bold><dark_green>          Networks v<1> - Help Menu
 \n============================================</dark_green></bold>
 
-\n<click:suggest_command:/net constructor>/net constructor (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
+\n<click:suggest_command:/net create>/net create (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
 \n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
 \n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
 \n
@@ -35,7 +35,7 @@ help.admin: "\n
 \n<click:suggest_command:/net data save>/net data save</click> - <yellow>Alle Netzwerke speichern</yellow>
 \n<click:suggest_command:/net data reload>/net data reload</click> - <yellow>Lädt die Konfigurationsdateien neu</yellow>
 \n
-\n<click:suggest_command:/net constructor>/net constructor (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
+\n<click:suggest_command:/net create>/net create (id)</click> - <yellow>Erstellt ein neues Netzwerk</yellow>
 \n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>Ein Netzwerk umbenennen</yellow>
 \n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>Ein Netzwerk löschen</yellow>
 \n
