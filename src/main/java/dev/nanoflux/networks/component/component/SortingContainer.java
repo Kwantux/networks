@@ -55,29 +55,18 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
         this.supplierPriority = supplierPriority;
     }
 
-    private static ItemStack blockItem(Material material) {
+    private static ItemStack item(Material material) {
         ItemStack stack = new ItemStack(material);
         ItemMeta meta = stack.getItemMeta();
         try {
-            meta.displayName(Main.lang.getItemName("component." + type.tag() + ".upgrade"));
-            meta.lore(Main.lang.getItemLore("component." + type.tag() + ".upgrade"));
+            meta.displayName(Main.lang.getItemName("component." + type.tag()));
+            meta.lore(Main.lang.getItemLore("component." + type.tag()));
             meta.getPersistentDataContainer().set(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING, ",");
         } catch (InvalidNodeException e) {
             throw new RuntimeException(e);
         }
-        stack.setItemMeta(meta);
-        return stack;
-    }
-
-    protected static ItemStack upgradeItem(Material material) {
-        ItemStack stack = new ItemStack(material);
-        ItemMeta meta = stack.getItemMeta();
-        try {
-            meta.displayName(Main.lang.getItemName("component." + type.tag() + ".upgrade"));
-            meta.lore(Main.lang.getItemLore("component." + type.tag() + ".upgrade"));
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        }
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
         stack.setItemMeta(meta);
         return stack;
     }
@@ -92,8 +81,7 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
                 true,
                 false,
                 SortingContainer::create,
-                SortingContainer::blockItem,
-                SortingContainer::upgradeItem
+                SortingContainer::item
         );
         return type;
     }

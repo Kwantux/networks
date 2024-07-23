@@ -149,68 +149,71 @@ public class CraftingManager {
     }
 
     private void registerComponent(ComponentType type) {
+        for (Material mat : pluginconfig.componentBlocks(type)) {
+            registerComponentWithMaterial(type, mat);
+        }
+        registerComponentWithMaterial(type, pluginconfig.getComponentUpgradeMaterial());
+    }
+
+
+    private void registerComponentWithMaterial(ComponentType type, Material mat) {
 
         String configPath = "component."+ type.tag + ".block";
+        String matkey = mat.name();
 
-        for (Material mat : pluginconfig.componentBlocks(type)) {
-            String matkey = mat.name();
+        ItemStack stack = type.item(mat);
 
-            ItemStack stack = type.blockItem(mat);
+        String registerPath = configPath + "." + matkey;
 
-            String registerPath = configPath + "." + matkey;
+        try {
+            NamespacedKey key = new NamespacedKey(plugin, registerPath.replace(".", "_"));
+            ShapedRecipe recipe = new ShapedRecipe(key, stack);
 
-            try {
-                NamespacedKey key = new NamespacedKey(plugin, registerPath.replace(".", "_"));
-                ShapedRecipe recipe = new ShapedRecipe(key, stack);
+            List<String> ingredients = config.getList(configPath, String.class);
 
-                List<String> ingredients = config.getList(configPath, String.class);
+            assert ingredients != null; //TODO: proper console warning
 
-                assert ingredients != null; //TODO: proper console warning
-
-                for (String s : ingredients) {
-                    if (s.equalsIgnoreCase("BASE_ITEM")) s = matkey;
-                }
-
-                String[] shape = new String[9];
-
-                for (int i = 0; i < 9; i++) {
-                    if (ingredients.get(i).equalsIgnoreCase("BASE_ITEM")) ingredients.set(i, matkey);
-                    if (ingredients.get(i).equalsIgnoreCase("AIR") || ingredients.get(i).equalsIgnoreCase("EMPTY")) {
-                        shape[i] = " ";
-                    } else {
-                        shape[i] = String.valueOf(keys[i]);
-                    }
-
-                }
-
-                recipe.shape(shape[0] + shape[1] + shape[2], shape[3] + shape[4] + shape[5], shape[6] + shape[7] + shape[8]);
-
-                for (int i = 0; i < 9; i++) {
-                    if (!shape[i].equalsIgnoreCase(" ")) {
-                        try {
-                            recipe.setIngredient(keys[i], Material.valueOf(ingredients.get(i)));
-                        }
-                        catch (IllegalArgumentException e) {
-                            logger.severe(ingredients.get(i) + " is not a valid material, it will replaced with AIR. Recipe " + configPath + " may be broken.");
-                            recipe.setIngredient(keys[i], Material.AIR);
-                        }
-                    }
-                }
-
-                Bukkit.addRecipe(recipe);
-                recipes.add(key);
-            }
-            catch (InvalidNodeException | SerializationException e) {
-                logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, the config file was deleted, server will be restarted...");
-                logger.severe("==============================================================================================================================================");
-                File file = new File(plugin.getDataFolder(), "recipes.conf");
-                file.delete();
-                e.printStackTrace();
-                Bukkit.shutdown();
+            for (String s : ingredients) {
+                if (s.equalsIgnoreCase("BASE_ITEM")) s = matkey;
             }
 
+            String[] shape = new String[9];
+
+            for (int i = 0; i < 9; i++) {
+                if (ingredients.get(i).equalsIgnoreCase("BASE_ITEM")) ingredients.set(i, matkey);
+                if (ingredients.get(i).equalsIgnoreCase("AIR") || ingredients.get(i).equalsIgnoreCase("EMPTY")) {
+                    shape[i] = " ";
+                } else {
+                    shape[i] = String.valueOf(keys[i]);
+                }
+
+            }
+
+            recipe.shape(shape[0] + shape[1] + shape[2], shape[3] + shape[4] + shape[5], shape[6] + shape[7] + shape[8]);
+
+            for (int i = 0; i < 9; i++) {
+                if (!shape[i].equalsIgnoreCase(" ")) {
+                    try {
+                        recipe.setIngredient(keys[i], Material.valueOf(ingredients.get(i)));
+                    }
+                    catch (IllegalArgumentException e) {
+                        logger.severe(ingredients.get(i) + " is not a valid material, it will replaced with AIR. Recipe " + configPath + " may be broken.");
+                        recipe.setIngredient(keys[i], Material.AIR);
+                    }
+                }
+            }
+
+            Bukkit.addRecipe(recipe);
+            recipes.add(key);
         }
-
+        catch (InvalidNodeException | SerializationException e) {
+            logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, the config file was deleted, server will be restarted...");
+            logger.severe("==============================================================================================================================================");
+            File file = new File(plugin.getDataFolder(), "recipes.conf");
+            file.delete();
+            e.printStackTrace();
+            Bukkit.shutdown();
+        }
     }
 
     private void registerRangeUpgrades() {

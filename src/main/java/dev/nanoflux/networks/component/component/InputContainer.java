@@ -46,7 +46,7 @@ public class InputContainer extends NetworkComponent implements Donator {
         super(pos);
     }
 
-    protected static ItemStack blockItem(Material material) {
+    protected static ItemStack item(Material material) {
         ItemStack stack = new ItemStack(material);
         ItemMeta meta = stack.getItemMeta();
         try {
@@ -61,19 +61,6 @@ public class InputContainer extends NetworkComponent implements Donator {
         return stack;
     }
 
-    protected static ItemStack upgradeItem(Material material) {
-        ItemStack stack = new ItemStack(material);
-        ItemMeta meta = stack.getItemMeta();
-        try {
-            meta.displayName(Main.lang.getItemName("component." + type.tag() + ".upgrade"));
-            meta.lore(Main.lang.getItemLore("component." + type.tag() + ".upgrade"));
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        }
-        stack.setItemMeta(meta);
-        return stack;
-    }
-
     public static ComponentType register() {
         type = ComponentType.register(
                 InputContainer.class,
@@ -84,8 +71,7 @@ public class InputContainer extends NetworkComponent implements Donator {
                 false, 
                 false,
                 InputContainer::create,
-                InputContainer::blockItem,
-                InputContainer::upgradeItem
+                InputContainer::item
         );
         return type;
     }

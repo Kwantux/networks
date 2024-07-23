@@ -9,7 +9,6 @@ import dev.nanoflux.networks.CraftingManager;
 import dev.nanoflux.networks.utils.DoubleChestUtils;
 import dev.nanoflux.networks.utils.BlockLocation;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -45,7 +44,7 @@ public class BlockBreakListener implements Listener {
                     
                     if (net.permissionUser(event.getPlayer(), network)) {
 
-                        ItemStack item = component.type().blockItem(event.getBlock().getType());
+                        ItemStack item = component.type().item(event.getBlock().getType());
                         Bukkit.getServer().getWorld(component.pos().getWorld()).dropItem(component.pos().getBukkitLocation(), item);
                         event.setDropItems(false);
 

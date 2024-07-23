@@ -25,8 +25,7 @@ public class ComponentType {
     public final boolean requestor;
 
     public final BiFunction<BlockLocation, PersistentDataContainer, ?extends NetworkComponent> constructor;
-    public final Function<Material, ItemStack> blockItem;
-    public final Function<Material, ItemStack> upgradeItem;
+    public final Function<Material, ItemStack> item;
 
     public static HashMap<String, ComponentType> tags = new HashMap<>();
     public static HashMap<Class<? extends NetworkComponent>, ComponentType> types = new HashMap<>();
@@ -39,8 +38,8 @@ public class ComponentType {
     public static ComponentType MISC = MiscContainer.register();
 
 
-    public static ComponentType register(Class<? extends NetworkComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, BiFunction<BlockLocation, PersistentDataContainer, ?extends NetworkComponent> constructor, Function<Material, ItemStack> blockItem, Function<Material, ItemStack> upgradeItem) {
-        ComponentType type = new ComponentType(clazz, tag, name, donator, acceptor, supplier, requestor, constructor, blockItem, upgradeItem);
+    public static ComponentType register(Class<? extends NetworkComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, BiFunction<BlockLocation, PersistentDataContainer, ?extends NetworkComponent> constructor, Function<Material, ItemStack> item) {
+        ComponentType type = new ComponentType(clazz, tag, name, donator, acceptor, supplier, requestor, constructor, item);
         tags.put(tag, type);
         types.put(clazz, type);
         return type;
@@ -59,11 +58,10 @@ public class ComponentType {
         return types.get(clazz);
     }
 
-    private ComponentType(Class<? extends NetworkComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, BiFunction<BlockLocation, PersistentDataContainer, ?extends NetworkComponent> constructor, Function<Material, ItemStack> blockItem, Function<Material, ItemStack> upgradeItem) {
+    private ComponentType(Class<? extends NetworkComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, BiFunction<BlockLocation, PersistentDataContainer, ?extends NetworkComponent> constructor, Function<Material, ItemStack> item) {
 
         this.constructor = constructor;
-        this.blockItem = blockItem;
-        this.upgradeItem = upgradeItem;
+        this.item = item;
 
         this.clazz = clazz;
 
@@ -90,13 +88,8 @@ public class ComponentType {
         return constructor.apply(pos, container);
     }
 
-    public ItemStack blockItem(Material mat) {
-        return blockItem.apply(mat);
+    public ItemStack item(Material mat) {
+        return item.apply(mat);
     }
-
-    public ItemStack upgradeItem(Material mat) {
-        return upgradeItem.apply(mat);
-    }
-
 
 }
