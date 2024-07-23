@@ -65,8 +65,6 @@ public class BlockPlaceListener implements Listener {
 
                 manager.createComponent(network, event.getBlock().getType(), type, pos, container);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
-                dcd.checkChest(new BlockLocation(event.getBlock()));
-
             }
         }
     }
@@ -102,8 +100,6 @@ public class BlockPlaceListener implements Listener {
                 manager.createComponent(network, event.getClickedBlock().getType(), type, pos, container);
                 item.setAmount(item.getAmount() - 1);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
-                dcd.checkChest(pos);
-
             }
         }
     }
