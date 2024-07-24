@@ -4,7 +4,7 @@ import com.google.gson.*;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.component.NetworkComponent;
-import dev.nanoflux.networks.legacy.LegacyNetwork;
+import dev.nanoflux.networks.compat.LegacyNetwork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,7 +83,7 @@ public class Storage implements dev.nanoflux.networks.api.Storage {
                 return new Network(id, gson.fromJson(json, SerializableNetwork.class));
             } catch (RuntimeException e) {
                 try {
-                    // Try legacy format
+                    // Try compat format
                     Network network = gson.fromJson(json, LegacyNetwork.class).convert(id);
                     saveNetwork(id, network);
                     return network;

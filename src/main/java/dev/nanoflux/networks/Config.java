@@ -2,11 +2,13 @@ package dev.nanoflux.networks;
 
 import dev.nanoflux.config.Configuration;
 import dev.nanoflux.config.ConfigurationManager;
+import dev.nanoflux.config.util.Transformation;
 import dev.nanoflux.config.util.exceptions.ConfigAlreadyRegisteredException;
 import dev.nanoflux.config.util.exceptions.InvalidNodeException;
 import dev.nanoflux.networks.component.ComponentType;
 import dev.nanoflux.networks.storage.NetworkProperties;
 import dev.nanoflux.networks.utils.BlockLocation;
+import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -25,6 +27,7 @@ public class Config {
         logger = main.getLogger();
         try {
             this.config = Configuration.createMain(main, "general.conf");
+            config.update();
 
             config.require("blastProofComponents");
             config.require("notice");
@@ -32,6 +35,7 @@ public class Config {
             config.require("range");
             config.require("maxNetworks");
             config.require("properties.baseRange", "properties.maxComponents", "properties.maxUsers");
+            config.require("component.input", "component.sorting", "component.misc");
             config.require("material.component");
             config.require("material.range");
             config.require("logStartupInformation");
@@ -39,6 +43,38 @@ public class Config {
             config.require("requestOwnershipTransfers");
             config.require("humanReadableJson");
             config.require("archiveNetworksOnDelete");
+
+            // Legacy config support
+            config.transformation(
+                    new Transformation(
+                            new ComparableVersion("2.0.0"),
+                            new ComparableVersion("2.1.9"),
+                            "containerWhitelist",
+                            "component.input",
+                            false,
+                            null
+                    )
+            );
+            config.transformation(
+                    new Transformation(
+                            new ComparableVersion("2.0.0"),
+                            new ComparableVersion("2.1.9"),
+                            "containerWhitelist",
+                            "component.sorting",
+                            false,
+                            null
+                    )
+            );
+            config.transformation(
+                    new Transformation(
+                            new ComparableVersion("2.0.0"),
+                            new ComparableVersion("2.1.9"),
+                            "containerWhitelist",
+                            "component.misc",
+                            true,
+                            null
+                    )
+            );
 
         } catch (ConfigAlreadyRegisteredException e) {
             throw new RuntimeException(e);

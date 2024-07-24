@@ -1,9 +1,12 @@
 package dev.nanoflux.config;
 
 import dev.nanoflux.config.util.FileType;
+import dev.nanoflux.config.util.Transformation;
 import dev.nanoflux.config.util.exceptions.ConfigAlreadyRegisteredException;
 import dev.nanoflux.config.util.exceptions.InvalidFileFormatExecption;
 import dev.nanoflux.config.util.exceptions.InvalidNodeException;
+import dev.nanoflux.networks.Main;
+import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.ApiStatus;
@@ -20,6 +23,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 
 public final class Configuration extends RawConfiguration {
 
@@ -55,7 +59,6 @@ public final class Configuration extends RawConfiguration {
         
         ConfigurationManager.addConfiguration(this);
 
-        update();
     }
 
 
@@ -64,8 +67,15 @@ public final class Configuration extends RawConfiguration {
      * @Warning: This will override all settings changed
      */
     @Override
-    protected void update() {
+    public void update() {
         reload();
+
+        resolveTransformations(
+                new ComparableVersion(Objects.requireNonNullElse(getFinalString("version"), "0.0.0")),
+                new ComparableVersion(Main.getPlugin(Main.class).getPluginMeta().getVersion())
+        );
+        set("version", Main.getPlugin(Main.class).getPluginMeta().getVersion());
+
         try {
             plugin.saveResource(filepath, true);
         }
@@ -109,7 +119,6 @@ public final class Configuration extends RawConfiguration {
 
         logger.info("[QC] Successfully updated config file " + filename);
     }
-
 
 
     /**
@@ -386,6 +395,16 @@ public final class Configuration extends RawConfiguration {
 
 
 
+
+
+    /**
+     * Unsets the value on a given path
+     * @param path The path of the node
+     */
+    public void unset(@NotNull String path) {
+        ConfigurationNode node = root.node(path.split("\\."));
+        Objects.requireNonNull(node.parent()).removeChild(node.key());
+    }
 
 
     /**

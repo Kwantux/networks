@@ -79,6 +79,14 @@ public class CraftingManager {
 
         try {
             this.config = Configuration.create(main, "recipes", "recipes.conf");
+            config.reload();
+            // Recipes pre v3.0.0 had other value, so they should be changed with the update
+            if (config.getFinalString("version") == null) {
+                config.unset("upgrade.range");
+            }
+            config.save();
+            config.update();
+
         } catch (ConfigAlreadyRegisteredException e) {
             throw new RuntimeException(e);
         }
@@ -89,6 +97,7 @@ public class CraftingManager {
 
         componentUpgradeMaterial = pluginconfig.getComponentUpgradeMaterial();
         rangeUpgradeMaterial = pluginconfig.getRangeUpgradeMaterial();
+
 
         registerRecipes();
 

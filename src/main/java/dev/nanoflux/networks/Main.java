@@ -46,6 +46,12 @@ public final class Main extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
+        if (Files.exists(Path.of(getDataFolder().getAbsolutePath(), "networks.conf"))) {
+            try {
+                Files.move(Path.of(getDataFolder().getAbsolutePath(), "networks.conf"), Path.of(getDataFolder().getAbsolutePath(), "general.conf"));
+            } catch (IOException _ignore) {}
+        }
+
         saveResource("README.md", true);
 
         saveResource("manuals/main/de.yml", true);

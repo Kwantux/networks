@@ -134,7 +134,24 @@ public class Language extends RawConfiguration {
         }
     }
 
+    /**
+     * @param path 
+     * @return
+     * @throws InvalidNodeException
+     */
+    @Override
+    public ConfigurationNode get(String path) throws InvalidNodeException {
+        return null;
+    }
+    /**
+     * @param path 
+     * @param value
+     * @throws org.apache.commons.lang3.SerializationException
+     */
+    @Override
+    public void set(String path, Object value) throws org.apache.commons.lang3.SerializationException {
 
+    }
 
 
     /**
