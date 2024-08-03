@@ -3,6 +3,7 @@ package dev.nanoflux.networks.utils;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 
+import javax.annotation.Nonnull;
 import java.util.UUID;
 
 
@@ -21,14 +22,14 @@ public class BlockLocation {
         this.world = world;
     }
 
-    public BlockLocation(org.bukkit.Location location) {
+    public BlockLocation(@Nonnull org.bukkit.Location location) {
         this.x = location.getBlockX();
         this.y = location.getBlockY();
         this.z = location.getBlockZ();
         this.world = location.getWorld().getUID();
     }
 
-    public BlockLocation(org.bukkit.block.Block block) {
+    public BlockLocation(@Nonnull org.bukkit.block.Block block) {
         this.x = block.getX();
         this.y = block.getY();
         this.z = block.getZ();

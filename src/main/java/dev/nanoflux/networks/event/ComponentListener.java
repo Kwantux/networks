@@ -14,6 +14,8 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 
+import javax.annotation.Nullable;
+
 public class ComponentListener implements Listener {
 
     private Manager manager;
@@ -24,7 +26,8 @@ public class ComponentListener implements Listener {
         Sorter.setConfig(plugin.getConfiguration());
     }
 
-    private void check(org.bukkit.Location location) {
+    private void check(@Nullable org.bukkit.Location location) {
+        if (location == null) return;
         BlockLocation loc = new BlockLocation(location);
         NetworkComponent component = manager.getComponent(loc);
         if (component != null) {
