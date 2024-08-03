@@ -113,6 +113,7 @@ component.remove: <prefix><red>Komponent bei <1> wurde entfernt.
 component.exploded: <prefix><dark_red>Komponent bei <white><1><dark_red> aus dem Netzwerk <white><2><dark_red> wurde gesprengt!
 component.invalid_block: <prefix><red>Blöcke vom Typ </red><1><red> können keine Netzwerkkomponenten sein!</red>
 component.nocomponent: <prefix><yellow>Dies ist kein Netzwerkkomponent!
+component.passivecomponent: <prefix><yellow>Dieses Upgrade ist nur für <bold>aktive</bold> Komponenten (z.B. Einfüllkisten), jedoch nicht für passiven Komponenten (z.B. Sortierkisten, Restekisten) nutzbar.
 component.priority: <prefix>Priorität wurde auf <1> gesetzt,
 
 location.occupied: <prefix><red>There is already a component at this location!
