@@ -15,6 +15,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -78,6 +80,11 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
                 MiscContainer::item
         );
         return type;
+    }
+
+    @Override
+    public boolean accept(@Nonnull ItemStack stack) {
+        return true;
     }
 
     public int acceptorPriority() {

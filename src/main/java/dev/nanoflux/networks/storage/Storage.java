@@ -1,6 +1,7 @@
 package dev.nanoflux.networks.storage;
 
 import com.google.gson.*;
+import dev.nanoflux.networks.Config;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.component.NetworkComponent;
@@ -34,7 +35,7 @@ public class Storage implements dev.nanoflux.networks.api.Storage {
 
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(NetworkComponent.class, new ComponentSerializer());
-        if (plugin.getConfiguration().humanReadableJson()) {
+        if (Config.humanReadableJson) {
             builder.setPrettyPrinting();
         }
         gson = builder.create();
@@ -60,7 +61,7 @@ public class Storage implements dev.nanoflux.networks.api.Storage {
     @Override
     public void delete(String id) {
         try {
-            if (plugin.getConfiguration().archiveNetworksOnDelete()) {
+            if (Config.archiveNetworksOnDelete) {
                 Files.createDirectories(path.resolve("archive"));
                 Files.move(path.resolve(id+".json"), path.resolve("archive/"+id+"-"+ LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)+".json"), StandardCopyOption.REPLACE_EXISTING);
             }
