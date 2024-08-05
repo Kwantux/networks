@@ -115,7 +115,6 @@ component.remove: <prefix><red>Removed component at <1>
 component.exploded: <prefix><dark_red>NetworkComponent at <white><1><dark_red> from network <white><2><dark_red> was blown up!
 component.invalid_block: <prefix><red>Blocks of type </red><1><red> are not allowed to be network components!</red>
 component.nocomponent: <prefix><yellow>This block is not a network component!
-component.passivecomponent: <prefix><yellow>This can only be applied to <bold>active</bold> network components (e.g. Input), NOT passive components (e.g. Sorting, Misc)
 component.priority: <prefix>NetworkComponent priority set to <1>
 
 location.occupied: <prefix><red>There is already a component at this location!
@@ -123,6 +122,7 @@ location.occupied: <prefix><red>There is already a component at this location!
 rangeupgrade.last: <prefix><yellow>You already reached the maximum upgrade level.
 rangeupgrade.alreadyupgraded: <prefix><yellow>You already installed this upgrade, the next upgrade is range Tier <white><1>
 rangeupgrade.unlockfirst: <prefix><yellow>You need to unlock range Tier <white><1><yellow> first!
+rangeupgrade.passivecomponent: <prefix><yellow>This can only be applied to <bold>active</bold> network components (e.g. Input), NOT passive components (e.g. Sorting, Misc)
 rangeupgrade.success: <prefix>Successfully upgraded network <2> to Tier <1>!
 
 user.add: <prefix>Successfully added <2> to the network <1>
