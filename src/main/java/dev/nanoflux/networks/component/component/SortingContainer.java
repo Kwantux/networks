@@ -88,7 +88,7 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
 
     @Override
     public boolean accept(@Nonnull ItemStack stack) {
-        return inventory().firstEmpty() != -1 && Arrays.stream(filters).anyMatch(stack.getType().toString()::equalsIgnoreCase);
+        return Arrays.stream(filters).anyMatch(stack.getType().toString()::equalsIgnoreCase);
     }
 
     public int acceptorPriority() {

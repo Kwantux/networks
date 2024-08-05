@@ -472,7 +472,7 @@ public class NetworksCommand extends CommandHandler {
 
     private void owner(CommandContext<CommandSender> context) {
         CommandSender sender = context.getSender();
-        boolean request = config.requestOwnershipTransfers() && !sender.hasPermission("network.transfer_without_request");
+        boolean request = Config.requestOwnershipTransfers && !sender.hasPermission("network.transfer_without_request");
         Player target = context.get("player");
         Network network = selection(sender);
         if (network == null) return;

@@ -27,7 +27,6 @@ public class Config {
         logger = main.getLogger();
         try {
             this.config = Configuration.createMain(main, "general.conf");
-            config.update();
 
             config.require("blastProofComponents");
             config.require("notice");
@@ -38,7 +37,7 @@ public class Config {
             config.require("component.input", "component.sorting", "component.misc");
             config.require("material.component");
             config.require("material.range");
-            config.require("logStartupInformation");
+            config.require("performance.complexInventoryChecks", "performance.loadChunks");
             config.require("logoOnLaunch");
             config.require("requestOwnershipTransfers");
             config.require("humanReadableJson");
@@ -76,16 +75,29 @@ public class Config {
                     )
             );
 
+            config.update();
+
+            blastProofComponents = config.getFinalBoolean("blastProofComponents");
+            noticeEnabled = config.getFinalBoolean("notice");
+            humanReadableJson = config.getFinalBoolean("humanReadableJson");
+            archiveNetworksOnDelete = config.getFinalBoolean("archiveNetworksOnDelete");
+            requestOwnershipTransfers = config.getFinalBoolean("requestOwnershipTransfers");
+            complexInventoryChecks = config.getFinalBoolean("performance.complexInventoryChecks");
+            loadChunks = config.getFinalBoolean("performance.loadChunks");
+
         } catch (ConfigAlreadyRegisteredException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public boolean blastProofComponents() {return config.getFinalBoolean("blastProofComponents");}
-    public boolean noticeEnabled() {return config.getFinalBoolean("notice");}
-    public boolean humanReadableJson() {return config.getFinalBoolean("humanReadableJson");}
-    public boolean archiveNetworksOnDelete() {return config.getFinalBoolean("archiveNetworksOnDelete");}
-    public boolean requestOwnershipTransfers() {return config.getFinalBoolean("requestOwnershipTransfers");}
+    public static boolean blastProofComponents; // TODO: Blast proof components
+    public static boolean noticeEnabled; // TODO: Notice message
+    public static boolean humanReadableJson;
+    public static boolean archiveNetworksOnDelete;
+    public static boolean requestOwnershipTransfers;
+    public static boolean complexInventoryChecks;
+    public static boolean loadChunks;
+
 
     public void setLanguage(String language) {
         config.set("lang", language);
@@ -95,10 +107,6 @@ public class Config {
     }
 
 
-
-    public Integer get(String id) {
-        return config.getFinalInt(id);
-    }
 
     public List<Material> componentBlocks(ComponentType componentType) {
         List<Material> allowed = new ArrayList<>();

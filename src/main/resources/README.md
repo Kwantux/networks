@@ -1,4 +1,4 @@
-# Networks v3.0.0
+# Networks v3.0.1
 
 
 ## Report any bugs on Discord or Github
