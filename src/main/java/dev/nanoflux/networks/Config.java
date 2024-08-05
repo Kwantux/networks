@@ -37,7 +37,7 @@ public class Config {
             config.require("component.input", "component.sorting", "component.misc");
             config.require("material.component");
             config.require("material.range");
-            config.require("performance.complexInventoryChecks");
+            config.require("performance.complexInventoryChecks", "performance.loadChunks");
             config.require("logoOnLaunch");
             config.require("requestOwnershipTransfers");
             config.require("humanReadableJson");
@@ -83,6 +83,7 @@ public class Config {
             archiveNetworksOnDelete = config.getFinalBoolean("archiveNetworksOnDelete");
             requestOwnershipTransfers = config.getFinalBoolean("requestOwnershipTransfers");
             complexInventoryChecks = config.getFinalBoolean("performance.complexInventoryChecks");
+            loadChunks = config.getFinalBoolean("performance.loadChunks");
 
         } catch (ConfigAlreadyRegisteredException e) {
             throw new RuntimeException(e);
@@ -95,6 +96,7 @@ public class Config {
     public static boolean archiveNetworksOnDelete;
     public static boolean requestOwnershipTransfers;
     public static boolean complexInventoryChecks;
+    public static boolean loadChunks;
 
 
     public void setLanguage(String language) {

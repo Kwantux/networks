@@ -2,6 +2,7 @@ package dev.nanoflux.networks;
 
 import dev.nanoflux.networks.storage.InterThreadTransmissionController;
 import dev.nanoflux.networks.component.module.*;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -37,6 +38,7 @@ public class Sorter {
             if (item == null) continue;
             try {
                 for (Acceptor acceptor : acceptors) {
+                    if (!Config.loadChunks && !Bukkit.getWorld(acceptor.pos().getWorld()).isChunkLoaded(acceptor.pos().getX() >> 4, acceptor.pos().getZ() >> 4)) continue;
                     if (acceptor.pos().getDistance(donator.pos()) <= ranges[donator.range()] + network.range() && Acceptor.spaceFree(acceptor.inventory(), item) && acceptor.accept(item)) {
                         transmit(item, donator, acceptor);
                         break;
@@ -56,6 +58,7 @@ public class Sorter {
             if (item == null) continue;
             try {
                 for (Supplier supplier : suppliers) {
+                    if (!Config.loadChunks && !Bukkit.getWorld(supplier.pos().getWorld()).isChunkLoaded(supplier.pos().getX() >> 4, supplier.pos().getZ() >> 4)) continue;
                     if (supplier.pos().getDistance(requestor.pos()) <= ranges[requestor.range()] + network.range() && supplier.supply().contains(item)) {
                         transmit(item, supplier, requestor);
                         break;
