@@ -178,6 +178,7 @@ public class Network {
         HashMap<Material, Integer> materials = new HashMap<>();
         for (NetworkComponent component : components) {
             for (ItemStack stack : component.inventory().getContents()) {
+                if (stack == null) continue;
                 int existing = Objects.requireNonNullElse(materials.get(stack.getType()), 0);
                 materials.put(stack.getType(), existing + stack.getAmount());
             }
