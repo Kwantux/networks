@@ -20,7 +20,6 @@ help: "\n
 \n<click:suggest_command:/net user remove>/net user remove (player)</click> - <yellow>Revoke a player's access to your network</yellow>
 \n
 \n<click:suggest_command:/net items>/net items</click> - <yellow>List all your items</yellow>
-\n<click:suggest_command:/net view>/net view</click> - <yellow>See all your items in a visual UI</yellow>
 \n
 \n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
 \n
@@ -49,7 +48,6 @@ help.admin: "\n
 \n<click:suggest_command:/net user remove>/net user remove (player)</click> - <yellow>Revoke a player's access to your network</yellow>
 \n
 \n<click:suggest_command:/net items>/net items</click> - <yellow>List all your items</yellow>
-\n<click:suggest_command:/net view>/net view</click> - <yellow>See all your items in a visual UI</yellow>
 \n
 \n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
 \n
@@ -151,8 +149,8 @@ wand.info.input: "<green>Type: <reset>Input Container<green>\nNetwork: <reset><1
 wand.info.sorting: "<green>Type: <reset>Sorting Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\nFilters: <reset><4>\n"
 wand.info.misc: "<green>Type: <reset>Misc Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\n"
 
-items.noitems: "<prefix><red>There are no items in your storage network."
-items.message: "<green><bold>Total items in network <white><1><green>:"
+items.noitems: "<prefix><red>There are no items in your storage network. (Components in unloaded chunks are not counted!)"
+items.message: "<green><bold>Total items in network <white><1><green>:</bold>\n(Items in unloaded chunks are not counted!)"
 
 item.name.wand0: <reset><red>Network Wand <green>[Filter]
 item.name.wand1: <reset><red>Network Wand <blue>[Priority]

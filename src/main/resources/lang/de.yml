@@ -20,7 +20,6 @@ help: "\n
 \n<click:suggest_command:/net user remove>/net user remove (Spieler)</click> - <yellow>Entziehe einem Spieler Rechte auf dein Netzwerk</yellow>
 \n
 \n<click:suggest_command:/net items>/net items</click> - <yellow>Listet alle Items in deinem Netzwerk nach Häufgkeit auf</yellow>
-\n<click:suggest_command:/net view>/net view</click> - <yellow>Öffnet ein Menü, mit allen deinen Items</yellow>
 \n
 \n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Überträgt alle Komponenten von net2 in net1 hinein</yellow>
 \n
@@ -148,8 +147,8 @@ wand.info.input: "<green>Typ: <reset>Einfüllkiste<green>\nNetzwerk: <reset><1><
 wand.info.sorting: "<green>Typ: <reset>Sortierkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\nFilter: <reset><4>\n"
 wand.info.misc: "<green>Typ: <reset>Restekiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\n"
 
-items.noitems: "<prefix><red>In diesem Netzwerk sind noch keine Items."
-items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:"
+items.noitems: "<prefix><red>In diesem Netzwerk sind noch keine Items.\n<yellow>(Kisten in ungeladenen Chunks werden nicht miteinberechnet)"
+items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:</bold>\n(Kisten in ungeladenen Chunks werden nicht miteinberechnet)"
 
 item.name.wand0: <reset><red>Netzwerk Konfigurator <green>[Filter]
 item.name.wand1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
