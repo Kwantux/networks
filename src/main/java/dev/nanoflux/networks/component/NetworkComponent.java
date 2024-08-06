@@ -32,6 +32,8 @@ public abstract class NetworkComponent {
 
     public abstract Map<String, Object> properties();
 
+    public abstract ItemStack item(Material material);
+
     public Inventory inventory() {
         Block block = Bukkit.getWorld(pos.getWorld()).getBlockAt(pos.getX(), pos.getY(), pos.getZ());
         if (block.getState() instanceof InventoryHolder) {

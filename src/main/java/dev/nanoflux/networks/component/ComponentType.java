@@ -7,9 +7,12 @@ import dev.nanoflux.networks.component.component.SortingContainer;
 import dev.nanoflux.networks.utils.BlockLocation;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -45,7 +48,7 @@ public class ComponentType {
         return type;
     }
 
-    public static ComponentType get(String tag) {
+    public static @Nullable ComponentType get(String tag) {
         if (tag == null) return null;
         if (!tags.containsKey(tag)) {
             Main.logger.severe("Component type " + tag + " not found!");
