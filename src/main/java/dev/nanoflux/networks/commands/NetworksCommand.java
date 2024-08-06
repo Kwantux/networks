@@ -41,152 +41,152 @@ public class NetworksCommand extends CommandHandler {
 
     @Override
     public void register() {
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .handler(this::help)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("help")
                 .handler(this::help)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("manual")
                 .handler(this::manual)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("version")
                 .handler(this::version)
         );
         //TODO: Help to specific commands
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("force")
                 .permission("networks.force")
                 .handler(this::force)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("create")
                 .argument(StringArgument.of("id"))
                 .senderType(Player.class)
                 .handler(this::create)
                 .permission("networks.create")
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("delete")
                 .argument(NetworkArgument.of("network"))
                 .senderType(Player.class)
                 .handler(this::deleteAsk)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("delete")
                 .argument(NetworkArgument.of("network"))
                 .literal("confirm")
                 .senderType(Player.class)
                 .handler(this::delete)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("select")
                 .argument(NetworkArgument.of("network"))
                 .senderType(Player.class)
                 .handler(this::select)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("rename")
                 .argument(NetworkArgument.of("network"))
                 .argument(StringArgument.of("newID"))
                 .handler(this::rename)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("list")
                 .senderType(Player.class)
                 .handler(this::list)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("list")
                 .argument(PlayerArgument.of("player"))
                 .permission("networks.listforeign")
                 .handler(this::listForeign)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("listall")
                 .permission("networks.listforeign")
                 .handler(this::getNetworks)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("info")
                 .handler(this::info)
         );
 
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("user")
                 .literal("add")
                 .argument(PlayerArgument.of("player"))
                 .handler(this::addUser)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("user")
                 .literal("remove")
                 .argument(PlayerArgument.of("player"))
                 .handler(this::removeUser)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("owner")
                 .argument(PlayerArgument.of("player"))
                 .handler(this::owner)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("accept")
                 .argument(NetworkArgument.of("network"))
                 .handler(this::acceptTransfer)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("merge")
                 .argument(NetworkArgument.of("final"))
                 .argument(NetworkArgument.of("other"))
                 .handler(this::merge)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("items")
                 .handler(this::items)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
-                .literal("view")
-                .senderType(Player.class)
-                .permission("networks.itemview")
-                .handler(this::view)
-        );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+//        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
+//                .literal("view")
+//                .senderType(Player.class)
+//                .permission("networks.itemview")
+//                .handler(this::view)
+//        );
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("data")
                 .literal("save")
                 .permission("networks.data")
                 .handler(this::saveNetworks)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("data")
                 .literal("save")
                 .literal("networks")
                 .permission("networks.data")
                 .handler(this::saveNetworks)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("data")
                 .literal("save")
                 .literal("config")
                 .permission("networks.data")
                 .handler(this::saveConfig)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("data")
                 .literal("reload")
                 .permission("networks.data")
                 .handler(this::reloadConfig)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("data")
                 .literal("reload")
                 .literal("networks")
                 .permission("networks.data")
                 .handler(this::reloadNetworks)
         );
-        commandManager.command(commandManager.commandBuilder("networks", "network", "net")
+        commandManager.command(commandManager.commandBuilder("networks", Config.commands)
                 .literal("data")
                 .literal("reload")
                 .literal("config")
@@ -547,6 +547,7 @@ public class NetworksCommand extends CommandHandler {
     private void items(CommandContext<CommandSender> context) {
         CommandSender sender = context.getSender();
         Network network = selection(sender);
+        if (network == null) return;
 
         if (!manager.permissionUser(sender, network)) {
             lang.message(sender, "permission.user");
@@ -567,9 +568,11 @@ public class NetworksCommand extends CommandHandler {
         }
     }
 
+    // Currently disabled
     private void view(CommandContext<CommandSender> context) {
         CommandSender sender = context.getSender();
         Network network = selection(sender);
+        if (network == null) return;
         InventoryMenuManager.addInventoryMenu((Player) sender, network);
 
     }
