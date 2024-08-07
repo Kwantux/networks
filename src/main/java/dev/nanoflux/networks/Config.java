@@ -29,6 +29,7 @@ public class Config {
             this.config = Configuration.createMain(main, "general.conf");
 
             config.require("blastProofComponents");
+            config.require("commands");
             config.require("notice");
             config.require("lang");
             config.require("range");
@@ -84,6 +85,7 @@ public class Config {
             requestOwnershipTransfers = config.getFinalBoolean("requestOwnershipTransfers");
             complexInventoryChecks = config.getFinalBoolean("performance.complexInventoryChecks");
             loadChunks = config.getFinalBoolean("performance.loadChunks");
+            commands = config.getFinalList("commands", String.class).toArray(new String[0]);
 
         } catch (ConfigAlreadyRegisteredException e) {
             throw new RuntimeException(e);
@@ -97,6 +99,7 @@ public class Config {
     public static boolean requestOwnershipTransfers;
     public static boolean complexInventoryChecks;
     public static boolean loadChunks;
+    public static String[] commands;
 
 
     public void setLanguage(String language) {

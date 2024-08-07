@@ -105,6 +105,20 @@ public abstract class RawConfiguration {
         return result;
     }
 
+    /**
+     * Tests if all the required options are set
+     * @return True if all the required options are not null
+     */
+    public boolean silentTestRequirements() {
+        boolean result = true;
+        for (String req : requirements) {
+            if (!has(req))  {
+                result = false;
+            }
+        }
+        return result;
+    }
+
 
     public abstract ConfigurationNode get(String path) throws InvalidNodeException;
     public abstract void set(String path, Object value) throws SerializationException;

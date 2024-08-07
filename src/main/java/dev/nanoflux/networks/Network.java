@@ -11,6 +11,7 @@ import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -169,7 +170,9 @@ public class Network {
     public ArrayList<ItemStack> items() {
         ArrayList<ItemStack> stacks = new ArrayList<>();
         for (NetworkComponent component : components) {
-            stacks.addAll(Arrays.stream(component.inventory().getContents()).toList());
+            Inventory inventory = component.inventory();
+            if (inventory == null) continue;
+            stacks.addAll(Arrays.stream(inventory.getContents()).toList());
         }
         return stacks;
     }
@@ -177,7 +180,10 @@ public class Network {
     public HashMap<Material, Integer> materials() {
         HashMap<Material, Integer> materials = new HashMap<>();
         for (NetworkComponent component : components) {
-            for (ItemStack stack : component.inventory().getContents()) {
+            Inventory inventory = component.inventory();
+            if (inventory == null) continue;
+            for (ItemStack stack : inventory.getContents()) {
+                if (stack == null) continue;
                 int existing = Objects.requireNonNullElse(materials.get(stack.getType()), 0);
                 materials.put(stack.getType(), existing + stack.getAmount());
             }

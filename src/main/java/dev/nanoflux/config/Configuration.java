@@ -71,7 +71,7 @@ public final class Configuration extends RawConfiguration {
         reload();
 
         resolveTransformations(
-                new ComparableVersion(Objects.requireNonNullElse(getFinalString("version"), "0.0.0")),
+                new ComparableVersion(Objects.requireNonNullElse(getFinalStringSilent("version"), "0.0.0")),
                 new ComparableVersion(Main.getPlugin(Main.class).getPluginMeta().getVersion())
         );
         set("version", Main.getPlugin(Main.class).getPluginMeta().getVersion());
@@ -117,7 +117,7 @@ public final class Configuration extends RawConfiguration {
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
 
-        logger.info("[QC] Successfully updated config file " + filename);
+        if (testRequirements()) logger.info("[QC] Successfully updated config file " + filename);
     }
 
 
@@ -257,7 +257,8 @@ public final class Configuration extends RawConfiguration {
             throw new RuntimeException(e);
         }
 
-        if (testRequirements()) logger.info("[QC] Successfully loaded configuration file " + filename + " on root path " + path);
+        if (silentTestRequirements()) logger.info("[QC] Successfully loaded configuration file " + filename + " on root path " + path);
+        else logger.warning("[QC] Loaded configuration file " + filename + " on root path " + path + " with missing options, updating file automatically...");
 
     }
 
@@ -375,6 +376,18 @@ public final class Configuration extends RawConfiguration {
             logger.severe("[QC] InvalidNodeException: Request for non-existent node: " + path);
         }
         return null;
+    }
+
+    /**
+     * Same as getString(), but it sends an error to the console instead of throwing an exception
+     */
+    public @Nullable String getFinalStringSilent(String path) {
+        try {
+            return getString(path);
+        }
+        catch (InvalidNodeException ignored) {
+            return null;
+        }
     }
 
     /**

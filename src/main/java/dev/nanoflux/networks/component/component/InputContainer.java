@@ -46,7 +46,7 @@ public class InputContainer extends NetworkComponent implements Donator {
         super(pos);
     }
 
-    protected static ItemStack item(Material material) {
+    protected static ItemStack newItem(Material material) {
         ItemStack stack = new ItemStack(material);
         ItemMeta meta = stack.getItemMeta();
         try {
@@ -61,6 +61,17 @@ public class InputContainer extends NetworkComponent implements Donator {
         return stack;
     }
 
+    @Override
+    public ItemStack item(Material material) {
+        ItemStack stack = newItem(material);
+        ItemMeta meta = stack.getItemMeta();
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
+        data.set(NamespaceUtils.RANGE.key(), PersistentDataType.INTEGER, range);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
     public static ComponentType register() {
         type = ComponentType.register(
                 InputContainer.class,
@@ -71,7 +82,7 @@ public class InputContainer extends NetworkComponent implements Donator {
                 false, 
                 false,
                 InputContainer::create,
-                InputContainer::item
+                InputContainer::newItem
         );
         return type;
     }

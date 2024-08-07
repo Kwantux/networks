@@ -55,7 +55,7 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
         this.supplierPriority = supplierPriority;
     }
 
-    private static ItemStack item(Material material) {
+    private static ItemStack newItem(Material material) {
         ItemStack stack = new ItemStack(material);
         ItemMeta meta = stack.getItemMeta();
         try {
@@ -71,6 +71,19 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
         return stack;
     }
 
+    @Override
+    public ItemStack item(Material material) {
+        ItemStack stack = newItem(material);
+        ItemMeta meta = stack.getItemMeta();
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
+        data.set(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING, String.join(",", filters));
+        data.set(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER, acceptorPriority);
+        data.set(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER, supplierPriority);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
     public static ComponentType register() {
         type = ComponentType.register(
                 SortingContainer.class,
@@ -81,7 +94,7 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
                 true,
                 false,
                 SortingContainer::create,
-                SortingContainer::item
+                SortingContainer::newItem
         );
         return type;
     }

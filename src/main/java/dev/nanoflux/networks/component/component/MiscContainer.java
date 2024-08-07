@@ -16,7 +16,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -52,7 +51,7 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
         super(pos);
     }
 
-    protected static ItemStack item(Material material) {
+    protected static ItemStack newItem(Material material) {
         ItemStack stack = new ItemStack(material);
         ItemMeta meta = stack.getItemMeta();
         try {
@@ -67,6 +66,18 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
         return stack;
     }
 
+    @Override
+    public ItemStack item(Material material) {
+        ItemStack stack = newItem(material);
+        ItemMeta meta = stack.getItemMeta();
+        PersistentDataContainer data = meta.getPersistentDataContainer();
+        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
+        data.set(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER, acceptorPriority);
+        data.set(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER, supplierPriority);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
     public static ComponentType register() {
         type = ComponentType.register(
                 MiscContainer.class,
@@ -77,7 +88,7 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
                 true,
                 false,
                 MiscContainer::create,
-                MiscContainer::item
+                MiscContainer::newItem
         );
         return type;
     }
