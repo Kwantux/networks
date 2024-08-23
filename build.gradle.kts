@@ -12,7 +12,7 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "dev.nanoflux"
-version = "3.0.2"
+version = "3.0.3"
 description = "A performance friendly way to sort your items"
 
 repositories {
