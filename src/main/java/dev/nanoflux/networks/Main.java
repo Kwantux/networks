@@ -116,7 +116,7 @@ public final class Main extends JavaPlugin {
 
         new ComponentListener(this);
         new BlockPlaceListener(this, dcu);
-        new BlockBreakListener(this, crafting, dcu);
+        new BlockBreakListener(this, dcu);
         new WandListener(this, crafting, dcu);
         new PlayerJoinListener(this);
 

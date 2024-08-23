@@ -45,6 +45,9 @@ public abstract class NetworkComponent {
     public abstract Map<String, Object> properties();
 
     public abstract ItemStack item(Material material);
+    public ItemStack item() {
+        return item(Main.config.getComponentUpgradeMaterial());
+    }
 
     public @Nullable Inventory inventory() {
 
