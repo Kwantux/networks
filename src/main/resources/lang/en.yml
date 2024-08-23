@@ -117,7 +117,7 @@ component.remove: <prefix><red>Removed component at <1>
 component.exploded: <prefix><dark_red>NetworkComponent at <white><1><dark_red> from network <white><2><dark_red> was blown up!
 component.invalid_block: <prefix><red>Blocks of type </red><1><red> are not allowed to be network components!</red>
 component.nocomponent: <prefix><yellow>This block is not a network component!
-component.priority: <prefix>NetworkComponent priority set to <1>
+component.priority: <prefix>Priority set to <1>
 
 location.occupied: <prefix><red>There is already a component at this location!
 
