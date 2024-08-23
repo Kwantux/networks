@@ -42,32 +42,6 @@ public class InputContainer extends NetworkComponent implements Donator {
         super(pos);
     }
 
-//    protected static ItemStack newItem(Material material) {
-//        ItemStack stack = new ItemStack(material);
-//        ItemMeta meta = stack.getItemMeta();
-//        try {
-//            meta.displayName(Main.lang.getItemName("component." + type.tag()));
-//            meta.lore(Main.lang.getItemLore("component." + type.tag()));
-//        } catch (InvalidNodeException e) {
-//            throw new RuntimeException(e);
-//        }
-//        PersistentDataContainer data = meta.getPersistentDataContainer();
-//        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-//        stack.setItemMeta(meta);
-//        return stack;
-//    }
-
-//    @Override
-//    public ItemStack item(Material material) {
-//        ItemStack stack = newItem(material);
-//        ItemMeta meta = stack.getItemMeta();
-//        PersistentDataContainer data = meta.getPersistentDataContainer();
-//        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-//        data.set(NamespaceUtils.RANGE.key(), PersistentDataType.INTEGER, range);
-//        stack.setItemMeta(meta);
-//        return stack;
-//    }
-
     private static Map<String, Object> defaultProperties = new HashMap<>();
 
     static {

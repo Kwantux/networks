@@ -51,35 +51,6 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
         this.supplierPriority = supplierPriority;
     }
 
-//    private static ItemStack newItem(Material material) {
-//        ItemStack stack = new ItemStack(material);
-//        ItemMeta meta = stack.getItemMeta();
-//        try {
-//            meta.displayName(Main.lang.getItemName("component." + type.tag()));
-//            meta.lore(Main.lang.getItemLore("component." + type.tag()));
-//            meta.getPersistentDataContainer().set(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING, ",");
-//        } catch (InvalidNodeException e) {
-//            throw new RuntimeException(e);
-//        }
-//        PersistentDataContainer data = meta.getPersistentDataContainer();
-//        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-//        stack.setItemMeta(meta);
-//        return stack;
-//    }
-//
-//    @Override
-//    public ItemStack item(Material material) {
-//        ItemStack stack = newItem(material);
-//        ItemMeta meta = stack.getItemMeta();
-//        PersistentDataContainer data = meta.getPersistentDataContainer();
-//        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-//        data.set(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING, String.join(",", filters));
-//        data.set(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER, acceptorPriority);
-//        data.set(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER, supplierPriority);
-//        stack.setItemMeta(meta);
-//        return stack;
-//    }
-
     private static Map<String, Object> defaultProperties = new HashMap<>();
 
     static {
@@ -142,7 +113,7 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
         return new HashMap<>() {{
             put(NamespaceUtils.ACCEPTOR_PRIORITY.name, acceptorPriority);
             put(NamespaceUtils.SUPPLIER_PRIORITY.name, supplierPriority);
-            put(NamespaceUtils.FILTERS.name, filters);
+            put(NamespaceUtils.FILTERS.name, String.join(",", filters));
         }};
     }
 
