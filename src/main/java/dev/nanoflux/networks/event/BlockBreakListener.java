@@ -7,7 +7,6 @@ import dev.nanoflux.networks.Manager;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.component.NetworkComponent;
 import dev.nanoflux.networks.CraftingManager;
-import dev.nanoflux.networks.component.component.InputContainer;
 import dev.nanoflux.networks.utils.DoubleChestUtils;
 import dev.nanoflux.networks.utils.BlockLocation;
 import org.bukkit.Bukkit;
@@ -26,16 +25,14 @@ import java.util.UUID;
 
 public class BlockBreakListener implements Listener {
 
-    private final Manager net;
-    private final CraftingManager crafting;
+    private final Manager manager;
     private final DoubleChestUtils dcu;
     private final LanguageController lang;
 
 
-    public BlockBreakListener(Main main, CraftingManager craftingManager, DoubleChestUtils doubleChestDisconnecter) {
+    public BlockBreakListener(Main main, DoubleChestUtils doubleChestDisconnecter) {
         main.getServer().getPluginManager().registerEvents(this, main);
-        net = main.getNetworkManager();
-        crafting = craftingManager;
+        manager = main.getNetworkManager();
         lang = main.getLanguage();
         dcu = doubleChestDisconnecter;
     }
@@ -43,27 +40,20 @@ public class BlockBreakListener implements Listener {
     @EventHandler (priority = EventPriority.HIGHEST)
     public void blockBreak(BlockBreakEvent event) {
 
-        for (Network network : net.getNetworks()) {
+        for (Network network : manager.getNetworks()) {
             for (NetworkComponent component : List.copyOf(network.components())) {
                 if (component.pos().equals(new BlockLocation(event.getBlock()))) {
 
                     dcu.disconnectChests(component.pos());
 
-                    if (net.permissionUser(event.getPlayer(), network)) {
+                    if (manager.permissionUser(event.getPlayer(), network)) {
 
-                        ItemStack item = component.item(event.getBlock().getType());
+                        ItemStack item = component.item();
                         Bukkit.getServer().getWorld(component.pos().getWorld()).dropItem(component.pos().getBukkitLocation(), item);
-                        event.setDropItems(false);
-
-                        for (ItemStack stack : component.inventory()) {
-                            if (stack != null) {
-                                Bukkit.getServer().getWorld(component.pos().getWorld()).dropItem(component.pos().getBukkitLocation(), stack);
-                            }
-                        }
-
                         BlockLocation location = new BlockLocation(event.getBlock());
-                        net.removeComponent(location);
-                        lang.message(event.getPlayer(), "component.remove", new BlockLocation(event.getBlock()).toString());
+                        manager.removeComponent(location);
+                        lang.message(event.getPlayer(), "component.remove", location.toString());
+
                     }
                     else {
                         lang.message(event.getPlayer(), "permission.user");
@@ -80,29 +70,22 @@ public class BlockBreakListener implements Listener {
         ArrayList<Block> removeLater = new ArrayList<>();
 
         for (Block block : event.blockList()) {
-            if (net.getComponent(new BlockLocation(block)) != null) {
+            if (manager.getComponent(new BlockLocation(block)) != null) {
                 removeLater.add(block);
             }
         }
 
         for (Block block : removeLater) {
             if (!Config.blastProofComponents) {
-                NetworkComponent component = net.getComponent(new BlockLocation(block));
+                NetworkComponent component = manager.getComponent(new BlockLocation(block));
                 assert component != null; // Was already checked when adding blocks to the list
 
-                ItemStack item = component.item(block.getType());
+                ItemStack item = component.item();
                 Bukkit.getServer().getWorld(component.pos().getWorld()).dropItem(component.pos().getBukkitLocation(), item);
-                event.setCancelled(true);
-
-                for (ItemStack stack : component.inventory()) {
-                    if (stack != null) {
-                        Bukkit.getServer().getWorld(component.pos().getWorld()).dropItem(component.pos().getBukkitLocation(), stack);
-                    }
-                }
 
                 event.blockList().remove(block);
                 block.setType(Material.AIR);
-                Network network = net.getNetworkWithComponent(new BlockLocation(block));
+                Network network = manager.getNetworkWithComponent(new BlockLocation(block));
                 network.removeComponent(new BlockLocation(block));
                 ArrayList<UUID> users = (ArrayList<UUID>) network.users();
                 users.add(network.owner());

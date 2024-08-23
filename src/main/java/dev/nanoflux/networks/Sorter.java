@@ -38,7 +38,7 @@ public class Sorter {
             if (item == null) continue;
             try {
                 for (Acceptor acceptor : acceptors) {
-                    if (acceptor.ready() && acceptor.pos().getDistance(donator.pos()) <= ranges[donator.range()] + network.range() && Acceptor.spaceFree(acceptor.inventory(), item) && acceptor.accept(item)) {
+                    if (acceptor.ready() && acceptor.pos().getDistance(donator.pos()) <= ranges[Math.min(donator.range(), ranges.length - 1)] + network.range() && Acceptor.spaceFree(acceptor.inventory(), item) && acceptor.accept(item)) {
                         transmit(item, donator, acceptor);
                         break;
                     }
@@ -57,7 +57,7 @@ public class Sorter {
             if (item == null) continue;
             try {
                 for (Supplier supplier : suppliers) {
-                    if (supplier.ready() && supplier.pos().getDistance(requestor.pos()) <= ranges[requestor.range()] + network.range() && supplier.supply().contains(item)) {
+                    if (supplier.ready() && supplier.pos().getDistance(requestor.pos()) <= ranges[Math.min(requestor.range(), ranges.length - 1)] + network.range() && supplier.supply().contains(item)) {
                         transmit(item, supplier, requestor);
                         break;
                     }

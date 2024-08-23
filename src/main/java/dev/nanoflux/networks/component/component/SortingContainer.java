@@ -1,18 +1,14 @@
 package dev.nanoflux.networks.component.component;
 
-import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.component.ComponentType;
 import dev.nanoflux.networks.component.NetworkComponent;
 import dev.nanoflux.networks.component.module.Acceptor;
 import dev.nanoflux.networks.component.module.Supplier;
-import dev.nanoflux.config.util.exceptions.InvalidNodeException;
 import dev.nanoflux.networks.utils.BlockLocation;
 import dev.nanoflux.networks.utils.NamespaceUtils;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang3.ArrayUtils;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -55,33 +51,12 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
         this.supplierPriority = supplierPriority;
     }
 
-    private static ItemStack newItem(Material material) {
-        ItemStack stack = new ItemStack(material);
-        ItemMeta meta = stack.getItemMeta();
-        try {
-            meta.displayName(Main.lang.getItemName("component." + type.tag()));
-            meta.lore(Main.lang.getItemLore("component." + type.tag()));
-            meta.getPersistentDataContainer().set(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING, ",");
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        }
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-        stack.setItemMeta(meta);
-        return stack;
-    }
+    private static Map<String, Object> defaultProperties = new HashMap<>();
 
-    @Override
-    public ItemStack item(Material material) {
-        ItemStack stack = newItem(material);
-        ItemMeta meta = stack.getItemMeta();
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-        data.set(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING, String.join(",", filters));
-        data.set(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER, acceptorPriority);
-        data.set(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER, supplierPriority);
-        stack.setItemMeta(meta);
-        return stack;
+    static {
+        defaultProperties.put(NamespaceUtils.FILTERS.name, "");
+        defaultProperties.put(NamespaceUtils.ACCEPTOR_PRIORITY.name, 10);
+        defaultProperties.put(NamespaceUtils.SUPPLIER_PRIORITY.name, 0);
     }
 
     public static ComponentType register() {
@@ -94,7 +69,7 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
                 true,
                 false,
                 SortingContainer::create,
-                SortingContainer::newItem
+                defaultProperties
         );
         return type;
     }
@@ -136,9 +111,9 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
     @Override
     public Map<String, Object> properties() {
         return new HashMap<>() {{
-            put("acceptorPriority", acceptorPriority);
-            put("supplierPriority", supplierPriority);
-            put("filters", filters);
+            put(NamespaceUtils.ACCEPTOR_PRIORITY.name, acceptorPriority);
+            put(NamespaceUtils.SUPPLIER_PRIORITY.name, supplierPriority);
+            put(NamespaceUtils.FILTERS.name, String.join(",", filters));
         }};
     }
 

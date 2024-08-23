@@ -1,16 +1,12 @@
 package dev.nanoflux.networks.component.component;
 
-import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.component.ComponentType;
 import dev.nanoflux.networks.component.NetworkComponent;
 import dev.nanoflux.networks.component.module.Donator;
-import dev.nanoflux.config.util.exceptions.InvalidNodeException;
 import dev.nanoflux.networks.utils.BlockLocation;
 import dev.nanoflux.networks.utils.NamespaceUtils;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -46,30 +42,10 @@ public class InputContainer extends NetworkComponent implements Donator {
         super(pos);
     }
 
-    protected static ItemStack newItem(Material material) {
-        ItemStack stack = new ItemStack(material);
-        ItemMeta meta = stack.getItemMeta();
-        try {
-            meta.displayName(Main.lang.getItemName("component." + type.tag()));
-            meta.lore(Main.lang.getItemLore("component." + type.tag()));
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        }
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-        stack.setItemMeta(meta);
-        return stack;
-    }
+    private static Map<String, Object> defaultProperties = new HashMap<>();
 
-    @Override
-    public ItemStack item(Material material) {
-        ItemStack stack = newItem(material);
-        ItemMeta meta = stack.getItemMeta();
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-        data.set(NamespaceUtils.RANGE.key(), PersistentDataType.INTEGER, range);
-        stack.setItemMeta(meta);
-        return stack;
+    static {
+        defaultProperties.put(NamespaceUtils.RANGE.name, 0);
     }
 
     public static ComponentType register() {
@@ -82,7 +58,7 @@ public class InputContainer extends NetworkComponent implements Donator {
                 false, 
                 false,
                 InputContainer::create,
-                InputContainer::newItem
+                defaultProperties
         );
         return type;
     }

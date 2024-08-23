@@ -34,4 +34,8 @@ public enum NamespaceUtils {
     public NamespacedKey key() {
         return new NamespacedKey(main, this.name);
     }
+
+    public static NamespacedKey key(String name) {
+        return new NamespacedKey(main, name);
+    }
 }
