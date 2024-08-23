@@ -6,16 +6,13 @@ import dev.nanoflux.networks.component.component.MiscContainer;
 import dev.nanoflux.networks.component.component.SortingContainer;
 import dev.nanoflux.networks.utils.BlockLocation;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class ComponentType {
     public final Class<? extends NetworkComponent> clazz;
@@ -28,7 +25,7 @@ public class ComponentType {
     public final boolean requestor;
 
     public final BiFunction<BlockLocation, PersistentDataContainer, ?extends NetworkComponent> constructor;
-    public final Function<Material, ItemStack> item;
+    public final Map<String, Object> defaultProperties;
 
     public static HashMap<String, ComponentType> tags = new HashMap<>();
     public static HashMap<Class<? extends NetworkComponent>, ComponentType> types = new HashMap<>();
@@ -41,8 +38,8 @@ public class ComponentType {
     public static ComponentType MISC = MiscContainer.register();
 
 
-    public static ComponentType register(Class<? extends NetworkComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, BiFunction<BlockLocation, PersistentDataContainer, ?extends NetworkComponent> constructor, Function<Material, ItemStack> item) {
-        ComponentType type = new ComponentType(clazz, tag, name, donator, acceptor, supplier, requestor, constructor, item);
+    public static ComponentType register(Class<? extends NetworkComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, BiFunction<BlockLocation, PersistentDataContainer, ?extends NetworkComponent> constructor, Map<String, Object> defaultProperties) {
+        ComponentType type = new ComponentType(clazz, tag, name, donator, acceptor, supplier, requestor, constructor, defaultProperties);
         tags.put(tag, type);
         types.put(clazz, type);
         return type;
@@ -61,10 +58,10 @@ public class ComponentType {
         return types.get(clazz);
     }
 
-    private ComponentType(Class<? extends NetworkComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, BiFunction<BlockLocation, PersistentDataContainer, ?extends NetworkComponent> constructor, Function<Material, ItemStack> item) {
+    private ComponentType(Class<? extends NetworkComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, BiFunction<BlockLocation, PersistentDataContainer, ?extends NetworkComponent> constructor, Map<String, Object> defaultProperties) {
 
         this.constructor = constructor;
-        this.item = item;
+        this.defaultProperties = defaultProperties;
 
         this.clazz = clazz;
 
@@ -91,8 +88,8 @@ public class ComponentType {
         return constructor.apply(pos, container);
     }
 
-    public ItemStack item(Material mat) {
-        return item.apply(mat);
+    public ItemStack item() {
+        return NetworkComponent.item(this, defaultProperties);
     }
 
 }

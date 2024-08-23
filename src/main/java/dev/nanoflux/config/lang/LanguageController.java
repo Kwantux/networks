@@ -20,12 +20,15 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class LanguageController {
+
+    private final JavaPlugin plugin;
     private final Logger logger;
     private final MiniMessage mm;
 
     private final List<Language> languages = new ArrayList<Language>();
 
     public LanguageController(JavaPlugin plugin, String... order) {
+        this.plugin = plugin;
         logger = plugin.getLogger();
         mm = MiniMessage.miniMessage();
 
@@ -82,6 +85,20 @@ public class LanguageController {
      */
     public Component get(String path) throws InvalidNodeException {
         return mm.deserialize(getPreparedString(path));
+    }
+
+    /**
+     * @param path The path of the requested node
+     * @return the given node
+     * @throws InvalidNodeException When you give a non-existent node
+     */
+    public Component getFinal(String path) {
+        try {
+            return mm.deserialize(getPreparedString(path));
+        } catch (InvalidNodeException e) {
+            logger.severe("Invalid language key: " + path);
+            return Component.text(plugin.getName() + "." + path);
+        }
     }
 
 

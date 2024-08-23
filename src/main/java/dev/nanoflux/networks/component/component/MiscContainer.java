@@ -1,17 +1,13 @@
 package dev.nanoflux.networks.component.component;
 
-import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.component.ComponentType;
 import dev.nanoflux.networks.component.NetworkComponent;
-import dev.nanoflux.config.util.exceptions.InvalidNodeException;
 import dev.nanoflux.networks.component.module.Acceptor;
 import dev.nanoflux.networks.component.module.Supplier;
 import dev.nanoflux.networks.utils.BlockLocation;
 import dev.nanoflux.networks.utils.NamespaceUtils;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -51,31 +47,38 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
         super(pos);
     }
 
-    protected static ItemStack newItem(Material material) {
-        ItemStack stack = new ItemStack(material);
-        ItemMeta meta = stack.getItemMeta();
-        try {
-            meta.displayName(Main.lang.getItemName("component." + type.tag()));
-            meta.lore(Main.lang.getItemLore("component." + type.tag()));
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        }
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-        stack.setItemMeta(meta);
-        return stack;
-    }
+//    protected static ItemStack newItem(Material material) {
+//        ItemStack stack = new ItemStack(material);
+//        ItemMeta meta = stack.getItemMeta();
+//        try {
+//            meta.displayName(Main.lang.getItemName("component." + type.tag()));
+//            meta.lore(Main.lang.getItemLore("component." + type.tag()));
+//        } catch (InvalidNodeException e) {
+//            throw new RuntimeException(e);
+//        }
+//        PersistentDataContainer data = meta.getPersistentDataContainer();
+//        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
+//        stack.setItemMeta(meta);
+//        return stack;
+//    }
+//
+//    @Override
+//    public ItemStack item(Material material) {
+//        ItemStack stack = newItem(material);
+//        ItemMeta meta = stack.getItemMeta();
+//        PersistentDataContainer data = meta.getPersistentDataContainer();
+//        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
+//        data.set(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER, acceptorPriority);
+//        data.set(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER, supplierPriority);
+//        stack.setItemMeta(meta);
+//        return stack;
+//    }
 
-    @Override
-    public ItemStack item(Material material) {
-        ItemStack stack = newItem(material);
-        ItemMeta meta = stack.getItemMeta();
-        PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
-        data.set(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER, acceptorPriority);
-        data.set(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER, supplierPriority);
-        stack.setItemMeta(meta);
-        return stack;
+    private static Map<String, Object> defaultProperties = new HashMap<>();
+
+    static {
+        defaultProperties.put(NamespaceUtils.ACCEPTOR_PRIORITY.name, -20);
+        defaultProperties.put(NamespaceUtils.SUPPLIER_PRIORITY.name, 5);
     }
 
     public static ComponentType register() {
@@ -88,7 +91,7 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
                 true,
                 false,
                 MiscContainer::create,
-                MiscContainer::newItem
+                defaultProperties
         );
         return type;
     }
@@ -126,8 +129,8 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
     @Override
     public Map<String, Object> properties() {
         return new HashMap<>() {{
-            put("acceptorPriority", acceptorPriority);
-            put("supplierPriority", supplierPriority);
+            put(NamespaceUtils.ACCEPTOR_PRIORITY.name, acceptorPriority);
+            put(NamespaceUtils.SUPPLIER_PRIORITY.name, supplierPriority);
         }};
     }
 

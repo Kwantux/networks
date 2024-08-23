@@ -158,9 +158,9 @@ public class CraftingManager {
     }
 
     private void registerComponent(ComponentType type) {
-        for (Material mat : pluginconfig.componentBlocks(type)) {
-            registerComponentWithMaterial(type, mat);
-        }
+//        for (Material mat : pluginconfig.componentBlocks(type)) {
+//            registerComponentWithMaterial(type, mat);
+//        }
         registerComponentWithMaterial(type, pluginconfig.getComponentUpgradeMaterial());
     }
 
@@ -170,7 +170,7 @@ public class CraftingManager {
         String configPath = "component."+ type.tag + ".block";
         String matkey = mat.name();
 
-        ItemStack stack = type.item(mat);
+        ItemStack stack = type.item();
 
         String registerPath = configPath + "." + matkey;
 
