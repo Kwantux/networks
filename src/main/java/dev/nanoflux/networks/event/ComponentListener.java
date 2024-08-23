@@ -8,6 +8,7 @@ import dev.nanoflux.networks.component.NetworkComponent;
 import dev.nanoflux.networks.component.module.Donator;
 import dev.nanoflux.networks.component.module.Requestor;
 import dev.nanoflux.networks.utils.BlockLocation;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -49,12 +50,25 @@ public class ComponentListener implements Listener {
 
     @EventHandler
     public void onItemTransmit(InventoryMoveItemEvent event) {
-        check(event.getDestination().getLocation());
+        Location location = event.getDestination().getLocation();
+        if (location == null) return;
+        Main.regionScheduler.execute(
+                Main.instance,
+                location,
+                () -> check(location)
+        );
+
     }
 
     @EventHandler
     public void onItemPickup(InventoryPickupItemEvent event) {
-        check(event.getInventory().getLocation());
+        Location location = event.getInventory().getLocation();
+        if (location == null) return;
+        Main.regionScheduler.execute(
+                Main.instance,
+                location,
+                () -> check(location)
+        );
     }
 
 }

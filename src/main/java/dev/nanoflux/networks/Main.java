@@ -12,6 +12,9 @@ import dev.nanoflux.networks.event.WandListener;
 import dev.nanoflux.networks.event.PlayerJoinListener;
 import dev.nanoflux.networks.utils.BlockLocation;
 import dev.nanoflux.networks.utils.DoubleChestUtils;
+import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
+import io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler;
+import io.papermc.paper.threadedregions.scheduler.RegionScheduler;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.spongepowered.configurate.serialize.SerializationException;
 
@@ -25,8 +28,13 @@ import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
 
-    // Variables
+    public static Main instance;
+
     public static Logger logger;
+
+    public static RegionScheduler regionScheduler;
+    public static GlobalRegionScheduler globalRegionScheduler;
+    public static AsyncScheduler asyncScheduler;
 
     public static Manager manager;
     public static Config config;
@@ -37,6 +45,8 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        instance = this;
 
         // Create folders
         try {
@@ -59,6 +69,10 @@ public final class Main extends JavaPlugin {
 
 
         logger = getLogger();
+
+        regionScheduler = getServer().getRegionScheduler();
+        globalRegionScheduler = getServer().getGlobalRegionScheduler();
+        asyncScheduler = getServer().getAsyncScheduler();
 
 
         if (!getDataFolder().exists()) {
