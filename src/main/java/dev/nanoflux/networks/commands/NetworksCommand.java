@@ -564,7 +564,7 @@ public class NetworksCommand extends CommandHandler {
         lang.message(sender, "items.message", Component.text(network.name()));
 
         for (Map.Entry<Material, Integer> entry : materials.entrySet()) {
-            sender.sendMessage(Component.translatable(entry.getKey().translationKey()).append(Component.text(":  ").color(TextColor.color(0, 255, 230)).append(Component.text(entry.getValue())).color(TextColor.color(255, 255, 255))).hoverEvent(HoverEvent.showItem(HoverEvent.ShowItem.of(entry.getKey().key(), entry.getValue()))));
+            sender.sendMessage(Component.translatable(entry.getKey().translationKey()).append(Component.text(":  ").color(TextColor.color(0, 255, 230)).append(Component.text(entry.getValue())).color(TextColor.color(255, 255, 255))).hoverEvent(HoverEvent.showItem(HoverEvent.ShowItem.of(entry.getKey().key(), 1))));
         }
     }
 
