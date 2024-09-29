@@ -105,9 +105,12 @@ public final class Main extends JavaPlugin {
         ));
 
         try {
+            // TODO: Update to Cloud v2
             new CommandManager(this);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            // Removed RuntimeException, because in most cases commands will still work ... (fingers crossed)
+            logger.warning("An exception occurred while loading command manager");
+            logger.warning(e.getMessage());
         }
 
 

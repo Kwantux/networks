@@ -1,5 +1,4 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
-import net.minecrell.pluginyml.paper.PaperPluginDescription
 
 plugins {
     `java-library`
@@ -12,7 +11,7 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "dev.nanoflux"
-version = "3.0.3"
+version = "3.0.4"
 description = "A performance friendly way to sort your items"
 
 repositories {
