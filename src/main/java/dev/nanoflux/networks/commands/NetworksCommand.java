@@ -162,7 +162,7 @@ public class NetworksCommand extends CommandHandler {
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("data")
                 .literal("save")
-                .literal("cfg")
+                .literal("config")
                 .permission("networks.data")
                 .handler(this::saveConfig)
         );
@@ -182,7 +182,7 @@ public class NetworksCommand extends CommandHandler {
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("data")
                 .literal("reload")
-                .literal("cfg")
+                .literal("config")
                 .permission("networks.data")
                 .handler(this::reloadConfig)
         );
@@ -234,12 +234,12 @@ public class NetworksCommand extends CommandHandler {
 
     private void saveConfig(CommandContext<CommandSender> context) {
         ConfigurationManager.saveAll();
-        lang.message(context.sender(), "data.save.cfg");
+        lang.message(context.sender(), "data.save.config");
     }
 
     private void reloadConfig(CommandContext<CommandSender> context) {
         ConfigurationManager.reloadAll();
-        lang.message(context.sender(), "data.reload.cfg");
+        lang.message(context.sender(), "data.reload.config");
     }
 
     private void create(CommandContext<Player> context) {
