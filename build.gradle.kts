@@ -21,18 +21,12 @@ repositories {
 }
 
 dependencies {
-    //compileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
     compileOnly("dev.folia", "folia-api", "1.20.6-R0.1-SNAPSHOT")
     paperLibrary("net.kyori", "adventure-text-minimessage", "4.13.1")
     paperLibrary("org.spongepowered", "configurate-hocon", "4.1.2")
     paperLibrary("org.spongepowered", "configurate-yaml", "4.1.2")
     paperLibrary("org.incendo", "cloud-core", "2.0.0")
-    paperLibrary("org.incendo", "cloud-annotations", "2.0.0")
     paperLibrary("org.incendo", "cloud-paper", "2.0.0-beta.10")
-    paperLibrary("org.incendo", "cloud-paper-signed-arguments", "2.0.0-beta.10")
-    paperLibrary("org.incendo", "cloud-bukkit", "2.0.0-beta.10")
-    paperLibrary("org.incendo", "cloud-minecraft-extras", "2.0.0-beta.10")
-    paperLibrary("org.incendo", "cloud-brigadier", "2.0.0-beta.10")
     paperLibrary("com.google.code.gson", "gson", "2.10.1")
 }
 
