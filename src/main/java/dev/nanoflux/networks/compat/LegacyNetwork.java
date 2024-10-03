@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import static dev.nanoflux.networks.Main.config;
+import static dev.nanoflux.networks.Main.cfg;
 import static dev.nanoflux.networks.Main.logger;
 
 public record LegacyNetwork(
@@ -39,7 +39,7 @@ public record LegacyNetwork(
 
         logger.info("Converting compat network '" + id + "'");
 
-        NetworkProperties properties = config.defaultProperties();
+        NetworkProperties properties = cfg.defaultProperties();
         properties.baseRange(maxRange);
 
         List<NetworkComponent> components = new ArrayList<>();
