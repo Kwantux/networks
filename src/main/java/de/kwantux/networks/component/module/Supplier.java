@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Arrays;
 import java.util.List;
 
-public interface Supplier extends BaseModule {
+public interface Supplier extends PassiveModule {
     default List<ItemStack> supply() {
         return Arrays.asList(inventory().getContents());
     }

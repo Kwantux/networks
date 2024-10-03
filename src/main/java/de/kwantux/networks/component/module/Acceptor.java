@@ -4,7 +4,7 @@ import de.kwantux.networks.config.Config;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public interface Acceptor extends BaseModule {
+public interface Acceptor extends PassiveModule {
     boolean accept(ItemStack stack);
 
     static boolean spaceFree(Inventory inv, ItemStack stack) {

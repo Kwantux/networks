@@ -42,7 +42,7 @@ public class Sorter {
             if (item == null) continue;
             try {
                 for (Acceptor acceptor : acceptors) {
-                    if (acceptor.ready() && acceptor.pos().getDistance(donator.pos()) <= ranges[Math.min(donator.range(), ranges.length - 1)] + network.range() && Acceptor.spaceFree(acceptor.inventory(), item) && acceptor.accept(item)) {
+                    if (acceptor.ready() && inDistance(network,donator, acceptor) && Acceptor.spaceFree(acceptor.inventory(), item) && acceptor.accept(item)) {
                         transmit(item, donator, acceptor);
                         break;
                     }
@@ -61,7 +61,7 @@ public class Sorter {
             if (item == null) continue;
             try {
                 for (Supplier supplier : suppliers) {
-                    if (supplier.ready() && supplier.pos().getDistance(requestor.pos()) <= ranges[Math.min(requestor.range(), ranges.length - 1)] + network.range() && supplier.supply().contains(item)) {
+                    if (supplier.ready() && inDistance(network, requestor, supplier) && supplier.supply().contains(item)) {
                         transmit(item, supplier, requestor);
                         break;
                     }
@@ -72,5 +72,13 @@ public class Sorter {
                 else logger.log(Level.FINER, "Failed to sort item (this will be regularly thrown if Folia is used): " + e.getMessage());
             } // Folia compatibility
         }
+    }
+
+    public static boolean inDistance(Network network, ActiveModule active, PassiveModule passive) {
+        return
+                ranges[Math.min(active.range(), ranges.length - 1)] < 1 // If component range is set to infinity
+                        || // or if
+                        active.pos().getDistance(passive.pos()) <= // distance is smaller than
+                        ranges[Math.min(active.range(), ranges.length - 1)] + network.range(); // component range + network range
     }
 }
