@@ -76,7 +76,7 @@ delete.fail: <prefix><red>This network doesn't exist
 select.noselection: <prefix><red>No network was selected. Please select a network using <white>/net select <network>
 select.success: <prefix>Successfully selected storage network <green><1>
 
-invalidnetwork: <prefix><1> <red>is not a valid network!
+invalidnetwork: <input> is not a valid network
 
 permission.server: <prefix><red>This command is only available for server administrators!
 permission.owner: "<prefix><red>You don't have permissions to edit this network!\nYou need to be the network owner or a server administrator!"

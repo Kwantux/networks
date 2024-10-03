@@ -91,9 +91,9 @@ public final class NetworkParser implements ArgumentParser<CommandSender, Networ
             );
             this.input = input;
 
-            if (!context.isSuggestions()) {
-                lang.message((CommandSender) context.sender(), "invalidnetwork", input);
-            }
+//            if (!context.isSuggestions()) {
+//                lang.message((CommandSender) context.sender(), "invalidnetwork", input);
+//            }
         }
 
         /**
