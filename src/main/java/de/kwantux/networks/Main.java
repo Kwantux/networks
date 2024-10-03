@@ -90,11 +90,11 @@ public final class Main extends JavaPlugin {
         }
 
         try {
-            logger.info("Loading cfg files...");
+            logger.info("Loading config files...");
             this.cfg = new Config(this);
         }
         catch (SerializationException e) {
-            logger.severe("Unable to load cfg, shutting down plugin…");
+            logger.severe("Unable to load config, shutting down plugin…");
             getServer().getPluginManager().disablePlugin(this);
             throw new RuntimeException(e);
         }
