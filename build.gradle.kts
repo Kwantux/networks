@@ -11,7 +11,7 @@ plugins {
 
 runPaper.folia.registerTask()
 
-group = "dev.nanoflux"
+group = "de.kwantux"
 version = "3.1.0-SNAPSHOT"
 description = "A performance friendly way to sort your items"
 
@@ -35,8 +35,8 @@ java {
 }
 
 paper {
-    main = "dev.nanoflux.networks.Main"
-    loader = "dev.nanoflux.networks.Loader"
+    main = "de.kwantux.networks.Main"
+    loader = "de.kwantux.networks.Loader"
     apiVersion = "1.20.6"
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
     website = "https://github.com/Kwantux/Networks"
