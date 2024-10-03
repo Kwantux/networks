@@ -6,7 +6,7 @@ import dev.nanoflux.config.lang.LanguageController;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.Manager;
-import dev.nanoflux.networks.Config;
+import dev.nanoflux.networks.config.Config;
 import dev.nanoflux.networks.utils.DoubleChestUtils;
 import dev.nanoflux.networks.utils.BlockLocation;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import static dev.nanoflux.networks.Main.manager;
+import static dev.nanoflux.networks.Main.mgr;
 
 public class BlockPlaceListener implements Listener {
 
@@ -63,7 +63,7 @@ public class BlockPlaceListener implements Listener {
                     return;
                 }
 
-                manager.createComponent(network, event.getBlock().getType(), type, pos, container);
+                mgr.createComponent(network, event.getBlock().getType(), type, pos, container);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
             }
         }
@@ -97,7 +97,7 @@ public class BlockPlaceListener implements Listener {
                     return;
                 }
 
-                manager.createComponent(network, event.getClickedBlock().getType(), type, pos, container);
+                mgr.createComponent(network, event.getClickedBlock().getType(), type, pos, container);
                 item.setAmount(item.getAmount() - 1);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
             }

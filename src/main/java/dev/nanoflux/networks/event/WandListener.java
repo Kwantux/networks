@@ -2,8 +2,8 @@ package dev.nanoflux.networks.event;
 
 import dev.nanoflux.config.lang.LanguageController;
 import dev.nanoflux.config.util.exceptions.InvalidNodeException;
-import dev.nanoflux.networks.Config;
-import dev.nanoflux.networks.CraftingManager;
+import dev.nanoflux.networks.config.Config;
+import dev.nanoflux.networks.config.CraftingManager;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Manager;
 import dev.nanoflux.networks.Network;
@@ -70,7 +70,7 @@ public class WandListener implements Listener {
                         if (!p.isSneaking()) {
                             mode++;
                             if (mode > 1) mode = 0;
-                            //p.getInventory().setItemInMainHand(crafting.getNetworkWand(mode));
+                            //p.getInventory().setItemInMainHand(crf.getNetworkWand(mode));
                             event.getItem().setItemMeta(crafting.getNetworkWand(mode).getItemMeta());
                             lang.message(p, "wand.mode", lang.getRaw("wand.mode." + mode));
                             return;

@@ -1,12 +1,11 @@
 package dev.nanoflux.networks.event;
 
 import dev.nanoflux.config.lang.LanguageController;
-import dev.nanoflux.networks.Config;
+import dev.nanoflux.networks.config.Config;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Manager;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.component.NetworkComponent;
-import dev.nanoflux.networks.CraftingManager;
 import dev.nanoflux.networks.utils.DoubleChestUtils;
 import dev.nanoflux.networks.utils.BlockLocation;
 import org.bukkit.Bukkit;

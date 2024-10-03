@@ -1,13 +1,12 @@
 package dev.nanoflux.networks.component;
 
 import dev.nanoflux.config.util.exceptions.InvalidNodeException;
-import dev.nanoflux.networks.Config;
+import dev.nanoflux.networks.config.Config;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.utils.BlockLocation;
 import dev.nanoflux.networks.utils.NamespaceUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.InventoryHolder;
@@ -18,7 +17,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +56,7 @@ public abstract class NetworkComponent {
      * @return The installable item for this component
      */
     public static ItemStack item(ComponentType type, Map<String, Object> properties) {
-        ItemStack stack = new ItemStack(Main.config.getComponentUpgradeMaterial());
+        ItemStack stack = new ItemStack(Main.cfg.getComponentUpgradeMaterial());
         ItemMeta meta = stack.getItemMeta();
         try {
             meta.displayName(Main.lang.getItemName("component." + type.tag()));

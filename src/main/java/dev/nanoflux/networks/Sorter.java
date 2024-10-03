@@ -1,15 +1,14 @@
 package dev.nanoflux.networks;
 
+import dev.nanoflux.networks.config.Config;
 import dev.nanoflux.networks.storage.InterThreadTransmissionController;
 import dev.nanoflux.networks.component.module.*;
-import org.bukkit.Bukkit;
+import dev.nanoflux.networks.utils.FoliaUtils;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 
 import static dev.nanoflux.networks.Main.logger;
 

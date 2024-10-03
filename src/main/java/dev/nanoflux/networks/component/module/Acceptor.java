@@ -1,6 +1,6 @@
 package dev.nanoflux.networks.component.module;
 
-import dev.nanoflux.networks.Config;
+import dev.nanoflux.networks.config.Config;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 

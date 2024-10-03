@@ -36,7 +36,7 @@ public class Network {
     public Network(String name, UUID owner) {
         this.id = name;
         this.owner = owner;
-        properties(Main.config.defaultProperties());
+        properties(Main.cfg.defaultProperties());
     }
 
     public Network(String id, SerializableNetwork network) {

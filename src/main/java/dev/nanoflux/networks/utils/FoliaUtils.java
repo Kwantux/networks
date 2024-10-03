@@ -1,10 +1,4 @@
-package dev.nanoflux.networks;
-
-import dev.nanoflux.networks.utils.BlockLocation;
-import org.bukkit.Location;
-import org.bukkit.Server;
-
-import java.lang.reflect.Method;
+package dev.nanoflux.networks.utils;
 
 
 public class FoliaUtils {

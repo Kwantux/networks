@@ -1,10 +1,11 @@
-package dev.nanoflux.networks;
+package dev.nanoflux.networks.config;
 
 import dev.nanoflux.config.Configuration;
 import dev.nanoflux.config.ConfigurationManager;
 import dev.nanoflux.config.util.Transformation;
 import dev.nanoflux.config.util.exceptions.ConfigAlreadyRegisteredException;
 import dev.nanoflux.config.util.exceptions.InvalidNodeException;
+import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.component.ComponentType;
 import dev.nanoflux.networks.storage.NetworkProperties;
 import dev.nanoflux.networks.utils.BlockLocation;
@@ -45,7 +46,7 @@ public class Config {
             config.require("humanReadableJson");
             config.require("archiveNetworksOnDelete");
 
-            // Legacy config support
+            // Legacy cfg support
             config.transformation(
                     new Transformation(
                             new ComparableVersion("2.0.0"),

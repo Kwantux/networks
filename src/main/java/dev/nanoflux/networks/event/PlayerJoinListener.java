@@ -1,7 +1,7 @@
 package dev.nanoflux.networks.event;
 
 import dev.nanoflux.networks.Main;
-import dev.nanoflux.networks.CraftingManager;
+import dev.nanoflux.networks.config.CraftingManager;
 import org.bukkit.NamespacedKey;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

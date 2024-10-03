@@ -2,27 +2,28 @@ package dev.nanoflux.networks;
 
 import dev.nanoflux.config.lang.LanguageController;
 import dev.nanoflux.manual.Manual;
-import dev.nanoflux.networks.commands.CommandManager;
-import dev.nanoflux.networks.component.component.MiscContainer;
-import dev.nanoflux.networks.component.component.SortingContainer;
+import dev.nanoflux.networks.commands.NetworksCommandManager;
+import dev.nanoflux.networks.config.Config;
+import dev.nanoflux.networks.config.CraftingManager;
 import dev.nanoflux.networks.event.BlockBreakListener;
 import dev.nanoflux.networks.event.BlockPlaceListener;
 import dev.nanoflux.networks.event.ComponentListener;
 import dev.nanoflux.networks.event.WandListener;
 import dev.nanoflux.networks.event.PlayerJoinListener;
-import dev.nanoflux.networks.utils.BlockLocation;
 import dev.nanoflux.networks.utils.DoubleChestUtils;
+import dev.nanoflux.networks.utils.FoliaUtils;
+import dev.nanoflux.networks.utils.Metrics;
 import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
 import io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler;
 import io.papermc.paper.threadedregions.scheduler.RegionScheduler;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.paper.util.sender.Source;
 import org.spongepowered.configurate.serialize.SerializationException;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 
@@ -36,17 +37,29 @@ public final class Main extends JavaPlugin {
     public static GlobalRegionScheduler globalRegionScheduler;
     public static AsyncScheduler asyncScheduler;
 
-    public static Manager manager;
-    public static Config config;
-    public static CraftingManager crafting;
+    public static Manager mgr;
+    public static Config cfg;
+    public static CraftingManager crf;
     public static DoubleChestUtils dcu;
     public static LanguageController lang;
+
+    private static PaperCommandManager.Bootstrapped<Source> cmd;
+
+    public Main(PaperCommandManager.Bootstrapped<Source> commandManager) {
+        cmd = commandManager;
+    }
+
+    public Main() {
+
+        cmd = null;
+    }
 
 
     @Override
     public void onEnable() {
 
         instance = this;
+
 
         // Create folders
         try {
@@ -70,9 +83,6 @@ public final class Main extends JavaPlugin {
 
         logger = getLogger();
 
-        regionScheduler = getServer().getRegionScheduler();
-        globalRegionScheduler = getServer().getGlobalRegionScheduler();
-        asyncScheduler = getServer().getAsyncScheduler();
 
 
         if (!getDataFolder().exists()) {
@@ -80,49 +90,51 @@ public final class Main extends JavaPlugin {
         }
 
         try {
-            logger.info("Loading config files...");
-            this.config = new Config(this);
+            logger.info("Loading cfg files...");
+            this.cfg = new Config(this);
         }
         catch (SerializationException e) {
-            logger.severe("Unable to load config, shutting down plugin…");
+            logger.severe("Unable to load cfg, shutting down plugin…");
             getServer().getPluginManager().disablePlugin(this);
             throw new RuntimeException(e);
         }
 
+        lang = new LanguageController(this, cfg.getLanguage(), "en", "de");
 
-        lang = new LanguageController(this, config.getLanguage(), "en", "de");
-        manager = new Manager(this);
-        crafting = new CraftingManager(this);
+        new NetworksCommandManager(this);
+        if (cmd != null) cmd.onEnable();
 
-        new Manual(this, "main", config.getLanguage());
+        regionScheduler = getServer().getRegionScheduler();
+        globalRegionScheduler = getServer().getGlobalRegionScheduler();
+        asyncScheduler = getServer().getAsyncScheduler();
+
+        mgr = new Manager(this);
+        crf = new CraftingManager(this);
+
+        new Manual(this, "main", cfg.getLanguage());
 
 
         // bStats Metrics
         int pluginId = 18609;
         Metrics metrics = new Metrics(this, pluginId);
         metrics.addCustomChart(new Metrics.SingleLineChart("total_networks", () ->
-            manager.getNetworks().size()
+            mgr.getNetworks().size()
         ));
 
-        try {
-            new CommandManager(this);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        //new NetworksCommandManager(this);
 
-
-        dcu = new DoubleChestUtils(manager);
-        manager.loadData();
+        dcu = new DoubleChestUtils(mgr);
+        mgr.loadData();
 
         new ComponentListener(this);
         new BlockPlaceListener(this, dcu);
         new BlockBreakListener(this, dcu);
-        new WandListener(this, crafting, dcu);
+        new WandListener(this, crf, dcu);
         new PlayerJoinListener(this);
 
         if (FoliaUtils.folia) {
             logger.warning("Folia support on Networks is still in beta, please report any bugs.");
-            for (int i : config.getMaxRanges()) {
+            for (int i : cfg.getMaxRanges()) {
                 if (i > 1000) {
                     logger.warning("You are running Networks on Folia and enabled a maximum network range of more than 1000 blocks. Be aware that on Folia, you might not be able to transmit items that far.");
                     break;
@@ -130,7 +142,7 @@ public final class Main extends JavaPlugin {
             }
         }
 
-        if (config.logoOnLaunch()) logger.info(startMessage);
+        if (cfg.logoOnLaunch()) logger.info(startMessage);
 
     }
 
@@ -140,7 +152,7 @@ public final class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         // InventoryMenuManager.closeAll();
-        if (manager != null) manager.saveData();
+        if (mgr != null) mgr.saveData();
     }
 
 
@@ -168,11 +180,11 @@ public final class Main extends JavaPlugin {
     }
 
     public Manager getNetworkManager() {
-        return manager;
+        return mgr;
     }
 
     public Config getConfiguration() {
-        return config;
+        return cfg;
     }
 
 

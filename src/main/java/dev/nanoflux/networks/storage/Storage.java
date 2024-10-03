@@ -1,7 +1,7 @@
 package dev.nanoflux.networks.storage;
 
 import com.google.gson.*;
-import dev.nanoflux.networks.Config;
+import dev.nanoflux.networks.config.Config;
 import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.Network;
 import dev.nanoflux.networks.component.NetworkComponent;

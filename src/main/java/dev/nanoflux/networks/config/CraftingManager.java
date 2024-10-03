@@ -1,8 +1,9 @@
-package dev.nanoflux.networks;
+package dev.nanoflux.networks.config;
 
 import dev.nanoflux.config.Configuration;
 import dev.nanoflux.config.util.exceptions.ConfigAlreadyRegisteredException;
 import dev.nanoflux.config.util.exceptions.InvalidNodeException;
+import dev.nanoflux.networks.Main;
 import dev.nanoflux.networks.component.ComponentType;
 import dev.nanoflux.config.lang.LanguageController;
 import org.bukkit.Bukkit;
@@ -147,7 +148,7 @@ public class CraftingManager {
             recipes.add(key);
         }
         catch (InvalidNodeException | SerializationException e) {
-            logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, the config file was deleted, server will be restarted...");
+            logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, the cfg file was deleted, server will be restarted...");
             logger.severe("==============================================================================================================================================");
             File file = new File(plugin.getDataFolder(), "recipes.conf");
             file.delete();
@@ -216,7 +217,7 @@ public class CraftingManager {
             recipes.add(key);
         }
         catch (InvalidNodeException | SerializationException e) {
-            logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, the config file was deleted, server will be restarted...");
+            logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, the cfg file was deleted, server will be restarted...");
             logger.severe("==============================================================================================================================================");
             File file = new File(plugin.getDataFolder(), "recipes.conf");
             file.delete();
