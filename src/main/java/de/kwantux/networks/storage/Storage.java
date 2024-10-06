@@ -125,7 +125,9 @@ public class Storage implements de.kwantux.networks.api.Storage {
     public Set<String> getNetworkIDs() {
         try {
             Set<String> set = new HashSet<>();
-            Files.list(path).forEach(file -> set.add(file.getFileName().toString().replace(".json", "")));
+            Files.list(path).forEach(file -> {
+                if (file.toString().endsWith(".json")) set.add(file.getFileName().toString().replace(".json", ""));
+            });
             return set;
         } catch (IOException e) {
             throw new RuntimeException(e);
