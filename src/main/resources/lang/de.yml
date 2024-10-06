@@ -143,6 +143,9 @@ merge.identical: <prefix><red>Tut mir leid, aber das ist leider nicht möglich
 merge.nopermission: <prefix><red>Zum Zusammenführen von zwei Netzwerken musst du beide besitzen!
 merge.success: <prefix>Netzwerk <2> wurde in Netzwerk <1> integriert
 
+teleport.world-invalid: <prefix><red>Keine Welt mit UUID <1> existiert.
+teleport.success: <prefix>Teleportiert zu <white>[<1>, <2>, <3>, <4>]<green>
+
 rename.success: <prefix>Netzwerk <1> wurde zu <2> umbenannt
 rename.taken: <prefix>Name <1> ist bereits in Verwendung.
 

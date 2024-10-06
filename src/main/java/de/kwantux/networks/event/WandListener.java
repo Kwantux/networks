@@ -4,6 +4,7 @@ import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Manager;
 import de.kwantux.networks.Network;
+import de.kwantux.networks.commands.NetworksCommand;
 import de.kwantux.networks.component.NetworkComponent;
 import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.SortingContainer;
@@ -84,26 +85,7 @@ public class WandListener implements Listener {
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
-
-                        if (component == null) {
-                            lang.message(p, "component.nocomponent");
-                            return;
-                        }
-
-                        if (component instanceof InputContainer container) {
-                            lang.message(p, "wand.info.input", network.name(), l.toString(), String.valueOf(container.range()));
-
-                        }
-
-                        if (component instanceof SortingContainer container) {
-                            lang.message(p, "wand.info.sorting", network.name(), l.toString(), String.valueOf(container.acceptorPriority()), Arrays.stream(container.filters()).toList().toString());
-
-                        }
-
-                        if (component instanceof MiscContainer container) {
-                            lang.message(p, "wand.info.misc", network.name(), l.toString(), String.valueOf(container.acceptorPriority()));
-
-                        }
+                        p.sendMessage(NetworksCommand.componentInfo(network, component));
                     }
                     return;
                 }

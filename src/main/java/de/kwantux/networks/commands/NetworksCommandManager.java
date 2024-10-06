@@ -11,6 +11,8 @@ import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.LegacyPaperCommandManager;
 import org.incendo.cloud.parser.ParserRegistry;
 
+import java.util.List;
+
 import static de.kwantux.networks.Main.lang;
 
 public final class NetworksCommandManager {
@@ -38,6 +40,9 @@ public final class NetworksCommandManager {
         );
 
         // Register command handlers
-        new NetworksCommand(plugin, commandManager).register();
+        List.of(
+            new NetworksCommand(plugin, commandManager),
+            new TeleportCommand(plugin, commandManager)
+        ).forEach(CommandHandler::register);
     }
 }

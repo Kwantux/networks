@@ -145,6 +145,9 @@ merge.identical: <prefix><red>Sorry but the laws of physics can't be broken.
 merge.nopermission: <prefix><red>You need to be owner of both networks in order to merge them!
 merge.success: <prefix>Successfully merged network <2> into <1>
 
+teleport.world-invalid: <prefix><red>No world with uuid <1> exists
+teleport.success: <prefix>Teleported to <white>[<1>, <2>, <3>, <4>]<green>
+
 rename.success: <prefix>Successfully renamed network <1> to <2>
 rename.taken: <prefix>Name <1> is already taken by another network.
 
@@ -169,6 +172,7 @@ item.name.upgrade.range.2: <reset><bold>Antenna Tier 3
 item.name.upgrade.range.3: <reset><bold>Antenna Tier 4
 item.name.upgrade.range.4: <reset><bold>Antenna Tier 5
 # Add more here if you want to add more tiers of upgrades
+
 
 
 item.lore.wand0:
