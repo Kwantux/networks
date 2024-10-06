@@ -1,10 +1,15 @@
 package de.kwantux.networks.utils;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.ClickEvent;
+import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
+
+import static de.kwantux.networks.Main.lang;
 
 
 public class BlockLocation {
@@ -77,6 +82,10 @@ public class BlockLocation {
     @Override
     public String toString() {
         return "[" + x + ", " + y + ", " + z + "]";
+    }
+
+    public Component displayText() {
+        return Component.text(toString()).clickEvent(ClickEvent.runCommand("/execute in " + Bukkit.getWorld(world).getName() + " run tp " + x + " " + y + " " + z)).hoverEvent(HoverEvent.showText(lang.getFinal("click-to-tp")));
     }
 
 

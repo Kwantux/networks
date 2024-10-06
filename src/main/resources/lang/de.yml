@@ -77,6 +77,8 @@ select.success: <prefix>Netzwerk <green><1><white> wurde ausgewählt.
 
 invalidnetwork: Es gibt kein Netzwerk mit dem Namen <input>
 
+click-to-tp: Klicke zum Teleportieren
+
 permission.server: <prefix><red>Dieser Befehl ist nur für Server Administratoren verfügbar!
 permission.owner: "<prefix><red>Du hast keine Berechtigung, dieses Netzwerk zu bearbeiten!\nDu musst Netzwerkbesitzer oder Server Administrator sein!"
 permission.user: "<prefix><red>Du hast keine Rechte auf diesem Netzwerk!\nDu musst Nutzer des Netzwerks sein!"

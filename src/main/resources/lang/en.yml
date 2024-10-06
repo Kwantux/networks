@@ -78,6 +78,8 @@ select.success: <prefix>Successfully selected storage network <green><1>
 
 invalidnetwork: <input> is not a valid network
 
+click-to-tp: Click to teleport
+
 permission.server: <prefix><red>This command is only available for server administrators!
 permission.owner: "<prefix><red>You don't have permissions to edit this network!\nYou need to be the network owner or a server administrator!"
 permission.user: "<prefix><red>You don't have permissions on this network!\nYou need to be a network user!"
