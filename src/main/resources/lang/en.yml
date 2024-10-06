@@ -163,14 +163,11 @@ item.name.wand1: <reset><red>Network Wand <blue>[Priority]
 item.name.component.input: <reset>Input Container
 item.name.component.sorting: <reset>Sorting Container
 item.name.component.misc: <reset>Miscellaneous Container
-item.name.component.input.upgrade: <reset>Input Container Upgrade
-item.name.component.sorting.upgrade: <reset>Sorting Container Upgrade
-item.name.component.misc.upgrade: <reset>Miscellaneous Container Upgrade
-item.name.upgrade.range.0: <reset><bold>Telemetry Antenna Tier 1
-item.name.upgrade.range.1: <reset><bold>Telemetry Antenna Tier 2
-item.name.upgrade.range.2: <reset><bold>Telemetry Antenna Tier 3
-item.name.upgrade.range.3: <reset><bold>Telemetry Antenna Tier 4
-item.name.upgrade.range.4: <reset><bold>Telemetry Antenna Tier 5
+item.name.upgrade.range.0: <reset><bold>Antenna Tier 1
+item.name.upgrade.range.1: <reset><bold>Antenna Tier 2
+item.name.upgrade.range.2: <reset><bold>Antenna Tier 3
+item.name.upgrade.range.3: <reset><bold>Antenna Tier 4
+item.name.upgrade.range.4: <reset><bold>Antenna Tier 5
 # Add more here if you want to add more tiers of upgrades
 
 
