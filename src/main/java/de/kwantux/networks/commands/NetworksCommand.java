@@ -1,8 +1,14 @@
 package de.kwantux.networks.commands;
 
 import de.kwantux.config.ConfigurationManager;
+import de.kwantux.config.util.exceptions.InvalidNodeException;
+import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.component.InputContainer;
+import de.kwantux.networks.component.component.MiscContainer;
+import de.kwantux.networks.component.component.SortingContainer;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.inventory.InventoryMenuManager;
+import de.kwantux.networks.utils.BlockLocation;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
@@ -10,6 +16,7 @@ import de.kwantux.manual.ManualManager;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -18,6 +25,7 @@ import org.incendo.cloud.context.CommandContext;
 import org.incendo.cloud.setting.ManagerSetting;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +36,7 @@ import static de.kwantux.networks.Main.lang;
 import static de.kwantux.networks.Main.cfg;
 import static de.kwantux.networks.commands.NetworkParser.networkParser;
 import static org.incendo.cloud.bukkit.parser.PlayerParser.playerParser;
+import static org.incendo.cloud.bukkit.parser.location.LocationParser.locationParser;
 import static org.incendo.cloud.parser.standard.StringParser.stringParser;
 
 public class NetworksCommand extends CommandHandler {
@@ -113,7 +122,17 @@ public class NetworksCommand extends CommandHandler {
                 .literal("info")
                 .handler(this::info)
         );
-
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("component")
+                .literal("list")
+                .handler(this::components)
+        );
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("component")
+                .literal("info")
+                .required("location", locationParser())
+                .handler(this::componentInfo)
+        );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("user")
                 .literal("add")
@@ -417,6 +436,58 @@ public class NetworksCommand extends CommandHandler {
 
         lang.message(sender, "info.components.total", String.valueOf(network.components().size()));
         lang.message(sender, "info.range", String.valueOf(network.properties().baseRange()));
+    }
+
+    private void components(CommandContext<CommandSender> context) {
+        CommandSender sender = context.sender();
+        Network network = selection(sender);
+        if (network == null) return;
+
+        if (network.components().isEmpty()) {
+            lang.message(sender, "component.list.empty");
+            return;
+        }
+
+        for (NetworkComponent component : network.components()) {
+            sender.sendMessage(
+                    lang.getFinal("item.name.component."+component.type().tag())
+                    .append(Component.text(":  ")
+                    .append(component.pos().displayText()))
+                    .hoverEvent(HoverEvent.showText(componentInfo(network, component)))
+            );
+        }
+    }
+
+    private void componentInfo(CommandContext<CommandSender> context) {
+        CommandSender sender = context.sender();
+        Network network = selection(sender);
+        NetworkComponent component = mgr.getComponent(new BlockLocation((Location) context.get("location")));
+        sender.sendMessage(componentInfo(network, component));
+    }
+
+    public static Component componentInfo(Network network, @Nullable NetworkComponent component) {
+        try {
+            switch (component) {
+                case null -> {
+                    return lang.get("component.nocomponent");
+                }
+                case InputContainer container -> {
+                    return lang.get("wand.info.input", network.name(), component.pos().toString(), String.valueOf(container.range()));
+                }
+                case SortingContainer container -> {
+                    return lang.get("wand.info.sorting", network.name(), component.pos().toString(), String.valueOf(container.acceptorPriority()), Arrays.stream(container.filters()).toList().toString());
+                }
+                case MiscContainer container -> {
+                    return lang.get("wand.info.misc", network.name(), component.pos().toString(), String.valueOf(container.acceptorPriority()));
+                }
+                default -> {
+                    return lang.get("component.invalidtype");
+                }
+            }
+
+        } catch (InvalidNodeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void addUser(CommandContext<CommandSender> context) {
