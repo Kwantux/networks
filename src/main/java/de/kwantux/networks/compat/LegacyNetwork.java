@@ -34,7 +34,7 @@ public record LegacyNetwork(
 
     public Network convert(String id) {
 
-        Main.logger.info("Converting compat network '" + id + "'");
+        Main.logger.info("Converting legacy network '" + id + "'");
 
         NetworkProperties properties = Main.cfg.defaultProperties();
         properties.baseRange(maxRange);
@@ -85,12 +85,12 @@ public record LegacyNetwork(
 
     record LegacySortingContainer(
             LegacyLocation pos,
-            String[] filters,
+            String[] items,
             int priority
     ) {
         public @Nullable SortingContainer convert() {
             if (pos == null) return null;
-            return new SortingContainer(pos.convert(), filters, priority);
+            return new SortingContainer(pos.convert(), items, priority);
         }
     }
 
