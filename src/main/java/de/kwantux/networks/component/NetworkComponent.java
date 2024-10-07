@@ -46,6 +46,14 @@ public abstract class NetworkComponent {
     public abstract Map<String, Object> properties();
 
     /**
+     * Fills missing properties with default values
+     * In case crucial properties (without default values) are missing, returns false
+     */
+    public boolean fillMissingData() {
+        return pos != null;
+    }
+
+    /**
      * @return The installable item for this component
      */
     public ItemStack item() {

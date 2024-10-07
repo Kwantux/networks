@@ -44,12 +44,13 @@ public class Network {
         this.owner = network.owner();
         properties(network.properties());
         users = new ArrayList<>(Arrays.stream(network.users()).toList());
-        components = new ArrayList<>(Arrays.stream(network.components()).toList());
+        components = new ArrayList<>(Arrays.asList(network.components()));
+        components.removeAll(Collections.singleton(null));
     }
 
 
     static public boolean validName(String name) {
-        return name.matches("^[a-zA-Z0-9_-]*$") && name.length() <= 20;
+        return name.matches("^[a-zA-Z0-9_-]*$") && name.length() <= 20 && name.length() >= 3;
     }
 
 
@@ -120,16 +121,6 @@ public class Network {
     public void addComponent(NetworkComponent component) {
         components.add(component);
     }
-
-    /**
-     * Add a component to the network
-     * ONLY FOR INTERNAL USAGE
-     * Use {@link Manager#addComponent(Network, NetworkComponent)} instead
-     */
-    public void addComponents(List<NetworkComponent> components) {
-        components.addAll(components);
-    }
-
     /**
      * Add a component to the network
      * ONLY FOR INTERNAL USAGE

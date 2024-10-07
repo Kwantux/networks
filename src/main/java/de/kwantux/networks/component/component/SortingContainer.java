@@ -75,6 +75,14 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
     }
 
     @Override
+    public boolean fillMissingData() {
+        if (filters == null)
+            filters = new String[0];
+
+        return pos != null;
+    }
+
+    @Override
     public boolean accept(@Nonnull ItemStack stack) {
         return Arrays.stream(filters).anyMatch(stack.getType().toString()::equalsIgnoreCase);
     }
