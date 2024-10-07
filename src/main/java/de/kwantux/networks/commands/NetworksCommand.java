@@ -2,6 +2,7 @@ package de.kwantux.networks.commands;
 
 import de.kwantux.config.ConfigurationManager;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
+import de.kwantux.networks.component.ComponentType;
 import de.kwantux.networks.component.NetworkComponent;
 import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.MiscContainer;
@@ -18,8 +19,10 @@ import de.kwantux.networks.Network;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.context.CommandContext;
 import org.incendo.cloud.setting.ManagerSetting;
@@ -29,14 +32,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
-import static de.kwantux.networks.Main.mgr;
-import static de.kwantux.networks.Main.lang;
-import static de.kwantux.networks.Main.cfg;
+import static de.kwantux.networks.Main.*;
+import static de.kwantux.networks.commands.ComponentTypeParser.componentTypeParser;
 import static de.kwantux.networks.commands.NetworkParser.networkParser;
 import static org.incendo.cloud.bukkit.parser.PlayerParser.playerParser;
 import static org.incendo.cloud.bukkit.parser.location.LocationParser.locationParser;
+import static org.incendo.cloud.parser.standard.IntegerParser.integerParser;
 import static org.incendo.cloud.parser.standard.StringParser.stringParser;
 
 public class NetworksCommand extends CommandHandler {
@@ -204,6 +208,30 @@ public class NetworksCommand extends CommandHandler {
                 .literal("config")
                 .permission("networks.data")
                 .handler(this::reloadConfig)
+        );
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("give")
+                .literal("wand")
+                .permission("networks.give")
+                .senderType(Player.class)
+                .handler(this::giveWand)
+        );
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("give")
+                .literal("component")
+                .required("type", componentTypeParser())
+                .permission("networks.give")
+                .senderType(Player.class)
+                .handler(this::giveComponent)
+        );
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("give")
+                .literal("upgrade")
+                .literal("range")
+                .required("tier", integerParser(1, cfg.getMaxRanges().length))
+                .permission("networks.give")
+                .senderType(Player.class)
+                .handler(this::giveUpgradeRange)
         );
     }
 
@@ -449,8 +477,13 @@ public class NetworksCommand extends CommandHandler {
         }
 
         for (NetworkComponent component : network.components()) {
+            System.out.println(component);
+            System.out.println(component.type());
+            System.out.println(component.pos());
+            System.out.println(component.type().tag());
+
             sender.sendMessage(
-                    lang.getFinal("item.name.component."+component.type().tag())
+                    Objects.requireNonNullElse(lang.getFinal("item.name.component."+component.type().tag()), Component.text("Unknown Component type: " +  component.type().tag()))
                     .append(Component.text(":  ")
                     .append(component.pos().displayText()))
                     .hoverEvent(HoverEvent.showText(componentInfo(network, component)))
@@ -628,6 +661,28 @@ public class NetworksCommand extends CommandHandler {
         for (Map.Entry<Material, Integer> entry : materials.entrySet()) {
             sender.sendMessage(Component.translatable(entry.getKey().translationKey()).append(Component.text(":  ").color(TextColor.color(0, 255, 230)).append(Component.text(entry.getValue())).color(TextColor.color(255, 255, 255))).hoverEvent(HoverEvent.showItem(HoverEvent.ShowItem.showItem(entry.getKey().key(), 1))));
         }
+    }
+
+    private void giveWand(CommandContext<Player> context) {
+        Player player = context.sender();
+        ItemStack wand = crf.getNetworkWand(0);
+        player.getInventory().addItem(wand);
+    }
+
+    private void giveUpgradeRange(CommandContext<Player> context) {
+        Player player = context.sender();
+        try {
+            ItemStack upgrade = crf.getRangeUpgrade(context.get("tier"));
+            player.getInventory().addItem(upgrade);
+        } catch (InvalidNodeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void giveComponent(CommandContext<Player> context) {
+        Player player = context.sender();
+        ComponentType type = context.get("type");
+        player.getInventory().addItem(type.item());
     }
 
     // Currently disabled
