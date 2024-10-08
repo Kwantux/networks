@@ -1,4 +1,4 @@
-# Networks v3.0.2
+# Networks v3.0.4
 
 
 ## Report any bugs on Discord or Github
@@ -7,29 +7,27 @@ If you need help with the plugin, feel free to ask your question on our discord!
 
 ---
 
-[Github](https://github.com/nanoflux/networks)
+[Wiki](https://networks.kwantux.de)
+
+[Github](https://github.com/kwantux/networks)
 
 [Discord](https://discord.gg/Q65TqRwnce)
 
 [Modrinth](https://modrinth.com/plugin/networks)
 
-[Bukkit](https://dev.bukkit.org/projects/networks)
-
-[Hangar](https://hangar.papermc.io/NanoFlux/Networks)
-
-[Wiki](https://nanoflux.github.io/networks-docs/)
+[Hangar](https://hangar.papermc.io/Kwantux/Networks)
 
 ---
 
 # Configurations
 
-Most settings can be changed in networks.conf
+Most settings can be changed in general.conf
 
 Crafting recipes can be changed in recipes.conf
 
 ## Language
 
-To change return messages, you can edit the used language file in the networks.conf
+To change return messages, you can edit the used language file in the general.conf
 
 Change the setting "lang" to any language shortcut, that is currently supported
 

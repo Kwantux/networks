@@ -11,8 +11,8 @@ plugins {
 
 runPaper.folia.registerTask()
 
-group = "dev.nanoflux"
-version = "3.0.3"
+group = "de.kwantux"
+version = "3.0.4"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -21,26 +21,25 @@ repositories {
 }
 
 dependencies {
-    //compileOnly("io.papermc.paper", "paper-api", "1.19.3-R0.1-SNAPSHOT")
-    compileOnly("dev.folia", "folia-api", "1.19.4-R0.1-SNAPSHOT")
+    compileOnly("dev.folia", "folia-api", "1.20.1-R0.1-SNAPSHOT")
     paperLibrary("net.kyori", "adventure-text-minimessage", "4.13.1")
     paperLibrary("org.spongepowered", "configurate-hocon", "4.1.2")
     paperLibrary("org.spongepowered", "configurate-yaml", "4.1.2")
-    paperLibrary("cloud.commandframework", "cloud-paper", "1.8.4")
+    paperLibrary("org.incendo", "cloud-paper", "2.0.0-beta.10")
     paperLibrary("com.google.code.gson", "gson", "2.10.1")
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 paper {
-    main = "dev.nanoflux.networks.Main"
-    loader = "dev.nanoflux.networks.Loader"
-    apiVersion = "1.19"
+    main = "de.kwantux.networks.Main"
+    loader = "de.kwantux.networks.Loader"
+    apiVersion = "1.20"
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
-    website = "https://github.com/NanoFlux/Networks"
-    authors = listOf("NanoFlux")
+    website = "https://github.com/Kwantux/Networks"
+    authors = listOf("Kwantux")
     prefix = "networks"
 
     permissions {
@@ -56,10 +55,6 @@ paper {
             description = "Allows you to bypass the network owning limit"
             default = BukkitPluginDescription.Permission.Default.OP // TRUE, FALSE, OP or NOT_OP
         }
-        register("networks.itemview") {
-            description = "Allows you to open the interactive item viem"
-            default = BukkitPluginDescription.Permission.Default.OP // TRUE, FALSE, OP or NOT_OP
-        }
         register("networks.data") {
             description = "Allows you to save and reload config and network data"
             default = BukkitPluginDescription.Permission.Default.OP // TRUE, FALSE, OP or NOT_OP
@@ -73,6 +68,6 @@ paper {
 
 tasks {
     runServer {
-        minecraftVersion("1.20.4")
+        minecraftVersion("1.21.1")
     }
 }

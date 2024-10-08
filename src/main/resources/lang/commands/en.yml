@@ -1,0 +1,21 @@
+networks:
+  "@":
+  - networks
+  - network
+  - net
+  - n
+
+  help: help
+  manual: manual
+
+  create: create
+  rename: rename
+  delete: delete
+  delete.confirm: confirm
+  select: select
+
+  list: list
+  listall: listall
+  user: user
+  items: items
+  merge: merge

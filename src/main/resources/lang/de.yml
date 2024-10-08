@@ -75,7 +75,9 @@ delete.confirm: <prefix>Bist du dir sicher, dass du Netzwerk <1> löschen möcht
 select.noselection: <prefix><red>Kein Netzwerk wurde ausgewählt, bitte wähle ein Netzwerk aus mit <white>/net select <network>
 select.success: <prefix>Netzwerk <green><1><white> wurde ausgewählt.
 
-invalidnetwork: <prefix><red>Es gibt kein Netzwerk mit dem Namen <white><1>
+invalidnetwork: Es gibt kein Netzwerk mit dem Namen <input>
+
+click-to-tp: Klicke zum Teleportieren
 
 permission.server: <prefix><red>Dieser Befehl ist nur für Server Administratoren verfügbar!
 permission.owner: "<prefix><red>Du hast keine Berechtigung, dieses Netzwerk zu bearbeiten!\nDu musst Netzwerkbesitzer oder Server Administrator sein!"
@@ -141,6 +143,9 @@ merge.identical: <prefix><red>Tut mir leid, aber das ist leider nicht möglich
 merge.nopermission: <prefix><red>Zum Zusammenführen von zwei Netzwerken musst du beide besitzen!
 merge.success: <prefix>Netzwerk <2> wurde in Netzwerk <1> integriert
 
+teleport.world-invalid: <prefix><red>Keine Welt mit UUID <1> existiert.
+teleport.success: <prefix>Teleportiert zu <white>[<1>, <2>, <3>, <4>]<green>
+
 rename.success: <prefix>Netzwerk <1> wurde zu <2> umbenannt
 rename.taken: <prefix>Name <1> ist bereits in Verwendung.
 
@@ -159,14 +164,11 @@ item.name.wand1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
 item.name.component.input: <reset>Einfüllkiste
 item.name.component.sorting: <reset>Sortierkiste
 item.name.component.misc: <reset>Restekiste
-item.name.component.input.upgrade: <reset>Upgrade zur Einfüllkiste
-item.name.component.sorting.upgrade: <reset>Upgrade zur Sortierkiste
-item.name.component.misc.upgrade: <reset>Upgrade zur Restekiste
-item.name.upgrade.range.0: <reset><bold>Telemetrie Antenne Mk.1
-item.name.upgrade.range.1: <reset><bold>Telemetrie Antenne Mk.2
-item.name.upgrade.range.2: <reset><bold>Telemetrie Antenne Mk.3
-item.name.upgrade.range.3: <reset><bold>Telemetrie Antenne Mk.4
-item.name.upgrade.range.4: <reset><bold>Telemetrie Antenne Mk.5
+item.name.upgrade.range.0: <reset><bold>Antenne Mk.1
+item.name.upgrade.range.1: <reset><bold>Antenne Mk.2
+item.name.upgrade.range.2: <reset><bold>Antenne Mk.3
+item.name.upgrade.range.3: <reset><bold>Antenne Mk.4
+item.name.upgrade.range.4: <reset><bold>Antenne Mk.5
 # Add more here if you want to add more tiers of upgrades
 
 

@@ -76,7 +76,9 @@ delete.fail: <prefix><red>This network doesn't exist
 select.noselection: <prefix><red>No network was selected. Please select a network using <white>/net select <network>
 select.success: <prefix>Successfully selected storage network <green><1>
 
-invalidnetwork: <prefix><1> <red>is not a valid network!
+invalidnetwork: <input> is not a valid network
+
+click-to-tp: Click to teleport
 
 permission.server: <prefix><red>This command is only available for server administrators!
 permission.owner: "<prefix><red>You don't have permissions to edit this network!\nYou need to be the network owner or a server administrator!"
@@ -143,6 +145,9 @@ merge.identical: <prefix><red>Sorry but the laws of physics can't be broken.
 merge.nopermission: <prefix><red>You need to be owner of both networks in order to merge them!
 merge.success: <prefix>Successfully merged network <2> into <1>
 
+teleport.world-invalid: <prefix><red>No world with uuid <1> exists
+teleport.success: <prefix>Teleported to <white>[<1>, <2>, <3>, <4>]<green>
+
 rename.success: <prefix>Successfully renamed network <1> to <2>
 rename.taken: <prefix>Name <1> is already taken by another network.
 
@@ -161,15 +166,13 @@ item.name.wand1: <reset><red>Network Wand <blue>[Priority]
 item.name.component.input: <reset>Input Container
 item.name.component.sorting: <reset>Sorting Container
 item.name.component.misc: <reset>Miscellaneous Container
-item.name.component.input.upgrade: <reset>Input Container Upgrade
-item.name.component.sorting.upgrade: <reset>Sorting Container Upgrade
-item.name.component.misc.upgrade: <reset>Miscellaneous Container Upgrade
-item.name.upgrade.range.0: <reset><bold>Telemetry Antenna Tier 1
-item.name.upgrade.range.1: <reset><bold>Telemetry Antenna Tier 2
-item.name.upgrade.range.2: <reset><bold>Telemetry Antenna Tier 3
-item.name.upgrade.range.3: <reset><bold>Telemetry Antenna Tier 4
-item.name.upgrade.range.4: <reset><bold>Telemetry Antenna Tier 5
+item.name.upgrade.range.0: <reset><bold>Antenna Tier 1
+item.name.upgrade.range.1: <reset><bold>Antenna Tier 2
+item.name.upgrade.range.2: <reset><bold>Antenna Tier 3
+item.name.upgrade.range.3: <reset><bold>Antenna Tier 4
+item.name.upgrade.range.4: <reset><bold>Antenna Tier 5
 # Add more here if you want to add more tiers of upgrades
+
 
 
 item.lore.wand0:
