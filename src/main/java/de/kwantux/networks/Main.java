@@ -43,17 +43,6 @@ public final class Main extends JavaPlugin {
     public static DoubleChestUtils dcu;
     public static LanguageController lang;
 
-    private static PaperCommandManager.Bootstrapped<Source> cmd;
-
-    public Main(PaperCommandManager.Bootstrapped<Source> commandManager) {
-        cmd = commandManager;
-    }
-
-    public Main() {
-
-        cmd = null;
-    }
-
 
     @Override
     public void onEnable() {
@@ -102,7 +91,6 @@ public final class Main extends JavaPlugin {
         lang = new LanguageController(this, cfg.getLanguage(), "en", "de");
 
         new NetworksCommandManager(this);
-        if (cmd != null) cmd.onEnable();
 
         regionScheduler = getServer().getRegionScheduler();
         globalRegionScheduler = getServer().getGlobalRegionScheduler();
@@ -120,8 +108,6 @@ public final class Main extends JavaPlugin {
         metrics.addCustomChart(new Metrics.SingleLineChart("total_networks", () ->
             mgr.getNetworks().size()
         ));
-
-        //new NetworksCommandManager(this);
 
         dcu = new DoubleChestUtils(mgr);
         mgr.loadData();
