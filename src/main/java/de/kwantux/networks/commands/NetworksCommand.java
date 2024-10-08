@@ -500,26 +500,18 @@ public class NetworksCommand extends CommandHandler {
 
     public static Component componentInfo(Network network, @Nullable NetworkComponent component) {
         try {
-            switch (component) {
-                case null -> {
-                    return lang.get("component.nocomponent");
-                }
-                case InputContainer container -> {
-                    return lang.get("wand.info.input", network.name(), component.pos().toString(), String.valueOf(container.range()));
-                }
-                case SortingContainer container -> {
-                    return lang.get("wand.info.sorting", network.name(), component.pos().toString(), String.valueOf(container.acceptorPriority()), Arrays.stream(container.filters()).toList().toString());
-                }
-                case MiscContainer container -> {
-                    return lang.get("wand.info.misc", network.name(), component.pos().toString(), String.valueOf(container.acceptorPriority()));
-                }
-                default -> {
-                    return lang.get("component.invalidtype");
-                }
-            }
+            return switch (component) {
+                case InputContainer container ->
+                        lang.get("wand.info.input", network.name(), component.pos().toString(), String.valueOf(container.range()));
+                case SortingContainer container ->
+                        lang.get("wand.info.sorting", network.name(), component.pos().toString(), String.valueOf(container.acceptorPriority()), Arrays.stream(container.filters()).toList().toString());
+                case MiscContainer container ->
+                        lang.get("wand.info.misc", network.name(), component.pos().toString(), String.valueOf(container.acceptorPriority()));
+                case null, default -> Component.empty();
+            };
 
         } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
+            return Component.empty();
         }
     }
 
