@@ -12,7 +12,7 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "de.kwantux"
-version = "3.0.4-SNAPSHOT"
+version = "3.0.4"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -30,7 +30,7 @@ dependencies {
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 paper {
