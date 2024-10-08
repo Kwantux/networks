@@ -11,7 +11,7 @@ public record Transformation(
         @Nullable ComparableVersion minVersion,
         @Nullable ComparableVersion maxVersion,
         @Nonnull String oldKey,
-        @Nonnull String newKey,
+        @Nullable String newKey,
         boolean delete,
         @Nullable Function<ConfigurationNode, ConfigurationNode> transform
         ) {

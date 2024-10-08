@@ -33,18 +33,18 @@ public abstract class RawConfiguration {
         for (Transformation transformation : transformations) {
             if (
                     (transformation.minVersion() != null && oldVersion.compareTo(transformation.minVersion()) < 0) ||
-                            (transformation.maxVersion() != null && newVersion.compareTo(transformation.maxVersion()) > 0)
+                            (transformation.maxVersion() != null && oldVersion.compareTo(transformation.maxVersion()) > 0)
             ) continue;
             try {
                 ConfigurationNode node = get(transformation.oldKey());
                 if (node.isNull()) continue;
                 if (transformation.transform() != null)
                     node = transformation.transform().apply(node);
-                set(transformation.newKey(), node);
-                if (transformation.delete()) set(transformation.oldKey(), null);
-                Objects.requireNonNull(node.parent()).removeChild(node.key());
-            } catch (InvalidNodeException e) {
-                throw new RuntimeException(e);
+                if (transformation.newKey() != null) set(transformation.newKey(), node);
+                if (transformation.delete() && node.parent() != null)
+                    if (node.parent().isMap()) node.parent().removeChild(node.key());
+            } catch (InvalidNodeException ignored) {
+                // nothing to do if the old value doesn't exist anymore :)
             }
         }
     }

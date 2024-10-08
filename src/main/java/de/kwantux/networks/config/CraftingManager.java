@@ -2,6 +2,7 @@ package de.kwantux.networks.config;
 
 import de.kwantux.config.Configuration;
 import de.kwantux.networks.Main;
+import de.kwantux.networks.compat.ConfigurationTransformers;
 import de.kwantux.networks.component.ComponentType;
 import de.kwantux.config.util.exceptions.ConfigAlreadyRegisteredException;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
@@ -80,12 +81,7 @@ public class CraftingManager {
 
         try {
             this.config = Configuration.create(main, "recipes", "recipes.conf");
-            config.reload();
-            // Recipes pre v3.0.0 had other value, so they should be changed with the update
-            if (config.getFinalString("version") == null) {
-                config.unset("upgrade.range");
-            }
-            config.save();
+            ConfigurationTransformers.recipesTransformers(config);
             config.update();
 
         } catch (ConfigAlreadyRegisteredException e) {
@@ -158,28 +154,19 @@ public class CraftingManager {
 
     }
 
+
     private void registerComponent(ComponentType type) {
-//        for (Material mat : pluginconfig.componentBlocks(type)) {
-//            registerComponentWithMaterial(type, mat);
-//        }
-        registerComponentWithMaterial(type, pluginconfig.getComponentUpgradeMaterial());
-    }
 
-
-    private void registerComponentWithMaterial(ComponentType type, Material mat) {
-
-        String configPath = "component."+ type.tag + ".block";
-        String matkey = mat.name();
+        String path = "component."+ type.tag;
+        String matkey = componentUpgradeMaterial.name();
 
         ItemStack stack = type.item();
 
-        String registerPath = configPath + "." + matkey;
-
         try {
-            NamespacedKey key = new NamespacedKey(plugin, registerPath.replace(".", "_"));
+            NamespacedKey key = new NamespacedKey(plugin, path.replace(".", "_"));
             ShapedRecipe recipe = new ShapedRecipe(key, stack);
 
-            List<String> ingredients = config.getList(configPath, String.class);
+            List<String> ingredients = config.getList(path, String.class);
 
             assert ingredients != null; //TODO: proper console warning
 
@@ -207,7 +194,7 @@ public class CraftingManager {
                         recipe.setIngredient(keys[i], Material.valueOf(ingredients.get(i)));
                     }
                     catch (IllegalArgumentException e) {
-                        logger.severe(ingredients.get(i) + " is not a valid material, it will replaced with AIR. Recipe " + configPath + " may be broken.");
+                        logger.severe(ingredients.get(i) + " is not a valid material, it will replaced with AIR. Recipe " + path + " may be broken.");
                         recipe.setIngredient(keys[i], Material.AIR);
                     }
                 }

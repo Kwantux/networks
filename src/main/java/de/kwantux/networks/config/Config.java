@@ -2,14 +2,13 @@ package de.kwantux.networks.config;
 
 import de.kwantux.config.Configuration;
 import de.kwantux.networks.Main;
+import de.kwantux.networks.compat.ConfigurationTransformers;
 import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.config.ConfigurationManager;
-import de.kwantux.config.util.Transformation;
 import de.kwantux.config.util.exceptions.ConfigAlreadyRegisteredException;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.component.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
-import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -46,37 +45,7 @@ public class Config {
             config.require("humanReadableJson");
             config.require("archiveNetworksOnDelete");
 
-            // Legacy cfg support
-            config.transformation(
-                    new Transformation(
-                            new ComparableVersion("2.0.0"),
-                            new ComparableVersion("2.1.9"),
-                            "containerWhitelist",
-                            "component.input",
-                            false,
-                            null
-                    )
-            );
-            config.transformation(
-                    new Transformation(
-                            new ComparableVersion("2.0.0"),
-                            new ComparableVersion("2.1.9"),
-                            "containerWhitelist",
-                            "component.sorting",
-                            false,
-                            null
-                    )
-            );
-            config.transformation(
-                    new Transformation(
-                            new ComparableVersion("2.0.0"),
-                            new ComparableVersion("2.1.9"),
-                            "containerWhitelist",
-                            "component.misc",
-                            true,
-                            null
-                    )
-            );
+            ConfigurationTransformers.generalConfigTransformers(config);
 
             config.update();
 
