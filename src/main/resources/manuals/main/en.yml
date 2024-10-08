@@ -1,4 +1,4 @@
-author: "NanoFlux"
+author: "Kwantux"
 name: "Networks Manual"
 pages:
   - "\n
@@ -23,7 +23,7 @@ To edit your network, type <red><click:suggest_command:/net select>/net select (
   - "\n
   <bold><dark_green>[Installing Components]</dark_green></bold>\n
      \n
-To install components (input/sorting/misc chests), first select your network, then craft these at the crafting table and place them down.\n"
+To install components (input/sorting/misc chests), first select your network, then craft these at the crafting table and apply them to any chest.\n"
 
   - "
 If you want your component to be a double chest, just place a normal chest next to it, so they connect.\n\n"

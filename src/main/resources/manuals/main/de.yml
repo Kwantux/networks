@@ -1,4 +1,4 @@
-author: "NanoFlux"
+author: "Kwantux"
 name: "Networks Handbuch"
 pages:
   - "
@@ -23,7 +23,7 @@ Dein Netzwerk kannst du mit <red><click:suggest_command:/net select>/net select 
   - "\n
 <bold><dark_green>[Kisten installieren]</dark_green></bold>\n
      \n
-Um Komponenten (Einfüll-/Sortier-/Restekiste) zu deinem Netzwerk hinzuzufügen, musst du dein Netzwerk auswählen, die Komponenten craften und diese platzieren.\n"
+Um Komponenten (Einfüll-/Sortier-/Restekiste) zu deinem Netzwerk hinzuzufügen, musst du dein Netzwerk auswählen, die Komponenten craften und diese auf Kisten anwenden.\n"
 
   - "
 Wenn du willst, dass ein Komponent deines Netzwerks eine Doppelkiste ist, platziere eine normale Kiste an ihn heran, sodass sie sich verbinden.\n
