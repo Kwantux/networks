@@ -2,6 +2,7 @@ package de.kwantux.networks;
 
 import de.kwantux.networks.commands.NetworksCommandManager;
 import de.kwantux.networks.component.util.FilterTranslator;
+import de.kwantux.networks.event.NoticeListener;
 import de.kwantux.networks.utils.DoubleChestUtils;
 import de.kwantux.networks.utils.FoliaUtils;
 import de.kwantux.networks.utils.Metrics;
@@ -127,6 +128,7 @@ public final class Main extends JavaPlugin {
         new BlockBreakListener(this);
         new WandListener(this);
         new PlayerJoinListener(this);
+        new NoticeListener(this);
 
         if (FoliaUtils.folia) {
             logger.warning("Folia support on Networks is still in beta, please report any bugs.");
