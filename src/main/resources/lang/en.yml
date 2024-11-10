@@ -154,6 +154,7 @@ rename.taken: <prefix>Name <1> is already taken by another network.
 wand.mode: "<prefix><blue>Wand mode set to [<1>]"
 wand.mode.0: "Filter"
 wand.mode.1: "Priority"
+wand.mode.2: "Strict Filter"
 wand.info.input: "<green>Type: <reset>Input Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nExtra Range: <reset><3><green>\n"
 wand.info.sorting: "<green>Type: <reset>Sorting Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\nFilters: <reset><4>\n"
 wand.info.misc: "<green>Type: <reset>Misc Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\n"
@@ -163,6 +164,7 @@ items.message: "<green><bold>Total items in network <white><1><green>:</bold>\n(
 
 item.name.wand0: <reset><red>Network Wand <green>[Filter]
 item.name.wand1: <reset><red>Network Wand <blue>[Priority]
+item.name.wand2: <reset><red>Network Wand <blue>[Strict Filter]
 item.name.component.input: <reset>Input Container
 item.name.component.sorting: <reset>Sorting Container
 item.name.component.misc: <reset>Miscellaneous Container
@@ -186,6 +188,14 @@ item.lore.wand1:
   - "<reset>Right click any network component to show information about it"
   - "<reset>Sneak + Right click on a network component to increase its priority"
   - "<reset>Sneak + Left click on a network component to decrease its priority"
+  - ""
+  - "<reset>Left click to switch mode"
+
+
+item.lore.wand2:
+  - "<reset>Right click any network component to show information about it"
+  - "<reset>Sneak + Right click on a sorting chest with an item in the offhand to apply a filter"
+  - "<reset>Sneak + Left click with an item in the offhand to remove a filter"
   - ""
   - "<reset>Left click to switch mode"
 

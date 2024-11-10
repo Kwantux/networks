@@ -118,13 +118,13 @@ public abstract class NetworkComponent {
             else if (value instanceof Boolean) {
                 container.set(NamespaceUtils.key(key), PersistentDataType.BYTE, (boolean) value ? (byte) 1 : (byte) 0);
             }
-            else if (value instanceof Integer[]) {
+            else if (value instanceof int[]) {
                 container.set(NamespaceUtils.key(key), PersistentDataType.INTEGER_ARRAY, (int[]) value);
             }
-            else if (value instanceof Long[]) {
+            else if (value instanceof long[]) {
                 container.set(NamespaceUtils.key(key), PersistentDataType.LONG_ARRAY, (long[]) value);
             }
-            else if (value instanceof Byte[]) {
+            else if (value instanceof byte[]) {
                 container.set(NamespaceUtils.key(key), PersistentDataType.BYTE_ARRAY, (byte[]) value);
             }
             else {

@@ -152,6 +152,7 @@ rename.taken: <prefix>Name <1> ist bereits in Verwendung.
 wand.mode: "<prefix><blue>Konfigurator Modus wurde zu [<1>] geändert"
 wand.mode.0: "Filter"
 wand.mode.1: "Priorität"
+wand.mode.2: "Filter (Strikt)"
 wand.info.input: "<green>Typ: <reset>Einfüllkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nExtra Reichweite: <reset><3><green>\n"
 wand.info.sorting: "<green>Typ: <reset>Sortierkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\nFilter: <reset><4>\n"
 wand.info.misc: "<green>Typ: <reset>Restekiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\n"
@@ -161,6 +162,7 @@ items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:</bold>\n(
 
 item.name.wand0: <reset><red>Netzwerk Konfigurator <green>[Filter]
 item.name.wand1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
+item.name.wand2: <reset><red>Netzwerk Konfigurator <blue>[Filter (Strikt)]
 item.name.component.input: <reset>Einfüllkiste
 item.name.component.sorting: <reset>Sortierkiste
 item.name.component.misc: <reset>Restekiste
@@ -183,6 +185,13 @@ item.lore.wand1:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
   - "<reset>Schleichen + Rechts klicken, um die Priorität eines Komponenten zu erhöhen"
   - "<reset>Schleichen + Links klicken, um die Priorität eines Komponenten zu senken"
+  - ""
+  - "<reset>Links klicken, um den Modus zu wechseln"
+
+item.lore.wand2:
+  - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
+  - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
   - ""
   - "<reset>Links klicken, um den Modus zu wechseln"
 

@@ -10,6 +10,7 @@ import de.kwantux.networks.storage.SerializableNetwork;
 import de.kwantux.networks.component.component.MiscContainer;
 import de.kwantux.networks.utils.BlockLocation;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -90,7 +91,11 @@ public record LegacyNetwork(
     ) {
         public @Nullable SortingContainer convert() {
             if (pos == null) return null;
-            return new SortingContainer(pos.convert(), items, priority);
+            int[] filters = new int[items.length];
+            for (int i = 0; i < items.length; i++) {
+               filters[i] = Objects.requireNonNullElse(Material.getMaterial(items[i]), Material.AIR).ordinal();
+            }
+            return new SortingContainer(pos.convert(), SortingContainer.convertLegacyFilters(items), priority);
         }
     }
 

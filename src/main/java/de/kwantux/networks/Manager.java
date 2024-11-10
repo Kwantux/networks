@@ -1,6 +1,7 @@
 package de.kwantux.networks;
 
 
+import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.utils.DoubleChestUtils;
 import de.kwantux.networks.component.ComponentType;
 import de.kwantux.networks.component.NetworkComponent;
@@ -12,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -103,6 +105,11 @@ public final class Manager implements de.kwantux.networks.api.Manager {
             storage.saveNetwork(id, networks.get(id));
         }
         logger.info("Saved " + networks.size() + " Networks");
+        try {
+            FilterTranslator.save();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

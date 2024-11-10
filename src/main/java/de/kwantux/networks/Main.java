@@ -1,6 +1,7 @@
 package de.kwantux.networks;
 
 import de.kwantux.networks.commands.NetworksCommandManager;
+import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.utils.DoubleChestUtils;
 import de.kwantux.networks.utils.FoliaUtils;
 import de.kwantux.networks.utils.Metrics;
@@ -90,11 +91,19 @@ public final class Main extends JavaPlugin {
 
         lang = new LanguageController(this, cfg.getLanguage(), "en", "de");
 
+
+
         new NetworksCommandManager(this);
 
         regionScheduler = getServer().getRegionScheduler();
         globalRegionScheduler = getServer().getGlobalRegionScheduler();
         asyncScheduler = getServer().getAsyncScheduler();
+
+        try {
+            FilterTranslator.load(Path.of(getDataFolder().getAbsolutePath(), "filters.txt"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         mgr = new Manager(this);
         crf = new CraftingManager(this);

@@ -11,12 +11,15 @@ import de.kwantux.networks.component.component.SortingContainer;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Donator;
 import de.kwantux.networks.component.module.Requestor;
+import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.config.CraftingManager;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.DoubleChestUtils;
 import de.kwantux.config.lang.LanguageController;
 import de.kwantux.networks.component.component.MiscContainer;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -70,7 +73,7 @@ public class WandListener implements Listener {
                     if (action.equals(Action.LEFT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR)) {
                         if (!p.isSneaking()) {
                             mode++;
-                            if (mode > 1) mode = 0;
+                            if (mode > 2) mode = 0;
                             //p.getInventory().setItemInMainHand(crf.getNetworkWand(mode));
                             event.getItem().setItemMeta(crafting.getNetworkWand(mode).getItemMeta());
                             lang.message(p, "wand.mode", lang.getRaw("wand.mode." + mode));
@@ -86,6 +89,7 @@ public class WandListener implements Listener {
                 if (!p.isSneaking()) {
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                         p.sendMessage(NetworksCommand.componentInfo(network, component));
+                        if(component instanceof SortingContainer container) p.sendMessage(Arrays.toString(container.filters()));
                     }
                     return;
                 }
@@ -104,13 +108,15 @@ public class WandListener implements Listener {
                     return;
                 }
 
+                ItemStack itemInOffHand = p.getInventory().getItemInOffHand();
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 
-                    if (mode == 0 && !p.getInventory().getItemInOffHand().getType().equals(Material.AIR) && net.getComponent(l) instanceof SortingContainer) {
+                    if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && net.getComponent(l) instanceof SortingContainer) {
                         NetworkComponent c = net.getComponent(l);
                         if (c instanceof SortingContainer container) {
-                            container.addFilter(p.getInventory().getItemInOffHand().getType().toString().toUpperCase());
-                            lang.message(p, "component.sorting.setitem", l.toString(), p.getInventory().getItemInOffHand().getType().toString());
+                            container.addFilter(itemInOffHand.getType().ordinal());
+                            p.sendMessage(Arrays.toString(container.filters()));
+                            lang.message(p, "component.sorting.setitem", l.toString(), itemInOffHand.getType().toString());
                         }
                     }
                     if (mode == 1) {
@@ -119,15 +125,32 @@ public class WandListener implements Listener {
                             lang.message(p, "component.priority", String.valueOf(container.acceptorPriority()));
                         }
                     }
+                    if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && net.getComponent(l) instanceof SortingContainer) {
+                        NetworkComponent c = net.getComponent(l);
+                        if (c instanceof SortingContainer container) {
+                            int hash = itemInOffHand.getItemMeta().hashCode();
+                            container.addFilter(hash);
+                            FilterTranslator.updateTranslation(hash, itemInOffHand.displayName().hoverEvent(HoverEvent.showItem(
+                                    HoverEvent.ShowItem.showItem(
+                                            Key.key(itemInOffHand.getType().name().toLowerCase()), 1
+                                    )
+                            )));
+                            p.sendMessage(Arrays.toString(container.filters()));
+                            lang.message(p, "component.sorting.setitem", l.displayText(), itemInOffHand.displayName());
+                        }
+                    }
                 }
 
                 if (action.equals(Action.LEFT_CLICK_BLOCK)) {
 
-                    if (mode == 0 && net.getComponent(l) instanceof SortingContainer && !p.getInventory().getItemInOffHand().getType().equals(Material.AIR) && p.isSneaking()) {
+                    if ((mode == 0 || mode == 2) && net.getComponent(l) instanceof SortingContainer && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
                         NetworkComponent c = net.getComponent(l);
                         if (c instanceof SortingContainer container) {
-                            container.removeFilter(p.getInventory().getItemInOffHand().getType().toString().toUpperCase());
-                            lang.message(p, "component.sorting.removeitem", l.toString(), p.getInventory().getItemInOffHand().getType().toString());
+                            int hash = itemInOffHand.getItemMeta().hashCode();
+                            container.removeFilter(itemInOffHand.getType().ordinal());
+                            container.removeFilter(hash);
+                            p.sendMessage(Arrays.toString(container.filters()));
+                            lang.message(p, "component.sorting.removeitem", l.displayText(), itemInOffHand.displayName());
                         }
                     }
 
