@@ -20,6 +20,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import static de.kwantux.networks.Main.mgr;
+
 public class BlockPlaceListener implements Listener {
 
     private final Manager net;
@@ -61,7 +63,7 @@ public class BlockPlaceListener implements Listener {
                     return;
                 }
 
-                Main.mgr.createComponent(network, event.getBlock().getType(), type, pos, container);
+                mgr.createComponent(network, event.getBlock().getType(), type, pos, container);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
             }
         }
@@ -80,14 +82,20 @@ public class BlockPlaceListener implements Listener {
 
             ItemStack item = event.getItem();
             if (item == null) return;
-            if (item.getType().isBlock()) return; // This is handeled by the function above
+            if (item.getType().isBlock()) return;
             PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
 
             ComponentType type = ComponentType.get(container.get(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING));
-
             if (type == null) return;
 
-            if (config.checkLocation(pos, type)) {
+            event.setCancelled(true); // At this point, we know that the player is holding a component, so we suppress the default action (chest opens)
+
+            if (mgr.getComponent(pos) != null) { // If there is a component already at the location, we don't install a new one
+                lang.message(p, "location.occupied");
+                return;
+            }
+
+            if (config.checkLocation(pos, type)) { // Check if the block can actually be a component (e.g. grass blocks cannot be input containers, but chests and barrels can)
 
                 if (network == null) {
                     lang.message(p, "select.noselection");
@@ -95,7 +103,7 @@ public class BlockPlaceListener implements Listener {
                     return;
                 }
 
-                Main.mgr.createComponent(network, event.getClickedBlock().getType(), type, pos, container);
+                mgr.createComponent(network, event.getClickedBlock().getType(), type, pos, container);
                 item.setAmount(item.getAmount() - 1);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
             }
