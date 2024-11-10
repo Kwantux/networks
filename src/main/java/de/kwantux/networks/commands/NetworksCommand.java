@@ -475,7 +475,7 @@ public class NetworksCommand extends CommandHandler {
         if (network == null) return;
 
         if (network.components().isEmpty()) {
-            lang.message(sender, "component.list.empty");
+            lang.message(sender, "component.list.empty", network.name());
             return;
         }
 

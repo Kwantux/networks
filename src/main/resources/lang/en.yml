@@ -120,6 +120,7 @@ component.exploded: <prefix><dark_red>NetworkComponent at <white><1><dark_red> f
 component.invalid_block: <prefix><red>Blocks of type </red><1><red> are not allowed to be network components!</red>
 component.nocomponent: <prefix><yellow>This block is not a network component!
 component.priority: <prefix>Priority set to <1>
+component.list.empty: <prefix><red>There are no components in network <white><1></white>!
 
 location.occupied: <prefix><red>There is already a component at this location!
 
