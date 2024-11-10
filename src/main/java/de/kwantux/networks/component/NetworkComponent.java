@@ -17,6 +17,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +72,11 @@ public abstract class NetworkComponent {
             List<Component> lore = Main.lang.getItemLore("component." + type.tag());
             if (Config.propertyLore)
                 for (Map.Entry<String, Object> entry : properties.entrySet()) {
-                    lore.add(Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": " + entry.getValue())));
+                    String value = String.valueOf(entry.getValue());
+                    if (entry.getValue() instanceof int[]) value = Arrays.toString((int[]) entry.getValue());
+                    if (entry.getValue() instanceof long[]) value = Arrays.toString((long[]) entry.getValue());
+                    if (entry.getValue() instanceof byte[]) value = Arrays.toString((byte[]) entry.getValue());
+                    lore.add(Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": " + value)));
                 }
             meta.lore(lore);
         } catch (InvalidNodeException e) {
