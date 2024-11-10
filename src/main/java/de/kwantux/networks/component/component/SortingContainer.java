@@ -73,7 +73,7 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
     private static Map<String, Object> defaultProperties = new HashMap<>();
 
     static {
-        defaultProperties.put(NamespaceUtils.FILTERS.name, "");
+        defaultProperties.put(NamespaceUtils.FILTERS.name, new int[0]);
         defaultProperties.put(NamespaceUtils.ACCEPTOR_PRIORITY.name, 10);
         defaultProperties.put(NamespaceUtils.SUPPLIER_PRIORITY.name, 0);
     }
