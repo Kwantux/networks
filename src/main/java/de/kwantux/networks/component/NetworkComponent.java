@@ -88,7 +88,7 @@ public abstract class NetworkComponent {
      * Copies all properties from the map to the persistent data container
      * @param container The persistent data container to edit
      * @param map The map of properties
-     * @throws IllegalArgumentException Supported data types are String, Integer, Long, Double, Float, Short, Byte, Boolean, Integer[], Long[], Byte[]
+     * @throws IllegalArgumentException Supported data types are String, Integer, Long, Double, Float, Short, Byte, Boolean, int[], long[], byte[]
      */
     private static void mapToContainer(PersistentDataContainer container, Map<String,Object> map) {
         for (Map.Entry<String, Object> entry : map.entrySet()) {
