@@ -44,6 +44,7 @@ public class Config {
             config.require("requestOwnershipTransfers");
             config.require("humanReadableJson");
             config.require("archiveNetworksOnDelete");
+            config.require("autoSave");
 
             ConfigurationTransformers.generalConfigTransformers(config);
 
@@ -57,6 +58,7 @@ public class Config {
             complexInventoryChecks = config.getFinalBoolean("performance.complexInventoryChecks");
             propertyLore = config.getFinalBoolean("propertyLore");
             loadChunks = config.getFinalBoolean("performance.loadChunks");
+            autoSaveInterval = config.getFinalInt("autoSave");
             commands = config.getFinalList("commands", String.class).toArray(new String[0]);
 
         } catch (ConfigAlreadyRegisteredException e) {
@@ -72,6 +74,10 @@ public class Config {
     public static boolean complexInventoryChecks;
     public static boolean propertyLore;
     public static boolean loadChunks;
+    /**
+     * Auto save interval in seconds
+     */
+    public static int autoSaveInterval;
     public static String[] commands;
 
 

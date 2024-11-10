@@ -25,6 +25,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 
@@ -136,6 +137,9 @@ public final class Main extends JavaPlugin {
                 }
             }
         }
+
+        if (Config.autoSaveInterval > 0)
+            asyncScheduler.runAtFixedRate(this, (t) -> mgr.saveData(), Config.autoSaveInterval, Config.autoSaveInterval, TimeUnit.SECONDS);
 
         if (cfg.logoOnLaunch()) logger.info(startMessage);
 

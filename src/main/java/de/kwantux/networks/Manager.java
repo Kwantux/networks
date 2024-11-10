@@ -104,7 +104,6 @@ public final class Manager implements de.kwantux.networks.api.Manager {
         for (String id : networks.keySet()) {
             storage.saveNetwork(id, networks.get(id));
         }
-        logger.info("Saved " + networks.size() + " Networks");
         try {
             FilterTranslator.save();
         } catch (IOException e) {
