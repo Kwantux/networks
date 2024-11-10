@@ -163,7 +163,7 @@ items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:</bold>\n(
 
 item.name.wand0: <reset><red>Netzwerk Konfigurator <green>[Filter]
 item.name.wand1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
-item.name.wand2: <reset><red>Netzwerk Konfigurator <blue>[Filter (Strikt)]
+item.name.wand2: <reset><red>Netzwerk Konfigurator <dark_green>[Filter (Strikt)]
 item.name.component.input: <reset>Einfüllkiste
 item.name.component.sorting: <reset>Sortierkiste
 item.name.component.misc: <reset>Restekiste

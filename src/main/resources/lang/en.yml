@@ -165,7 +165,7 @@ items.message: "<green><bold>Total items in network <white><1><green>:</bold>\n(
 
 item.name.wand0: <reset><red>Network Wand <green>[Filter]
 item.name.wand1: <reset><red>Network Wand <blue>[Priority]
-item.name.wand2: <reset><red>Network Wand <blue>[Strict Filter]
+item.name.wand2: <reset><red>Network Wand <dark_green>[Strict Filter]
 item.name.component.input: <reset>Input Container
 item.name.component.sorting: <reset>Sorting Container
 item.name.component.misc: <reset>Miscellaneous Container
