@@ -83,13 +83,16 @@ public class WandListener implements Listener {
                 }
 
                 if (l == null) return;
-                Network network = net.getNetworkWithComponent(l);
-                NetworkComponent component = net.getComponent(l);
+                NetworkComponent component = dcu.componentAt(l);
+                Network network = null;
+                if (component != null) network = mgr.getNetworkWithComponent(component.pos());
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
-                        p.sendMessage(NetworksCommand.componentInfo(network, component));
-                        if(component instanceof SortingContainer container) p.sendMessage(Arrays.toString(container.filters()));
+                        if (component != null)
+                            p.sendMessage(NetworksCommand.componentInfo(network, component));
+                        else
+                            lang.message(p, "component.nocomponent");
                     }
                     return;
                 }
