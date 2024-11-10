@@ -122,9 +122,9 @@ public final class Main extends JavaPlugin {
         mgr.loadData();
 
         new ComponentListener(this);
-        new BlockPlaceListener(this, dcu);
-        new BlockBreakListener(this, dcu);
-        new WandListener(this, crf, dcu);
+        new BlockPlaceListener(this);
+        new BlockBreakListener(this);
+        new WandListener(this);
         new PlayerJoinListener(this);
 
         if (FoliaUtils.folia) {

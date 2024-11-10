@@ -480,11 +480,6 @@ public class NetworksCommand extends CommandHandler {
         }
 
         for (NetworkComponent component : network.components()) {
-            System.out.println(component);
-            System.out.println(component.type());
-            System.out.println(component.pos());
-            System.out.println(component.type().tag());
-
             sender.sendMessage(
                     Objects.requireNonNullElse(lang.getFinal("item.name.component."+component.type().tag()), Component.text("Unknown Component type: " +  component.type().tag()))
                     .append(Component.text(":  ")
