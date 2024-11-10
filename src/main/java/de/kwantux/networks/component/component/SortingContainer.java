@@ -38,16 +38,19 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
         int[] filters;
 
         try {
-            filters = container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.INTEGER_ARRAY);        // Normal deserialization
+            filters = Objects.requireNonNull(container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.INTEGER_ARRAY));        // Normal deserialization
         } catch (Exception e) {
-            filters = convertLegacyFilters(                                                                 // If deserialization fails, try legacy deserialization
+        filters = convertLegacyFilters(                                                                                             // If deserialization fails, try legacy deserialization
                     Objects.requireNonNullElse(
-                            Objects.requireNonNullElse(                                                     // Try legacy deserialization
+                            Objects.requireNonNullElse(                                                                             // Try legacy deserialization
                                     container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING),
                                     null).split(","),
-                            new String[0])                                                                  // If legacy deserialization fails, use empty array
+                        new String[0])                                                                                              // If legacy deserialization fails, use empty array
             );
         }
+
+        // Remove all duplicates and 0 values from filters
+        filters = Arrays.stream(filters).distinct().filter(i -> i != 0).toArray();
 
         return new SortingContainer(pos,
                 filters,
