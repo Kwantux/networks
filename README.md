@@ -9,7 +9,7 @@ You host a Minecraft-Server with paper and have issues with large sorting system
 
 [Modrinth](https://modrinth.com/plugin/networks)
 
-[Hangar](https://hangar.papermc.io/NanoFlux/Networks)
+[Hangar](https://hangar.papermc.io/Kwantux/Networks)
 
 [Bukkit](https://dev.bukkit.org/projects/networks)
 
@@ -50,7 +50,7 @@ To remove a chest from your network, simply just break it
 ## More information
 
 Most commands and their functionalities can be seen in <code>/networks help</code>
-See a more detailed instruction at the [wiki](https://github.com/nanoflux/networks/wiki)
+See a more detailed instruction at the [wiki](https://github.com/Kwantux/networks/wiki)
 
 
 ## Installation

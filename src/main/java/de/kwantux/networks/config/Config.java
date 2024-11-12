@@ -44,6 +44,7 @@ public class Config {
             config.require("requestOwnershipTransfers");
             config.require("humanReadableJson");
             config.require("archiveNetworksOnDelete");
+            config.require("autoSave");
 
             ConfigurationTransformers.generalConfigTransformers(config);
 
@@ -57,6 +58,7 @@ public class Config {
             complexInventoryChecks = config.getFinalBoolean("performance.complexInventoryChecks");
             propertyLore = config.getFinalBoolean("propertyLore");
             loadChunks = config.getFinalBoolean("performance.loadChunks");
+            autoSaveInterval = config.getFinalInt("autoSave");
             commands = config.getFinalList("commands", String.class).toArray(new String[0]);
 
         } catch (ConfigAlreadyRegisteredException e) {
@@ -65,13 +67,20 @@ public class Config {
     }
 
     public static boolean blastProofComponents; // TODO: Blast proof components
-    public static boolean noticeEnabled; // TODO: Notice message
+    /**
+     * Whether players that don't have a network should get a notification when opening a full chest
+     */
+    public static boolean noticeEnabled;
     public static boolean humanReadableJson;
     public static boolean archiveNetworksOnDelete;
     public static boolean requestOwnershipTransfers;
     public static boolean complexInventoryChecks;
     public static boolean propertyLore;
     public static boolean loadChunks;
+    /**
+     * Auto save interval in seconds
+     */
+    public static int autoSaveInterval;
     public static String[] commands;
 
 

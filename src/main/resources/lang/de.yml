@@ -1,6 +1,6 @@
 prefix: "<green>[Networks]<reset>  "
 
-version: "<dark_green>Networks Plugin</dark_green> von <yellow>NanoFlux</yellow>\n<aqua>Version: </aqua><1>"
+version: "<dark_green>Networks Plugin</dark_green> von <yellow>Kwantux</yellow>\n<aqua>Version: </aqua><1>"
 
 help: "\n
 <bold><dark_green>          Networks v<1> - Help Menu
@@ -119,6 +119,7 @@ component.exploded: <prefix><dark_red>Komponent bei <white><1><dark_red> aus dem
 component.invalid_block: <prefix><red>Blöcke vom Typ </red><1><red> können keine Netzwerkkomponenten sein!</red>
 component.nocomponent: <prefix><yellow>Dies ist kein Netzwerkkomponent!
 component.priority: <prefix>Priorität wurde auf <1> gesetzt,
+component.list.empty: <prefix><red>Netzwerk <white><1></white> hat keine Komponenten!
 
 location.occupied: <prefix><red>There is already a component at this location!
 
@@ -126,7 +127,7 @@ rangeupgrade.last: <prefix><yellow>Du hast bereits die höchste Stufe erreicht.
 rangeupgrade.alreadyupgraded: <prefix><yellow>Diese Erweiterung hast du bereits installiert, die nächste Stufe ist <white>Telemetrie Antenne Mk.<1>
 rangeupgrade.unlockfirst: <prefix><yellow>Du musst zuerst Stufe <white><1><yellow> freischalten!
 rangeupgrade.passivecomponent: <prefix><yellow>Dieses Upgrade ist nur für <bold>aktive</bold> Komponenten (z.B. Einfüllkisten), jedoch nicht für passiven Komponenten (z.B. Sortierkisten, Restekisten) nutzbar.
-rangeupgrade.success: <prefix>Reichweite <1> wurde im Netzwerk <2> installiert!
+rangeupgrade.success: <prefix>Reichweite <1> wurde am Komponenten <2> installiert!
 
 user.add: <prefix>Spieler <2> wurde zum Netzwerk <1> hinzugefügt
 user.add.nochange: <prefix>Spieler <2> wurde bereits zum Netzwerk <1> hinzugefügt
@@ -152,6 +153,7 @@ rename.taken: <prefix>Name <1> ist bereits in Verwendung.
 wand.mode: "<prefix><blue>Konfigurator Modus wurde zu [<1>] geändert"
 wand.mode.0: "Filter"
 wand.mode.1: "Priorität"
+wand.mode.2: "Filter (Strikt)"
 wand.info.input: "<green>Typ: <reset>Einfüllkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nExtra Reichweite: <reset><3><green>\n"
 wand.info.sorting: "<green>Typ: <reset>Sortierkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\nFilter: <reset><4>\n"
 wand.info.misc: "<green>Typ: <reset>Restekiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\n"
@@ -161,6 +163,7 @@ items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:</bold>\n(
 
 item.name.wand0: <reset><red>Netzwerk Konfigurator <green>[Filter]
 item.name.wand1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
+item.name.wand2: <reset><red>Netzwerk Konfigurator <dark_green>[Filter (Strikt)]
 item.name.component.input: <reset>Einfüllkiste
 item.name.component.sorting: <reset>Sortierkiste
 item.name.component.misc: <reset>Restekiste
@@ -183,6 +186,13 @@ item.lore.wand1:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
   - "<reset>Schleichen + Rechts klicken, um die Priorität eines Komponenten zu erhöhen"
   - "<reset>Schleichen + Links klicken, um die Priorität eines Komponenten zu senken"
+  - ""
+  - "<reset>Links klicken, um den Modus zu wechseln"
+
+item.lore.wand2:
+  - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
+  - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
   - ""
   - "<reset>Links klicken, um den Modus zu wechseln"
 

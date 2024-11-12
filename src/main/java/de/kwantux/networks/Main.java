@@ -1,6 +1,8 @@
 package de.kwantux.networks;
 
 import de.kwantux.networks.commands.NetworksCommandManager;
+import de.kwantux.networks.component.util.FilterTranslator;
+import de.kwantux.networks.event.NoticeListener;
 import de.kwantux.networks.utils.DoubleChestUtils;
 import de.kwantux.networks.utils.FoliaUtils;
 import de.kwantux.networks.utils.Metrics;
@@ -24,6 +26,7 @@ import org.spongepowered.configurate.serialize.SerializationException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 
@@ -90,11 +93,19 @@ public final class Main extends JavaPlugin {
 
         lang = new LanguageController(this, cfg.getLanguage(), "en", "de");
 
+
+
         new NetworksCommandManager(this);
 
         regionScheduler = getServer().getRegionScheduler();
         globalRegionScheduler = getServer().getGlobalRegionScheduler();
         asyncScheduler = getServer().getAsyncScheduler();
+
+        try {
+            FilterTranslator.load(Path.of(getDataFolder().getAbsolutePath(), "filters.txt"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         mgr = new Manager(this);
         crf = new CraftingManager(this);
@@ -113,10 +124,11 @@ public final class Main extends JavaPlugin {
         mgr.loadData();
 
         new ComponentListener(this);
-        new BlockPlaceListener(this, dcu);
-        new BlockBreakListener(this, dcu);
-        new WandListener(this, crf, dcu);
+        new BlockPlaceListener(this);
+        new BlockBreakListener(this);
+        new WandListener(this);
         new PlayerJoinListener(this);
+        new NoticeListener(this);
 
         if (FoliaUtils.folia) {
             logger.warning("Folia support on Networks is still in beta, please report any bugs.");
@@ -127,6 +139,9 @@ public final class Main extends JavaPlugin {
                 }
             }
         }
+
+        if (Config.autoSaveInterval > 0)
+            asyncScheduler.runAtFixedRate(this, (t) -> mgr.saveData(), Config.autoSaveInterval, Config.autoSaveInterval, TimeUnit.SECONDS);
 
         if (cfg.logoOnLaunch()) logger.info(startMessage);
 

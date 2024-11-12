@@ -7,6 +7,7 @@ import de.kwantux.networks.component.NetworkComponent;
 import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.MiscContainer;
 import de.kwantux.networks.component.component.SortingContainer;
+import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.inventory.InventoryMenuManager;
 import de.kwantux.networks.utils.BlockLocation;
@@ -33,7 +34,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static de.kwantux.networks.Main.*;
 import static de.kwantux.networks.commands.ComponentTypeParser.componentTypeParser;
@@ -472,16 +475,11 @@ public class NetworksCommand extends CommandHandler {
         if (network == null) return;
 
         if (network.components().isEmpty()) {
-            lang.message(sender, "component.list.empty");
+            lang.message(sender, "component.list.empty", network.name());
             return;
         }
 
         for (NetworkComponent component : network.components()) {
-            System.out.println(component);
-            System.out.println(component.type());
-            System.out.println(component.pos());
-            System.out.println(component.type().tag());
-
             sender.sendMessage(
                     Objects.requireNonNullElse(lang.getFinal("item.name.component."+component.type().tag()), Component.text("Unknown Component type: " +  component.type().tag()))
                     .append(Component.text(":  ")
@@ -503,8 +501,18 @@ public class NetworksCommand extends CommandHandler {
             return switch (component) {
                 case InputContainer container ->
                         lang.get("wand.info.input", network.name(), component.pos().toString(), String.valueOf(container.range()));
-                case SortingContainer container ->
-                        lang.get("wand.info.sorting", network.name(), component.pos().toString(), String.valueOf(container.acceptorPriority()), Arrays.stream(container.filters()).toList().toString());
+                case SortingContainer container -> {
+                    Component filters = Component.text("[");
+                    Set<Component> filterSet = Arrays.stream(container.filters()).mapToObj(
+                            FilterTranslator::translate
+                    ).collect(Collectors.toSet());
+                    for (Component filter : filterSet) {
+                        filters = filters.append(filter);
+                        filters = filters.append(Component.text(", "));
+                    }
+                    filters = filters.append(Component.text("]"));
+                    yield lang.get("wand.info.sorting", network.displayText(), component.pos().displayText(), Component.text(String.valueOf(container.acceptorPriority())), filters);
+                }
                 case MiscContainer container ->
                         lang.get("wand.info.misc", network.name(), component.pos().toString(), String.valueOf(container.acceptorPriority()));
                 case null, default -> Component.empty();

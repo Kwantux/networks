@@ -12,7 +12,7 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "de.kwantux"
-version = "3.0.4"
+version = "3.0.5"
 description = "A performance friendly way to sort your items"
 
 repositories {
