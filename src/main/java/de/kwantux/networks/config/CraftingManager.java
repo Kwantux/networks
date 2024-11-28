@@ -66,10 +66,10 @@ public class CraftingManager {
     public ItemStack getRangeUpgrade(int tier) throws InvalidNodeException {
         ItemStack upgrade = new ItemStack(rangeUpgradeMaterial);
         ItemMeta meta = upgrade.getItemMeta();
-        meta.displayName(lang.getItemName("upgrade.range." + tier));
+        meta.displayName(lang.getItemName("upgrade.range." + (tier-1)));
         meta.lore(lang.getItemLore("upgrade.range"));
         PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(plugin, "upgrade.range"), PersistentDataType.INTEGER, tier+1);
+        data.set(new NamespacedKey(plugin, "upgrade.range"), PersistentDataType.INTEGER, tier);
         upgrade.setItemMeta(meta);
         return upgrade;
     }
@@ -215,9 +215,9 @@ public class CraftingManager {
 
     private void registerRangeUpgrades() {
         try {
-            for (int i = 0; i < config.get("upgrade.range").childrenList().size(); i++) {
+            for (int i = 1; i <= config.get("upgrade.range").childrenList().size(); i++) {
 
-                String path = "upgrade.range." + i;
+                String path = "upgrade.range." + (i-1);
 
                 NamespacedKey key = new NamespacedKey(plugin, path.replace(".", "_"));
 

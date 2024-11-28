@@ -66,7 +66,7 @@ public class Config {
         }
     }
 
-    public static boolean blastProofComponents; // TODO: Blast proof components
+    public static boolean blastProofComponents;
     /**
      * Whether players that don't have a network should get a notification when opening a full chest
      */

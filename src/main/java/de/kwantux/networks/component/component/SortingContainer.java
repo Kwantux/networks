@@ -105,10 +105,10 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
 
     @Override
     public boolean accept(@Nonnull ItemStack stack) {
-        int matHash = stack.getItemMeta().hashCode();
+        int matId = stack.getType().ordinal();
         int metaHash = stack.getItemMeta().hashCode();
         for (int filter : filters) {
-            if (matHash == filter || metaHash == filter) return true;
+            if (matId == filter || metaHash == filter) return true;
         }
         return false;
     }
