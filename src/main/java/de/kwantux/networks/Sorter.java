@@ -27,7 +27,6 @@ public class Sorter {
                     if (!(acceptor.ready() && inDistance(network,donator,acceptor))) continue;
                     if (!acceptor.accept(item)) continue;
                     if (!acceptor.spaceFree(item)) continue;
-                    System.out.println("SPACE FREE");
                     transmit(item, donator, acceptor);
                     break;
                 }
