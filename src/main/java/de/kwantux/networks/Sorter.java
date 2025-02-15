@@ -32,7 +32,7 @@ public class Sorter {
                 for (Acceptor acceptor : acceptors) {
                     if (!(acceptor.ready() && inDistance(network,donator,acceptor))) continue;
                     if (!acceptor.accept(item)) continue;
-                    if (!Acceptor.spaceFree(acceptor.inventory(), item)) continue;
+                    if (!acceptor.spaceFree(item)) continue;
                     System.out.println("SPACE FREE");
                     transmit(item, donator, acceptor);
                     break;
