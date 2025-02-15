@@ -22,7 +22,11 @@ public interface Acceptor extends PassiveModule {
             }
             return false;
         }
-        else return inv.firstEmpty() != -1;
+        return inv.firstEmpty() != -1;
+    }
+
+    default boolean spaceFree(ItemStack stack) {
+        return spaceFree(inventory(), stack);
     }
 
     int acceptorPriority();

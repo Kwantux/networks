@@ -1,13 +1,13 @@
 package de.kwantux.networks.config;
 
 import de.kwantux.config.Configuration;
-import de.kwantux.networks.Main;
-import de.kwantux.networks.compat.ConfigurationTransformers;
-import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.config.ConfigurationManager;
 import de.kwantux.config.util.exceptions.ConfigAlreadyRegisteredException;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
+import de.kwantux.networks.Main;
+import de.kwantux.networks.compat.ConfigurationTransformers;
 import de.kwantux.networks.component.ComponentType;
+import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.networks.utils.BlockLocation;
 import org.bukkit.Material;
 import org.jetbrains.annotations.Nullable;
@@ -60,8 +60,9 @@ public class Config {
             loadChunks = config.getFinalBoolean("performance.loadChunks");
             autoSaveInterval = config.getFinalInt("autoSave");
             commands = config.getFinalList("commands", String.class).toArray(new String[0]);
+            ranges = config.getList("range", Integer.class).toArray(new Integer[0]);
 
-        } catch (ConfigAlreadyRegisteredException e) {
+        } catch (ConfigAlreadyRegisteredException | InvalidNodeException e) {
             throw new RuntimeException(e);
         }
     }
@@ -82,6 +83,7 @@ public class Config {
      */
     public static int autoSaveInterval;
     public static String[] commands;
+    public static Integer[] ranges;
 
 
     public void setLanguage(String language) {
@@ -118,17 +120,6 @@ public class Config {
                 config.getFinalInt("properties.maxComponents"),
                 config.getFinalInt("properties.maxUsers")
         );
-    }
-
-
-    public Integer[] getMaxRanges() {
-        try {
-            return config.getList("range", Integer.class).toArray(new Integer[0]);
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        } catch (SerializationException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public Material getComponentUpgradeMaterial() {

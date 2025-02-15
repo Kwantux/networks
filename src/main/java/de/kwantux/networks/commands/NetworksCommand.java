@@ -2,6 +2,9 @@ package de.kwantux.networks.commands;
 
 import de.kwantux.config.ConfigurationManager;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
+import de.kwantux.manual.ManualManager;
+import de.kwantux.networks.Main;
+import de.kwantux.networks.Network;
 import de.kwantux.networks.component.ComponentType;
 import de.kwantux.networks.component.NetworkComponent;
 import de.kwantux.networks.component.component.InputContainer;
@@ -14,13 +17,9 @@ import de.kwantux.networks.utils.BlockLocation;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
-import de.kwantux.manual.ManualManager;
-import de.kwantux.networks.Main;
-import de.kwantux.networks.Network;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -29,13 +28,7 @@ import org.incendo.cloud.context.CommandContext;
 import org.incendo.cloud.setting.ManagerSetting;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static de.kwantux.networks.Main.*;
@@ -231,7 +224,7 @@ public class NetworksCommand extends CommandHandler {
                 .literal("give")
                 .literal("upgrade")
                 .literal("range")
-                .required("tier", integerParser(1, cfg.getMaxRanges().length))
+                .required("tier", integerParser(1, Config.ranges.length))
                 .permission("networks.give")
                 .senderType(Player.class)
                 .handler(this::giveUpgradeRange)

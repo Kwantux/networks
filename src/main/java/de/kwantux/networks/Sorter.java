@@ -1,14 +1,7 @@
 package de.kwantux.networks;
 
-import de.kwantux.networks.component.module.Acceptor;
-import de.kwantux.networks.component.module.BaseModule;
-import de.kwantux.networks.component.module.Donator;
-import de.kwantux.networks.component.module.Requestor;
-import de.kwantux.networks.component.module.Supplier;
-import de.kwantux.networks.utils.FoliaUtils;
-import de.kwantux.networks.config.Config;
-import de.kwantux.networks.storage.InterThreadTransmissionController;
 import de.kwantux.networks.component.module.*;
+import de.kwantux.networks.utils.FoliaUtils;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -16,36 +9,27 @@ import java.util.List;
 import java.util.logging.Level;
 
 import static de.kwantux.networks.Main.logger;
+import static de.kwantux.networks.config.Config.ranges;
 
 public class Sorter {
 
-    private static Integer[] ranges;
-    private static boolean ittc = false;
-
-    public static void setConfig(@Nonnull Config config) {
-        ranges = config.getMaxRanges();
+    public static synchronized void transmit(@Nonnull ItemStack stack, BaseModule source, BaseModule target) {
+        source.inventory().removeItem(stack);
+        target.inventory().addItem(stack);
     }
 
-    public static void transmit(@Nonnull ItemStack stack, BaseModule source, BaseModule target) {
-        if (ittc) {
-            InterThreadTransmissionController.transmit(stack, source, target);
-        }
-        else {
-            source.inventory().remove(stack);
-            target.inventory().addItem(stack);
-        }
-    }
-
-    public static void donate(Network network, Donator donator) {
+    public static synchronized void donate(Network network, Donator donator) {
         List<? extends Acceptor> acceptors = network.acceptors();
         for (ItemStack item : donator.donate()) {
             if (item == null) continue;
             try {
                 for (Acceptor acceptor : acceptors) {
-                    if (acceptor.ready() && inDistance(network,donator, acceptor) && Acceptor.spaceFree(acceptor.inventory(), item) && acceptor.accept(item)) {
-                        transmit(item, donator, acceptor);
-                        break;
-                    }
+                    if (!(acceptor.ready() && inDistance(network,donator,acceptor))) continue;
+                    if (!acceptor.accept(item)) continue;
+                    if (!acceptor.spaceFree(item)) continue;
+                    System.out.println("SPACE FREE");
+                    transmit(item, donator, acceptor);
+                    break;
                 }
             }
             catch (Throwable e) {
@@ -55,7 +39,7 @@ public class Sorter {
         }
     }
 
-    public static void request(Network network, Requestor requestor) {
+    public static synchronized void request(Network network, Requestor requestor) {
         List<? extends Supplier> suppliers = network.suppliers();
         for (ItemStack item : requestor.requested()) {
             if (item == null) continue;

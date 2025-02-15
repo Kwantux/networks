@@ -98,6 +98,6 @@ public class DoubleChestUtils {
                     return new BlockLocation(location.getX(), location.getY(), location.getZ()-1, location.getWorld());
             }
         }
-        return null;
+        return location;
     }
 }
