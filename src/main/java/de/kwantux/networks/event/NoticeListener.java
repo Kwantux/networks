@@ -1,6 +1,7 @@
 package de.kwantux.networks.event;
 
 import de.kwantux.networks.Main;
+import de.kwantux.networks.config.Config;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -22,6 +23,7 @@ public class NoticeListener implements Listener {
 
     @EventHandler
     public void onInventoryOpen(InventoryCloseEvent event) {
+        if (!Config.noticeEnabled) return;
         if (event.getInventory().firstEmpty() != -1) return;
         if (notices.contains(event.getPlayer().getUniqueId())) return;
         if (mgr.withUser(event.getPlayer().getUniqueId()).isEmpty()) {
