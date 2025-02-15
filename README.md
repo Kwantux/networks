@@ -11,9 +11,6 @@ You host a Minecraft-Server with paper and have issues with large sorting system
 
 [Hangar](https://hangar.papermc.io/Kwantux/Networks)
 
-[Bukkit](https://dev.bukkit.org/projects/networks)
-
-
 
 
 ### What is a network?
