@@ -1,7 +1,6 @@
 package de.kwantux.networks;
 
 import de.kwantux.networks.component.module.*;
-import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.FoliaUtils;
 import org.bukkit.inventory.ItemStack;
 
@@ -10,14 +9,9 @@ import java.util.List;
 import java.util.logging.Level;
 
 import static de.kwantux.networks.Main.logger;
+import static de.kwantux.networks.config.Config.ranges;
 
 public class Sorter {
-
-    private static Integer[] ranges;
-
-    public static void setConfig(@Nonnull Config config) {
-        ranges = config.getMaxRanges();
-    }
 
     public static synchronized void transmit(@Nonnull ItemStack stack, BaseModule source, BaseModule target) {
         source.inventory().removeItem(stack);
