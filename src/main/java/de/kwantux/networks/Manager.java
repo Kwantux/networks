@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
@@ -155,7 +156,7 @@ public final class Manager implements de.kwantux.networks.api.Manager {
      * @return The component at that location, null if there is no component at that location
      */
     @Override
-    public NetworkComponent getComponent(BlockLocation location) {
+    public NetworkComponent getComponent(@NotNull BlockLocation location) {
         Network network = getNetworkWithComponent(location);
         if (network == null) return null;
         return network.getComponent(location);
@@ -166,7 +167,7 @@ public final class Manager implements de.kwantux.networks.api.Manager {
      * @return
      */
     @Override
-    public Network getNetworkWithComponent(BlockLocation location) {
+    public Network getNetworkWithComponent(@NotNull BlockLocation location) {
         Network network = null;
         for (BlockLocation loc : locations.keySet()) {
             if (location.equals(loc)) {
