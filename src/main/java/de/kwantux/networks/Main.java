@@ -1,26 +1,19 @@
 package de.kwantux.networks;
 
+import de.kwantux.config.lang.LanguageController;
+import de.kwantux.manual.Manual;
 import de.kwantux.networks.commands.NetworksCommandManager;
 import de.kwantux.networks.component.util.FilterTranslator;
-import de.kwantux.networks.event.NoticeListener;
+import de.kwantux.networks.config.Config;
+import de.kwantux.networks.config.CraftingManager;
+import de.kwantux.networks.event.*;
 import de.kwantux.networks.utils.DoubleChestUtils;
 import de.kwantux.networks.utils.FoliaUtils;
 import de.kwantux.networks.utils.Metrics;
-import de.kwantux.config.lang.LanguageController;
-import de.kwantux.manual.Manual;
-import de.kwantux.networks.config.Config;
-import de.kwantux.networks.config.CraftingManager;
-import de.kwantux.networks.event.BlockBreakListener;
-import de.kwantux.networks.event.BlockPlaceListener;
-import de.kwantux.networks.event.ComponentListener;
-import de.kwantux.networks.event.WandListener;
-import de.kwantux.networks.event.PlayerJoinListener;
 import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
 import io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler;
 import io.papermc.paper.threadedregions.scheduler.RegionScheduler;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.incendo.cloud.paper.PaperCommandManager;
-import org.incendo.cloud.paper.util.sender.Source;
 import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.IOException;
@@ -132,7 +125,7 @@ public final class Main extends JavaPlugin {
 
         if (FoliaUtils.folia) {
             logger.warning("Folia support on Networks is still in beta, please report any bugs.");
-            for (int i : cfg.getMaxRanges()) {
+            for (int i : Config.ranges) {
                 if (i > 1000) {
                     logger.warning("You are running Networks on Folia and enabled a maximum network range of more than 1000 blocks. Be aware that on Folia, you might not be able to transmit items that far.");
                     break;

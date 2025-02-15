@@ -1,5 +1,4 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
-import net.minecrell.pluginyml.paper.PaperPluginDescription
 
 plugins {
     `java-library`
@@ -12,7 +11,7 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "de.kwantux"
-version = "3.0.6"
+version = "3.0.7"
 description = "A performance friendly way to sort your items"
 
 repositories {

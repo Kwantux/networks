@@ -10,9 +10,7 @@ import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Donator;
 import de.kwantux.networks.component.module.Requestor;
 import de.kwantux.networks.component.util.FilterTranslator;
-import de.kwantux.networks.config.CraftingManager;
 import de.kwantux.networks.utils.BlockLocation;
-import de.kwantux.networks.utils.DoubleChestUtils;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Material;
@@ -26,11 +24,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
-import static de.kwantux.networks.Main.lang;
-import static de.kwantux.networks.Main.dcu;
-import static de.kwantux.networks.Main.cfg;
-import static de.kwantux.networks.Main.crf;
-import static de.kwantux.networks.Main.mgr;
+import static de.kwantux.networks.Main.*;
+import static de.kwantux.networks.config.Config.ranges;
 
 public class WandListener implements Listener {
 
@@ -168,7 +163,7 @@ public class WandListener implements Listener {
                             donator.rangeUp();
                             lang.message(p, "rangeupgrade.success", String.valueOf(tier+1), component.pos().toString());
                         }
-                        if (tier == cfg.getMaxRanges().length) {
+                        if (tier == ranges.length) {
                             lang.message(p, "rangeupgrade.last");
                             return;
                         }
@@ -189,7 +184,7 @@ public class WandListener implements Listener {
                             requestor.rangeUp();
                             lang.message(p, "rangeupgrade.success", String.valueOf(tier), component.pos().toString());
                         }
-                        if (tier == cfg.getMaxRanges().length) {
+                        if (tier == ranges.length) {
                             lang.message(p, "rangeupgrade.last");
                             return;
                         }
