@@ -1,6 +1,7 @@
 package de.kwantux.networks.utils;
 
 import de.kwantux.networks.Manager;
+import de.kwantux.networks.Network;
 import de.kwantux.networks.component.NetworkComponent;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,6 +24,16 @@ public class DoubleChestUtils {
         }
         return component;
     }
+
+    public Network networkWithComponentAt(BlockLocation pos) {
+        Network network = net.getNetworkWithComponent(pos);
+        if (network == null && pos.getBlock().getType().equals(Material.CHEST)) {
+            Chest chest = (Chest) pos.getBlock().getBlockData();
+            network = net.getNetworkWithComponent(shift(pos, chest.getType(), chest.getFacing()));
+        }
+        return network;
+    }
+
 
     public void checkChest(BlockLocation pos) {
 

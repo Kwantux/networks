@@ -1,12 +1,12 @@
 package de.kwantux.networks;
 
 
-import de.kwantux.networks.component.util.FilterTranslator;
-import de.kwantux.networks.utils.DoubleChestUtils;
 import de.kwantux.networks.component.ComponentType;
 import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.storage.Storage;
 import de.kwantux.networks.utils.BlockLocation;
+import de.kwantux.networks.utils.DoubleChestUtils;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,7 +26,6 @@ public final class Manager implements de.kwantux.networks.api.Manager {
     private HashMap<BlockLocation, Network> locations = new HashMap<>();
 
     private HashMap<CommandSender, Network> selections = new HashMap<>();
-    private final ArrayList<UUID> noticedPlayers = new ArrayList<>();
     private final ArrayList<UUID> forceMode = new ArrayList<>();
     private final Logger logger;
 
