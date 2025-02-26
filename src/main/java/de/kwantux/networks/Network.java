@@ -1,8 +1,8 @@
 package de.kwantux.networks;
 
+import de.kwantux.networks.component.NetworkComponent;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
-import de.kwantux.networks.component.NetworkComponent;
 import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.networks.storage.SerializableNetwork;
 import de.kwantux.networks.utils.BlockLocation;
@@ -103,6 +103,9 @@ public class Network {
         return acceptors.stream().sorted(Comparator.comparingInt(Acceptor::acceptorPriority).reversed()).toList();
     }
 
+    /**
+     * ONLY FOR INTERNAL USAGE AND IN {@link de.kwantux.networks.Manager#getComponent(BlockLocation)}
+     */
     public NetworkComponent getComponent(BlockLocation location) {
         for (NetworkComponent component : components) {
             if (component.pos().equals(location)) {
