@@ -34,6 +34,9 @@ public class ClearFilterListener implements Listener {
         ComponentType type = ComponentType.get(container.get(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING));
         if (type != ComponentType.SORTING) return;
 
-        p.getInventory().setItemInMainHand(type.item());
+
+        ItemStack newStack = type.item();
+        newStack.setAmount(item.getAmount());
+        p.getInventory().setItemInMainHand(newStack);
     }
 }
