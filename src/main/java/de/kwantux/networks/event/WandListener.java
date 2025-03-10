@@ -24,6 +24,8 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.HashSet;
+
 import static de.kwantux.networks.Main.*;
 import static de.kwantux.networks.config.Config.ranges;
 
@@ -102,6 +104,24 @@ public class WandListener implements Listener {
                             container.addFilter(itemInOffHand.getType().ordinal());
                             lang.message(p, "component.sorting.setitem", l.toString(), itemInOffHand.getType().toString());
                         }
+                    }
+                    // If in filter mode and no item in offhand, add contents to container's filter
+                    if (mode == 0 && itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
+                        HashSet<Integer> filters = new HashSet<>();
+                        for (int num : container.filters()) {
+                            filters.add(num);
+                        }
+
+                        for (ItemStack item : container.inventory().getContents()) {
+                            // Empty slots are null
+                            if (item == null) continue;
+                            Integer itemType = item.getType().ordinal();
+                            if (!filters.contains(itemType)) {
+                                container.addFilter(itemType);
+                                filters.add(itemType);
+                            }
+                        }
+                        lang.message(p, "component.sorting.autofilter", l.toString());
                     }
                     if (mode == 1) {
                         if (component instanceof Acceptor container) {
