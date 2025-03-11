@@ -114,6 +114,7 @@ component.input.add: <prefix>Input container at <1> successfully added to <2>!
 component.sorting.add: <prefix>Sorting container at <1> successfully added to <2>!
 component.sorting.setitem: <prefix>Item type <2> was added to sorting container at <1>.
 component.sorting.removeitem: <prefix>Item type <2> was removed from sorting container at <1>.
+component.sorting.clearfilters: <prefix>Cleared filters of the container you're holding.
 component.sorting.autofilter: <prefix>Added contents of container at <1> to it's sorting filter.
 component.misc.add: <prefix>Miscellaneous container at <1> successfully added to <2>!
 component.remove: <prefix><red>Removed component at <1>

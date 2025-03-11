@@ -113,6 +113,7 @@ component.input.add: <prefix>Einfüllkiste bei <1> wurde hinzugefügt zum Netzwe
 component.sorting.add: <prefix>Sortierkiste bei <1> wurde hinzugefügt zum Netzwerk <2>!
 component.sorting.setitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> hinzugefügt.
 component.sorting.removeitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> entfernt.
+component.sorting.clearfilters: <prefix>Filter der Sortierkiste wurden gelöscht.
 component.sorting.autofilter: <prefix>Inhalt der Sortierkiste <1> wurde als Filter gesetzt.
 component.misc.add: <prefix>Restekiste <1> wurde hinzugefügt zum Netzwerk <2>!
 component.remove: <prefix><red>Komponent bei <1> wurde entfernt.
