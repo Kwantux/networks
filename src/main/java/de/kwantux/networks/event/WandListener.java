@@ -150,7 +150,10 @@ public class WandListener implements Listener {
                             // Empty slots are null
                             if (item == null) continue;
                             int hash = item.getItemMeta().hashCode();
-                            container.addFilter(hash);
+                            if (!filters.contains(hash)) {
+                                container.addFilter(hash);
+                                filters.add(hash);
+                            }
                             FilterTranslator.updateTranslation(hash, item.displayName().hoverEvent(HoverEvent.showItem(
                                     HoverEvent.ShowItem.showItem(
                                             Key.key(item.getType().name().toLowerCase()), 1
