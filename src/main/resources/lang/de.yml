@@ -178,24 +178,36 @@ item.name.upgrade.range.4: <reset><bold>Antenne Mk.5
 
 item.lore.wand0:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Links klicken, um den Modus zu wechseln"
+  - ""
+  - "<reset>Ohne Item in der Zweithand:"
+  - "<reset>Schleichen + Rechts klicken, um alle Items in der Kiste als Filter hinzuzufügen"
+  - "<reset>Schleichen + Links klicken, um die Items in der Kiste als Filter zu setzen (entfernt auch bestehende Filter)"
+  - ""
+  - "<reset>Mit Item in der Zweithand:"
   - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
   - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
-  - ""
-  - "<reset>Links klicken, um den Modus zu wechseln"
 
 item.lore.wand1:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Links klicken, um den Modus zu wechseln"
+  - ""
   - "<reset>Schleichen + Rechts klicken, um die Priorität eines Komponenten zu erhöhen"
   - "<reset>Schleichen + Links klicken, um die Priorität eines Komponenten zu senken"
-  - ""
-  - "<reset>Links klicken, um den Modus zu wechseln"
 
 item.lore.wand2:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Links klicken, um den Modus zu wechseln"
+  - ""
+  - "<reset>Strikte Filter beachten auch die Item Meta (Verzauberungen, Haltbarkeit, ...)"
+  - ""
+  - "<reset>Ohne Item in der Zweithand:"
+  - "<reset>Schleichen + Rechts klicken, um alle Items in der Kiste als Filter hinzuzufügen"
+  - "<reset>Schleichen + Links klicken, um die Items in der Kiste als Filter zu setzen (entfernt auch bestehende Filter)"
+  - ""
+  - "<reset>Mit Item in der Zweithand:"
   - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
   - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
-  - ""
-  - "<reset>Links klicken, um den Modus zu wechseln"
 
 item.lore.component.input:
   - "<reset><blue>Sortiert eingelegte Items in Sortier- und Restekisten ein"
