@@ -113,7 +113,8 @@ component.input.add: <prefix>Einfüllkiste bei <1> wurde hinzugefügt zum Netzwe
 component.sorting.add: <prefix>Sortierkiste bei <1> wurde hinzugefügt zum Netzwerk <2>!
 component.sorting.setitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> hinzugefügt.
 component.sorting.removeitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> entfernt.
-# component.sorting.clearfilters: <prefix>Cleared filters.
+component.sorting.clearfilters: <prefix>Filter gelöscht.
+component.sorting.autofilter: <prefix>Inhalt der Sortierkiste <1> wurde als Filter gesetzt.
 component.misc.add: <prefix>Restekiste <1> wurde hinzugefügt zum Netzwerk <2>!
 component.remove: <prefix><red>Komponent bei <1> wurde entfernt.
 component.exploded: <prefix><dark_red>Komponent bei <white><1><dark_red> aus dem Netzwerk <white><2><dark_red> wurde gesprengt!
@@ -178,24 +179,36 @@ item.name.upgrade.range.4: <reset><bold>Antenne Mk.5
 
 item.lore.wand0:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Links klicken, um den Modus zu wechseln"
+  - ""
+  - "<reset>Ohne Item in der Zweithand:"
+  - "<reset>Schleichen + Rechts klicken, um alle Items in der Kiste als Filter hinzuzufügen"
+  - "<reset>Schleichen + Links klicken, um die Items in der Kiste als Filter zu setzen (entfernt auch bestehende Filter)"
+  - ""
+  - "<reset>Mit Item in der Zweithand:"
   - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
   - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
-  - ""
-  - "<reset>Links klicken, um den Modus zu wechseln"
 
 item.lore.wand1:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Links klicken, um den Modus zu wechseln"
+  - ""
   - "<reset>Schleichen + Rechts klicken, um die Priorität eines Komponenten zu erhöhen"
   - "<reset>Schleichen + Links klicken, um die Priorität eines Komponenten zu senken"
-  - ""
-  - "<reset>Links klicken, um den Modus zu wechseln"
 
 item.lore.wand2:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Links klicken, um den Modus zu wechseln"
+  - ""
+  - "<reset>Strikte Filter beachten auch die Item Meta (Verzauberungen, Haltbarkeit, ...)"
+  - ""
+  - "<reset>Ohne Item in der Zweithand:"
+  - "<reset>Schleichen + Rechts klicken, um alle Items in der Kiste als Filter hinzuzufügen"
+  - "<reset>Schleichen + Links klicken, um die Items in der Kiste als Filter zu setzen (entfernt auch bestehende Filter)"
+  - ""
+  - "<reset>Mit Item in der Zweithand:"
   - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
   - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
-  - ""
-  - "<reset>Links klicken, um den Modus zu wechseln"
 
 item.lore.component.input:
   - "<reset><blue>Sortiert eingelegte Items in Sortier- und Restekisten ein"
