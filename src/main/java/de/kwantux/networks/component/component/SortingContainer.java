@@ -1,11 +1,11 @@
 package de.kwantux.networks.component.component;
 
-import de.kwantux.networks.component.module.Acceptor;
-import de.kwantux.networks.component.module.Supplier;
-import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.networks.component.ComponentType;
 import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.module.Acceptor;
+import de.kwantux.networks.component.module.Supplier;
 import de.kwantux.networks.utils.BlockLocation;
+import de.kwantux.networks.utils.NamespaceUtils;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Material;
@@ -16,10 +16,8 @@ import org.bukkit.persistence.PersistentDataType;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 public class SortingContainer extends NetworkComponent implements Acceptor, Supplier {
 
@@ -154,6 +152,10 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
     public void addFilter(int filter) {
         filters = Arrays.copyOf(filters, filters.length + 1);
         filters[filters.length - 1] = filter;
+    }
+
+    public void setFilters(int[] filters) {
+        this.filters = filters;
     }
 
     public void removeFilter(int filter) {

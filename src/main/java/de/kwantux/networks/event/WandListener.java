@@ -160,7 +160,7 @@ public class WandListener implements Listener {
                                     )
                             )));
                         }
-                        lang.message(p, "component.sorting.autofilter", l.toString());
+                        lang.message(p, "component.sorting.autofilter", l.displayText());
                     }
                 }
 
@@ -174,6 +174,34 @@ public class WandListener implements Listener {
                             container.removeFilter(hash);
                             lang.message(p, "component.sorting.removeitem", l.displayText(), itemInOffHand.displayName());
                         }
+                    }
+
+                    if ((mode == 0 || mode == 2) && dcu.componentAt(l) instanceof SortingContainer container && itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
+                        HashSet <Integer> filters = new HashSet<>();
+                        for (ItemStack item : container.inventory().getContents()) {
+                            // Empty slots are null
+                            if (item == null) continue;
+                            if (mode == 2) {
+                                int hash = item.getItemMeta().hashCode();
+                                filters.add(hash);
+                                FilterTranslator.updateTranslation(hash, item.displayName().hoverEvent(HoverEvent.showItem(
+                                        HoverEvent.ShowItem.showItem(
+                                                Key.key(item.getType().name().toLowerCase()), 1
+                                        )
+                                )));
+                            }
+                            if (mode == 0) {
+                                filters.add(item.getType().ordinal());
+                            }
+                        }
+                        int[] filters_array = new int[filters.size()];
+                        int i = 0;
+                        for (Integer filter : filters) {
+                            filters_array[i] = filter;
+                            i++;
+                        }
+                        container.setFilters(filters_array);
+                        lang.message(p, "component.sorting.autofilter", l.displayText());
                     }
 
                     if (mode == 1) {
