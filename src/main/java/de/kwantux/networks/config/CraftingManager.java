@@ -1,19 +1,17 @@
 package de.kwantux.networks.config;
 
 import de.kwantux.config.Configuration;
+import de.kwantux.config.lang.LanguageController;
+import de.kwantux.config.util.exceptions.ConfigAlreadyRegisteredException;
+import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.compat.ConfigurationTransformers;
 import de.kwantux.networks.component.ComponentType;
-import de.kwantux.config.util.exceptions.ConfigAlreadyRegisteredException;
-import de.kwantux.config.util.exceptions.InvalidNodeException;
-import de.kwantux.config.lang.LanguageController;
-import de.kwantux.networks.component.component.SortingContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -205,8 +203,6 @@ public class CraftingManager {
             Bukkit.addRecipe(recipe);
             recipes.add(key);
 
-            ShapelessRecipe resetRecipe = new ShapelessRecipe(key, stack);
-            resetRecipe.addIngredient(stack, )
         }
         catch (InvalidNodeException | SerializationException e) {
             logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, the cfg file was deleted, server will be restarted...");
