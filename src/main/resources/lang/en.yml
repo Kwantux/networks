@@ -114,6 +114,8 @@ component.input.add: <prefix>Input container at <1> successfully added to <2>!
 component.sorting.add: <prefix>Sorting container at <1> successfully added to <2>!
 component.sorting.setitem: <prefix>Item type <2> was added to sorting container at <1>.
 component.sorting.removeitem: <prefix>Item type <2> was removed from sorting container at <1>.
+component.sorting.clearfilters: <prefix>Cleared filters of the container you're holding.
+component.sorting.autofilter: <prefix>Added contents of container at <1> to it's sorting filter.
 component.misc.add: <prefix>Miscellaneous container at <1> successfully added to <2>!
 component.remove: <prefix><red>Removed component at <1>
 component.exploded: <prefix><dark_red>NetworkComponent at <white><1><dark_red> from network <white><2><dark_red> was blown up!
@@ -180,25 +182,32 @@ item.name.upgrade.range.4: <reset><bold>Antenna Tier 5
 
 item.lore.wand0:
   - "<reset>Right click any network component to show information about it"
+  - "<reset>Left click to switch mode"
+  - ""
+  - "<reset>Sneak + Right click on a sorting chest with an empty offhand to add all contents of the chest as filters"
+  - "<reset>Sneak + Left click with an empty offhand to set all contents of the chest as filters (also removes existing filters)"
+  - ""
   - "<reset>Sneak + Right click on a sorting chest with an item in the offhand to apply a filter"
   - "<reset>Sneak + Left click with an item in the offhand to remove a filter"
-  - ""
-  - "<reset>Left click to switch mode"
 
 item.lore.wand1:
   - "<reset>Right click any network component to show information about it"
+  - "<reset>Left click to switch mode"
+  - ""
   - "<reset>Sneak + Right click on a network component to increase its priority"
   - "<reset>Sneak + Left click on a network component to decrease its priority"
-  - ""
-  - "<reset>Left click to switch mode"
-
 
 item.lore.wand2:
   - "<reset>Right click any network component to show information about it"
-  - "<reset>Sneak + Right click on a sorting chest with an item in the offhand to apply a filter"
-  - "<reset>Sneak + Left click with an item in the offhand to remove a filter"
-  - ""
   - "<reset>Left click to switch mode"
+  - ""
+  - "<reset>Strict filters respect item meta like durability and enchantments"
+  - ""
+  - "<reset>Sneak + Right click on a sorting chest with an empty offhand to add all contents of the chest as strict filters"
+  - "<reset>Sneak + Left click with an empty offhand to set all contents of the chest as strict filters (also removes existing filters)"
+  - ""
+  - "<reset>Sneak + Right click on a sorting chest with an item in the offhand to apply a strict filter"
+  - "<reset>Sneak + Left click with an item in the offhand to remove a strict filter"
 
 item.lore.component.input:
   - "<reset><blue>Sorts items into sorting containers and misc containers"
