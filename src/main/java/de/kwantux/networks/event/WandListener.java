@@ -129,18 +129,35 @@ public class WandListener implements Listener {
                             lang.message(p, "component.priority", String.valueOf(container.acceptorPriority()));
                         }
                     }
-                    if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer) {
-                        NetworkComponent c = dcu.componentAt(l);
-                        if (c instanceof SortingContainer container) {
-                            int hash = itemInOffHand.getItemMeta().hashCode();
+                    if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer container) {
+                        int hash = itemInOffHand.getItemMeta().hashCode();
+                        container.addFilter(hash);
+                        FilterTranslator.updateTranslation(hash, itemInOffHand.displayName().hoverEvent(HoverEvent.showItem(
+                                HoverEvent.ShowItem.showItem(
+                                        Key.key(itemInOffHand.getType().name().toLowerCase()), 1
+                                )
+                        )));
+                        lang.message(p, "component.sorting.setitem", l.displayText(), itemInOffHand.displayName());
+                    }
+                    // If in filter mode and no item in offhand, add contents to container's filter
+                    if (mode == 2 && itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
+                        HashSet<Integer> filters = new HashSet<>();
+                        for (int num : container.filters()) {
+                            filters.add(num);
+                        }
+
+                        for (ItemStack item : container.inventory().getContents()) {
+                            // Empty slots are null
+                            if (item == null) continue;
+                            int hash = item.getItemMeta().hashCode();
                             container.addFilter(hash);
-                            FilterTranslator.updateTranslation(hash, itemInOffHand.displayName().hoverEvent(HoverEvent.showItem(
+                            FilterTranslator.updateTranslation(hash, item.displayName().hoverEvent(HoverEvent.showItem(
                                     HoverEvent.ShowItem.showItem(
-                                            Key.key(itemInOffHand.getType().name().toLowerCase()), 1
+                                            Key.key(item.getType().name().toLowerCase()), 1
                                     )
                             )));
-                            lang.message(p, "component.sorting.setitem", l.displayText(), itemInOffHand.displayName());
                         }
+                        lang.message(p, "component.sorting.autofilter", l.toString());
                     }
                 }
 
