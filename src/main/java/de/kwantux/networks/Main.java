@@ -122,6 +122,7 @@ public final class Main extends JavaPlugin {
         new WandListener(this);
         new PlayerJoinListener(this);
         new NoticeListener(this);
+        new ClearFilterListener(this);
 
         if (FoliaUtils.folia) {
             logger.warning("Folia support on Networks is still in beta, please report any bugs.");
