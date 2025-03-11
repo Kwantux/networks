@@ -13,6 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import static de.kwantux.networks.Main.lang;
+
 public class ClearFilterListener implements Listener {
     public ClearFilterListener(Main plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -38,5 +40,6 @@ public class ClearFilterListener implements Listener {
         ItemStack newStack = type.item();
         newStack.setAmount(item.getAmount());
         p.getInventory().setItemInMainHand(newStack);
+        lang.message(p, "component.sorting.clearfilters");
     }
 }
