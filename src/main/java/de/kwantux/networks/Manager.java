@@ -48,6 +48,9 @@ public final class Manager implements de.kwantux.networks.api.Manager {
 
     public boolean delete(String id) {
         if (networks.get(id) != null) {
+            transferRequests.remove(networks.get(id));
+            locations.values().removeIf(network -> network.name().equals(id));
+            selections.values().removeIf(network -> network.name().equals(id));
             networks.remove(id);
             storage.delete(id);
             return true;

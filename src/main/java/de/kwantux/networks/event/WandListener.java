@@ -73,8 +73,10 @@ public class WandListener implements Listener {
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
-                        if (component != null)
-                            p.sendMessage(NetworksCommand.componentInfo(network, component));
+                        if (component != null) {
+                            boolean isProxy = (network.getComponent(component.pos()) == null);
+                            p.sendMessage(NetworksCommand.componentInfo(network, component, isProxy));
+                        }
                         else
                             lang.message(p, "component.nocomponent");
                     }
