@@ -335,6 +335,7 @@ public class NetworksCommand extends CommandHandler {
         }
 
         mgr.delete(network.name());
+        mgr.select(player, null);
         lang.message(player, "delete.success", network.name());
     }
 
