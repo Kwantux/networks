@@ -334,14 +334,9 @@ public class NetworksCommand extends CommandHandler {
             return;
         }
 
-        mgr.delete(network.name());
-        // If player had network selected
-        if (mgr.selection(player).name().equals(network.name())) {
-            // Remove their selection
-            mgr.select(player, null);
-        }
-
-        lang.message(player, "delete.success", network.name());
+        String name = network.name();
+        mgr.delete(name);
+        lang.message(player, "delete.success", name);
     }
 
     private void select(CommandContext<Player> context) {
@@ -634,8 +629,9 @@ public class NetworksCommand extends CommandHandler {
         if (finalNetwork.equals(otherNetwork)) {
             lang.message(sender, "merge.identical");
         }
-        mgr.delete(otherNetwork.name());
-        lang.message(sender, "merge.success", Component.text(finalNetwork.name()), Component.text(otherNetwork.name()));
+        String otherName = otherNetwork.name();
+        mgr.delete(otherName);
+        lang.message(sender, "merge.success", Component.text(finalNetwork.name()), Component.text(otherName));
     }
 
     private void items(CommandContext<CommandSender> context) {
