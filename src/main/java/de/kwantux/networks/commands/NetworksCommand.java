@@ -335,7 +335,12 @@ public class NetworksCommand extends CommandHandler {
         }
 
         mgr.delete(network.name());
-        mgr.select(player, null);
+        // If player had network selected
+        if (mgr.selection(player).name().equals(network.name())) {
+            // Remove their selection
+            mgr.select(player, null);
+        }
+
         lang.message(player, "delete.success", network.name());
     }
 
