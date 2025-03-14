@@ -478,19 +478,37 @@ public class NetworksCommand extends CommandHandler {
                     Objects.requireNonNullElse(lang.getFinal("item.name.component."+component.type().tag()), Component.text("Unknown Component type: " +  component.type().tag()))
                     .append(Component.text(":  ")
                     .append(component.pos().displayText()))
-                    .hoverEvent(HoverEvent.showText(componentInfo(network, component)))
+                    .hoverEvent(HoverEvent.showText(componentInfo(network, component, false)))
             );
         }
     }
 
     private void componentInfo(CommandContext<CommandSender> context) {
         CommandSender sender = context.sender();
-        Network network = selection(sender);
-        NetworkComponent component = mgr.getComponent(new BlockLocation((Location) context.get("location")));
-        sender.sendMessage(componentInfo(network, component));
+        BlockLocation location = new BlockLocation((Location) context.get("location"));
+        Network network = dcu.networkWithComponentAt(location);
+        NetworkComponent component = dcu.componentAt(location);
+        if (component == null) {
+            lang.message(sender, "component.info.empty", location.toString());
+            return;
+        }
+        boolean isProxy = network.getComponent(location) == null;
+        sender.sendMessage(componentInfo(network, component, isProxy));
     }
 
-    public static Component componentInfo(Network network, @Nullable NetworkComponent component) {
+    /**
+     * Generate a {@link Component} containing information about the component at the given {@link BlockLocation} in the given {@link Network}.
+     * <p>
+     * If the component is a isProxy, it will be indicated.
+     * <p>
+     * The generated component will be translated into the language that the {@link CommandSender} is currently using.
+     *
+     * @param network The network containing the component
+     * @param component The component to generate information about
+     * @param isProxy Whether the component is a isProxy
+     * @return A {@link Component} containing information about the component
+     */
+    public static Component componentInfo(Network network, @Nullable NetworkComponent component, boolean isProxy) {
         try {
             return switch (component) {
                 case InputContainer container ->
