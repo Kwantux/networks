@@ -129,6 +129,7 @@ location.occupied: <prefix><red>There is already a component at this location!
 rangeupgrade.last: <prefix><yellow>You already reached the maximum upgrade level.
 rangeupgrade.alreadyupgraded: <prefix><yellow>You already installed this upgrade, the next upgrade is range Tier <white><1>
 rangeupgrade.unlockfirst: <prefix><yellow>You need to unlock range Tier <white><1><yellow> first!
+rangeupgrade.invalid: <prefix><yellow>You somehow obtained an invalid range upgrade... Possibly your admin changed the config after you crafted this.
 rangeupgrade.passivecomponent: <prefix><yellow>This can only be applied to <bold>active</bold> network components (e.g. Input), NOT passive components (e.g. Sorting, Misc)
 rangeupgrade.success: <prefix>Successfully upgraded component <2> to Tier <1>!
 

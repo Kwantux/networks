@@ -237,6 +237,10 @@ public class WandListener implements Listener {
                             lang.message(p, "rangeupgrade.last");
                             return;
                         }
+                        if (tier > ranges.length || tier < 0) {
+                            lang.message(p, "rangeupgrade.invalid");
+                            return;
+                        }
                         if (upgradeTier < tier) {
                             lang.message(p, "rangeupgrade.alreadyupgraded", String.valueOf(tier));
                         }
@@ -256,6 +260,10 @@ public class WandListener implements Listener {
                         }
                         if (tier == ranges.length) {
                             lang.message(p, "rangeupgrade.last");
+                            return;
+                        }
+                        if (tier > ranges.length || tier < 0) {
+                            lang.message(p, "rangeupgrade.invalid");
                             return;
                         }
                         if (upgradeTier < tier) {
