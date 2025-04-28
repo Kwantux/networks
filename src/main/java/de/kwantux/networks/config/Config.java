@@ -45,6 +45,7 @@ public class Config {
             config.require("humanReadableJson");
             config.require("archiveNetworksOnDelete");
             config.require("autoSave");
+            config.require("rangePerNetwork");
 
             ConfigurationTransformers.generalConfigTransformers(config);
 
@@ -61,6 +62,7 @@ public class Config {
             autoSaveInterval = config.getFinalInt("autoSave");
             commands = config.getFinalList("commands", String.class).toArray(new String[0]);
             ranges = config.getList("range", Integer.class).toArray(new Integer[0]);
+            rangePerNetwork = config.getFinalBoolean("rangePerNetwork");
 
         } catch (ConfigAlreadyRegisteredException | InvalidNodeException e) {
             throw new RuntimeException(e);
@@ -78,6 +80,7 @@ public class Config {
     public static boolean complexInventoryChecks;
     public static boolean propertyLore;
     public static boolean loadChunks;
+    public static boolean rangePerNetwork;
     /**
      * Auto save interval in seconds
      */
