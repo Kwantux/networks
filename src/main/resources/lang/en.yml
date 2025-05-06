@@ -129,8 +129,10 @@ location.occupied: <prefix><red>There is already a component at this location!
 rangeupgrade.last: <prefix><yellow>You already reached the maximum upgrade level.
 rangeupgrade.alreadyupgraded: <prefix><yellow>You already installed this upgrade, the next upgrade is range Tier <white><1>
 rangeupgrade.unlockfirst: <prefix><yellow>You need to unlock range Tier <white><1><yellow> first!
+rangeupgrade.invalid: <prefix><yellow>You somehow obtained an invalid range upgrade... Possibly your admin changed the config after you crafted this.
 rangeupgrade.passivecomponent: <prefix><yellow>This can only be applied to <bold>active</bold> network components (e.g. Input), NOT passive components (e.g. Sorting, Misc)
 rangeupgrade.success: <prefix>Successfully upgraded component <2> to Tier <1>!
+rangeupgrade.success.network: <prefix>Successfully upgraded network <2> to Tier <1>!
 
 user.add: <prefix>Successfully added <2> to the network <1>
 user.remove: <prefix>Successfully removed <2> from the network <1>
@@ -227,6 +229,7 @@ item.lore.component.misc.upgrade:
   - "<reset><blue>All remaining items will go into these"
 
 item.lore.upgrade.range:
-  - "<reset>Click on a network component to apply this upgrade on its network"
+  - "<reset>Click on a network component to apply this upgrade"
+  - "<reset>Depending on this server's config this applies to all components in the network or just that single component"
 
 notice: <yellow>Having inventory problems? Try out <white>/networks <yellow>to constructor a fully automated storage network!

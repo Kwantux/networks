@@ -129,7 +129,9 @@ rangeupgrade.last: <prefix><yellow>Du hast bereits die höchste Stufe erreicht.
 rangeupgrade.alreadyupgraded: <prefix><yellow>Diese Erweiterung hast du bereits installiert, die nächste Stufe ist <white>Telemetrie Antenne Mk.<1>
 rangeupgrade.unlockfirst: <prefix><yellow>Du musst zuerst Stufe <white><1><yellow> freischalten!
 rangeupgrade.passivecomponent: <prefix><yellow>Dieses Upgrade ist nur für <bold>aktive</bold> Komponenten (z.B. Einfüllkisten), jedoch nicht für passiven Komponenten (z.B. Sortierkisten, Restekisten) nutzbar.
+rangeupgrade.invalid: <prefix><yellow>Diese Upgrade Stufe existiert nicht, wahrscheinlich wurde die Plugin-Konfiguration geändert nachdem du dieses Item gecrafted hast.
 rangeupgrade.success: <prefix>Reichweite <1> wurde am Komponenten <2> installiert!
+rangeupgrade.success.network: <prefix>Reichweite <1> wurde am Netzwerk <2> installiert!
 
 user.add: <prefix>Spieler <2> wurde zum Netzwerk <1> hinzugefügt
 user.add.nochange: <prefix>Spieler <2> wurde bereits zum Netzwerk <1> hinzugefügt

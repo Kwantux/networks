@@ -7,9 +7,9 @@ import de.kwantux.networks.commands.NetworksCommand;
 import de.kwantux.networks.component.NetworkComponent;
 import de.kwantux.networks.component.component.SortingContainer;
 import de.kwantux.networks.component.module.Acceptor;
-import de.kwantux.networks.component.module.Donator;
-import de.kwantux.networks.component.module.Requestor;
+import de.kwantux.networks.component.module.ActiveModule;
 import de.kwantux.networks.component.util.FilterTranslator;
+import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -219,57 +219,54 @@ public class WandListener implements Listener {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                     event.setCancelled(true);
                     NetworkComponent component = dcu.componentAt(l);
+                    Network network = dcu.networkWithComponentAt(l);
                     if (component == null) {
                         lang.message(p, "component.nocomponent");
                         return;
                     }
-                    if (component instanceof Donator donator) {
-                        int tier = donator.range();
-                        int upgradeTier = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)-1;
 
-                        if (upgradeTier == tier) {
-                            ItemStack item = p.getInventory().getItemInMainHand();
-                            item.setAmount(item.getAmount() - 1);
-                            donator.rangeUp();
-                            lang.message(p, "rangeupgrade.success", String.valueOf(tier+1), component.pos().toString());
-                        }
-                        if (tier == ranges.length) {
-                            lang.message(p, "rangeupgrade.last");
-                            return;
-                        }
-                        if (upgradeTier < tier) {
-                            lang.message(p, "rangeupgrade.alreadyupgraded", String.valueOf(tier));
-                        }
-                        if (upgradeTier > tier) {
-                            lang.message(p, "rangeupgrade.unlockfirst", String.valueOf(tier));
-                        }
+                    int tier;
+                    Runnable rangeUp;
+
+                    if (Config.rangePerNetwork) {
+                        tier = network.rangeTier();
+                        rangeUp = () -> network.range(ranges[tier+1]);
                     }
-                    else if (component instanceof Requestor requestor) {
-                        int tier = requestor.range();
-                        int upgradeTier = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER);
-
-                        if (upgradeTier == tier) {
-                            ItemStack item = p.getInventory().getItemInMainHand();
-                            item.setAmount(item.getAmount() - 1);
-                            requestor.rangeUp();
-                            lang.message(p, "rangeupgrade.success", String.valueOf(tier), component.pos().toString());
-                        }
-                        if (tier == ranges.length) {
-                            lang.message(p, "rangeupgrade.last");
-                            return;
-                        }
-                        if (upgradeTier < tier) {
-                            lang.message(p, "rangeupgrade.alreadyupgraded", String.valueOf(tier));
-                        }
-                        if (upgradeTier > tier) {
-                            lang.message(p, "rangeupgrade.unlockfirst", String.valueOf(tier));
-                        }
+                    else if (component instanceof ActiveModule module) {
+                        tier = module.range();
+                        rangeUp = module::rangeUp;
                     }
                     else {
                         lang.message(p, "rangeupgrade.passivecomponent");
+                        return;
                     }
 
-                    
+                    int upgradeTier = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)-1;
+
+                    if (upgradeTier == tier) {
+                        ItemStack item = p.getInventory().getItemInMainHand();
+                        item.setAmount(item.getAmount() - 1);
+                        rangeUp.run();
+                        if (Config.rangePerNetwork)
+                            lang.message(p, "rangeupgrade.success.network", String.valueOf(tier+1), network.name());
+                        else lang.message(p, "rangeupgrade.success", String.valueOf(tier+1), component.pos().toString());
+                    }
+                    if (tier == ranges.length) {
+                        lang.message(p, "rangeupgrade.last");
+                        return;
+                    }
+                    if (tier > ranges.length || tier < 0) {
+                        lang.message(p, "rangeupgrade.invalid");
+                        return;
+                    }
+                    if (upgradeTier < tier) {
+                        lang.message(p, "rangeupgrade.alreadyupgraded", String.valueOf(tier));
+                    }
+                    if (upgradeTier > tier) {
+                        lang.message(p, "rangeupgrade.unlockfirst", String.valueOf(tier+1));
+                    }
+
+
                 }
             }
         }

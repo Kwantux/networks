@@ -17,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static de.kwantux.networks.config.Config.ranges;
+
 public class Network {
     private String id;
 
@@ -195,4 +197,16 @@ public class Network {
     public int range() {
         return range;
     }
+
+    public int rangeTier() {
+        for (int i = 0; i < ranges.length; i++) {
+            if (range <= ranges[i]) return i;
+        }
+        return ranges.length-1;
+    }
+
+    public void range(int range) {
+        this.range = range;
+    }
+
 }

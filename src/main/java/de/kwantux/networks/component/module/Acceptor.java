@@ -16,7 +16,7 @@ public interface Acceptor extends PassiveModule {
                 if (item.isSimilar(stack)
                     || item.isSimilar(stack)) {
                     amount -=                        // Decrease the amount of items that need to be transmitted
-                            (64 - item.getAmount()); // by the amount of items that can be put into the slot
+                            (item.getMaxStackSize() - item.getAmount()); // by the amount of items that can be put into the slot
                     if (amount <= 0) return true;
                 }
             }
