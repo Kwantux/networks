@@ -17,6 +17,8 @@ import org.bukkit.event.inventory.InventoryPickupItemEvent;
 
 import javax.annotation.Nullable;
 
+import static de.kwantux.networks.Main.dcu;
+
 public class ComponentListener implements Listener {
 
     private Manager manager;
@@ -29,7 +31,7 @@ public class ComponentListener implements Listener {
     private void check(@Nullable org.bukkit.Location location) {
         if (location == null) return;
         BlockLocation loc = new BlockLocation(location);
-        NetworkComponent component = manager.getComponent(loc);
+        NetworkComponent component = dcu.componentAt(loc);
         if (component != null) {
             if (component instanceof Donator donator) {
                 Network network = manager.getNetworkWithComponent(component.pos());
