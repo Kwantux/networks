@@ -1,23 +1,20 @@
 package de.kwantux.networks.storage;
 
 import com.google.gson.*;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.ComponentType;
 import de.kwantux.networks.component.component.SortingContainer;
-import de.kwantux.networks.component.util.FilterTranslator;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
-import java.util.Arrays;
 
 import static de.kwantux.networks.Main.logger;
+import static de.kwantux.networks.storage.Storage.gson;
 
-public class ComponentSerializer implements JsonDeserializer<NetworkComponent>, JsonSerializer<NetworkComponent> {
-
-    private  final Gson gson = new GsonBuilder().create();
+public class ComponentSerializer implements JsonDeserializer<BasicComponent>, JsonSerializer<BasicComponent> {
 
     @Override
-    public @Nullable NetworkComponent deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public @Nullable BasicComponent deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         ComponentType type = ComponentType.get(jsonObject.get("type").getAsString());
         if (type == null) throw new JsonParseException("Error while deserializing network component. Unknown type: " + jsonObject.get("type").getAsString());
@@ -40,9 +37,9 @@ public class ComponentSerializer implements JsonDeserializer<NetworkComponent>, 
             }
         }
 
-        Class<? extends NetworkComponent> clazz = type.clazz;
-        NetworkComponent component = gson.fromJson(json, clazz);
-        if (!component.fillMissingData()) {
+        Class<? extends BasicComponent> clazz = type.clazz;
+        BasicComponent component = gson.fromJson(json, clazz);
+        if (component.isMissingData()) {
             logger.severe("A network component is missing crucial data. It will be skipped during loading phase.");
             logger.severe("If you did not manually edit the network files, report this to the Networks developers.");
             return null;
@@ -51,7 +48,7 @@ public class ComponentSerializer implements JsonDeserializer<NetworkComponent>, 
     }
 
     @Override
-    public JsonElement serialize(NetworkComponent src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(BasicComponent src, Type typeOfSrc, JsonSerializationContext context) {
         JsonElement jsonElement = gson.toJsonTree(src);
         jsonElement.getAsJsonObject().addProperty("type", ComponentType.get(src.getClass()).tag());
         return jsonElement;

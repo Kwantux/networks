@@ -1,17 +1,19 @@
 package de.kwantux.networks.component.component;
 
+import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.component.ComponentType;
-import de.kwantux.networks.component.NetworkComponent;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.NamespaceUtils;
+import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -19,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class SortingContainer extends NetworkComponent implements Acceptor, Supplier {
+public class SortingContainer extends BlockComponent implements Acceptor, Supplier {
 
     public static ComponentType type;
     public ComponentType type() {
@@ -30,31 +32,34 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
     private int acceptorPriority;
     private int supplierPriority;
 
-    public static SortingContainer create(BlockLocation pos, PersistentDataContainer container) {
-        if (container == null) return new SortingContainer(pos, new int[0], 10, 0);
+    public static @Nullable SortingContainer create(Origin origin, PersistentDataContainer container) {
+        if (origin instanceof BlockLocation pos) {
+            if (container == null) return new SortingContainer(pos, new int[0], 10, 0);
 
-        int[] filters;
+            int[] filters;
 
-        try {
-            filters = Objects.requireNonNull(container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.INTEGER_ARRAY));        // Normal deserialization
-        } catch (Exception e) {
-        filters = convertLegacyFilters(                                                                                             // If deserialization fails, try legacy deserialization
-                    Objects.requireNonNullElse(
-                            Objects.requireNonNullElse(                                                                             // Try legacy deserialization
-                                    container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING),
-                                    null).split(","),
-                        new String[0])                                                                                              // If legacy deserialization fails, use empty array
+            try {
+                filters = Objects.requireNonNull(container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.INTEGER_ARRAY));        // Normal deserialization
+            } catch (Exception e) {
+                filters = convertLegacyFilters(                                                                                             // If deserialization fails, try legacy deserialization
+                        Objects.requireNonNullElse(
+                                Objects.requireNonNullElse(                                                                             // Try legacy deserialization
+                                        container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING),
+                                        null).split(","),
+                                new String[0])                                                                                              // If legacy deserialization fails, use empty array
+                );
+            }
+
+            // Remove all duplicates and 0 values from filters
+            filters = Arrays.stream(filters).distinct().filter(i -> i != 0).toArray();
+
+            return new SortingContainer(pos,
+                    filters,
+                    Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), 10),
+                    Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 0)
             );
         }
-
-        // Remove all duplicates and 0 values from filters
-        filters = Arrays.stream(filters).distinct().filter(i -> i != 0).toArray();
-
-        return new SortingContainer(pos,
-                filters,
-                Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), 10),
-                Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 0)
-        );
+        return null;
     }
 
     public SortingContainer(BlockLocation pos, int[] filters, int acceptorPriority) {
@@ -88,6 +93,7 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
                 true,
                 true,
                 false,
+                true,
                 SortingContainer::create,
                 defaultProperties
         );
@@ -95,10 +101,10 @@ public class SortingContainer extends NetworkComponent implements Acceptor, Supp
     }
 
     @Override
-    public boolean fillMissingData() {
+    public boolean isMissingData() {
         if (filters == null)
             filters = new int[0];
-        return pos != null;
+        return pos == null;
     }
 
     @Override

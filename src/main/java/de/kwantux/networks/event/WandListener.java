@@ -4,7 +4,7 @@ import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.commands.NetworksCommand;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.component.SortingContainer;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.ActiveModule;
@@ -67,14 +67,14 @@ public class WandListener implements Listener {
                 }
 
                 if (l == null) return;
-                NetworkComponent component = dcu.componentAt(l);
+                BasicComponent component = dcu.componentAt(l);
                 Network network = null;
-                if (component != null) network = dcu.networkWithComponentAt(component.pos());
+                if (component != null) network = dcu.networkWithComponentAt(component.origin());
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                         if (component != null) {
-                            boolean isProxy = (network.getComponent(component.pos()) == null);
+                            boolean isProxy = (network.getComponent(component.origin()) == null);
                             p.sendMessage(NetworksCommand.componentInfo(network, component, isProxy));
                         }
                         else
@@ -101,7 +101,7 @@ public class WandListener implements Listener {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 
                     if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer) {
-                        NetworkComponent c = dcu.componentAt(l);
+                        BasicComponent c = dcu.componentAt(l);
                         if (c instanceof SortingContainer container) {
                             container.addFilter(itemInOffHand.getType().ordinal());
                             lang.message(p, "component.sorting.setitem", l.toString(), itemInOffHand.getType().toString());
@@ -169,7 +169,7 @@ public class WandListener implements Listener {
                 if (action.equals(Action.LEFT_CLICK_BLOCK)) {
 
                     if ((mode == 0 || mode == 2) && dcu.componentAt(l) instanceof SortingContainer && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
-                        NetworkComponent c = dcu.componentAt(l);
+                        BasicComponent c = dcu.componentAt(l);
                         if (c instanceof SortingContainer container) {
                             int hash = itemInOffHand.getItemMeta().hashCode();
                             container.removeFilter(itemInOffHand.getType().ordinal());
@@ -218,7 +218,7 @@ public class WandListener implements Listener {
             if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)) {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                     event.setCancelled(true);
-                    NetworkComponent component = dcu.componentAt(l);
+                    BasicComponent component = dcu.componentAt(l);
                     Network network = dcu.networkWithComponentAt(l);
                     if (component == null) {
                         lang.message(p, "component.nocomponent");
@@ -249,7 +249,7 @@ public class WandListener implements Listener {
                         rangeUp.run();
                         if (Config.rangePerNetwork)
                             lang.message(p, "rangeupgrade.success.network", String.valueOf(tier+1), network.name());
-                        else lang.message(p, "rangeupgrade.success", String.valueOf(tier+1), component.pos().toString());
+                        else lang.message(p, "rangeupgrade.success", String.valueOf(tier+1), component.origin().toString());
                     }
                     if (tier == ranges.length) {
                         lang.message(p, "rangeupgrade.last");

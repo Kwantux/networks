@@ -1,16 +1,17 @@
 package de.kwantux.networks.component;
 
-import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
-import de.kwantux.networks.config.Config;
 import de.kwantux.networks.Main;
+import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
+import de.kwantux.networks.utils.NamespaceUtils;
+import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -21,17 +22,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public abstract class NetworkComponent {
+public abstract class BlockComponent extends BasicComponent {
 
     public abstract ComponentType type();
 
     protected BlockLocation pos;
 
-    protected NetworkComponent(BlockLocation pos) {
+    protected BlockComponent(BlockLocation pos) {
         this.pos = pos;
     }
 
     public BlockLocation pos() {
+        return pos;
+    }
+    public Origin origin() {
         return pos;
     }
 
@@ -50,8 +54,8 @@ public abstract class NetworkComponent {
      * Fills missing properties with default values
      * In case crucial properties (without default values) are missing, returns false
      */
-    public boolean fillMissingData() {
-        return pos != null;
+    public boolean isMissingData() {
+        return pos == null;
     }
 
     /**

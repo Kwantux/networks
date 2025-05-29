@@ -2,7 +2,7 @@ package de.kwantux.networks.event;
 
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
 import org.bukkit.Bukkit;
@@ -16,12 +16,9 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import static de.kwantux.networks.Main.dcu;
-import static de.kwantux.networks.Main.mgr;
-import static de.kwantux.networks.Main.lang;
+import static de.kwantux.networks.Main.*;
 
 public class BlockBreakListener implements Listener {
 
@@ -33,7 +30,7 @@ public class BlockBreakListener implements Listener {
     public void blockBreak(BlockBreakEvent event) {
 
         for (Network network : mgr.getNetworks()) {
-            for (NetworkComponent component : List.copyOf(network.components())) {
+            for (BlockComponent component : network.components().stream().filter(component -> component instanceof BlockComponent).map(component -> (BlockComponent) component).toList()) {
                 if (component.pos().equals(new BlockLocation(event.getBlock()))) {
 
                     dcu.disconnectChests(component.pos());
@@ -69,7 +66,7 @@ public class BlockBreakListener implements Listener {
 
         for (Block block : removeLater) {
             if (!Config.blastProofComponents) {
-                NetworkComponent component = mgr.getComponent(new BlockLocation(block));
+                BlockComponent component = (BlockComponent) mgr.getComponent(new BlockLocation(block));
                 assert component != null; // Was already checked when adding blocks to the list
 
                 ItemStack item = component.item();

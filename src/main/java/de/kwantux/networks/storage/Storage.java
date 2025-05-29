@@ -1,11 +1,13 @@
 package de.kwantux.networks.storage;
 
-import com.google.gson.*;
-import de.kwantux.networks.Network;
-import de.kwantux.networks.component.NetworkComponent;
-import de.kwantux.networks.config.Config;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import de.kwantux.networks.Main;
+import de.kwantux.networks.Network;
 import de.kwantux.networks.compat.LegacyNetwork;
+import de.kwantux.networks.component.BasicComponent;
+import de.kwantux.networks.config.Config;
+import de.kwantux.networks.utils.Origin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,29 +18,34 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import static de.kwantux.networks.Main.logger;
 
-public class Storage implements de.kwantux.networks.api.Storage {
+public class Storage {
 
     private static final Logger log = LoggerFactory.getLogger(Storage.class);
     private final Main plugin;
     private final Path path;
 
-    private final Gson gson;
+    public final static Gson gson;
+
+    static {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(BasicComponent.class, new ComponentSerializer());
+        builder.registerTypeAdapter(Origin.class, new OriginSerializer());
+        if (Config.humanReadableJson) {
+            builder.setPrettyPrinting();
+        }
+        gson = builder.create();
+    }
 
     public Storage(Main plugin) {
         this.plugin = plugin;
         plugin.getDataFolder().mkdirs();
         path = plugin.getDataFolder().toPath().resolve("networks");
-
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(NetworkComponent.class, new ComponentSerializer());
-        if (Config.humanReadableJson) {
-            builder.setPrettyPrinting();
-        }
-        gson = builder.create();
     }
 
 
@@ -47,7 +54,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
      * @param owner
      * @return
      */
-    @Override
     public boolean create(String id, UUID owner) {
         if (!Network.validName(id)) return false; // Illegal characters
         if (path.resolve(id+".json").toFile().exists()) return false;
@@ -58,7 +64,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
     /**
      * @param id ID of the Network to delete
      */
-    @Override
     public void delete(String id) {
         try {
             if (Config.archiveNetworksOnDelete) {
@@ -75,7 +80,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
      * @param id
      * @return
      */
-    @Override
     public Network loadNetwork(String id) {
         try {
             String json = Files.readString(path.resolve(id+".json"), StandardCharsets.UTF_8);
@@ -105,7 +109,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
      * @param newName
      * @return
      */
-    @Override
     public boolean renameNetwork(String id, String newName) {
         if (!Network.validName(id)) return false; // Illegal characters
         if (path.resolve(id+".json").toFile().exists()) return false;
@@ -121,7 +124,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
     /**
      * @return
      */
-    @Override
     public Set<String> getNetworkIDs() {
         try {
             Set<String> set = new HashSet<>();
@@ -136,7 +138,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
     /**
      * @param network
      */
-    @Override
     public void saveNetwork(String id, Network network) {
         SerializableNetwork serializable = new SerializableNetwork(network);
         String json = gson.toJson(serializable);
