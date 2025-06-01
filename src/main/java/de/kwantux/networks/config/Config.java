@@ -6,7 +6,7 @@ import de.kwantux.config.util.exceptions.ConfigAlreadyRegisteredException;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.compat.ConfigurationTransformers;
-import de.kwantux.networks.component.ComponentType;
+import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.networks.utils.BlockLocation;
 import org.bukkit.Material;

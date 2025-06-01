@@ -5,9 +5,9 @@ import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.commands.NetworksCommand;
 import de.kwantux.networks.component.BasicComponent;
+import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.SortingContainer;
 import de.kwantux.networks.component.module.Acceptor;
-import de.kwantux.networks.component.module.ActiveModule;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
@@ -232,9 +232,9 @@ public class WandListener implements Listener {
                         tier = network.rangeTier();
                         rangeUp = () -> network.range(ranges[tier+1]);
                     }
-                    else if (component instanceof ActiveModule module) {
-                        tier = module.range();
-                        rangeUp = module::rangeUp;
+                    else if (component instanceof InputContainer container) {
+                        tier = container.range();
+                        rangeUp = container::rangeUp;
                     }
                     else {
                         lang.message(p, "rangeupgrade.passivecomponent");

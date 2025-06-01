@@ -2,7 +2,7 @@ package de.kwantux.networks.event;
 
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
-import de.kwantux.networks.component.ComponentType;
+import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.NamespaceUtils;
 import org.bukkit.entity.Player;

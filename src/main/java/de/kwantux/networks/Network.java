@@ -5,7 +5,6 @@ import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
 import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.networks.storage.SerializableNetwork;
-import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -107,7 +106,7 @@ public class Network {
     }
 
     /**
-     * ONLY FOR INTERNAL USAGE AND IN {@link de.kwantux.networks.Manager#getComponent(BlockLocation)}
+     * ONLY FOR INTERNAL USAGE AND IN {@link de.kwantux.networks.Manager#getComponent(Origin)}
      */
     public BasicComponent getComponent(Origin origin) {
         for (BasicComponent component : components) {
@@ -166,10 +165,8 @@ public class Network {
 
     public ArrayList<ItemStack> items() {
         ArrayList<ItemStack> stacks = new ArrayList<>();
-        for (BasicComponent component : components) {
-            Inventory inventory = component.inventory();
-            if (inventory == null) continue;
-            stacks.addAll(Arrays.stream(inventory.getContents()).toList());
+        for (Supplier component : suppliers()) {
+            stacks.addAll(component.supply());
         }
         return stacks;
     }

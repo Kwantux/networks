@@ -1,9 +1,9 @@
 package de.kwantux.networks.component.component;
 
 import de.kwantux.networks.component.BlockComponent;
-import de.kwantux.networks.component.ComponentType;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
+import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.networks.utils.Origin;

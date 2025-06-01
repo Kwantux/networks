@@ -1,8 +1,8 @@
 package de.kwantux.networks.component.component;
 
 import de.kwantux.networks.component.BlockComponent;
-import de.kwantux.networks.component.ComponentType;
 import de.kwantux.networks.component.module.Donator;
+import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.networks.utils.Origin;
@@ -75,7 +75,6 @@ public class InputContainer extends BlockComponent implements Donator {
         return range;
     }
 
-    @Override
     public void rangeUp() {
         this.range++;
     }

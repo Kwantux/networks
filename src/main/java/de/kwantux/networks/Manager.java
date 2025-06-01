@@ -2,7 +2,7 @@ package de.kwantux.networks;
 
 
 import de.kwantux.networks.component.BasicComponent;
-import de.kwantux.networks.component.ComponentType;
+import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.storage.Storage;
 import de.kwantux.networks.utils.DoubleChestUtils;

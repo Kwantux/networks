@@ -2,8 +2,8 @@ package de.kwantux.networks.storage;
 
 import com.google.gson.*;
 import de.kwantux.networks.component.BasicComponent;
-import de.kwantux.networks.component.ComponentType;
 import de.kwantux.networks.component.component.SortingContainer;
+import de.kwantux.networks.component.util.ComponentType;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;

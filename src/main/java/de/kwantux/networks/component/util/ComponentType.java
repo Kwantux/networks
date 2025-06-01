@@ -1,6 +1,8 @@
-package de.kwantux.networks.component;
+package de.kwantux.networks.component.util;
 
 import de.kwantux.networks.Main;
+import de.kwantux.networks.component.BasicComponent;
+import de.kwantux.networks.component.InstallableComponent;
 import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.MiscContainer;
 import de.kwantux.networks.component.component.SortingContainer;
@@ -93,7 +95,7 @@ public class ComponentType {
     }
 
     public ItemStack item() {
-        return BasicComponent.item(this, defaultProperties);
+        return InstallableComponent.item(this, defaultProperties);
     }
 
 }
