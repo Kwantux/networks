@@ -11,6 +11,7 @@ import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
+import de.kwantux.networks.utils.ItemHash;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Material;
@@ -103,7 +104,7 @@ public class WandListener implements Listener {
                     if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer) {
                         BasicComponent c = dcu.componentAt(l);
                         if (c instanceof SortingContainer container) {
-                            container.addFilter(itemInOffHand.getType().ordinal());
+                            container.addFilter(ItemHash.materialHash(itemInOffHand));
                             lang.message(p, "component.sorting.setitem", l.toString(), itemInOffHand.getType().toString());
                         }
                     }
@@ -132,7 +133,7 @@ public class WandListener implements Listener {
                         }
                     }
                     if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer container) {
-                        int hash = itemInOffHand.getItemMeta().hashCode();
+                        int hash = ItemHash.hash(itemInOffHand);
                         container.addFilter(hash);
                         FilterTranslator.updateTranslation(hash, itemInOffHand.displayName().hoverEvent(HoverEvent.showItem(
                                 HoverEvent.ShowItem.showItem(
@@ -151,7 +152,7 @@ public class WandListener implements Listener {
                         for (ItemStack item : container.inventory().getContents()) {
                             // Empty slots are null
                             if (item == null) continue;
-                            int hash = item.getItemMeta().hashCode();
+                            int hash = ItemHash.hash(item);
                             if (!filters.contains(hash)) {
                                 container.addFilter(hash);
                                 filters.add(hash);
@@ -171,9 +172,9 @@ public class WandListener implements Listener {
                     if ((mode == 0 || mode == 2) && dcu.componentAt(l) instanceof SortingContainer && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
                         BasicComponent c = dcu.componentAt(l);
                         if (c instanceof SortingContainer container) {
-                            int hash = itemInOffHand.getItemMeta().hashCode();
-                            container.removeFilter(itemInOffHand.getType().ordinal());
-                            container.removeFilter(hash);
+                            container.removeFilter(ItemHash.materialHash(itemInOffHand));
+                            container.removeFilter(ItemHash.metaHash(itemInOffHand));
+                            container.removeFilter(ItemHash.hash(itemInOffHand));
                             lang.message(p, "component.sorting.removeitem", l.displayText(), itemInOffHand.displayName());
                         }
                     }
@@ -184,7 +185,7 @@ public class WandListener implements Listener {
                             // Empty slots are null
                             if (item == null) continue;
                             if (mode == 2) {
-                                int hash = item.getItemMeta().hashCode();
+                                int hash = ItemHash.hash(item);
                                 filters.add(hash);
                                 FilterTranslator.updateTranslation(hash, item.displayName().hoverEvent(HoverEvent.showItem(
                                         HoverEvent.ShowItem.showItem(

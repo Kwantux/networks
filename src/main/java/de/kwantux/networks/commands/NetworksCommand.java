@@ -13,6 +13,7 @@ import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
+import de.kwantux.networks.utils.ItemHash;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
@@ -227,6 +228,14 @@ public class NetworksCommand extends CommandHandler {
                 .permission("networks.give")
                 .senderType(Player.class)
                 .handler(this::giveUpgradeRange)
+        );
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("debug")
+                .literal("itemhash")
+                .literal("strict")
+                .permission("networks.debug")
+                .senderType(Player.class)
+                .handler(this::debugItemHash)
         );
     }
 
@@ -677,7 +686,7 @@ public class NetworksCommand extends CommandHandler {
 
     private void giveWand(CommandContext<Player> context) {
         Player player = context.sender();
-        ItemStack wand = crf.getNetworkWand(0);
+        ItemStack wand = crf.getNetworkWand(2);
         player.getInventory().addItem(wand);
     }
 
@@ -697,4 +706,11 @@ public class NetworksCommand extends CommandHandler {
         player.getInventory().addItem(type.item());
     }
 
+    private void debugItemHash(CommandContext<Player> context) {
+        Player player = context.sender();
+        ItemStack item = player.getInventory().getItemInMainHand();
+        int matId = ItemHash.materialHash(item);
+        int metaHash = ItemHash.metaHash(item);
+        lang.message(player, "debug.hash", "" + matId, "" + metaHash, "" + ItemHash.hash(item), "" + item.hashCode());
+    }
 }

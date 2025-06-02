@@ -165,9 +165,9 @@ wand.info.misc: "<green>Typ: <reset>Restekiste<green>\nNetzwerk: <reset><1><gree
 items.noitems: "<prefix><red>In diesem Netzwerk sind noch keine Items.\n<yellow>(Kisten in ungeladenen Chunks werden nicht miteinberechnet)"
 items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:</bold>\n(Kisten in ungeladenen Chunks werden nicht miteinberechnet)"
 
-item.name.wand0: <reset><red>Netzwerk Konfigurator <green>[Filter]
+item.name.wand0: <reset><red>Netzwerk Konfigurator <green>[Material Filter]
 item.name.wand1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
-item.name.wand2: <reset><red>Netzwerk Konfigurator <dark_green>[Filter (Strikt)]
+item.name.wand2: <reset><red>Netzwerk Konfigurator <dark_green>[Strikter Filter]
 item.name.component.input: <reset>Einfüllkiste
 item.name.component.sorting: <reset>Sortierkiste
 item.name.component.misc: <reset>Restekiste

@@ -167,7 +167,7 @@ wand.info.misc: "<green>Type: <reset>Misc Container<green>\nNetwork: <reset><1><
 items.noitems: "<prefix><red>There are no items in your storage network. (Components in unloaded chunks are not counted!)"
 items.message: "<green><bold>Total items in network <white><1><green>:</bold>\n(Items in unloaded chunks are not counted!)"
 
-item.name.wand0: <reset><red>Network Wand <green>[Filter]
+item.name.wand0: <reset><red>Network Wand <green>[Material Filter]
 item.name.wand1: <reset><red>Network Wand <blue>[Priority]
 item.name.wand2: <reset><red>Network Wand <dark_green>[Strict Filter]
 item.name.component.input: <reset>Input Container
@@ -233,3 +233,5 @@ item.lore.upgrade.range:
   - "<reset>Depending on this server's config this applies to all components in the network or just that single component"
 
 notice: <yellow>Having inventory problems? Try out <white>/networks <yellow>to constructor a fully automated storage network!
+
+debug.hash: "<reset>Material ID: <1> \nMeta Hash: <2> \nFused Hash: <3>\nStack Hash: <4>"

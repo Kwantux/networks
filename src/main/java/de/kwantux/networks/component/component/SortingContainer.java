@@ -5,6 +5,7 @@ import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
+import de.kwantux.networks.utils.ItemHash;
 import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
@@ -109,10 +110,11 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
 
     @Override
     public boolean accept(@Nonnull ItemStack stack) {
-        int matId = stack.getType().ordinal();
-        int metaHash = stack.getItemMeta().hashCode();
+        int matId = ItemHash.materialHash(stack); // For material filtering
+        int metaHash = ItemHash.metaHash(stack); // Legacy compatibility
+        int fusedHash = ItemHash.fusedHash(stack); // For strict filtering
         for (int filter : filters) {
-            if (matId == filter || metaHash == filter) return true;
+            if (matId == filter || metaHash == filter || fusedHash == filter) return true;
         }
         return false;
     }
