@@ -102,7 +102,7 @@ public class CraftingManager {
     }
 
     private void registerRecipes() {
-        registerItem("wand", getNetworkWand(0));
+        registerItem("wand", getNetworkWand(2));
         for (ComponentType type : ComponentType.types.values()) {
             registerComponent(type);
         };
