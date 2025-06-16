@@ -19,11 +19,11 @@ import javax.annotation.Nullable;
 
 import static de.kwantux.networks.Main.dcu;
 
-public class ComponentListener implements Listener {
+public class ComponentDonateListener implements Listener {
 
     private Manager manager;
 
-    public ComponentListener(Main plugin) {
+    public ComponentDonateListener(Main plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         this.manager = plugin.getNetworkManager();
     }

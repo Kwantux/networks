@@ -116,8 +116,8 @@ public final class Main extends JavaPlugin {
         dcu = new DoubleChestUtils(mgr);
         mgr.loadData();
 
-        new ComponentListener(this);
-        new BlockPlaceListener(this);
+        new ComponentDonateListener(this);
+        new ComponentInstallListener(this);
         new BlockBreakListener(this);
         new WandListener(this);
         new PlayerJoinListener(this);

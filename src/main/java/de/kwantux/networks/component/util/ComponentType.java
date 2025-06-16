@@ -45,8 +45,12 @@ public class ComponentType {
     public static ComponentType MISC = MiscContainer.register();
 
 
-    public static ComponentType register(Class<? extends BasicComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, boolean persistent, BiFunction<Origin, PersistentDataContainer, ?extends BasicComponent> constructor, Map<String, Object> defaultProperties) {
+    public static @Nullable ComponentType register(Class<? extends BasicComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, boolean persistent, BiFunction<Origin, PersistentDataContainer, ?extends BasicComponent> constructor, Map<String, Object> defaultProperties) {
         ComponentType type = new ComponentType(clazz, tag, name, donator, acceptor, supplier, requestor, persistent, constructor, defaultProperties);
+        if (tags.containsKey(tag)) {
+            Main.logger.severe("Component type " + tag + " already registered! This is a bug in either Networks or any addon for it.");
+            return null;
+        }
         tags.put(tag, type);
         types.put(clazz, type);
         return type;

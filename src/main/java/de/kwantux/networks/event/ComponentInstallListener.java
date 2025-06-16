@@ -17,9 +17,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import static de.kwantux.networks.Main.*;
 
-public class BlockPlaceListener implements Listener {
+public class ComponentInstallListener implements Listener {
 
-    public BlockPlaceListener (Main plugin) {
+    public ComponentInstallListener(Main plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
