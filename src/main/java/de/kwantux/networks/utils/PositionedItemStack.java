@@ -26,6 +26,10 @@ public class PositionedItemStack extends ItemStack {
         return slot;
     }
 
+    public int hashCode() {
+        return super.hashCode() + inventory.hashCode() + slot;
+    }
+
 
     public static Set<PositionedItemStack> fromInventory(@Nullable org.bukkit.inventory.Inventory inventory) {
         Set<PositionedItemStack> stacks = new HashSet<>();
