@@ -20,8 +20,7 @@ public class Sorter {
      * Transmit an item stack from one module to another
      */
     public static synchronized void transmit(@Nonnull Transaction transaction) {
-        removeItem(transaction);
-        addItem(transaction);
+        if (removeItem(transaction)) addItem(transaction);
     }
 
     /**
@@ -34,8 +33,11 @@ public class Sorter {
     /**
      * Perform the item removal part of a transaction
      */
-    public static synchronized void removeItem(Transaction transaction) {
+    public static synchronized boolean removeItem(Transaction transaction) {
+        boolean itemExists = transaction.source().inventory().contains(transaction.stack());
+        if (!itemExists) return false;
         transaction.source().inventory().removeItem(transaction.stack());
+        return true;
     }
 
     /**
