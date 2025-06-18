@@ -2,12 +2,13 @@ package de.kwantux.networks;
 
 import de.kwantux.networks.component.module.*;
 import de.kwantux.networks.utils.FoliaUtils;
+import de.kwantux.networks.utils.PositionedItemStack;
 import de.kwantux.networks.utils.Transaction;
-import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 import static de.kwantux.networks.Main.logger;
@@ -52,7 +53,7 @@ public class Sorter {
      * @param source The donating module
      * @param items The items to donate
      */
-    public static synchronized void donate(Network network, ActiveModule source, List<ItemStack> items) {
+    public static synchronized void donate(Network network, ActiveModule source, Set<PositionedItemStack> items) {
         for (Transaction transaction : tryDonation(network, source, items)) {
             transmit(transaction);
         }
@@ -65,9 +66,9 @@ public class Sorter {
      * @param items The items to donate
      * @return The list of possible transactions
      */
-    public static synchronized List<Transaction> tryDonation(Network network, ActiveModule source, List<ItemStack> items) {
-        ArrayList<Transaction> transactions = new ArrayList<>();
-        for (ItemStack item : items) {
+    public static synchronized Set<Transaction> tryDonation(Network network, ActiveModule source, Set<PositionedItemStack> items) {
+        Set<Transaction> transactions = new HashSet<>();
+        for (PositionedItemStack item : items) {
             if (item == null) continue;
             try {
                 for (Acceptor acceptor : network.acceptors()) {
@@ -106,7 +107,7 @@ public class Sorter {
      * @param target The target module that will receive the items
      * @param items The list of item stacks to be requested from the network
      */
-    public static synchronized void request(Network network, ActiveModule target, List<ItemStack> items) {
+    public static synchronized void request(Network network, ActiveModule target, Set<PositionedItemStack> items) {
         for (Transaction transaction : tryRequest(network, target, items)) {
             transmit(transaction);
         }
@@ -119,10 +120,10 @@ public class Sorter {
      * @param items The items to request
      * @return The list of possible transactions
      */
-    public static synchronized List<Transaction> tryRequest(Network network, ActiveModule target, List<ItemStack> items) {
-        ArrayList<Transaction> transactions = new ArrayList<>();
+    public static synchronized Set<Transaction> tryRequest(Network network, ActiveModule target, Set<PositionedItemStack> items) {
+        Set<Transaction> transactions = new HashSet<>();
         List<? extends Supplier> suppliers = network.suppliers();
-        for (ItemStack item : items) {
+        for (PositionedItemStack item : items) {
             if (item == null) continue;
             try {
                 for (Supplier supplier : suppliers) {

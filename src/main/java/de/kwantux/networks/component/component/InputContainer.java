@@ -6,13 +6,16 @@ import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.networks.utils.Origin;
+import de.kwantux.networks.utils.PositionedItemStack;
 import net.kyori.adventure.text.Component;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 public class InputContainer extends BlockComponent implements Donator {
 
@@ -66,8 +69,8 @@ public class InputContainer extends BlockComponent implements Donator {
     }
 
     @Override
-    public List<ItemStack> donate() {
-        return Arrays.asList(inventory().getContents());
+    public Set<PositionedItemStack> donate() {
+        return PositionedItemStack.fromInventory(inventory());
     }
 
     @Override
