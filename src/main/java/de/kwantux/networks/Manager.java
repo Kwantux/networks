@@ -87,7 +87,9 @@ public final class Manager {
     public void loadData() {
         networks.clear();
         for (String id : storage.getNetworkIDs()) {
-            networks.put(id, storage.loadNetwork(id));
+            Network network = storage.loadNetwork(id);
+            if (network == null) continue;
+            networks.put(id, network);
             for (BasicComponent coponent : networks.get(id).components()) {
                 origins.put(coponent.origin(), networks.get(id));
             }

@@ -11,6 +11,7 @@ import de.kwantux.networks.utils.Origin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -80,7 +81,7 @@ public class Storage {
      * @param id
      * @return
      */
-    public Network loadNetwork(String id) {
+    public @Nullable Network loadNetwork(String id) {
         try {
             String json = Files.readString(path.resolve(id+".json"), StandardCharsets.UTF_8);
             try {
@@ -93,13 +94,14 @@ public class Storage {
                     saveNetwork(id, network);
                     return network;
                 } catch (RuntimeException ignored) {
-                    logger.severe("Unable to load Network with ID " + id + "\n" + "The network file is likely corrupted.");
-                    throw e;
+                    logger.warning("Unable to load Network with ID " + id + "\n" + "The network file is likely corrupted. Skipping...");
+                    e.printStackTrace();
+                    return null;
                 }
             }
         } catch (IOException e) {
-            logger.severe("Unable to load Network with ID " + id + "\n" + "This is likely due to incorrectly set file permissions.");
-            throw new RuntimeException(e);
+            logger.warning("Unable to load Network with ID " + id + "\n" + "This is likely due to incorrectly set file permissions. Skipping...");
+            return null;
         }
     }
 
