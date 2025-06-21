@@ -1,11 +1,12 @@
 package de.kwantux.networks.storage;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
+import de.kwantux.networks.compat.LegacyNetwork;
 import de.kwantux.networks.component.NetworkComponent;
 import de.kwantux.networks.config.Config;
-import de.kwantux.networks.Main;
-import de.kwantux.networks.compat.LegacyNetwork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +17,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import static de.kwantux.networks.Main.logger;
 
@@ -107,8 +110,7 @@ public class Storage implements de.kwantux.networks.api.Storage {
      */
     @Override
     public boolean renameNetwork(String id, String newName) {
-        if (!Network.validName(id)) return false; // Illegal characters
-        if (path.resolve(id+".json").toFile().exists()) return false;
+        if (path.resolve(newName+".json").toFile().exists()) return false;
         try {
             Files.move(path.resolve(id+".json"), path.resolve(newName+".json"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
