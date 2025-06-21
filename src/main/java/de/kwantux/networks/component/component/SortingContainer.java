@@ -111,10 +111,9 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
     @Override
     public boolean accept(@Nonnull ItemStack stack) {
         int matId = ItemHash.materialHash(stack); // For material filtering
-        int metaHash = ItemHash.metaHash(stack); // Legacy compatibility
-        int fusedHash = ItemHash.fusedHash(stack); // For strict filtering
+        int strictHash = ItemHash.strictHash(stack); // For strict filtering
         for (int filter : filters) {
-            if (matId == filter || metaHash == filter || fusedHash == filter) return true;
+            if (matId == filter || strictHash == filter) return true;
         }
         return false;
     }

@@ -11,19 +11,13 @@ public class ItemHash {
 
     static {
         ItemStack blank = new ItemStack(Material.STONE);
-        BLANK_META_HASH = blank.getItemMeta().hashCode();
+        BLANK_META_HASH = metaHash(blank);
     }
 
-    public static int hash(@Nonnull ItemStack stack) {
-        int matId = stack.getType().ordinal();
-        int metaHash = stack.getItemMeta().hashCode();
+    public static int strictHash(@Nonnull ItemStack stack) {
+        int matId = materialHash(stack);
+        int metaHash = metaHash(stack);
         if (metaHash == BLANK_META_HASH) return matId;
-        return matId + metaHash;
-    }
-
-    public static int fusedHash(@Nonnull ItemStack stack) {
-        int matId = stack.getType().ordinal();
-        int metaHash = stack.getItemMeta().hashCode();
         return matId + metaHash;
     }
 
@@ -31,7 +25,7 @@ public class ItemHash {
         return stack.getType().ordinal();
     }
 
-    public static int metaHash(@Nonnull ItemStack stack) {
-        return stack.getItemMeta().hashCode();
+    private static int metaHash(@Nonnull ItemStack stack) {
+        return stack.getItemMeta().getAsString().hashCode();
     }
 }

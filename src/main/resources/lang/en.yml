@@ -234,4 +234,4 @@ item.lore.upgrade.range:
 
 notice: <yellow>Having inventory problems? Try out <white>/networks <yellow>to constructor a fully automated storage network!
 
-debug.hash: "<reset>Material ID: <1> \nMeta Hash: <2> \nFused Hash: <3>\nStack Hash: <4>"
+debug.hash: "<reset>Material ID: <1> \nStrict Hash: <2>"

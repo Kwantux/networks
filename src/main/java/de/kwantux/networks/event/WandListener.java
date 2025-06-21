@@ -133,7 +133,7 @@ public class WandListener implements Listener {
                         }
                     }
                     if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer container) {
-                        int hash = ItemHash.hash(itemInOffHand);
+                        int hash = ItemHash.strictHash(itemInOffHand);
                         container.addFilter(hash);
                         FilterTranslator.updateTranslation(hash, itemInOffHand.displayName().hoverEvent(HoverEvent.showItem(
                                 HoverEvent.ShowItem.showItem(
@@ -152,7 +152,7 @@ public class WandListener implements Listener {
                         for (ItemStack item : container.inventory().getContents()) {
                             // Empty slots are null
                             if (item == null) continue;
-                            int hash = ItemHash.hash(item);
+                            int hash = ItemHash.strictHash(item);
                             if (!filters.contains(hash)) {
                                 container.addFilter(hash);
                                 filters.add(hash);
@@ -173,8 +173,7 @@ public class WandListener implements Listener {
                         BasicComponent c = dcu.componentAt(l);
                         if (c instanceof SortingContainer container) {
                             container.removeFilter(ItemHash.materialHash(itemInOffHand));
-                            container.removeFilter(ItemHash.metaHash(itemInOffHand));
-                            container.removeFilter(ItemHash.hash(itemInOffHand));
+                            container.removeFilter(ItemHash.strictHash(itemInOffHand));
                             lang.message(p, "component.sorting.removeitem", l.displayText(), itemInOffHand.displayName());
                         }
                     }
@@ -185,7 +184,7 @@ public class WandListener implements Listener {
                             // Empty slots are null
                             if (item == null) continue;
                             if (mode == 2) {
-                                int hash = ItemHash.hash(item);
+                                int hash = ItemHash.strictHash(item);
                                 filters.add(hash);
                                 FilterTranslator.updateTranslation(hash, item.displayName().hoverEvent(HoverEvent.showItem(
                                         HoverEvent.ShowItem.showItem(

@@ -232,7 +232,6 @@ public class NetworksCommand extends CommandHandler {
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("debug")
                 .literal("itemhash")
-                .literal("strict")
                 .permission("networks.debug")
                 .senderType(Player.class)
                 .handler(this::debugItemHash)
@@ -709,8 +708,6 @@ public class NetworksCommand extends CommandHandler {
     private void debugItemHash(CommandContext<Player> context) {
         Player player = context.sender();
         ItemStack item = player.getInventory().getItemInMainHand();
-        int matId = ItemHash.materialHash(item);
-        int metaHash = ItemHash.metaHash(item);
-        lang.message(player, "debug.hash", "" + matId, "" + metaHash, "" + ItemHash.hash(item), "" + item.hashCode());
+        lang.message(player, "debug.hash", "" + ItemHash.materialHash(item), "" + ItemHash.strictHash(item), "");
     }
 }
