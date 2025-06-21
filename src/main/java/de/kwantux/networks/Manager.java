@@ -64,6 +64,8 @@ public final class Manager {
         if (networks.get(newname) != null) return false;
         network.name(newname);
         storage.renameNetwork(name, newname);
+        networks.remove(name);
+        networks.put(newname, network);
         return true;
     }
 

@@ -112,8 +112,7 @@ public class Storage {
      * @return
      */
     public boolean renameNetwork(String id, String newName) {
-        if (!Network.validName(id)) return false; // Illegal characters
-        if (path.resolve(id+".json").toFile().exists()) return false;
+        if (path.resolve(newName+".json").toFile().exists()) return false;
         try {
             Files.move(path.resolve(id+".json"), path.resolve(newName+".json"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
