@@ -5,15 +5,15 @@ import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.manual.ManualManager;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
-import de.kwantux.networks.component.ComponentType;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.MiscContainer;
 import de.kwantux.networks.component.component.SortingContainer;
+import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
-import de.kwantux.networks.inventory.InventoryMenuManager;
 import de.kwantux.networks.utils.BlockLocation;
+import de.kwantux.networks.utils.ItemHash;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
@@ -228,6 +228,13 @@ public class NetworksCommand extends CommandHandler {
                 .permission("networks.give")
                 .senderType(Player.class)
                 .handler(this::giveUpgradeRange)
+        );
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("debug")
+                .literal("itemhash")
+                .permission("networks.debug")
+                .senderType(Player.class)
+                .handler(this::debugItemHash)
         );
     }
 
@@ -473,11 +480,11 @@ public class NetworksCommand extends CommandHandler {
             return;
         }
 
-        for (NetworkComponent component : network.components()) {
+        for (BasicComponent component : network.components()) {
             sender.sendMessage(
                     Objects.requireNonNullElse(lang.getFinal("item.name.component."+component.type().tag()), Component.text("Unknown Component type: " +  component.type().tag()))
                     .append(Component.text(":  ")
-                    .append(component.pos().displayText()))
+                    .append(component.origin().displayText()))
                     .hoverEvent(HoverEvent.showText(componentInfo(network, component, false)))
             );
         }
@@ -487,7 +494,7 @@ public class NetworksCommand extends CommandHandler {
         CommandSender sender = context.sender();
         BlockLocation location = new BlockLocation((Location) context.get("location"));
         Network network = dcu.networkWithComponentAt(location);
-        NetworkComponent component = dcu.componentAt(location);
+        BasicComponent component = dcu.componentAt(location);
         if (component == null) {
             lang.message(sender, "component.info.empty", location.toString());
             return;
@@ -508,11 +515,11 @@ public class NetworksCommand extends CommandHandler {
      * @param isProxy Whether the component is a isProxy
      * @return A {@link Component} containing information about the component
      */
-    public static Component componentInfo(Network network, @Nullable NetworkComponent component, boolean isProxy) {
+    public static Component componentInfo(Network network, @Nullable BasicComponent component, boolean isProxy) {
         try {
             return switch (component) {
                 case InputContainer container ->
-                        lang.get("wand.info.input", network.name(), component.pos().toString(), String.valueOf(container.range()));
+                        lang.get("wand.info.input", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.range())));
                 case SortingContainer container -> {
                     Component filters = Component.text("[");
                     Set<Component> filterSet = Arrays.stream(container.filters()).mapToObj(
@@ -523,10 +530,10 @@ public class NetworksCommand extends CommandHandler {
                         filters = filters.append(Component.text(", "));
                     }
                     filters = filters.append(Component.text("]"));
-                    yield lang.get("wand.info.sorting", network.displayText(), component.pos().displayText(), Component.text(String.valueOf(container.acceptorPriority())), filters);
+                    yield lang.get("wand.info.sorting", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())), filters);
                 }
                 case MiscContainer container ->
-                        lang.get("wand.info.misc", network.name(), component.pos().toString(), String.valueOf(container.acceptorPriority()));
+                        lang.get("wand.info.misc", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())));
                 case null, default -> Component.empty();
             };
 
@@ -678,7 +685,7 @@ public class NetworksCommand extends CommandHandler {
 
     private void giveWand(CommandContext<Player> context) {
         Player player = context.sender();
-        ItemStack wand = crf.getNetworkWand(0);
+        ItemStack wand = crf.getNetworkWand(2);
         player.getInventory().addItem(wand);
     }
 
@@ -698,14 +705,9 @@ public class NetworksCommand extends CommandHandler {
         player.getInventory().addItem(type.item());
     }
 
-    // Currently disabled
-    private void view(CommandContext<CommandSender> context) {
-        CommandSender sender = context.sender();
-        Network network = selection(sender);
-        if (network == null) return;
-        InventoryMenuManager.addInventoryMenu((Player) sender, network);
-
+    private void debugItemHash(CommandContext<Player> context) {
+        Player player = context.sender();
+        ItemStack item = player.getInventory().getItemInMainHand();
+        lang.message(player, "debug.hash", "" + ItemHash.materialHash(item), "" + ItemHash.strictHash(item), "");
     }
-
-
 }

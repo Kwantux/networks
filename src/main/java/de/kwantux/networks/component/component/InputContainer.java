@@ -1,22 +1,23 @@
 package de.kwantux.networks.component.component;
 
-import de.kwantux.networks.component.ComponentType;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.component.module.Donator;
+import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.NamespaceUtils;
+import de.kwantux.networks.utils.Origin;
+import de.kwantux.networks.utils.PositionedItemStack;
 import net.kyori.adventure.text.Component;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
-public class InputContainer extends NetworkComponent implements Donator {
+public class InputContainer extends BlockComponent implements Donator {
 
     public static ComponentType type;
     public ComponentType type() {
@@ -26,11 +27,14 @@ public class InputContainer extends NetworkComponent implements Donator {
     private int range = 0;
 
 
-    public static InputContainer create(BlockLocation pos, PersistentDataContainer container) {
-        if (container == null) return new InputContainer(pos);
-        return new InputContainer(pos,
-                Objects.requireNonNullElse(container.get(NamespaceUtils.RANGE.key(), PersistentDataType.INTEGER), 0)
-        );
+    public static @Nullable InputContainer create(Origin origin, PersistentDataContainer container) {
+        if (origin instanceof BlockLocation pos) {
+            if (container == null) return new InputContainer(pos);
+            return new InputContainer(pos,
+                    Objects.requireNonNullElse(container.get(NamespaceUtils.RANGE.key(), PersistentDataType.INTEGER), 0)
+            );
+        }
+        return null;
     }
 
     public InputContainer(BlockLocation pos, int range) {
@@ -42,7 +46,7 @@ public class InputContainer extends NetworkComponent implements Donator {
         super(pos);
     }
 
-    private static Map<String, Object> defaultProperties = new HashMap<>();
+    private static final Map<String, Object> defaultProperties = new HashMap<>();
 
     static {
         defaultProperties.put(NamespaceUtils.RANGE.name, 0);
@@ -57,6 +61,7 @@ public class InputContainer extends NetworkComponent implements Donator {
                 false, 
                 false, 
                 false,
+                true,
                 InputContainer::create,
                 defaultProperties
         );
@@ -64,8 +69,8 @@ public class InputContainer extends NetworkComponent implements Donator {
     }
 
     @Override
-    public List<ItemStack> donate() {
-        return Arrays.asList(inventory().getContents());
+    public Set<PositionedItemStack> donate() {
+        return PositionedItemStack.fromInventory(inventory());
     }
 
     @Override
@@ -73,7 +78,6 @@ public class InputContainer extends NetworkComponent implements Donator {
         return range;
     }
 
-    @Override
     public void rangeUp() {
         this.range++;
     }

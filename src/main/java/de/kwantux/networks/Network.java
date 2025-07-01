@@ -1,11 +1,11 @@
 package de.kwantux.networks;
 
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
 import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.networks.storage.SerializableNetwork;
-import de.kwantux.networks.utils.BlockLocation;
+import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -24,7 +24,7 @@ public class Network {
 
     private UUID owner;
     private List<UUID> users = new ArrayList<>();
-    private List<NetworkComponent> components = new ArrayList<>();
+    private List<BasicComponent> components = new ArrayList<>();
 
     // Network Properties
 
@@ -81,13 +81,13 @@ public class Network {
         users.remove(player);
     }
 
-    public List<? extends NetworkComponent> components() {
+    public List<? extends BasicComponent> components() {
         return components;
     }
 
     public List<? extends Supplier> suppliers() {
         ArrayList<Supplier> suppliers = new ArrayList<>();
-        for (NetworkComponent component : components) {
+        for (BasicComponent component : components) {
             if (component instanceof Supplier) {
                 suppliers.add((Supplier) component);
             }
@@ -97,7 +97,7 @@ public class Network {
 
     public List<? extends Acceptor> acceptors() {
         ArrayList<Acceptor> acceptors = new ArrayList<>();
-        for (NetworkComponent component : components) {
+        for (BasicComponent component : components) {
             if (component instanceof Acceptor) {
                 acceptors.add((Acceptor) component);
             }
@@ -106,11 +106,11 @@ public class Network {
     }
 
     /**
-     * ONLY FOR INTERNAL USAGE AND IN {@link de.kwantux.networks.Manager#getComponent(BlockLocation)}
+     * ONLY FOR INTERNAL USAGE AND IN {@link de.kwantux.networks.Manager#getComponent(Origin)}
      */
-    public NetworkComponent getComponent(BlockLocation location) {
-        for (NetworkComponent component : components) {
-            if (component.pos().equals(location)) {
+    public BasicComponent getComponent(Origin origin) {
+        for (BasicComponent component : components) {
+            if (component.origin().equals(origin)) {
                 return component;
             }
         }
@@ -121,26 +121,26 @@ public class Network {
     /**
      * Add a component to the network
      * ONLY FOR INTERNAL USAGE
-     * Use {@link Manager#addComponent(Network, NetworkComponent)} instead
+     * Use {@link Manager#addComponent(Network, BasicComponent)} instead
      */
-    public void addComponent(NetworkComponent component) {
+    public void addComponent(BasicComponent component) {
         components.add(component);
     }
     /**
      * Add a component to the network
      * ONLY FOR INTERNAL USAGE
-     * Use {@link Manager#removeComponent(Network, NetworkComponent)} instead
+     * Use {@link Manager#removeComponent(Network, BasicComponent)} instead
      */
-    public void removeComponent(NetworkComponent component) {
+    public void removeComponent(BasicComponent component) {
         components.remove(component);
     }
     /**
      * Add a component to the network
      * ONLY FOR INTERNAL USAGE
-     * Use {@link Manager#removeComponent(Network, NetworkComponent)} instead
+     * Use {@link Manager#removeComponent(Network, BasicComponent)} instead
      */
-    public void removeComponent(BlockLocation blockLocation) {
-        components.remove(getComponent(blockLocation));
+    public void removeComponent(Origin origin) {
+        components.remove(getComponent(origin));
     }
 
     public NetworkProperties properties() {
@@ -165,17 +165,15 @@ public class Network {
 
     public ArrayList<ItemStack> items() {
         ArrayList<ItemStack> stacks = new ArrayList<>();
-        for (NetworkComponent component : components) {
-            Inventory inventory = component.inventory();
-            if (inventory == null) continue;
-            stacks.addAll(Arrays.stream(inventory.getContents()).toList());
+        for (Supplier component : suppliers()) {
+            stacks.addAll(component.supply());
         }
         return stacks;
     }
 
     public HashMap<Material, Integer> materials() {
         HashMap<Material, Integer> materials = new HashMap<>();
-        for (NetworkComponent component : components) {
+        for (BasicComponent component : components) {
             Inventory inventory = component.inventory();
             if (inventory == null) continue;
             for (ItemStack stack : inventory.getContents()) {

@@ -2,58 +2,25 @@ package de.kwantux.networks.event;
 
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
-import de.kwantux.networks.component.ComponentType;
+import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
-import de.kwantux.networks.utils.DoubleChestUtils;
 import de.kwantux.networks.utils.NamespaceUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import static de.kwantux.networks.Main.cfg;
-import static de.kwantux.networks.Main.lang;
-import static de.kwantux.networks.Main.mgr;
+import static de.kwantux.networks.Main.*;
 
-public class BlockPlaceListener implements Listener {
+public class ComponentInstallListener implements Listener {
 
-    public BlockPlaceListener (Main plugin) {
+    public ComponentInstallListener(Main plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
-    }
-
-    @EventHandler(priority= EventPriority.HIGH)
-    public void onBlockPlace(BlockPlaceEvent event) {
-        if (!event.isCancelled()) {
-
-            Player p = event.getPlayer();
-            BlockLocation pos = new BlockLocation(event.getBlock());
-            Network network = mgr.selection(p);
-
-            ItemStack item = event.getItemInHand().clone();
-            PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
-
-            ComponentType type = ComponentType.get(container.get(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING));
-
-            if (type == null) return;
-
-            if (cfg.checkLocation(pos, type)) {
-
-                if (network == null) {
-                    lang.message(p, "select.noselection");
-                    event.setCancelled(true);
-                    return;
-                }
-
-                mgr.createComponent(network, event.getBlock().getType(), type, pos, container);
-                lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
-            }
-        }
     }
 
     @EventHandler(priority= EventPriority.LOW)
@@ -90,7 +57,7 @@ public class BlockPlaceListener implements Listener {
                     return;
                 }
 
-                mgr.createComponent(network, event.getClickedBlock().getType(), type, pos, container);
+                mgr.createComponent(network, type, pos, container);
                 item.setAmount(item.getAmount() - 1);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
             }

@@ -12,7 +12,7 @@ import java.util.UUID;
 import static de.kwantux.networks.Main.lang;
 
 
-public class BlockLocation {
+public class BlockLocation extends Origin {
     private int x;
     private int y;
     private int z;
@@ -107,5 +107,9 @@ public class BlockLocation {
             return Integer.MAX_VALUE;
         }
         return Math.sqrt(Math.pow(this.x-second.getX(),2)+Math.pow(this.y-second.getY(),2)+Math.pow(this.z-second.getZ(),2));
+    }
+
+    public static void register() {
+        Origin.register(BlockLocation.class, "block");
     }
 }

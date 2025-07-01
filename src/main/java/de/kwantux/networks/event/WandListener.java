@@ -4,13 +4,14 @@ import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.commands.NetworksCommand;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BasicComponent;
+import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.SortingContainer;
 import de.kwantux.networks.component.module.Acceptor;
-import de.kwantux.networks.component.module.ActiveModule;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
+import de.kwantux.networks.utils.ItemHash;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Material;
@@ -67,14 +68,14 @@ public class WandListener implements Listener {
                 }
 
                 if (l == null) return;
-                NetworkComponent component = dcu.componentAt(l);
+                BasicComponent component = dcu.componentAt(l);
                 Network network = null;
-                if (component != null) network = dcu.networkWithComponentAt(component.pos());
+                if (component != null) network = dcu.networkWithComponentAt(component.origin());
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                         if (component != null) {
-                            boolean isProxy = (network.getComponent(component.pos()) == null);
+                            boolean isProxy = (network.getComponent(component.origin()) == null);
                             p.sendMessage(NetworksCommand.componentInfo(network, component, isProxy));
                         }
                         else
@@ -101,9 +102,9 @@ public class WandListener implements Listener {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 
                     if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer) {
-                        NetworkComponent c = dcu.componentAt(l);
+                        BasicComponent c = dcu.componentAt(l);
                         if (c instanceof SortingContainer container) {
-                            container.addFilter(itemInOffHand.getType().ordinal());
+                            container.addFilter(ItemHash.materialHash(itemInOffHand));
                             lang.message(p, "component.sorting.setitem", l.toString(), itemInOffHand.getType().toString());
                         }
                     }
@@ -132,7 +133,7 @@ public class WandListener implements Listener {
                         }
                     }
                     if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer container) {
-                        int hash = itemInOffHand.getItemMeta().hashCode();
+                        int hash = ItemHash.strictHash(itemInOffHand);
                         container.addFilter(hash);
                         FilterTranslator.updateTranslation(hash, itemInOffHand.displayName().hoverEvent(HoverEvent.showItem(
                                 HoverEvent.ShowItem.showItem(
@@ -151,7 +152,7 @@ public class WandListener implements Listener {
                         for (ItemStack item : container.inventory().getContents()) {
                             // Empty slots are null
                             if (item == null) continue;
-                            int hash = item.getItemMeta().hashCode();
+                            int hash = ItemHash.strictHash(item);
                             if (!filters.contains(hash)) {
                                 container.addFilter(hash);
                                 filters.add(hash);
@@ -169,11 +170,10 @@ public class WandListener implements Listener {
                 if (action.equals(Action.LEFT_CLICK_BLOCK)) {
 
                     if ((mode == 0 || mode == 2) && dcu.componentAt(l) instanceof SortingContainer && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
-                        NetworkComponent c = dcu.componentAt(l);
+                        BasicComponent c = dcu.componentAt(l);
                         if (c instanceof SortingContainer container) {
-                            int hash = itemInOffHand.getItemMeta().hashCode();
-                            container.removeFilter(itemInOffHand.getType().ordinal());
-                            container.removeFilter(hash);
+                            container.removeFilter(ItemHash.materialHash(itemInOffHand));
+                            container.removeFilter(ItemHash.strictHash(itemInOffHand));
                             lang.message(p, "component.sorting.removeitem", l.displayText(), itemInOffHand.displayName());
                         }
                     }
@@ -184,7 +184,7 @@ public class WandListener implements Listener {
                             // Empty slots are null
                             if (item == null) continue;
                             if (mode == 2) {
-                                int hash = item.getItemMeta().hashCode();
+                                int hash = ItemHash.strictHash(item);
                                 filters.add(hash);
                                 FilterTranslator.updateTranslation(hash, item.displayName().hoverEvent(HoverEvent.showItem(
                                         HoverEvent.ShowItem.showItem(
@@ -218,7 +218,7 @@ public class WandListener implements Listener {
             if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)) {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                     event.setCancelled(true);
-                    NetworkComponent component = dcu.componentAt(l);
+                    BasicComponent component = dcu.componentAt(l);
                     Network network = dcu.networkWithComponentAt(l);
                     if (component == null) {
                         lang.message(p, "component.nocomponent");
@@ -232,9 +232,9 @@ public class WandListener implements Listener {
                         tier = network.rangeTier();
                         rangeUp = () -> network.range(ranges[tier+1]);
                     }
-                    else if (component instanceof ActiveModule module) {
-                        tier = module.range();
-                        rangeUp = module::rangeUp;
+                    else if (component instanceof InputContainer container) {
+                        tier = container.range();
+                        rangeUp = container::rangeUp;
                     }
                     else {
                         lang.message(p, "rangeupgrade.passivecomponent");
@@ -249,7 +249,7 @@ public class WandListener implements Listener {
                         rangeUp.run();
                         if (Config.rangePerNetwork)
                             lang.message(p, "rangeupgrade.success.network", String.valueOf(tier+1), network.name());
-                        else lang.message(p, "rangeupgrade.success", String.valueOf(tier+1), component.pos().toString());
+                        else lang.message(p, "rangeupgrade.success", String.valueOf(tier+1), component.origin().toString());
                     }
                     if (tier == ranges.length) {
                         lang.message(p, "rangeupgrade.last");
