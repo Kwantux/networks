@@ -1,10 +1,10 @@
 package de.kwantux.networks.commands;
 
 import de.kwantux.config.util.exceptions.InvalidNodeException;
-import de.kwantux.networks.Network;
-import de.kwantux.networks.component.ComponentType;
-import io.leangen.geantyref.TypeToken;
 import de.kwantux.networks.Main;
+import de.kwantux.networks.Network;
+import de.kwantux.networks.component.util.ComponentType;
+import io.leangen.geantyref.TypeToken;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.caption.Caption;
 import org.incendo.cloud.caption.CaptionProvider;

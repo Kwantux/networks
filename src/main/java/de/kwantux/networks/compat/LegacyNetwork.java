@@ -2,12 +2,12 @@ package de.kwantux.networks.compat;
 
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.component.component.InputContainer;
+import de.kwantux.networks.component.component.MiscContainer;
 import de.kwantux.networks.component.component.SortingContainer;
 import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.networks.storage.SerializableNetwork;
-import de.kwantux.networks.component.component.MiscContainer;
 import de.kwantux.networks.utils.BlockLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,12 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public record LegacyNetwork(
     UUID owner,
@@ -40,7 +35,7 @@ public record LegacyNetwork(
         NetworkProperties properties = Main.cfg.defaultProperties();
         properties.baseRange(maxRange);
 
-        List<NetworkComponent> components = new ArrayList<>();
+        List<BlockComponent> components = new ArrayList<>();
         Arrays.stream(input_containers).toList().forEach(input_container -> components.add(input_container.convert()));
         Arrays.stream(sorting_containers).toList().forEach(sorting_container -> components.add(sorting_container.convert()));
         Arrays.stream(misc_containers).toList().forEach(misc_container -> components.add(misc_container.convert()));
@@ -54,7 +49,7 @@ public record LegacyNetwork(
                 owner,
                 users,
                 properties,
-                components.toArray(new NetworkComponent[0])
+                components.toArray(new BlockComponent[0])
             )
         );
     }
@@ -76,36 +71,42 @@ public record LegacyNetwork(
     }
 
     record LegacyInputContainer(
-            LegacyLocation pos
+            LegacyLocation legacyLocation
     ) {
         public @Nullable InputContainer convert() {
-            if (pos == null) return null;
-            return new InputContainer(pos.convert());
+            if (legacyLocation == null) return null;
+            BlockLocation pos2 = legacyLocation.convert();
+            if (pos2 == null) return null;
+            return new InputContainer(pos2);
         }
     }
 
     record LegacySortingContainer(
-            LegacyLocation pos,
+            LegacyLocation legacyLocation,
             String[] items,
             int priority
     ) {
         public @Nullable SortingContainer convert() {
+            if (legacyLocation == null) return null;
+            BlockLocation pos = legacyLocation.convert();
             if (pos == null) return null;
             int[] filters = new int[items.length];
             for (int i = 0; i < items.length; i++) {
                filters[i] = Objects.requireNonNullElse(Material.getMaterial(items[i]), Material.AIR).ordinal();
             }
-            return new SortingContainer(pos.convert(), SortingContainer.convertLegacyFilters(items), priority);
+            return new SortingContainer(pos, SortingContainer.convertLegacyFilters(items), priority);
         }
     }
 
     record LegacyMiscContainer(
-            LegacyLocation pos,
+            LegacyLocation legacyLocation,
             int priority
     ) {
         public @Nullable MiscContainer convert() {
+            if (legacyLocation == null) return null;
+            BlockLocation pos = legacyLocation.convert();
             if (pos == null) return null;
-            return new MiscContainer(pos.convert(), priority);
+            return new MiscContainer(pos, priority);
         }
     }
 

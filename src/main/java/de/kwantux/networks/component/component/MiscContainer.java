@@ -1,22 +1,24 @@
 package de.kwantux.networks.component.component;
 
-import de.kwantux.networks.component.ComponentType;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
+import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.NamespaceUtils;
+import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class MiscContainer extends NetworkComponent implements Acceptor, Supplier {
+public class MiscContainer extends BlockComponent implements Acceptor, Supplier {
 
     public static ComponentType type;
     public ComponentType type() {
@@ -26,12 +28,15 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
     private int acceptorPriority = -20;
     private int supplierPriority = 5;
 
-    public static MiscContainer create(BlockLocation pos, PersistentDataContainer container) {
-        if (container == null) return new MiscContainer(pos);
-        return new MiscContainer(pos,
-                Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), -20),
-                Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 5)
-        );
+    public static @Nullable MiscContainer create(Origin origin, PersistentDataContainer container) {
+        if (origin instanceof BlockLocation pos) {
+            if (container == null) return new MiscContainer(pos);
+            return new MiscContainer(pos,
+                    Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), -20),
+                    Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 5)
+            );
+        }
+        return null;
     }
 
     public MiscContainer(BlockLocation pos, int acceptorPriority, int supplierPriority) {
@@ -63,6 +68,7 @@ public class MiscContainer extends NetworkComponent implements Acceptor, Supplie
                 true,
                 true,
                 false,
+                true,
                 MiscContainer::create,
                 defaultProperties
         );

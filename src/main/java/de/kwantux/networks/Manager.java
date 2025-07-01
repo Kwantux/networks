@@ -1,13 +1,12 @@
 package de.kwantux.networks;
 
 
-import de.kwantux.networks.component.ComponentType;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BasicComponent;
+import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.storage.Storage;
-import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.DoubleChestUtils;
-import org.bukkit.Material;
+import de.kwantux.networks.utils.Origin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -18,12 +17,12 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
-public final class Manager implements de.kwantux.networks.api.Manager {
-    private final de.kwantux.networks.api.Storage storage;
+public final class Manager {
+    private final Storage storage;
     private final DoubleChestUtils dcu;
 
     private HashMap<String, Network> networks = new HashMap<>();
-    private HashMap<BlockLocation, Network> locations = new HashMap<>();
+    private HashMap<Origin, Network> origins = new HashMap<>();
 
     private HashMap<CommandSender, Network> selections = new HashMap<>();
     private final ArrayList<UUID> forceMode = new ArrayList<>();
@@ -49,7 +48,7 @@ public final class Manager implements de.kwantux.networks.api.Manager {
     public boolean delete(String id) {
         if (networks.get(id) != null) {
             transferRequests.remove(networks.get(id));
-            locations.values().removeIf(network -> network.name().equals(id));
+            origins.values().removeIf(network -> network.name().equals(id));
             selections.values().removeIf(network -> network.name().equals(id));
             networks.remove(id);
             storage.delete(id);
@@ -73,7 +72,6 @@ public final class Manager implements de.kwantux.networks.api.Manager {
     /**
      * @return
      */
-    @Override
     public Collection<Network> getNetworks() {
         return networks.values();
     }
@@ -81,7 +79,6 @@ public final class Manager implements de.kwantux.networks.api.Manager {
     /**
      * @return
      */
-    @Override
     public Set<String> getNetworkIDs() {
         return networks.keySet();
     }
@@ -89,13 +86,14 @@ public final class Manager implements de.kwantux.networks.api.Manager {
     /**
      *
      */
-    @Override
     public void loadData() {
         networks.clear();
         for (String id : storage.getNetworkIDs()) {
-            networks.put(id, storage.loadNetwork(id));
-            for (NetworkComponent coponent : networks.get(id).components()) {
-                locations.put(coponent.pos(), networks.get(id));
+            Network network = storage.loadNetwork(id);
+            if (network == null) continue;
+            networks.put(id, network);
+            for (BasicComponent coponent : networks.get(id).components()) {
+                origins.put(coponent.origin(), networks.get(id));
             }
         }
         logger.info("Loaded " + networks.size() + " Networks");
@@ -104,7 +102,6 @@ public final class Manager implements de.kwantux.networks.api.Manager {
     /**
      *
      */
-    @Override
     public void saveData() {
         for (String id : networks.keySet()) {
             storage.saveNetwork(id, networks.get(id));
@@ -122,36 +119,36 @@ public final class Manager implements de.kwantux.networks.api.Manager {
     }
 
 
-    public void createComponent(Network network, Material material, ComponentType type, BlockLocation pos, PersistentDataContainer container) {
-        NetworkComponent component = type.create(pos, container);
+    public void createComponent(Network network, ComponentType type, Origin origin, PersistentDataContainer container) {
+        BasicComponent component = type.create(origin, container);
         addComponent(network, component);
-        if (!pos.getBlock().getType().equals(material)) pos.getBlock().setType(material);
     }
 
-    public boolean addComponent(Network network, NetworkComponent component) {
-        if (locations.containsKey(component.pos())) {
+    public boolean addComponent(Network network, BasicComponent component) {
+        if (component == null) return false;
+        if (origins.containsKey(component.origin())) {
             return false;
         }
         network.addComponent(component);
-        locations.put(component.pos(), network);
-        dcu.checkChest(component.pos());
+        origins.put(component.origin(), network);
+        dcu.checkChest(component.origin());
         return true;
     }
 
-    public void removeComponent(Network network, NetworkComponent component) {
-        if (!locations.containsKey(component.pos())) {
+    public void removeComponent(Network network, BasicComponent component) {
+        if (!origins.containsKey(component.origin())) {
             throw new IllegalArgumentException("Component " + component + " does not exist");
         }
         network.removeComponent(component);
-        locations.remove(component.pos());
+        origins.remove(component.origin());
     }
 
-    public void removeComponent(BlockLocation component) {
-        if (!locations.containsKey(component)) {
+    public void removeComponent(Origin component) {
+        if (!origins.containsKey(component)) {
             throw new IllegalArgumentException("Component " + component + " does not exist");
         }
-        locations.get(component).removeComponent(component);
-        locations.remove(component);
+        origins.get(component).removeComponent(component);
+        origins.remove(component);
     }
 
 
@@ -159,8 +156,7 @@ public final class Manager implements de.kwantux.networks.api.Manager {
      * @param location The location of the requested component
      * @return The component at that location, null if there is no component at that location
      */
-    @Override
-    public NetworkComponent getComponent(@NotNull BlockLocation location) {
+    public BasicComponent getComponent(@NotNull Origin location) {
         Network network = getNetworkWithComponent(location);
         if (network == null) return null;
         return network.getComponent(location);
@@ -170,12 +166,11 @@ public final class Manager implements de.kwantux.networks.api.Manager {
      * @param location
      * @return
      */
-    @Override
-    public Network getNetworkWithComponent(@NotNull BlockLocation location) {
+    public Network getNetworkWithComponent(@NotNull Origin location) {
         Network network = null;
-        for (BlockLocation loc : locations.keySet()) {
+        for (Origin loc : origins.keySet()) {
             if (location.equals(loc)) {
-                network = locations.get(loc);
+                network = origins.get(loc);
                 break;
             }
         }
@@ -183,7 +178,6 @@ public final class Manager implements de.kwantux.networks.api.Manager {
         return network;
     }
 
-    @Override
     public List<Network> withUser(UUID user) {
         List<Network> result = new ArrayList<>();
         for (Network net : networks.values()) {
@@ -192,7 +186,6 @@ public final class Manager implements de.kwantux.networks.api.Manager {
         return result;
     }
 
-    @Override
     public List<Network> withOwner(UUID user) {
         List<Network> result = new ArrayList<>();
         for (Network net : networks.values()) {
@@ -202,29 +195,23 @@ public final class Manager implements de.kwantux.networks.api.Manager {
     }
 
 
-    @Override
     @Nullable public Network selection(CommandSender sender) {
         return selections.get(sender);
     }
 
-    @Override
     public void select(CommandSender sender, Network network) {
         selections.put(sender, network);
     }
 
-    @Override
     public boolean permissionOwner(CommandSender sender, Network network) {
         if (sender instanceof Player player) return network.owner().equals(player.getUniqueId()) || force(player);
         return true;
     }
-    @Override
     public boolean permissionUser(CommandSender sender, Network network) {
         if (sender instanceof Player player) return network.owner().equals(player.getUniqueId()) || network.users().contains(player.getUniqueId()) || force(player);
         return true;
     }
 
-
-    @Override
     public boolean force(Player player) {
         return forceMode.contains(player.getUniqueId());
     }

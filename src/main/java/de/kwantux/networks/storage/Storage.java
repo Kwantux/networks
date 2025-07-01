@@ -5,11 +5,13 @@ import com.google.gson.GsonBuilder;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.compat.LegacyNetwork;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.config.Config;
+import de.kwantux.networks.utils.Origin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -23,25 +25,28 @@ import java.util.UUID;
 
 import static de.kwantux.networks.Main.logger;
 
-public class Storage implements de.kwantux.networks.api.Storage {
+public class Storage {
 
     private static final Logger log = LoggerFactory.getLogger(Storage.class);
     private final Main plugin;
     private final Path path;
 
-    private final Gson gson;
+    public final static Gson gson;
+
+    static {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(BasicComponent.class, new ComponentSerializer());
+        builder.registerTypeAdapter(Origin.class, new OriginSerializer());
+        if (Config.humanReadableJson) {
+            builder.setPrettyPrinting();
+        }
+        gson = builder.create();
+    }
 
     public Storage(Main plugin) {
         this.plugin = plugin;
         plugin.getDataFolder().mkdirs();
         path = plugin.getDataFolder().toPath().resolve("networks");
-
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(NetworkComponent.class, new ComponentSerializer());
-        if (Config.humanReadableJson) {
-            builder.setPrettyPrinting();
-        }
-        gson = builder.create();
     }
 
 
@@ -50,7 +55,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
      * @param owner
      * @return
      */
-    @Override
     public boolean create(String id, UUID owner) {
         if (!Network.validName(id)) return false; // Illegal characters
         if (path.resolve(id+".json").toFile().exists()) return false;
@@ -61,7 +65,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
     /**
      * @param id ID of the Network to delete
      */
-    @Override
     public void delete(String id) {
         try {
             if (Config.archiveNetworksOnDelete) {
@@ -78,8 +81,7 @@ public class Storage implements de.kwantux.networks.api.Storage {
      * @param id
      * @return
      */
-    @Override
-    public Network loadNetwork(String id) {
+    public @Nullable Network loadNetwork(String id) {
         try {
             String json = Files.readString(path.resolve(id+".json"), StandardCharsets.UTF_8);
             try {
@@ -92,13 +94,14 @@ public class Storage implements de.kwantux.networks.api.Storage {
                     saveNetwork(id, network);
                     return network;
                 } catch (RuntimeException ignored) {
-                    logger.severe("Unable to load Network with ID " + id + "\n" + "The network file is likely corrupted.");
-                    throw e;
+                    logger.warning("Unable to load Network with ID " + id + "\n" + "The network file is likely corrupted. Skipping...");
+                    e.printStackTrace();
+                    return null;
                 }
             }
         } catch (IOException e) {
-            logger.severe("Unable to load Network with ID " + id + "\n" + "This is likely due to incorrectly set file permissions.");
-            throw new RuntimeException(e);
+            logger.warning("Unable to load Network with ID " + id + "\n" + "This is likely due to incorrectly set file permissions. Skipping...");
+            return null;
         }
     }
 
@@ -108,7 +111,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
      * @param newName
      * @return
      */
-    @Override
     public boolean renameNetwork(String id, String newName) {
         if (path.resolve(newName+".json").toFile().exists()) return false;
         try {
@@ -123,7 +125,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
     /**
      * @return
      */
-    @Override
     public Set<String> getNetworkIDs() {
         try {
             Set<String> set = new HashSet<>();
@@ -138,7 +139,6 @@ public class Storage implements de.kwantux.networks.api.Storage {
     /**
      * @param network
      */
-    @Override
     public void saveNetwork(String id, Network network) {
         SerializableNetwork serializable = new SerializableNetwork(network);
         String json = gson.toJson(serializable);

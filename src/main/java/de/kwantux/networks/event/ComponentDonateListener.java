@@ -4,7 +4,7 @@ import de.kwantux.networks.Main;
 import de.kwantux.networks.Manager;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.Sorter;
-import de.kwantux.networks.component.NetworkComponent;
+import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.module.Donator;
 import de.kwantux.networks.component.module.Requestor;
 import de.kwantux.networks.utils.BlockLocation;
@@ -19,11 +19,11 @@ import javax.annotation.Nullable;
 
 import static de.kwantux.networks.Main.dcu;
 
-public class ComponentListener implements Listener {
+public class ComponentDonateListener implements Listener {
 
     private Manager manager;
 
-    public ComponentListener(Main plugin) {
+    public ComponentDonateListener(Main plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         this.manager = plugin.getNetworkManager();
     }
@@ -31,14 +31,14 @@ public class ComponentListener implements Listener {
     private void check(@Nullable org.bukkit.Location location) {
         if (location == null) return;
         BlockLocation loc = new BlockLocation(location);
-        NetworkComponent component = dcu.componentAt(loc);
+        BasicComponent component = dcu.componentAt(loc);
         if (component != null) {
             if (component instanceof Donator donator) {
-                Network network = manager.getNetworkWithComponent(component.pos());
+                Network network = manager.getNetworkWithComponent(component.origin());
                 if (network != null) Sorter.donate(network, donator);
             }
             if (component instanceof Requestor requestor) {
-                Network network = manager.getNetworkWithComponent(component.pos());
+                Network network = manager.getNetworkWithComponent(component.origin());
                 if (network != null) Sorter.request(network, requestor);
             }
         }

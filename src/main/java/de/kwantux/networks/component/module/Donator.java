@@ -1,9 +1,9 @@
 package de.kwantux.networks.component.module;
 
-import org.bukkit.inventory.ItemStack;
+import de.kwantux.networks.utils.PositionedItemStack;
 
-import java.util.List;
+import java.util.Set;
 
 public interface Donator extends ActiveModule {
-    List<ItemStack> donate();
+    Set<PositionedItemStack> donate();
 }
