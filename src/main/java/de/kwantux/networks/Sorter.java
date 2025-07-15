@@ -19,15 +19,19 @@ public class Sorter {
     /**
      * Transmit an item stack from one module to another
      */
-    public static synchronized void transmit(@Nonnull Transaction transaction) {
-        if (removeItem(transaction)) addItem(transaction);
+    public static synchronized boolean transmit(@Nonnull Transaction transaction) {
+        if (!transaction.target().spaceFree(transaction.stack())) return false;
+        if (removeItem(transaction)) return addItem(transaction);
+        return false;
     }
 
     /**
      * Perform the item addition part of a transaction
      */
-    public static synchronized void addItem(Transaction transaction) {
+    public static synchronized boolean addItem(Transaction transaction) {
+        if (!transaction.target().spaceFree(transaction.stack())) return false;
         transaction.target().inventory().addItem(transaction.stack());
+        return true;
     }
 
     /**
