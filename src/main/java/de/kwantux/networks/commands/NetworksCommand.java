@@ -215,7 +215,7 @@ public class NetworksCommand extends CommandHandler {
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("give")
                 .literal("component")
-                .required("type", componentTypeParser())
+                .required("type", componentTypeParser(true))
                 .permission("networks.give")
                 .senderType(Player.class)
                 .handler(this::giveComponent)

@@ -28,20 +28,26 @@ public final class NetworksCommandManager {
 
         // Register argument parsers
         parsers.registerParserSupplier(TypeToken.get(Network.class), op -> new NetworkParser());
-        parsers.registerParserSupplier(TypeToken.get(ComponentType.class), op -> new ComponentTypeParser());
+        parsers.registerParserSupplier(TypeToken.get(ComponentType.class), op -> new ComponentTypeParser(false));
 
         // Register caption provider
         commandManager.captionRegistry().registerProvider(
                 CaptionProvider.forCaption(Caption.of("argument.parse.failure.network"), sender -> {
                     try {
-                        return lang.getRaw("invalidnetwork");
+                        return lang.getRaw("invalid.network");
                     } catch (InvalidNodeException e) {
                         return "No such network: <input>";
                     }
                 })
         );
         commandManager.captionRegistry().registerProvider(
-                CaptionProvider.forCaption(Caption.of("argument.parse.failure.componenttype"), sender -> "No such component type: <input>")
+                CaptionProvider.forCaption(Caption.of("argument.parse.failure.componenttype"), sender -> {
+                    try {
+                        return lang.getRaw("invalid.componenttype");
+                    } catch (InvalidNodeException e) {
+                        return "No such component type: <input>";
+                    }
+                })
         );
 
         // Register command handlers
