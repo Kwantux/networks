@@ -8,12 +8,9 @@ import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.SortingContainer;
 import de.kwantux.networks.component.module.Acceptor;
-import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.ItemHash;
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -118,7 +115,7 @@ public class WandListener implements Listener {
                         for (ItemStack item : container.inventory().getContents()) {
                             // Empty slots are null
                             if (item == null) continue;
-                            Integer itemType = item.getType().ordinal();
+                            Integer itemType = ItemHash.materialHash(item);
                             if (!filters.contains(itemType)) {
                                 container.addFilter(itemType);
                                 filters.add(itemType);
@@ -135,11 +132,6 @@ public class WandListener implements Listener {
                     if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer container) {
                         int hash = ItemHash.strictHash(itemInOffHand);
                         container.addFilter(hash);
-                        FilterTranslator.updateTranslation(hash, itemInOffHand.displayName().hoverEvent(HoverEvent.showItem(
-                                HoverEvent.ShowItem.showItem(
-                                        Key.key(itemInOffHand.getType().name().toLowerCase()), 1
-                                )
-                        )));
                         lang.message(p, "component.sorting.setitem", l.displayText(), itemInOffHand.displayName());
                     }
                     // If in filter mode and no item in offhand, add contents to container's filter
@@ -157,11 +149,6 @@ public class WandListener implements Listener {
                                 container.addFilter(hash);
                                 filters.add(hash);
                             }
-                            FilterTranslator.updateTranslation(hash, item.displayName().hoverEvent(HoverEvent.showItem(
-                                    HoverEvent.ShowItem.showItem(
-                                            Key.key(item.getType().name().toLowerCase()), 1
-                                    )
-                            )));
                         }
                         lang.message(p, "component.sorting.autofilter", l.displayText());
                     }
@@ -186,14 +173,9 @@ public class WandListener implements Listener {
                             if (mode == 2) {
                                 int hash = ItemHash.strictHash(item);
                                 filters.add(hash);
-                                FilterTranslator.updateTranslation(hash, item.displayName().hoverEvent(HoverEvent.showItem(
-                                        HoverEvent.ShowItem.showItem(
-                                                Key.key(item.getType().name().toLowerCase()), 1
-                                        )
-                                )));
                             }
                             if (mode == 0) {
-                                filters.add(item.getType().ordinal());
+                                filters.add(ItemHash.materialHash(item));
                             }
                         }
                         int[] filters_array = new int[filters.size()];

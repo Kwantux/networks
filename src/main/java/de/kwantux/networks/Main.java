@@ -115,6 +115,7 @@ public final class Main extends JavaPlugin {
 
         dcu = new DoubleChestUtils(mgr);
         mgr.loadData();
+        mgr.saveData();
 
         new ComponentDonateListener(this);
         new ComponentInstallListener(this);

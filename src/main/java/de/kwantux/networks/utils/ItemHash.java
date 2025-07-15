@@ -1,5 +1,8 @@
 package de.kwantux.networks.utils;
 
+import de.kwantux.networks.component.util.FilterTranslator;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,14 +18,28 @@ public class ItemHash {
     }
 
     public static int strictHash(@Nonnull ItemStack stack) {
-        int matHash = materialHash(stack);
+        int matHash = materialHash(stack.getType());
         int metaHash = metaHash(stack);
-        if (metaHash == BLANK_META_HASH) return matHash;
-        return matHash + metaHash;
+        int hash = (metaHash == BLANK_META_HASH) ? matHash : matHash + metaHash;
+        if (!FilterTranslator.hasTranslation(hash)) FilterTranslator.updateTranslation(hash, stack.displayName().hoverEvent(HoverEvent.showItem(
+                HoverEvent.ShowItem.showItem(
+                        Key.key(stack.getType().name().toLowerCase()), 1
+                )
+        )));
+        return hash;
     }
 
+    public static int materialHash(@Nonnull Material material) {
+        return material.getKey().hashCode();
+    }
     public static int materialHash(@Nonnull ItemStack stack) {
-        return stack.getType().getKey().hashCode();
+        int hash = materialHash(stack.getType());
+        if (!FilterTranslator.hasTranslation(hash)) FilterTranslator.updateTranslation(hash, stack.displayName().hoverEvent(HoverEvent.showItem(
+                HoverEvent.ShowItem.showItem(
+                        Key.key(stack.getType().name().toLowerCase()), 1
+                )
+        )));
+        return hash;
     }
 
     private static int metaHash(@Nonnull ItemStack stack) {

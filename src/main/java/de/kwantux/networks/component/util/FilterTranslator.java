@@ -32,6 +32,10 @@ public class FilterTranslator {
         return Objects.requireNonNullElse(translations.get(id), Component.text("#" + id));
     }
 
+    public static boolean hasTranslation(int id) {
+        return translations.containsKey(id);
+    }
+
     public static void updateTranslation(int id, Component translation) {
         translations.put(id, translation);
     }
@@ -51,11 +55,13 @@ public class FilterTranslator {
         try {
             for (String line : Files.readAllLines(filePath)) {
                 String[] split = line.split("\t");
-                int id = Integer.parseInt(split[0]);
-                Component translation = MiniMessage.miniMessage().deserialize(split[1]);
-                translations.put(id, translation);
+                try {
+                    int id = Integer.parseInt(split[0]);
+                    Component translation = MiniMessage.miniMessage().deserialize(split[1]);
+                    translations.put(id, translation);
+                } catch (NumberFormatException ignored) {}
             }
-        } catch (NoSuchFileException | NumberFormatException ignored) {}
+        } catch (NoSuchFileException ignored) {}
     }
 
 }
