@@ -15,14 +15,14 @@ public class ItemHash {
     }
 
     public static int strictHash(@Nonnull ItemStack stack) {
-        int matId = materialHash(stack);
+        int matHash = materialHash(stack);
         int metaHash = metaHash(stack);
-        if (metaHash == BLANK_META_HASH) return matId;
-        return matId + metaHash;
+        if (metaHash == BLANK_META_HASH) return matHash;
+        return matHash + metaHash;
     }
 
     public static int materialHash(@Nonnull ItemStack stack) {
-        return stack.getType().ordinal();
+        return stack.getType().getKey().hashCode();
     }
 
     private static int metaHash(@Nonnull ItemStack stack) {

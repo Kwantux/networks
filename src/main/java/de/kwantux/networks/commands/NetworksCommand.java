@@ -708,6 +708,12 @@ public class NetworksCommand extends CommandHandler {
     private void debugItemHash(CommandContext<Player> context) {
         Player player = context.sender();
         ItemStack item = player.getInventory().getItemInMainHand();
+        player.sendMessage(item.getType().ordinal() + " ");
+        try {
+            player.sendMessage(item.getType().getId() + " ");
+        } catch (Throwable e) {
+            player.sendMessage("modern ");
+        }
         lang.message(player, "debug.hash", "" + ItemHash.materialHash(item), "" + ItemHash.strictHash(item), "");
     }
 }
