@@ -59,7 +59,6 @@ public class ComponentType {
     public static @Nullable ComponentType get(String tag) {
         if (tag == null) return null;
         if (!tags.containsKey(tag)) {
-            Main.logger.severe("Component type " + tag + " not found!");
             return null;
         }
         return tags.get(tag);

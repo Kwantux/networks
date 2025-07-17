@@ -21,8 +21,14 @@ import java.util.List;
 public final class ComponentTypeParser implements ArgumentParser<CommandSender, ComponentType>, BlockingSuggestionProvider.Strings<CommandSender> {
 
 
-    public static @NonNull ParserDescriptor<CommandSender, ComponentType> componentTypeParser() {
-        return ParserDescriptor.of(new ComponentTypeParser(), ComponentType.class);
+    public static @NonNull ParserDescriptor<CommandSender, ComponentType> componentTypeParser(boolean mustBePersistentComponentType) {
+        return ParserDescriptor.of(new ComponentTypeParser(mustBePersistentComponentType), ComponentType.class);
+    }
+
+    private boolean mustBePersistentComponentType;
+
+    public ComponentTypeParser(boolean mustBePhysicalComponentType) {
+        this.mustBePersistentComponentType = mustBePhysicalComponentType;
     }
 
     @Override
@@ -33,6 +39,9 @@ public final class ComponentTypeParser implements ArgumentParser<CommandSender, 
         ComponentType componentType = ComponentType.get(input);
 
         if (componentType == null)
+            return ArgumentParseResult.failure(new ComponentTypeParseException(input, context));
+
+        if (mustBePersistentComponentType && !componentType.persistent)
             return ArgumentParseResult.failure(new ComponentTypeParseException(input, context));
 
         return ArgumentParseResult.success(componentType);
@@ -46,7 +55,7 @@ public final class ComponentTypeParser implements ArgumentParser<CommandSender, 
         List<String> output = new ArrayList<>();
 
         for (ComponentType componentType : ComponentType.types.values()) {
-            output.add(componentType.tag);
+            if (!mustBePersistentComponentType || componentType.persistent) output.add(componentType.tag);
         }
         return output;
     }

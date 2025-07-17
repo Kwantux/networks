@@ -1,14 +1,17 @@
 package de.kwantux.networks;
 
 import de.kwantux.networks.component.BasicComponent;
+import de.kwantux.networks.component.component.SortingContainer;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
 import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.networks.storage.SerializableNetwork;
+import de.kwantux.networks.utils.ItemHash;
 import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -17,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static de.kwantux.networks.Main.logger;
 import static de.kwantux.networks.config.Config.ranges;
 
 public class Network {
@@ -48,6 +52,8 @@ public class Network {
         users = new ArrayList<>(Arrays.stream(network.users()).toList());
         components = new ArrayList<>(Arrays.asList(network.components()));
         components.removeAll(Collections.singleton(null));
+
+        legacyConversion(new ComparableVersion(network.version()));
     }
 
 
@@ -205,6 +211,29 @@ public class Network {
 
     public void range(int range) {
         this.range = range;
+    }
+
+    private static final Material[] materials = new Material[Material.values().length];
+
+    private void legacyConversion(ComparableVersion version) {
+        if (version.compareTo(new ComparableVersion("3.1.2")) < 0) {
+            logger.info("Converting pre-3.1.2 filters in network " + name());
+            for (BasicComponent component : components) {
+                if (component instanceof SortingContainer sorting) {
+                    for (int filter : sorting.filters()) {
+                        if (filter > 0 && filter < Material.values().length) {
+                            if (materials[filter] == null) {
+                                for (Material mat : Material.values()) {
+                                    materials[mat.ordinal()] = mat;
+                                }
+                            }
+                            sorting.removeFilter(filter);
+                            sorting.addFilter(ItemHash.materialHash(materials[filter]));
+                        }
+                    }
+                }
+            }
+        }
     }
 
 }

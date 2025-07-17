@@ -1,6 +1,7 @@
 package de.kwantux.networks.utils;
 
 import de.kwantux.networks.component.module.BaseModule;
+import org.jetbrains.annotations.NotNull;
 
 public record Transaction(BaseModule source, BaseModule target, PositionedItemStack stack) {
     public boolean isValid() {
@@ -18,11 +19,12 @@ public record Transaction(BaseModule source, BaseModule target, PositionedItemSt
         return stack.hashCode();
     }
 
+    @NotNull
     public String toString() {
         return "Transaction{" +
                 "source=" + source.origin()  +
                 ", target=" + target.origin() +
-                ", stack=" + stack.getI18NDisplayName() +
+                ", stack=" + stack +
                 '}';
     }
 }

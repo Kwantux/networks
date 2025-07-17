@@ -92,8 +92,8 @@ public final class Manager {
             Network network = storage.loadNetwork(id);
             if (network == null) continue;
             networks.put(id, network);
-            for (BasicComponent coponent : networks.get(id).components()) {
-                origins.put(coponent.origin(), networks.get(id));
+            for (BasicComponent component : networks.get(id).components()) {
+                origins.put(component.origin(), networks.get(id));
             }
         }
         logger.info("Loaded " + networks.size() + " Networks");
@@ -103,6 +103,7 @@ public final class Manager {
      *
      */
     public void saveData() {
+//        logger.info("Saving " + networks.size() + " Networks");
         for (String id : networks.keySet()) {
             storage.saveNetwork(id, networks.get(id));
         }
