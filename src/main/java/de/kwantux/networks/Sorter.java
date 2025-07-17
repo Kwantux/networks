@@ -6,6 +6,7 @@ import de.kwantux.networks.utils.PositionedItemStack;
 import de.kwantux.networks.utils.Transaction;
 
 import javax.annotation.Nonnull;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,10 +20,17 @@ public class Sorter {
     /**
      * Transmit an item stack from one module to another
      */
-    public static synchronized boolean transmit(@Nonnull Transaction transaction) {
-        if (!transaction.target().spaceFree(transaction.stack())) return false;
-        if (removeItem(transaction)) return addItem(transaction);
-        return false;
+    public static synchronized void transmit(@Nonnull Transaction transaction) {
+        if (transaction.target().spaceFree(transaction.stack()))
+            if (removeItem(transaction))
+                addItemNoCheck(transaction);
+    }
+
+    /**
+     * Perform the item addition part of a transaction
+     */
+    private static synchronized void addItemNoCheck(Transaction transaction) {
+        transaction.target().inventory().addItem(transaction.stack());
     }
 
     /**
@@ -30,7 +38,7 @@ public class Sorter {
      */
     public static synchronized boolean addItem(Transaction transaction) {
         if (!transaction.target().spaceFree(transaction.stack())) return false;
-        transaction.target().inventory().addItem(transaction.stack());
+        addItemNoCheck(transaction);
         return true;
     }
 
@@ -60,7 +68,11 @@ public class Sorter {
      * @param items The items to donate
      */
     public static synchronized void donate(Network network, ActiveModule source, Set<PositionedItemStack> items) {
-        for (Transaction transaction : tryDonation(network, source, items)) {
+        for (
+                Transaction transaction : tryDonation(network, source, items).stream()
+                .sorted(
+                        Comparator.comparingInt((Transaction transaction) -> transaction.stack().getAmount()).reversed()
+                ).toList()) {
             transmit(transaction);
         }
     }
@@ -76,21 +88,12 @@ public class Sorter {
         Set<Transaction> transactions = new HashSet<>();
         for (PositionedItemStack item : items) {
             if (item == null) continue;
-            try {
-                for (Acceptor acceptor : network.acceptors()) {
-                    if (!(acceptor.ready() && inDistance(network, source,acceptor))) continue;
-                    if (!acceptor.accept(item)) continue;
-                    if (!acceptor.spaceFree(item)) continue;
-                    transactions.add( new Transaction(source, acceptor, item));
-                }
+            for (Acceptor acceptor : network.acceptors()) {
+                if (!(acceptor.ready() && inDistance(network, source,acceptor))) continue;
+                if (!acceptor.accept(item)) continue;
+                if (!acceptor.spaceFree(item)) continue;
+                transactions.add( new Transaction(source, acceptor, item));
             }
-            catch (Throwable e) {
-                if (!FoliaUtils.folia) {
-                    logger.severe("Failed to sort item: " + e.getMessage());
-                    e.printStackTrace();
-                }
-                else logger.log(Level.FINER, "Failed to sort item (this will be regularly thrown if Folia is used): " + e.getMessage());
-            } // Folia compatibility
         }
         return transactions;
     }
@@ -114,7 +117,11 @@ public class Sorter {
      * @param items The list of item stacks to be requested from the network
      */
     public static synchronized void request(Network network, ActiveModule target, Set<PositionedItemStack> items) {
-        for (Transaction transaction : tryRequest(network, target, items)) {
+        for (
+                Transaction transaction : tryRequest(network, target, items).stream()
+                .sorted(
+                        Comparator.comparingInt((Transaction transaction) -> transaction.stack().getAmount()).reversed()
+                ).toList()) {
             transmit(transaction);
         }
     }
