@@ -19,7 +19,7 @@ public class ManualManager {
 
 
     public static void register(Manual manual) {
-        list.put(manual.getId(), manual);
+        list.put(manual.getRegistrationID(), manual);
     }
 
 

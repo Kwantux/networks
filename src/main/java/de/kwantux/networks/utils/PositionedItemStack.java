@@ -3,6 +3,7 @@ package de.kwantux.networks.utils;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,13 +13,13 @@ public class PositionedItemStack extends ItemStack {
     private final Inventory inventory;
     private final int slot;
 
-    public PositionedItemStack(ItemStack stack, Inventory inventory, int slot) {
+    public PositionedItemStack(@Nonnull ItemStack stack, @Nullable Inventory inventory, int slot) {
         super(stack);
         this.inventory = inventory;
         this.slot = slot;
     }
 
-    public Inventory inventory() {
+    public @Nullable Inventory inventory() {
         return inventory;
     }
 
@@ -27,7 +28,7 @@ public class PositionedItemStack extends ItemStack {
     }
 
     public int hashCode() {
-        return super.hashCode() + inventory.hashCode() + slot;
+        return super.hashCode() + ( inventory == null ? 0 : inventory.hashCode() ) + slot;
     }
 
 

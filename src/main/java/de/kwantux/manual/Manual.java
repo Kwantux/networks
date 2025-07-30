@@ -12,6 +12,8 @@ import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.serialize.SerializationException;
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,9 @@ public class Manual {
     protected List<String> requirements = new ArrayList<String>();
 
     protected String path;
-    private final String langID;
+    private String language;
 
-    private final YamlConfigurationLoader loader;
+    private YamlConfigurationLoader loader;
     private CommentedConfigurationNode root;
     
     private final String id;
@@ -40,20 +42,13 @@ public class Manual {
         this.logger = plugin.getLogger();
 
         this.path = plugin.getName().toLowerCase() + ".manual." + language ;
-        this.id = plugin.getName().toLowerCase() + "." + id.toLowerCase();
+        this.id = id;
 
         this.mm = MiniMessage.miniMessage();
 
-        this.langID = language;
-
-
         this.logger = plugin.getLogger();
-
-
-
-        this.loader = YamlConfigurationLoader.builder()
-                .path(Paths.get(plugin.getDataFolder().getAbsolutePath() + "/manuals/" + id + "/" + langID + ".yml"))
-                .build();
+        
+        this.language = language;
 
         build();
         ManualManager.register(this);
@@ -112,20 +107,29 @@ public class Manual {
      * @Warning: This will override all settings changed
      */
     public void reload() {
+        Path path = Paths.get(plugin.getDataFolder().getAbsolutePath() + "/manuals/" + id + "/" + language + ".yml");
+        if (!Files.exists(path)) {
+            this.language = "en";
+            this.path = plugin.getName().toLowerCase() + ".manual." + language ;
+            path = Paths.get(plugin.getDataFolder().getAbsolutePath() + "/manuals/" + id + "/" + language + ".yml");
+        }
+        this.loader = YamlConfigurationLoader.builder()
+                .path(path)
+                .build();
         try {
             root = loader.load();
 
             if (root == null) {
-                logger.severe("[Manuals] Failed to load configuration " + langID + ".yml, root configuration is null");
+                logger.severe("[Manuals] Failed to load configuration " + language + ".yml, root configuration is null");
                 Bukkit.getPluginManager().disablePlugin(plugin);
             }
 
         } catch (final ConfigurateException e) {
-            logger.severe("[Manuals] Could not load configuration " + langID + ".yml: Invalid Syntax");
+            logger.severe("[Manuals] Could not load configuration " + language + ".yml: Invalid Syntax");
             throw new RuntimeException(e);
         }
 
-        if (testRequirements()) logger.info("[Manuals] Successfully loaded configuration file " + langID + ".yml on root path " + path);
+        if (testRequirements()) logger.info("[Manuals] Successfully loaded configuration file " + language + ".yml on root path " + path);
     }
 
 
@@ -156,7 +160,7 @@ public class Manual {
 
     public JavaPlugin getPlugin() {return plugin;}
 
-    public String getId() {return id;}
+    public String getRegistrationID() {return id + "." + plugin.getName();}
     public Book getBook() {return book;}
 
 
