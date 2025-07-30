@@ -3,7 +3,6 @@ package de.kwantux.config.lang;
 import de.kwantux.config.RawConfiguration;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -57,7 +56,11 @@ public class Language extends RawConfiguration {
     protected void update() {
         reload();
 
-        plugin.saveResource("lang/"+langID+".yml", true);
+        try {
+            plugin.saveResource("lang/"+langID+".yml", true);
+        } catch (Exception ignore) {
+            return;
+        }
 
         CommentedConfigurationNode defaultConfig = null;
 
