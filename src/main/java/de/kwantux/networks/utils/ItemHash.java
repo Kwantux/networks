@@ -18,6 +18,7 @@ public class ItemHash {
     }
 
     public static int strictHash(@Nonnull ItemStack stack) {
+        if (stack.isEmpty()) return 0;
         int matHash = materialHash(stack.getType());
         int metaHash = metaHash(stack);
         int hash = (metaHash == BLANK_META_HASH) ? matHash : matHash + metaHash;
@@ -34,6 +35,7 @@ public class ItemHash {
     }
     public static int materialHash(@Nonnull ItemStack stack) {
         int hash = materialHash(stack.getType());
+        if (stack.isEmpty()) return 0;
         if (!FilterTranslator.hasTranslation(hash)) FilterTranslator.updateTranslation(hash, stack.displayName().hoverEvent(HoverEvent.showItem(
                 HoverEvent.ShowItem.showItem(
                         Key.key(stack.getType().name().toLowerCase()), 1
