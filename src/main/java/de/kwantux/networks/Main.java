@@ -1,7 +1,6 @@
 package de.kwantux.networks;
 
 import de.kwantux.config.lang.LanguageController;
-import de.kwantux.manual.Manual;
 import de.kwantux.networks.commands.NetworksCommandManager;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
@@ -62,8 +61,8 @@ public final class Main extends JavaPlugin {
 
         saveResource("README.md", true);
 
-        saveResource("manuals/main/de.yml", true);
-        saveResource("manuals/main/en.yml", true);
+        saveResource("lang/de.yml", true);
+        saveResource("lang/en.yml", true);
 
 
         logger = getLogger();
@@ -102,9 +101,6 @@ public final class Main extends JavaPlugin {
 
         mgr = new Manager(this);
         crf = new CraftingManager(this);
-
-        new Manual(this, "main", cfg.getLanguage());
-
 
         // bStats Metrics
         int pluginId = 18609;

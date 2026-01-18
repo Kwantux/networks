@@ -23,7 +23,7 @@ help: "\n
 \n
 \n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
 \n
-\n<blue><click:run_command:/net manual>Open the user manual</click></blue>
+\n<blue><click:open_url:'https://networks.kwantux.de'>[Open the user manual]</click></blue>
 \n
 "
 
@@ -51,7 +51,7 @@ help.admin: "\n
 \n
 \n<click:suggest_command:/net merge>/net merge (net1) (net2)</click> - <yellow>Merge net2 into net1</yellow>
 \n
-\n<blue><click:run_command:/net manual>Open the user manual</click></blue>
+\n<blue><click:open_url:'https://networks.kwantux.de'>[Open the user manual]</click>
 \n
 "
 
@@ -233,6 +233,8 @@ item.lore.upgrade.range:
   - "<reset>Click on a network component to apply this upgrade"
   - "<reset>Depending on this server's config this applies to all components in the network or just that single component"
 
-notice: <yellow>Having inventory problems? Try out <white>/networks <yellow>to constructor a fully automated storage network!
+notice: "<yellow>Having inventory problems? Try out <white>/networks <yellow>to create a fully automated storage network! <white>More information can be found <click:open_url:'https://networks.kwantux.de'><blue>here.</blue></click>"
+
+manual: "<white>A full guide to networks can be found <click:open_url:'https://networks.kwantux.de'><blue>here.</blue></click>"
 
 debug.hash: "<reset>Material ID: <1> \nStrict Hash: <2>"

@@ -1,4 +1,4 @@
-# Networks v3.1.2
+# Networks
 
 
 ## Report any bugs on Discord or Github
@@ -18,6 +18,8 @@ If you need help with the plugin, feel free to ask your question on our discord!
 [Hangar](https://hangar.papermc.io/Kwantux/Networks)
 
 ---
+
+Networks is developed as a hobby project entirely for free. If you find the plugin useful, please consider [donating](https://ko-fi.com/kwantux) to support the development of the plugin.
 
 # Configurations
 

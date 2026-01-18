@@ -23,7 +23,7 @@ public class ComponentInstallListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority= EventPriority.LOW)
+    @EventHandler(priority= EventPriority.MONITOR)
     public void onComponentInstall(PlayerInteractEvent event) {
         if (!event.isCancelled()) {
 

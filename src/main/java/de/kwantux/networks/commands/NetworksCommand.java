@@ -2,7 +2,6 @@ package de.kwantux.networks.commands;
 
 import de.kwantux.config.ConfigurationManager;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
-import de.kwantux.manual.ManualManager;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BasicComponent;
@@ -259,7 +258,7 @@ public class NetworksCommand extends CommandHandler {
     }
 
     private void manual(CommandContext<CommandSender> context) {
-        ManualManager.open((Player) context.sender(), "networks.main");
+        lang.message(context.sender(), "manual");
     }
 
     private void version(CommandContext<CommandSender> context) {
