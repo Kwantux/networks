@@ -11,7 +11,7 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "de.kwantux"
-version = "3.1.4"
+version = "3.1.5"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -79,6 +79,6 @@ paper {
 
 tasks {
     runServer {
-        minecraftVersion("1.21.5")
+        minecraftVersion("1.21.11")
     }
 }
