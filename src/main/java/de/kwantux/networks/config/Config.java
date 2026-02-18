@@ -64,6 +64,10 @@ public class Config {
             ranges = config.getList("range", Integer.class).toArray(new Integer[0]);
             rangePerNetwork = config.getFinalBoolean("rangePerNetwork");
 
+            wandMaterial = getWandMaterial();
+            componentUpgradeMaterial = getComponentUpgradeMaterial();
+            rangeUpgradeMaterial = getRangeUpgradeMaterial();
+
         } catch (ConfigAlreadyRegisteredException | InvalidNodeException e) {
             throw new RuntimeException(e);
         }
@@ -87,6 +91,9 @@ public class Config {
     public static int autoSaveInterval;
     public static String[] commands;
     public static Integer[] ranges;
+    public static Material wandMaterial;
+    public static Material rangeUpgradeMaterial;
+    public static Material componentUpgradeMaterial;
 
 
     public void setLanguage(String language) {
@@ -139,6 +146,15 @@ public class Config {
             return Material.getMaterial(getString("material.range"));
         } catch (EnumConstantNotPresentException e) {
             logger.severe(getString("material.range") + " is not a valid material, please change your config!");
+        }
+        return Material.LIGHTNING_ROD;
+    }
+
+    public Material getWandMaterial() {
+        try {
+            return Material.getMaterial(getString("material.wand"));
+        } catch (EnumConstantNotPresentException e) {
+            logger.severe(getString("material.wand") + " is not a valid material, please change your config!");
         }
         return Material.LIGHTNING_ROD;
     }

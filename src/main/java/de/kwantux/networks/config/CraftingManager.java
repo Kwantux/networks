@@ -13,6 +13,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.components.CustomModelDataComponent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static de.kwantux.networks.config.Config.*;
+
 public class CraftingManager {
 
     private final Main plugin;
@@ -30,11 +33,6 @@ public class CraftingManager {
     private final LanguageController lang;
 
     private final Config pluginconfig;
-
-
-    private final Material rangeUpgradeMaterial;
-    private final Material componentUpgradeMaterial;
-
 
     public static List<NamespacedKey> recipes = new ArrayList<>();
 
@@ -49,11 +47,12 @@ public class CraftingManager {
 
 
     public ItemStack getNetworkWand(int mode) {
-        ItemStack wand = new ItemStack(Material.BLAZE_ROD);
+        ItemStack wand = new ItemStack(wandMaterial);
         ItemMeta meta = wand.getItemMeta();
         try {
             meta.displayName(lang.getItemName("wand"+mode));
             meta.lore(lang.getItemLore("wand"+mode));
+            setCustomModelDataForWand(meta, mode);
         } catch (InvalidNodeException e) {
             throw new RuntimeException(e);
         }
@@ -68,6 +67,7 @@ public class CraftingManager {
         ItemMeta meta = upgrade.getItemMeta();
         meta.displayName(lang.getItemName("upgrade.range." + (tier-1)));
         meta.lore(lang.getItemLore("upgrade.range"));
+        setCustomModelDataForRangeUpgrade(meta, tier);
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(new NamespacedKey(plugin, "upgrade.range"), PersistentDataType.INTEGER, tier);
         upgrade.setItemMeta(meta);
@@ -91,9 +91,6 @@ public class CraftingManager {
         this.lang = main.getLanguage();
         this.logger = main.getLogger();
         this.pluginconfig = main.getConfiguration();
-
-        componentUpgradeMaterial = pluginconfig.getComponentUpgradeMaterial();
-        rangeUpgradeMaterial = pluginconfig.getRangeUpgradeMaterial();
 
 
         registerRecipes();
@@ -159,7 +156,6 @@ public class CraftingManager {
 
         String path = "component."+ type.tag;
         String matkey = componentUpgradeMaterial.name();
-
         ItemStack stack = type.item();
 
         try {
@@ -257,5 +253,23 @@ public class CraftingManager {
             logger.severe("Config file recipes.conf seems to have an invalid format or is missing some data, please delete this file, restart the server and try again!");
             throw new RuntimeException(e);
         }
+    }
+
+    public static void setCustomModelDataForWand(ItemMeta meta, int mode) {
+        CustomModelDataComponent cmdc = meta.getCustomModelDataComponent();
+        cmdc.setStrings(List.of("networks:wand", "networks:wand/"+mode));
+        meta.setCustomModelDataComponent(cmdc);
+    }
+
+    public static void setCustomModelDataForRangeUpgrade(ItemMeta meta, int tier) {
+        CustomModelDataComponent cmdc = meta.getCustomModelDataComponent();
+        cmdc.setStrings(List.of("networks:upgrade/range", "networks:upgrade/range/"+tier));
+        meta.setCustomModelDataComponent(cmdc);
+    }
+
+    public static void setCustomModelDataForComponent(ItemMeta meta, ComponentType type) {
+        CustomModelDataComponent cmdc = meta.getCustomModelDataComponent();
+        cmdc.setStrings(List.of("networks:component/"+type.tag));
+        meta.setCustomModelDataComponent(cmdc);
     }
 }

@@ -4,6 +4,7 @@ import de.kwantux.networks.component.module.*;
 import de.kwantux.networks.utils.FoliaUtils;
 import de.kwantux.networks.utils.PositionedItemStack;
 import de.kwantux.networks.utils.Transaction;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import java.util.Comparator;
@@ -46,7 +47,7 @@ public class Sorter {
      * Perform the item removal part of a transaction
      */
     public static synchronized boolean removeItem(Transaction transaction) {
-        boolean itemExists = transaction.source().inventory().contains(transaction.stack());
+        boolean itemExists = containsRequestedStack(transaction.source().inventory().getStorageContents(), transaction.stack());
         if (!itemExists) return false;
         transaction.source().inventory().removeItem(transaction.stack());
         return true;
@@ -140,7 +141,7 @@ public class Sorter {
             if (item == null) continue;
             try {
                 for (Supplier supplier : suppliers) {
-                    if (supplier.ready() && inDistance(network, target, supplier) && supplier.supply().contains(item)) {
+                    if (supplier.ready() && inDistance(network, target, supplier) && containsRequestedStack(supplier.supply(), item)) {
                         transactions.add(new Transaction(supplier, target, item));
                         break;
                     }
@@ -170,5 +171,25 @@ public class Sorter {
                         || // or if
                         active.pos().getDistance(passive.pos()) <= // distance is smaller than
                         ranges[Math.min(active.range(), ranges.length - 1)] + network.range(); // component range + network range
+    }
+
+    public static boolean containsRequestedStack(List<ItemStack> stacks, ItemStack requested) {
+        for (ItemStack stack : stacks) {
+            if (stack == null) continue;
+            if (stack.isSimilar(requested)){
+                if (stack.getAmount() >= requested.getAmount()) return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean containsRequestedStack(ItemStack[] stacks, ItemStack requested) {
+        for (ItemStack stack : stacks) {
+            if (stack == null) continue;
+            if (stack.isSimilar(requested)){
+                if (stack.getAmount() >= requested.getAmount()) return true;
+            }
+        }
+        return false;
     }
 }

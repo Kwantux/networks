@@ -4,6 +4,7 @@ import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.config.Config;
+import de.kwantux.networks.config.CraftingManager;
 import de.kwantux.networks.utils.NamespaceUtils;
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
@@ -42,6 +43,7 @@ public abstract class InstallableComponent extends BasicComponent {
                     lore.add(Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": " + value)));
                 }
             meta.lore(lore);
+            CraftingManager.setCustomModelDataForComponent(meta, type);
         } catch (InvalidNodeException e) {
             throw new RuntimeException(e);
         }
