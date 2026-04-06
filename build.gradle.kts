@@ -11,7 +11,7 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "de.kwantux"
-version = "3.1.6"
+version = "3.1.7"
 description = "A performance friendly way to sort your items"
 
 repositories {

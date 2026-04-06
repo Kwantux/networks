@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import javax.annotation.Nonnull;
@@ -13,11 +14,11 @@ import static de.kwantux.networks.Main.lang;
 
 
 public class BlockLocation extends Origin {
-    private int x;
-    private int y;
-    private int z;
+    private final int x;
+    private final int y;
+    private final int z;
 
-    private UUID world;
+    private final UUID world;
 
 
     public BlockLocation(int x, int y, int z, UUID world) {
@@ -41,23 +42,6 @@ public class BlockLocation extends Origin {
         this.world = block.getWorld().getUID();
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public void setZ(int z) {
-        this.z = z;
-    }
-
-    public void setWorld(UUID world) {
-        this.world = world;
-    }
-
-
     public int getX() {
         return x;
     }
@@ -77,6 +61,11 @@ public class BlockLocation extends Origin {
 
     public Block getBlock() {
         return this.getBukkitLocation().getBlock();
+    }
+
+    public boolean isLoaded() {
+        World world = Bukkit.getWorld(this.world);
+        return world != null && world.isChunkLoaded(x >> 4, z >> 4);
     }
 
     @Override
