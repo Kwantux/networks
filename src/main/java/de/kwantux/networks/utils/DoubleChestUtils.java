@@ -8,6 +8,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Chest;
 
+import javax.annotation.Nullable;
+
 public class DoubleChestUtils {
 
     private final Manager net;
@@ -16,20 +18,28 @@ public class DoubleChestUtils {
         this.net = net;
     }
 
+    @Nullable
     public BasicComponent componentAt(Origin origin) {
         BasicComponent component = net.getComponent(origin);
-        if (component == null && origin instanceof BlockLocation pos && pos.getBlock().getType().equals(Material.CHEST)) {
-            Chest chest = (Chest) pos.getBlock().getBlockData();
-            component = net.getComponent(shift(pos, chest.getType(), chest.getFacing()));
+        if (component == null && origin instanceof BlockLocation pos) {
+            if (!pos.isLoaded()) return null;
+            if (pos.getBlock().getType().equals(Material.CHEST)) {
+                Chest chest = (Chest) pos.getBlock().getBlockData();
+                component = net.getComponent(shift(pos, chest.getType(), chest.getFacing()));
+            }
         }
         return component;
     }
 
+    @Nullable
     public Network networkWithComponentAt(Origin origin) {
         Network network = net.getNetworkWithComponent(origin);
-        if (network == null &&  origin instanceof BlockLocation pos && pos.getBlock().getType().equals(Material.CHEST)) {
-            Chest chest = (Chest) pos.getBlock().getBlockData();
-            network = net.getNetworkWithComponent(shift(pos, chest.getType(), chest.getFacing()));
+        if (network == null &&  origin instanceof BlockLocation pos) {
+            if (!pos.isLoaded()) return null;
+            if (pos.getBlock().getType().equals(Material.CHEST)) {
+                Chest chest = (Chest) pos.getBlock().getBlockData();
+                network = net.getNetworkWithComponent(shift(pos, chest.getType(), chest.getFacing()));
+            }
         }
         return network;
     }

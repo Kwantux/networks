@@ -6,11 +6,12 @@ import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.Origin;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 
 public abstract class BlockComponent extends InstallableComponent {
@@ -31,8 +32,7 @@ public abstract class BlockComponent extends InstallableComponent {
     }
 
     public boolean isLoaded() {
-        World world = Bukkit.getWorld(pos.getWorld());
-        return world != null && world.isChunkLoaded(pos.getX() >> 4, pos.getZ() >> 4);
+        return pos.isLoaded();
     }
 
     public boolean ready() {
@@ -43,7 +43,7 @@ public abstract class BlockComponent extends InstallableComponent {
 
         if (!ready()) return null;
 
-        Block block = Bukkit.getWorld(pos.getWorld()).getBlockAt(pos.getX(), pos.getY(), pos.getZ());
+        Block block = Objects.requireNonNull(Bukkit.getWorld(pos.getWorld())).getBlockAt(pos.getX(), pos.getY(), pos.getZ());
         if (block.getState() instanceof InventoryHolder) {
             return ((InventoryHolder) block.getState()).getInventory();
         }
