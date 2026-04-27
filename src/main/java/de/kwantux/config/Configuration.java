@@ -113,7 +113,7 @@ public final class Configuration extends RawConfiguration {
             Bukkit.getPluginManager().disablePlugin(plugin);
         }
 
-        if (testRequirements()) logger.info("[QC] Successfully updated config file " + filename);
+        if (!testRequirements()) logger.severe("[QC] Config file " + filename + " is missing required fields!");
     }
 
 
@@ -253,8 +253,7 @@ public final class Configuration extends RawConfiguration {
             throw new RuntimeException(e);
         }
 
-        if (silentTestRequirements()) logger.info("[QC] Successfully loaded configuration file " + filename + " on root path " + path);
-        else logger.warning("[QC] Loaded configuration file " + filename + " on root path " + path + " with missing options, updating file automatically...");
+        if (!silentTestRequirements()) logger.warning("[QC] Loaded configuration file " + filename + " on root path " + path + " with missing options, updating file automatically...");
 
     }
 

@@ -57,7 +57,7 @@ public class LanguageController {
 
         Collections.reverse(languages);
 
-        logger.info("[QC] Launched using language order: " + orderString);
+        logger.info("Launched using language order: " + orderString);
     }
 
     /**
