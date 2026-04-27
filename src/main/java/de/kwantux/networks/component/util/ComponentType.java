@@ -1,6 +1,7 @@
 package de.kwantux.networks.component.util;
 
 import de.kwantux.networks.Main;
+import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.InstallableComponent;
 import de.kwantux.networks.component.component.InputContainer;
@@ -8,13 +9,13 @@ import de.kwantux.networks.component.component.MiscContainer;
 import de.kwantux.networks.component.component.SortingContainer;
 import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
+import org.apache.commons.lang3.function.TriFunction;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 public class ComponentType {
     public final Class<? extends BasicComponent> clazz;
@@ -31,7 +32,7 @@ public class ComponentType {
     public final boolean supplier;
     public final boolean requestor;
 
-    public final BiFunction<Origin, PersistentDataContainer, ?extends BasicComponent> constructor;
+    public final TriFunction<Origin, Network, PersistentDataContainer, ?extends BasicComponent> constructor;
     public final Map<String, Object> defaultProperties;
 
     public static HashMap<String, ComponentType> tags = new HashMap<>();
@@ -45,7 +46,7 @@ public class ComponentType {
     public static ComponentType MISC = MiscContainer.register();
 
 
-    public static @Nullable ComponentType register(Class<? extends BasicComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, boolean persistent, BiFunction<Origin, PersistentDataContainer, ?extends BasicComponent> constructor, Map<String, Object> defaultProperties) {
+    public static @Nullable ComponentType register(Class<? extends BasicComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, boolean persistent, TriFunction<Origin, Network, PersistentDataContainer, ?extends BasicComponent> constructor, Map<String, Object> defaultProperties) {
         ComponentType type = new ComponentType(clazz, tag, name, donator, acceptor, supplier, requestor, persistent, constructor, defaultProperties);
         if (tags.containsKey(tag)) {
             Main.logger.severe("Component type " + tag + " already registered! This is a bug in either Networks or any addon for it.");
@@ -68,7 +69,7 @@ public class ComponentType {
         return types.get(clazz);
     }
 
-    private ComponentType(Class<? extends BasicComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, boolean persistent, BiFunction<Origin, PersistentDataContainer, ?extends BasicComponent> constructor, Map<String, Object> defaultProperties) {
+    private ComponentType(Class<? extends BasicComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, boolean persistent, TriFunction<Origin, Network, PersistentDataContainer, ?extends BasicComponent> constructor, Map<String, Object> defaultProperties) {
         this.constructor = constructor;
         this.defaultProperties = defaultProperties;
 
@@ -93,8 +94,8 @@ public class ComponentType {
     }
 
 
-    public @Nullable BasicComponent create(Origin pos, PersistentDataContainer container) {
-        return constructor.apply(pos, container);
+    public @Nullable BasicComponent create(Origin pos, Network network, PersistentDataContainer container) {
+        return constructor.apply(pos, network, container);
     }
 
     public ItemStack item() {

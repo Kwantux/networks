@@ -1,5 +1,6 @@
 package de.kwantux.networks.component.component;
 
+import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
@@ -28,10 +29,10 @@ public class MiscContainer extends BlockComponent implements Acceptor, Supplier 
     private int acceptorPriority = -20;
     private int supplierPriority = 5;
 
-    public static @Nullable MiscContainer create(Origin origin, PersistentDataContainer container) {
+    public static @Nullable MiscContainer create(Origin origin, Network network, PersistentDataContainer container) {
         if (origin instanceof BlockLocation pos) {
-            if (container == null) return new MiscContainer(pos);
-            return new MiscContainer(pos,
+            if (container == null) return new MiscContainer(pos, network);
+            return new MiscContainer(pos, network,
                     Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), -20),
                     Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 5)
             );
@@ -39,17 +40,17 @@ public class MiscContainer extends BlockComponent implements Acceptor, Supplier 
         return null;
     }
 
-    public MiscContainer(BlockLocation pos, int acceptorPriority, int supplierPriority) {
-        super(pos);
+    public MiscContainer(BlockLocation pos, Network network, int acceptorPriority, int supplierPriority) {
+        super(pos, network);
         this.acceptorPriority = acceptorPriority;
         this.supplierPriority = supplierPriority;
     }
-    public MiscContainer(BlockLocation pos, int acceptorPriority) {
-        super(pos);
+    public MiscContainer(BlockLocation pos, Network network, int acceptorPriority) {
+        super(pos, network);
         this.acceptorPriority = acceptorPriority;
     }
-    public MiscContainer(BlockLocation pos) {
-        super(pos);
+    public MiscContainer(BlockLocation pos, Network network) {
+        super(pos, network);
     }
 
     private static Map<String, Object> defaultProperties = new HashMap<>();

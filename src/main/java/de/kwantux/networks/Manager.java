@@ -5,7 +5,6 @@ import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.storage.Storage;
-import de.kwantux.networks.utils.DoubleChestUtils;
 import de.kwantux.networks.utils.Origin;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,9 +16,10 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
+import static de.kwantux.networks.Main.dcu;
+
 public final class Manager {
     private final Storage storage;
-    private final DoubleChestUtils dcu;
 
     private HashMap<String, Network> networks = new HashMap<>();
     private HashMap<Origin, Network> origins = new HashMap<>();
@@ -33,7 +33,6 @@ public final class Manager {
     public Manager(Main plugin) {
         this.storage = new Storage(plugin);
         this.logger = plugin.getLogger();
-        this.dcu = new DoubleChestUtils(this);
     }
 
     public boolean create(String name, UUID owner) {
@@ -74,6 +73,10 @@ public final class Manager {
      */
     public Collection<Network> getNetworks() {
         return networks.values();
+    }
+
+    public @Nullable Network getNetwork(String name) {
+        return networks.get(name);
     }
 
     /**
@@ -121,7 +124,7 @@ public final class Manager {
 
 
     public void createComponent(Network network, ComponentType type, Origin origin, PersistentDataContainer container) {
-        BasicComponent component = type.create(origin, container);
+        BasicComponent component = type.create(origin, network, container);
         addComponent(network, component);
     }
 
@@ -164,6 +167,7 @@ public final class Manager {
     }
 
     /**
+     * Use component.network() instead, if possible
      * @param location
      * @return
      */

@@ -11,7 +11,7 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "de.kwantux"
-version = "3.1.7"
+version = "3.1.8"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -80,5 +80,7 @@ paper {
 tasks {
     runServer {
         minecraftVersion("1.21.10")
+        // Pass development flag to JVM
+        jvmArgs("-Dnetworks.development=true")
     }
 }

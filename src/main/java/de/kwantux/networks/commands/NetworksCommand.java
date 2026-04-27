@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 import static de.kwantux.networks.Main.*;
 import static de.kwantux.networks.commands.ComponentTypeParser.componentTypeParser;
 import static de.kwantux.networks.commands.NetworkParser.networkParser;
+import static de.kwantux.networks.utils.DevelopmentUtils.runInDevelopment;
 import static org.incendo.cloud.bukkit.parser.PlayerParser.playerParser;
 import static org.incendo.cloud.bukkit.parser.location.LocationParser.locationParser;
 import static org.incendo.cloud.parser.standard.IntegerParser.integerParser;
@@ -228,12 +229,14 @@ public class NetworksCommand extends CommandHandler {
                 .senderType(Player.class)
                 .handler(this::giveUpgradeRange)
         );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("debug")
-                .literal("itemhash")
-                .permission("networks.debug")
-                .senderType(Player.class)
-                .handler(this::debugItemHash)
+        runInDevelopment(() ->
+            cmd.command(cmd.commandBuilder("networks", Config.commands)
+                    .literal("debug")
+                    .literal("itemhash")
+                    .permission("networks.debug")
+                    .senderType(Player.class)
+                    .handler(this::debugItemHash)
+            )
         );
     }
 
@@ -492,12 +495,12 @@ public class NetworksCommand extends CommandHandler {
     private void componentInfo(CommandContext<CommandSender> context) {
         CommandSender sender = context.sender();
         BlockLocation location = new BlockLocation((Location) context.get("location"));
-        Network network = dcu.networkWithComponentAt(location);
         BasicComponent component = dcu.componentAt(location);
         if (component == null) {
             lang.message(sender, "component.info.empty", location.toString());
             return;
         }
+        Network network = component.network();
         boolean isProxy = network.getComponent(location) == null;
         sender.sendMessage(componentInfo(network, component, isProxy));
     }

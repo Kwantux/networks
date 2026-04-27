@@ -77,7 +77,7 @@ public record LegacyNetwork(
             if (legacyLocation == null) return null;
             BlockLocation pos2 = legacyLocation.convert();
             if (pos2 == null) return null;
-            return new InputContainer(pos2);
+            return new InputContainer(pos2, null);
         }
     }
 
@@ -94,7 +94,7 @@ public record LegacyNetwork(
             for (int i = 0; i < items.length; i++) {
                filters[i] = Objects.requireNonNullElse(Material.getMaterial(items[i]), Material.AIR).ordinal();
             }
-            return new SortingContainer(pos, SortingContainer.convertLegacyFilters(items), priority);
+            return new SortingContainer(pos, null, SortingContainer.convertLegacyFilters(items), priority);
         }
     }
 
@@ -106,7 +106,7 @@ public record LegacyNetwork(
             if (legacyLocation == null) return null;
             BlockLocation pos = legacyLocation.convert();
             if (pos == null) return null;
-            return new MiscContainer(pos, priority);
+            return new MiscContainer(pos, null, priority);
         }
     }
 

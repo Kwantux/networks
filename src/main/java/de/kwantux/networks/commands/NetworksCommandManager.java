@@ -4,6 +4,7 @@ import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.component.util.ComponentType;
+import de.kwantux.networks.tests.StressTest;
 import io.leangen.geantyref.TypeToken;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.caption.Caption;
@@ -15,6 +16,7 @@ import org.incendo.cloud.parser.ParserRegistry;
 import java.util.List;
 
 import static de.kwantux.networks.Main.lang;
+import static de.kwantux.networks.utils.DevelopmentUtils.runInDevelopment;
 
 public final class NetworksCommandManager {
 
@@ -55,5 +57,10 @@ public final class NetworksCommandManager {
             new NetworksCommand(plugin, commandManager),
             new TeleportCommand(plugin, commandManager)
         ).forEach(CommandHandler::register);
+        
+        // Register development-only commands
+        runInDevelopment(() -> {
+            new StressTest(plugin, commandManager).register();
+        });
     }
 }

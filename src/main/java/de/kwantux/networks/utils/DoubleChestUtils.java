@@ -1,7 +1,5 @@
 package de.kwantux.networks.utils;
 
-import de.kwantux.networks.Manager;
-import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BasicComponent;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,38 +8,34 @@ import org.bukkit.block.data.type.Chest;
 
 import javax.annotation.Nullable;
 
+import static de.kwantux.networks.Main.mgr;
+import static de.kwantux.networks.component.BlockComponent.getComponentAtBlock;
+
 public class DoubleChestUtils {
-
-    private final Manager net;
-
-    public DoubleChestUtils(Manager net) {
-        this.net = net;
-    }
 
     @Nullable
     public BasicComponent componentAt(Origin origin) {
-        BasicComponent component = net.getComponent(origin);
+        BasicComponent component = mgr.getComponent(origin);
         if (component == null && origin instanceof BlockLocation pos) {
             if (!pos.isLoaded()) return null;
             if (pos.getBlock().getType().equals(Material.CHEST)) {
                 Chest chest = (Chest) pos.getBlock().getBlockData();
-                component = net.getComponent(shift(pos, chest.getType(), chest.getFacing()));
+                component = mgr.getComponent(shift(pos, chest.getType(), chest.getFacing()));
             }
         }
         return component;
     }
 
     @Nullable
-    public Network networkWithComponentAt(Origin origin) {
-        Network network = net.getNetworkWithComponent(origin);
-        if (network == null &&  origin instanceof BlockLocation pos) {
-            if (!pos.isLoaded()) return null;
-            if (pos.getBlock().getType().equals(Material.CHEST)) {
-                Chest chest = (Chest) pos.getBlock().getBlockData();
-                network = net.getNetworkWithComponent(shift(pos, chest.getType(), chest.getFacing()));
+    public BasicComponent componentAtLoadedBlock(Block block) {
+        BasicComponent component = getComponentAtBlock(block);
+        if (component == null) {
+            if (block.getType().equals(Material.CHEST)) {
+                Chest chest = (Chest) block.getBlockData();
+                component = mgr.getComponent(shift(new BlockLocation(block), chest.getType(), chest.getFacing()));
             }
         }
-        return network;
+        return component;
     }
 
 
@@ -54,10 +48,10 @@ public class DoubleChestUtils {
             Chest chest = (Chest) block.getBlockData();
             if (chest.getType().equals(Chest.Type.SINGLE)) return;
 
-            BasicComponent component = net.getComponent(pos);
+            BasicComponent component = mgr.getComponent(pos);
             if (component == null) return;
 
-            BasicComponent component2 = net.getComponent(shift(pos, chest.getType(), chest.getFacing()));
+            BasicComponent component2 = mgr.getComponent(shift(pos, chest.getType(), chest.getFacing()));
             if (component2 == null) return;
 
             chest.setType(Chest.Type.SINGLE);
@@ -73,7 +67,7 @@ public class DoubleChestUtils {
         Chest chest = (Chest) block.getBlockData();
         if (chest.getType().equals(Chest.Type.SINGLE)) return;
 
-        BasicComponent component = net.getComponent(pos);
+        BasicComponent component = mgr.getComponent(pos);
         if (component == null) return;
 
         Block block2 = (shift(pos, chest.getType(), chest.getFacing())).getBlock();

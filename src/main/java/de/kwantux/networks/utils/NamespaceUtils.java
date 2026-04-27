@@ -38,4 +38,8 @@ public enum NamespaceUtils {
     public static NamespacedKey key(String name) {
         return new NamespacedKey(main, name);
     }
+
+    // Custom
+
+    public static final String BLOCK_DATA_KEY = "networks:network";
 }

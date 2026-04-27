@@ -67,7 +67,7 @@ public class WandListener implements Listener {
                 if (l == null) return;
                 BasicComponent component = dcu.componentAt(l);
                 Network network = null;
-                if (component != null) network = dcu.networkWithComponentAt(component.origin());
+                if (component != null) network = component.network();
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
@@ -201,11 +201,11 @@ public class WandListener implements Listener {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                     event.setCancelled(true);
                     BasicComponent component = dcu.componentAt(l);
-                    Network network = dcu.networkWithComponentAt(l);
                     if (component == null) {
                         lang.message(p, "component.nocomponent");
                         return;
                     }
+                    Network network = component.network();
 
                     int tier;
                     Runnable rangeUp;
