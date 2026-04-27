@@ -6,7 +6,6 @@ import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,6 +15,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static de.kwantux.networks.Main.*;
@@ -56,7 +56,7 @@ public class BlockBreakListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(EntityExplodeEvent event) {
 
-        ArrayList<Block> removeLater = new ArrayList<>();
+        List<Block> removeLater = new ArrayList<>();
 
         for (Block block : event.blockList()) {
             if (mgr.getComponent(new BlockLocation(block)) != null) {
@@ -70,13 +70,14 @@ public class BlockBreakListener implements Listener {
                 assert component != null; // Was already checked when adding blocks to the list
 
                 ItemStack item = component.item();
-                Bukkit.getServer().getWorld(component.pos().getWorld()).dropItem(component.pos().getBukkitLocation(), item);
+                // Drop item next tick to avoid it being destroyed by the explosion
+                Bukkit.getScheduler().runTaskLater(Main.instance, () ->
+                    Bukkit.getServer().getWorld(component.pos().getWorld()).dropItem(component.pos().getBukkitLocation(), item)
+                , 1);
 
-                event.blockList().remove(block);
-                block.setType(Material.AIR);
-                Network network = mgr.getNetworkWithComponent(new BlockLocation(block));
-                network.removeComponent(new BlockLocation(block));
-                ArrayList<UUID> users = (ArrayList<UUID>) network.users();
+                Network network = component.network();
+                mgr.removeComponent(component.origin());
+                List<UUID> users = network.users();
                 users.add(network.owner());
 
                 for (UUID uid : users) {
@@ -86,7 +87,7 @@ public class BlockBreakListener implements Listener {
                 }
             }
 
-            event.blockList().remove(block);
+            else event.blockList().remove(block);
         }
     }
 }

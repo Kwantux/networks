@@ -111,9 +111,6 @@ public class Network {
         return acceptors.stream().sorted(Comparator.comparingInt(Acceptor::acceptorPriority).reversed()).toList();
     }
 
-    /**
-     * ONLY FOR INTERNAL USAGE AND IN {@link de.kwantux.networks.Manager#getComponent(Origin)}
-     */
     public BasicComponent getComponent(Origin origin) {
         for (BasicComponent component : components) {
             if (component.origin().equals(origin)) {
@@ -130,6 +127,7 @@ public class Network {
      * Use {@link Manager#addComponent(Network, BasicComponent)} instead
      */
     public void addComponent(BasicComponent component) {
+        component.addStorageEntry(this);
         components.add(component);
     }
     /**
@@ -138,6 +136,7 @@ public class Network {
      * Use {@link Manager#removeComponent(Network, BasicComponent)} instead
      */
     public void removeComponent(BasicComponent component) {
+        component.removeStorageEntry();
         components.remove(component);
     }
     /**
@@ -146,7 +145,7 @@ public class Network {
      * Use {@link Manager#removeComponent(Network, BasicComponent)} instead
      */
     public void removeComponent(Origin origin) {
-        components.remove(getComponent(origin));
+        removeComponent(getComponent(origin));
     }
 
     public NetworkProperties properties() {
@@ -215,6 +214,9 @@ public class Network {
 
     private static final Material[] materials = new Material[Material.values().length];
 
+
+
+
     private void legacyConversion(ComparableVersion version) {
         if (version.compareTo(new ComparableVersion("3.1.2")) < 0) {
             logger.info("Converting pre-3.1.2 filters in network " + name());
@@ -233,6 +235,24 @@ public class Network {
                     }
                 }
             }
+        }
+        if (version.compareTo(new ComparableVersion("3.1.8")) < 0) {
+
+            Main.instance.getServer().getGlobalRegionScheduler().execute(Main.instance, ()->
+            {
+                logger.info("Initializing block data cache for network " + id + "...");
+                logger.info("This action may take a while!");
+                int counter = 0;
+                final int total = components.size();
+                for (BasicComponent component : components) {
+                    component.addStorageEntry(this);
+                    counter++;
+                    if (counter % 100 == 0) {
+                        logger.info(counter + "/" + total + " (" + Math.floorDiv(counter * 100, total) + "%) of components upgraded.");
+                    }
+                }
+                logger.info("Finished network " + id);
+            });
         }
     }
 

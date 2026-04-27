@@ -100,6 +100,7 @@ public final class Main extends JavaPlugin {
         }
 
         mgr = new Manager(this);
+        dcu = new DoubleChestUtils();
         crf = new CraftingManager(this);
 
         // bStats Metrics
@@ -109,7 +110,6 @@ public final class Main extends JavaPlugin {
             mgr.getNetworks().size()
         ));
 
-        dcu = new DoubleChestUtils(mgr);
         mgr.loadData();
         mgr.saveData();
 

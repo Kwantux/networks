@@ -1,5 +1,6 @@
 package de.kwantux.networks.component;
 
+import de.kwantux.networks.Network;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.networks.utils.Origin;
@@ -9,10 +10,19 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
 
+import static de.kwantux.networks.Main.mgr;
+
 public abstract class BasicComponent {
 
     public abstract ComponentType type();
     public abstract Origin origin();
+
+    protected transient Network network;
+    public Network network() {
+        if (network == null)
+            network = mgr.getNetworkWithComponent(origin());
+        return network;
+    }
 
 
     public abstract Map<String, Object> properties();
@@ -29,6 +39,18 @@ public abstract class BasicComponent {
      * @return The inventory of this component
      */
     public abstract Inventory inventory();
+
+    /**
+     * Only used for {@link de.kwantux.networks.component.BlockComponent}<br/>
+     * Adds Network entry to block's metadata, so that database calls are only pursued when necessary
+     */
+    public void addStorageEntry(Network network) {}
+
+    /**
+     * Only used for {@link de.kwantux.networks.component.BlockComponent}<br/>
+     * Removes the storage entry created by {@link de.kwantux.networks.component.BasicComponent#addStorageEntry}
+     */
+    public void removeStorageEntry() {}
 
 
 

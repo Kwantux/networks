@@ -1,5 +1,6 @@
 package de.kwantux.networks.component.component;
 
+import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.component.module.Donator;
 import de.kwantux.networks.component.util.ComponentType;
@@ -27,23 +28,23 @@ public class InputContainer extends BlockComponent implements Donator {
     private int range = 0;
 
 
-    public static @Nullable InputContainer create(Origin origin, PersistentDataContainer container) {
+    public static @Nullable InputContainer create(Origin origin, Network network, PersistentDataContainer container) {
         if (origin instanceof BlockLocation pos) {
-            if (container == null) return new InputContainer(pos);
-            return new InputContainer(pos,
+            if (container == null) return new InputContainer(pos, network);
+            return new InputContainer(pos, network,
                     Objects.requireNonNullElse(container.get(NamespaceUtils.RANGE.key(), PersistentDataType.INTEGER), 0)
             );
         }
         return null;
     }
 
-    public InputContainer(BlockLocation pos, int range) {
-        super(pos);
+    public InputContainer(BlockLocation pos, Network network, int range) {
+        super(pos, network);
         this.range = range;
     }
 
-    public InputContainer(BlockLocation pos) {
-        super(pos);
+    public InputContainer(BlockLocation pos, Network network) {
+        super(pos, network);
     }
 
     private static final Map<String, Object> defaultProperties = new HashMap<>();

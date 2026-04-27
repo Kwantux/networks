@@ -1,5 +1,6 @@
 package de.kwantux.networks.component.component;
 
+import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
@@ -33,9 +34,9 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
     private int acceptorPriority;
     private int supplierPriority;
 
-    public static @Nullable SortingContainer create(Origin origin, PersistentDataContainer container) {
+    public static @Nullable SortingContainer create(Origin origin, Network network, PersistentDataContainer container) {
         if (origin instanceof BlockLocation pos) {
-            if (container == null) return new SortingContainer(pos, new int[0], 10, 0);
+            if (container == null) return new SortingContainer(pos, network, new int[0], 10, 0);
 
             int[] filters;
 
@@ -54,7 +55,7 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
             // Remove all duplicates and 0 values from filters
             filters = Arrays.stream(filters).distinct().filter(i -> i != 0).toArray();
 
-            return new SortingContainer(pos,
+            return new SortingContainer(pos, network,
                     filters,
                     Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), 10),
                     Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 0)
@@ -63,15 +64,15 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
         return null;
     }
 
-    public SortingContainer(BlockLocation pos, int[] filters, int acceptorPriority) {
-        super(pos);
+    public SortingContainer(BlockLocation pos, Network network, int[] filters, int acceptorPriority) {
+        super(pos, network);
         this.filters = filters;
         this.acceptorPriority = acceptorPriority;
         this.supplierPriority = 0;
     }
 
-    public SortingContainer(BlockLocation pos, int[] filters, int acceptorPriority, int supplierPriority) {
-        super(pos);
+    public SortingContainer(BlockLocation pos, Network network, int[] filters, int acceptorPriority, int supplierPriority) {
+        super(pos, network);
         this.filters = filters;
         this.acceptorPriority = acceptorPriority;
         this.supplierPriority = supplierPriority;
