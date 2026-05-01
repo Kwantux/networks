@@ -11,12 +11,13 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "de.kwantux"
-version = "3.1.8"
+version = "3.2.0-SNAPSHOT"
 description = "A performance friendly way to sort your items"
 
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.faststats.dev/releases")
 }
 
 dependencies {
@@ -26,6 +27,7 @@ dependencies {
     paperLibrary("org.spongepowered", "configurate-yaml", "4.1.2")
     paperLibrary("org.incendo", "cloud-paper", "2.0.0-beta.10")
     paperLibrary("com.google.code.gson", "gson", "2.10.1")
+    paperLibrary("dev.faststats.metrics", "bukkit", "0.22.0")
     implementation("com.google.guava:guava:33.2.1-jre")
 
     // Testing framework
@@ -79,7 +81,7 @@ paper {
 
 tasks {
     runServer {
-        minecraftVersion("1.21.10")
+        minecraftVersion("1.21.11")
         // Pass development flag to JVM
         jvmArgs("-Dnetworks.development=true")
     }
