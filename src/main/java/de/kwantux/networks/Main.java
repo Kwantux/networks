@@ -132,11 +132,13 @@ public final class Main extends JavaPlugin {
         crf = new CraftingManager(this);
 
         // bStats Metrics
-        int pluginId = 18609;
-        Metrics metrics = new Metrics(this, pluginId);
-        metrics.addCustomChart(new Metrics.SingleLineChart("total_networks", () ->
-            mgr.getNetworks().size()
-        ));
+        runInProduction(() -> {
+            int pluginId = 18609;
+            Metrics metrics = new Metrics(this, pluginId);
+            metrics.addCustomChart(new Metrics.SingleLineChart("total_networks", () ->
+                mgr.getNetworks().size()
+            ));
+        });
 
         mgr.loadData();
         mgr.saveData();
@@ -175,6 +177,16 @@ public final class Main extends JavaPlugin {
     }
 
     private final String startMessage =
+    """
+
+
+   _  __    __                  __          ____  ___
+  / |/ /__ / /__    _____  ____/ /__ ___   |_  / <  /
+ /    / -_) __/ |/|/ / _ \\/ __/  '_/(_-<  _/_ <_ / /
+/_/|_/\\__/\\__/|__,__/\\___/_/ /_/\\_\\/___/ /____(_)_/
+    """;
+
+    private final String startMessage32 =
     """
 
 
