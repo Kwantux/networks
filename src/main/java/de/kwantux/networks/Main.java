@@ -108,15 +108,8 @@ public final class Main extends JavaPlugin {
             getDataFolder().mkdirs();
         }
 
-        try {
-            logger.info("Loading config files...");
-            this.cfg = new Config(this);
-        }
-        catch (SerializationException e) {
-            logger.severe("Unable to load config, shutting down plugin…");
-            getServer().getPluginManager().disablePlugin(this);
-            throw new RuntimeException(e);
-        }
+        logger.info("Loading config files...");
+        this.cfg = new Config(this);
 
         lang = new LanguageController(this, cfg.getLanguage(), "en", "de");
 

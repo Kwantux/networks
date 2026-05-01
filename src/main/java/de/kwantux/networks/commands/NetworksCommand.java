@@ -1,6 +1,5 @@
 package de.kwantux.networks.commands;
 
-import de.kwantux.config.ConfigurationManager;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
@@ -293,12 +292,12 @@ public class NetworksCommand extends CommandHandler {
     }
 
     private void saveConfig(CommandContext<CommandSender> context) {
-        ConfigurationManager.saveAll();
+        plugin.getConfiguration().reload();
         lang.message(context.sender(), "data.save.config");
     }
 
     private void reloadConfig(CommandContext<CommandSender> context) {
-        ConfigurationManager.reloadAll();
+        plugin.getConfiguration().reload();
         lang.message(context.sender(), "data.reload.config");
     }
 
@@ -701,12 +700,8 @@ public class NetworksCommand extends CommandHandler {
 
     private void giveUpgradeRange(CommandContext<Player> context) {
         Player player = context.sender();
-        try {
-            ItemStack upgrade = crf.getRangeUpgrade(context.get("tier"));
-            player.getInventory().addItem(upgrade);
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        }
+        ItemStack upgrade = crf.getRangeUpgrade(context.get("tier"));
+        player.getInventory().addItem(upgrade);
     }
 
     private void giveComponent(CommandContext<Player> context) {
