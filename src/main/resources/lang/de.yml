@@ -233,5 +233,5 @@ item.lore.component.misc.upgrade:
 item.lore.upgrade.range:
   - "<reset>Klicke hiermit auf einen Netzwerkkomponenten, um diese Erweiterung zu installieren"
 
-notice: "<yellow>Inventar Probleme? Probier mal <white>/networks <yellow>und erstelle dein vollautomatisches Lagersystem! <white>Eine detailierte Anleitung findest du <click:open_url:'https://networks.kwantux.de'><blue>hier.</blue></click>"
+notice: "<yellow>Inventar Probleme? Probier mal <white>Networks<yellow> aus und erstelle dein vollautomatisches Lagersystem! <white>Eine detailierte Anleitung findest du <click:open_url:'https://networks.kwantux.de'><blue>hier.</blue></click>"
 manual: "<white>Eine detailierte Anleitung zu Networks findest du <click:open_url:'https://networks.kwantux.de'><blue>hier.</blue></click>"

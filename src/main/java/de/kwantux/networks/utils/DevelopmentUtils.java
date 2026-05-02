@@ -14,20 +14,21 @@ public final class DevelopmentUtils {
     private DevelopmentUtils() {
         // Utility class - prevent instantiation
     }
-    
-    /**
-     * Returns true if running in development environment (runServer task)
-     * Returns false if running in production (build task)
-     */
-    public static boolean isDevelopment() {
-        return IS_DEVELOPMENT;
-    }
-    
+
     /**
      * Executes the given runnable only in development environment
      */
     public static void runInDevelopment(Runnable runnable) {
-        if (isDevelopment()) {
+        if (IS_DEVELOPMENT) {
+            runnable.run();
+        }
+    }
+
+    /**
+     * Executes the given runnable only in production environment
+     */
+    public static void runInProduction(Runnable runnable) {
+        if (!IS_DEVELOPMENT) {
             runnable.run();
         }
     }
@@ -36,7 +37,7 @@ public final class DevelopmentUtils {
      * Returns the development value if in development, otherwise returns the production value
      */
     public static <T> T ifDevelopment(T developmentValue, T productionValue) {
-        return isDevelopment() ? developmentValue : productionValue;
+        return IS_DEVELOPMENT ? developmentValue : productionValue;
     }
 
 
@@ -44,8 +45,7 @@ public final class DevelopmentUtils {
      * Prints the given message to the server log only in development environment
      */
     public static void devlog(String message) {
-        if (isDevelopment()) {
+        if (IS_DEVELOPMENT)
             Main.logger.info("[DEV] " + message);
-        }
     }
 }

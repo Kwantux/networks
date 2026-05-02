@@ -1,6 +1,5 @@
 package de.kwantux.networks.commands;
 
-import de.kwantux.config.ConfigurationManager;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
@@ -13,6 +12,7 @@ import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.ItemHash;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.TextColor;
@@ -229,15 +229,22 @@ public class NetworksCommand extends CommandHandler {
                 .senderType(Player.class)
                 .handler(this::giveUpgradeRange)
         );
-        runInDevelopment(() ->
+        runInDevelopment(() -> {
             cmd.command(cmd.commandBuilder("networks", Config.commands)
                     .literal("debug")
                     .literal("itemhash")
                     .permission("networks.debug")
                     .senderType(Player.class)
                     .handler(this::debugItemHash)
-            )
-        );
+            );
+            cmd.command(cmd.commandBuilder("networks", Config.commands)
+                    .literal("debug")
+                    .literal("itemname")
+                    .permission("networks.debug")
+                    .senderType(Player.class)
+                    .handler(this::itemNameWithHover)
+            );
+        });
     }
 
 
@@ -285,12 +292,12 @@ public class NetworksCommand extends CommandHandler {
     }
 
     private void saveConfig(CommandContext<CommandSender> context) {
-        ConfigurationManager.saveAll();
+        plugin.getConfiguration().reload();
         lang.message(context.sender(), "data.save.config");
     }
 
     private void reloadConfig(CommandContext<CommandSender> context) {
-        ConfigurationManager.reloadAll();
+        plugin.getConfiguration().reload();
         lang.message(context.sender(), "data.reload.config");
     }
 
@@ -693,12 +700,8 @@ public class NetworksCommand extends CommandHandler {
 
     private void giveUpgradeRange(CommandContext<Player> context) {
         Player player = context.sender();
-        try {
-            ItemStack upgrade = crf.getRangeUpgrade(context.get("tier"));
-            player.getInventory().addItem(upgrade);
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        }
+        ItemStack upgrade = crf.getRangeUpgrade(context.get("tier"));
+        player.getInventory().addItem(upgrade);
     }
 
     private void giveComponent(CommandContext<Player> context) {
@@ -710,12 +713,19 @@ public class NetworksCommand extends CommandHandler {
     private void debugItemHash(CommandContext<Player> context) {
         Player player = context.sender();
         ItemStack item = player.getInventory().getItemInMainHand();
-        player.sendMessage(item.getType().ordinal() + " ");
-        try {
-            player.sendMessage(item.getType().getId() + " ");
-        } catch (Throwable e) {
-            player.sendMessage("modern ");
-        }
         lang.message(player, "debug.hash", "" + ItemHash.materialHash(item), "" + ItemHash.strictHash(item), "");
     }
+
+    private void itemNameWithHover(CommandContext<Player> context) {
+        Player player = context.sender();
+        ItemStack item = player.getInventory().getItemInMainHand();
+        Component component = item.effectiveName().hoverEvent(HoverEvent.showItem(
+                HoverEvent.ShowItem.showItem(
+                        Key.key(item.getType().name().toLowerCase()), 1
+                )
+        ));
+        player.sendMessage(component);
+    }
+
+
 }

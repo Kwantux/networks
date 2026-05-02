@@ -93,7 +93,7 @@ public class Language extends RawConfiguration {
             return;
         }
 
-        logger.info("[QC] Successfully updated config file " + langID + ".yml");
+//        logger.info("[QC] Successfully updated config file " + langID + ".yml");
 
     }
 
@@ -118,8 +118,8 @@ public class Language extends RawConfiguration {
             throw new RuntimeException(e);
         }
 
-        if (testRequirements()) {
-            logger.info("[QC] Successfully loaded configuration file " + langID + ".yml on root path " + path);
+        if (!testRequirements()) {
+            logger.severe("[QC] Config file " + langID + ".yml is missing required fields!");
         }
     }
 

@@ -6,6 +6,7 @@ import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.storage.Storage;
 import de.kwantux.networks.utils.Origin;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -15,6 +16,8 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static de.kwantux.networks.Main.dcu;
 
@@ -252,6 +255,27 @@ public final class Manager {
 
     public void requestTransfer(Network network, Player player) {
         transferRequests.put(network, player);
+    }
+
+    public int getTotalComponentCount() {
+        return origins.size();
+    }
+
+    private Set<UUID> playersUsingNetworksCache = new HashSet<>();
+
+    public int getPlayersUsingNetworksCount() {
+        Set<UUID> players = new HashSet<>();
+        for (Network network : networks.values()) {
+            players.addAll(network.users());
+            players.add(network.owner());
+        }
+        this.playersUsingNetworksCache = players;
+        return players.size();
+    }
+
+    public int getOnlinePlayersUsingNetworksCount() {
+        this.playersUsingNetworksCache.retainAll(Bukkit.getOnlinePlayers().stream().map(Player::getUniqueId).collect(Collectors.toSet()));
+        return playersUsingNetworksCache.size();
     }
 
 }
