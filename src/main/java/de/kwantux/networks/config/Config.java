@@ -73,9 +73,6 @@ public class Config {
         
         // Network properties
         config.defineDefault("properties.baseRange", 20, "Default base range for networks");
-        config.defineDefault("properties.maxComponents", -1, "Default maximum components per network (-1 for unlimited)");
-        config.defineDefault("properties.maxUsers", -1, "Default maximum users per network (-1 for unlimited)");
-        
         // Feature toggles
         config.defineDefault("blastProofComponents", true, "Disables explosion damage on network components");
         config.defineDefault("propertyLore", true, "Add component properties to the item lore of the component");

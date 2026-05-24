@@ -31,11 +31,7 @@ public class Network {
     private List<BasicComponent> components = new ArrayList<>();
 
     // Network Properties
-
     private int range;
-    private int maxUsers;
-    private int maxComponents;
-
 
     // Constructors
 
@@ -149,13 +145,11 @@ public class Network {
     }
 
     public NetworkProperties properties() {
-        return new NetworkProperties(range, maxComponents, maxUsers);
+        return new NetworkProperties(range);
     }
 
     public void properties(@NotNull NetworkProperties properties) {
         this.range = properties.baseRange();
-        this.maxUsers = properties.maxUsers();
-        this.maxComponents = properties.maxComponents();
     }
 
     public Component displayText() {
