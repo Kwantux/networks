@@ -167,7 +167,7 @@ public class Sorter {
      */
     public static boolean inDistance(Network network, ActiveModule active, BaseModule passive) {
         return
-                active.range() < 0 || active.range() >= ranges.length || ranges[Math.min(active.range(), ranges.length - 1)] < 1 // If component range is set to infinity
+                ranges[Math.min(active.range(), ranges.length - 1)] < 0 // If component range is set to infinity (negative)
                         || // or if
                         active.pos().getDistance(passive.pos()) <= // distance is smaller than
                         ranges[Math.min(active.range(), ranges.length - 1)] + network.range(); // component range + network range
