@@ -180,13 +180,6 @@ public class NetworksCommand extends CommandHandler {
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("data")
-                .literal("save")
-                .literal("config")
-                .permission("networks.data")
-                .handler(this::saveConfig)
-        );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("data")
                 .literal("reload")
                 .permission("networks.data")
                 .handler(this::reloadConfig)
@@ -291,13 +284,8 @@ public class NetworksCommand extends CommandHandler {
         lang.message(context.sender(), "data.reload.networks");
     }
 
-    private void saveConfig(CommandContext<CommandSender> context) {
-        plugin.getConfiguration().reload();
-        lang.message(context.sender(), "data.save.config");
-    }
-
     private void reloadConfig(CommandContext<CommandSender> context) {
-        plugin.getConfiguration().reload();
+        cfg.reload();
         lang.message(context.sender(), "data.reload.config");
     }
 

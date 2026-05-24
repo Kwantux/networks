@@ -1,7 +1,6 @@
 package de.kwantux.networks.config;
 
 import de.kwantux.config.SimpleConfig;
-import de.kwantux.config.lang.LanguageController;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.component.util.ComponentType;
 import org.bukkit.Bukkit;
@@ -16,27 +15,20 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static de.kwantux.networks.config.Config.*;
+import static de.kwantux.networks.Main.*;
 
 public class CraftingManager {
 
     private final Main plugin;
     private final SimpleConfig config;
-    private final Logger logger;
-    private final LanguageController lang;
-
-    private final Config pluginconfig;
 
     public static List<NamespacedKey> recipes = new ArrayList<>();
 
-
-
     public void save() {
-        config.saveConfig();
+        config.save();
     }
-
 
     private final char[] keys = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
 
@@ -82,11 +74,7 @@ public class CraftingManager {
 
         // Define all default recipe configurations with comments
         defineDefaults();
-
-        this.lang = main.getLanguage();
-        this.logger = main.getLogger();
-        this.pluginconfig = main.getConfiguration();
-
+        config.load();
 
         registerRecipes();
 

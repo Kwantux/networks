@@ -80,39 +80,23 @@ public final class Main extends JavaPlugin {
             metrics.ready();
         });
 
-        // Create folders
-        try {
-            Files.createDirectories(Path.of(getDataFolder().getAbsolutePath(), "networks"));
-            Files.createDirectories(Path.of(getDataFolder().getAbsolutePath(), "manuals"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        if (Files.exists(Path.of(getDataFolder().getAbsolutePath(), "networks.conf"))) {
-            try {
-                Files.move(Path.of(getDataFolder().getAbsolutePath(), "networks.conf"), Path.of(getDataFolder().getAbsolutePath(), "general.conf"));
-            } catch (IOException _ignore) {}
-        }
-
-        saveResource("README.md", true);
-
-        saveResource("lang/de.yml", true);
-        saveResource("lang/en.yml", true);
-
-
-        logger = getLogger();
-
-
-
         if (!getDataFolder().exists()) {
             getDataFolder().mkdirs();
         }
+        try {
+            Files.createDirectories(Path.of(getDataFolder().getAbsolutePath(), "networks"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        saveResource("README.md", true);
+        saveResource("lang/de.yml", true);
+        saveResource("lang/en.yml", true);
+
+        logger = getLogger();
 
         logger.info("Loading config files...");
         this.cfg = new Config(this);
-
         lang = new LanguageController(this, cfg.getLanguage(), "en", "de");
-
 
 
         new NetworksCommandManager(this);
@@ -195,18 +179,4 @@ public final class Main extends JavaPlugin {
  /    / -_) __/ |/|/ / _ \\/ __/  '_/(_-<  _/_ <_ / __/
 /_/|_/\\__/\\__/|__,__/\\___/_/ /_/\\_\\/___/ /____(_)____/
     """;
-
-    public LanguageController getLanguage() {
-        return lang;
-    }
-
-    public Manager getNetworkManager() {
-        return mgr;
-    }
-
-    public Config getConfiguration() {
-        return cfg;
-    }
-
-
 }

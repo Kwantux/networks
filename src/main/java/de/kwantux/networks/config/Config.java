@@ -6,7 +6,6 @@ import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.networks.utils.BlockLocation;
 import org.bukkit.Material;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +23,7 @@ public class Config {
 
         // Define all default values with comments
         defineDefaults();
+        config.load();
 
         // Load values from config
         blastProofComponents = config.getBoolean("blastProofComponents");
@@ -53,11 +53,13 @@ public class Config {
         
         // Command aliases
         config.defineDefault("commands", new String[]{"n", "net", "network"}, "Command aliases - Alternative /-commands for /networks");
-        
+
+        String[] componentBlockWhitelist = new String[]{"CHEST", "TRAPPED_CHEST", "BARREL", "HOPPER", "DISPENSER", "DROPPER", "SHULKER_BOX", "WHITE_SHULKER_BOX", "ORANGE_SHULKER_BOX", "MAGENTA_SHULKER_BOX", "LIGHT_BLUE_SHULKER_BOX", "YELLOW_SHULKER_BOX", "LIME_SHULKER_BOX", "PINK_SHULKER_BOX", "GRAY_SHULKER_BOX", "LIGHT_GRAY_SHULKER_BOX", "CYAN_SHULKER_BOX", "PURPLE_SHULKER_BOX", "BLUE_SHULKER_BOX", "BROWN_SHULKER_BOX", "GREEN_SHULKER_BOX", "RED_SHULKER_BOX", "BLACK_SHULKER_BOX", "COPPER_CHEST", "EXPOSED_COPPER_CHEST", "WEATHERED_COPPER_CHEST", "OXIDIZED_COPPER_CHEST", "WAXED_COPPER_CHEST", "WAXED_EXPOSED_COPPER_CHEST", "WAXED_WEATHERED_COPPER_CHEST", "WAXED_OXIDIZED_COPPER_CHEST"};
+
         // Component blocks
-        config.defineDefault("component.input", new String[]{"CHEST", "TRAPPED_CHEST", "BARREL", "HOPPER", "DISPENSER", "DROPPER", "SHULKER_BOX", "WHITE_SHULKER_BOX", "ORANGE_SHULKER_BOX", "MAGENTA_SHULKER_BOX", "LIGHT_BLUE_SHULKER_BOX", "YELLOW_SHULKER_BOX", "LIME_SHULKER_BOX", "PINK_SHULKER_BOX", "GRAY_SHULKER_BOX", "LIGHT_GRAY_SHULKER_BOX", "CYAN_SHULKER_BOX", "PURPLE_SHULKER_BOX", "BLUE_SHULKER_BOX", "BROWN_SHULKER_BOX", "GREEN_SHULKER_BOX", "RED_SHULKER_BOX", "BLACK_SHULKER_BOX", "COPPER_CHEST", "EXPOSED_COPPER_CHEST", "WEATHERED_COPPER_CHEST", "OXIDIZED_COPPER_CHEST", "WAXED_COPPER_CHEST", "WAXED_EXPOSED_COPPER_CHEST", "WAXED_WEATHERED_COPPER_CHEST", "WAXED_OXIDIZED_COPPER_CHEST"}, "Blocks that are allowed to be network input containers. Only works for blocks that have inventories");
-        config.defineDefault("component.sorting", new String[]{"CHEST", "TRAPPED_CHEST", "BARREL", "HOPPER", "DISPENSER", "DROPPER", "SHULKER_BOX", "WHITE_SHULKER_BOX", "ORANGE_SHULKER_BOX", "MAGENTA_SHULKER_BOX", "LIGHT_BLUE_SHULKER_BOX", "YELLOW_SHULKER_BOX", "LIME_SHULKER_BOX", "PINK_SHULKER_BOX", "GRAY_SHULKER_BOX", "LIGHT_GRAY_SHULKER_BOX", "CYAN_SHULKER_BOX", "PURPLE_SHULKER_BOX", "BLUE_SHULKER_BOX", "BROWN_SHULKER_BOX", "GREEN_SHULKER_BOX", "RED_SHULKER_BOX", "BLACK_SHULKER_BOX", "COPPER_CHEST", "EXPOSED_COPPER_CHEST", "WEATHERED_COPPER_CHEST", "OXIDIZED_COPPER_CHEST", "WAXED_COPPER_CHEST", "WAXED_EXPOSED_COPPER_CHEST", "WAXED_WEATHERED_COPPER_CHEST", "WAXED_OXIDIZED_COPPER_CHEST"}, "Blocks that are allowed to be network sorting containers");
-        config.defineDefault("component.misc", new String[]{"CHEST", "TRAPPED_CHEST", "BARREL", "HOPPER", "DISPENSER", "DROPPER", "SHULKER_BOX", "WHITE_SHULKER_BOX", "ORANGE_SHULKER_BOX", "MAGENTA_SHULKER_BOX", "LIGHT_BLUE_SHULKER_BOX", "YELLOW_SHULKER_BOX", "LIME_SHULKER_BOX", "PINK_SHULKER_BOX", "GRAY_SHULKER_BOX", "LIGHT_GRAY_SHULKER_BOX", "CYAN_SHULKER_BOX", "PURPLE_SHULKER_BOX", "BLUE_SHULKER_BOX", "BROWN_SHULKER_BOX", "GREEN_SHULKER_BOX", "RED_SHULKER_BOX", "BLACK_SHULKER_BOX", "COPPER_CHEST", "EXPOSED_COPPER_CHEST", "WEATHERED_COPPER_CHEST", "OXIDIZED_COPPER_CHEST", "WAXED_COPPER_CHEST", "WAXED_EXPOSED_COPPER_CHEST", "WAXED_WEATHERED_COPPER_CHEST", "WAXED_OXIDIZED_COPPER_CHEST"}, "Blocks that are allowed to be network misc containers");
+        config.defineDefault("component.input", componentBlockWhitelist, "Blocks that are allowed to be network input containers. Only works for blocks that have inventories");
+        config.defineDefault("component.sorting", componentBlockWhitelist, "Blocks that are allowed to be network sorting containers");
+        config.defineDefault("component.misc", componentBlockWhitelist, "Blocks that are allowed to be network misc containers");
         
         // Auto-save
         config.defineDefault("autoSave", 120, "Auto-save interval in seconds. Set to 0 to disable auto save");
@@ -146,9 +148,7 @@ public class Config {
 
     public NetworkProperties defaultProperties() {
         return new NetworkProperties(
-                config.getInt("properties.baseRange"),
-                config.getInt("properties.maxComponents"),
-                config.getInt("properties.maxUsers")
+                config.getInt("properties.baseRange")
         );
     }
 
@@ -185,6 +185,6 @@ public class Config {
     }
 
     public void reload() {
-        config.reload();
+        config.load();
     }
 }
