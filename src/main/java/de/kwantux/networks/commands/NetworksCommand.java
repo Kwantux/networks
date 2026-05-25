@@ -514,25 +514,27 @@ public class NetworksCommand extends CommandHandler {
      */
     public static Component componentInfo(Network network, @Nullable BasicComponent component, boolean isProxy) {
         try {
-            return switch (component) {
-                case InputContainer container ->
-                        lang.get("wand.info.input", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.range())));
-                case SortingContainer container -> {
-                    Component filters = Component.text("[");
-                    Set<Component> filterSet = Arrays.stream(container.filters()).mapToObj(
-                            FilterTranslator::translate
-                    ).collect(Collectors.toSet());
-                    for (Component filter : filterSet) {
-                        filters = filters.append(filter);
-                        filters = filters.append(Component.text(", "));
+            return Component.newline().append(
+                switch (component) {
+                    case InputContainer container ->
+                            lang.get("wand.info.input", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.range())));
+                    case SortingContainer container -> {
+                        Component filters = Component.text("[");
+                        Set<Component> filterSet = Arrays.stream(container.filters()).mapToObj(
+                                FilterTranslator::translate
+                        ).collect(Collectors.toSet());
+                        for (Component filter : filterSet) {
+                            filters = filters.append(filter);
+                            filters = filters.append(Component.text(", "));
+                        }
+                        filters = filters.append(Component.text("]"));
+                        yield lang.get("wand.info.sorting", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())), filters);
                     }
-                    filters = filters.append(Component.text("]"));
-                    yield lang.get("wand.info.sorting", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())), filters);
+                    case MiscContainer container ->
+                            lang.get("wand.info.misc", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())));
+                    case null, default -> Component.empty();
                 }
-                case MiscContainer container ->
-                        lang.get("wand.info.misc", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())));
-                case null, default -> Component.empty();
-            };
+            ).append(isProxy ? Component.newline().append(lang.get("wand.info.proxy")) : Component.empty());
 
         } catch (InvalidNodeException e) {
             return Component.empty();
