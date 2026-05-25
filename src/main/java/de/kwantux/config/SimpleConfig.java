@@ -67,19 +67,25 @@ public class SimpleConfig {
     /**
      * Get a value from config, falling back to default if not set
      */
-    @SuppressWarnings("unchecked")
     public <T> T get(String key, Class<T> type) {
         devlog("GET " + key + " AS " + type.getSimpleName() + " -> " + activeValues.get(key));
         try {
-            if (activeValues.containsKey(key)) {
+            if (activeValues.containsKey(key) && activeValues.get(key).getClass().equals(type)) {
                 return (T) activeValues.get(key);
             }
-            if (defaultValues.containsKey(key)) {
+            if (defaultValues.containsKey(key) && defaultValues.get(key).getClass().equals(type)) {
                 return (T) defaultValues.get(key);
             }
         } catch (Exception e) {
-            logger.severe("Error getting value for key: " + key);
-            logger.severe(e.getMessage());
+            logger.warning("Error getting value for key: " + key + ". Using default value.");
+            try {
+                if (defaultValues.containsKey(key)) {
+                    return (T) defaultValues.get(key);
+                }
+            } catch (Exception e2) {
+                logger.severe("Error getting default value for key: " + key);
+                logger.severe(e2.getMessage());
+            }
         }
         throw new IllegalArgumentException("No default value defined for key: " + key);
     }
@@ -195,16 +201,23 @@ public class SimpleConfig {
     }
 
     private void loadNode(CommentedConfigurationNode root, String keyPrefix) {
-        System.out.println("-> ROOT: " + keyPrefix);
-        root.childrenMap().forEach((relativeKey, node) -> {
+        Map<Object, CommentedConfigurationNode> childrenMap;
+        if (root.isList()) {
+            childrenMap = new HashMap<>();
+            var childrenList = root.childrenList();
+            for (int i = 0; i < childrenList.size(); i++) {
+                childrenMap.put(i, childrenList.get(i));
+            }
+        }
+        else childrenMap = root.childrenMap();
+
+        childrenMap.forEach((relativeKey, node) -> {
             String fullKey = keyPrefix + relativeKey;
-            if (node.isMap()) {
+            if (node.isMap() || node.isList()) {
                 loadNode(node, fullKey + ".");
             }
-            else if (defaultValues.containsKey(fullKey)) {
-                System.out.println("LOADING: " + relativeKey);
+            if (defaultValues.containsKey(fullKey)) {
                 if (node.isList()) {
-                    System.out.println("> IS LIST");
                     try {
                         Class<?> clazz = defaultValues.get(fullKey).getClass().getComponentType();
                         List<?> list = node.getList(clazz);
@@ -214,9 +227,6 @@ public class SimpleConfig {
                     }
                 }
                 else activeValues.put(fullKey, node.raw());
-            }
-            else {
-                System.out.println("SKIPPING: " + fullKey);
             }
         });
     }
