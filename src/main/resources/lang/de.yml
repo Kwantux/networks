@@ -110,13 +110,13 @@ property.acceptor_priority: "<reset><green>Annahme-Priorität</green>"
 property.supplier_priority: "<reset><green>Abgabe-Priorität</green>"
 property.filters: "<reset><green>Filter</green>"
 
-component.input.add: <prefix>Einfüllkiste bei <1> wurde hinzugefügt zum Netzwerk <2>!
-component.sorting.add: <prefix>Sortierkiste bei <1> wurde hinzugefügt zum Netzwerk <2>!
+component.input.add: <prefix>Einfüllkiste bei <2> wurde hinzugefügt zum Netzwerk <1>!
+component.sorting.add: <prefix>Sortierkiste bei <2> wurde hinzugefügt zum Netzwerk <1>!
 component.sorting.setitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> hinzugefügt.
 component.sorting.removeitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> entfernt.
 component.sorting.clearfilters: <prefix>Filter der Sortierkiste wurden gelöscht.
 component.sorting.autofilter: <prefix>Inhalt der Sortierkiste <1> wurde als Filter gesetzt.
-component.misc.add: <prefix>Restekiste <1> wurde hinzugefügt zum Netzwerk <2>!
+component.misc.add: <prefix>Restekiste <2> wurde hinzugefügt zum Netzwerk <1>!
 component.remove: <prefix><red>Komponent bei <1> wurde entfernt.
 component.exploded: <prefix><dark_red>Komponent bei <white><1><dark_red> aus dem Netzwerk <white><2><dark_red> wurde gesprengt!
 component.invalid_block: <prefix><red>Blöcke vom Typ </red><1><red> können keine Netzwerkkomponenten sein!</red>

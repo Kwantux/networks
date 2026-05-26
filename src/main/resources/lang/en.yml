@@ -112,13 +112,13 @@ property.acceptor_priority: "<reset><green>Acceptor Priority</green>"
 property.supplier_priority: "<reset><green>Supplier Priority</green>"
 property.filters: "<reset><green>Filters</green>"
 
-component.input.add: <prefix>Input container at <1> successfully added to <2>!
-component.sorting.add: <prefix>Sorting container at <1> successfully added to <2>!
+component.input.add: <prefix>Input container at <2> successfully added to <1>!
+component.sorting.add: <prefix>Sorting container at <2> successfully added to <1>!
 component.sorting.setitem: <prefix>Item type <2> was added to sorting container at <1>.
 component.sorting.removeitem: <prefix>Item type <2> was removed from sorting container at <1>.
 component.sorting.clearfilters: <prefix>Cleared filters of the container you're holding.
 component.sorting.autofilter: <prefix>Added contents of container at <1> to it's sorting filter.
-component.misc.add: <prefix>Miscellaneous container at <1> successfully added to <2>!
+component.misc.add: <prefix>Miscellaneous container at <2> successfully added to <1>!
 component.remove: <prefix><red>Removed component at <1>
 component.exploded: <prefix><dark_red>NetworkComponent at <white><1><dark_red> from network <white><2><dark_red> was blown up!
 component.invalid_block: <prefix><red>Blocks of type </red><1><red> are not allowed to be network components!</red>
