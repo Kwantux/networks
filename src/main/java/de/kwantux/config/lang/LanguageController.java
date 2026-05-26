@@ -175,13 +175,17 @@ public class LanguageController {
             throw new RuntimeException(e);
         }
     }
-    public List<Component> getItemLore(String path) throws InvalidNodeException {
-        List<String> list = getList("item.lore."+path);
-        List<Component> result = new ArrayList<Component>();
-        for (String s : list) {
-            result.add(mm.deserialize(s).decoration(TextDecoration.ITALIC, false));
+    public List<Component> getItemLore(String path) {
+        try {
+            List<String> list = getList("item.lore." + path);
+            List<Component> result = new ArrayList<Component>();
+            for (String s : list) {
+                result.add(mm.deserialize(s).decoration(TextDecoration.ITALIC, false));
+            }
+            return result;
+        } catch (InvalidNodeException e) {
+            throw new RuntimeException(e);
         }
-        return result;
     }
 
     private Component invalidKeyError(String key) {

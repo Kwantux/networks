@@ -38,12 +38,8 @@ public class CraftingManager {
     public ItemStack getNetworkWand(int mode) {
         ItemStack wand = new ItemStack(wandMaterial);
         ItemMeta meta = wand.getItemMeta();
-        try {
-            meta.displayName(lang.getItemName("wand"+mode));
-            meta.lore(lang.getItemLore("wand"+mode));
-        } catch (de.kwantux.config.util.exceptions.InvalidNodeException e) {
-            logger.warning("Missing language key for wand" + mode);
-        }
+        meta.displayName(lang.getItemName("wand"+mode));
+        meta.lore(lang.getItemLore("wand"+mode));
         setCustomModelDataForWand(meta, mode);
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(WAND.key, PersistentDataType.INTEGER, mode);
@@ -54,12 +50,8 @@ public class CraftingManager {
     public ItemStack getRangeUpgrade(int tier) {
         ItemStack upgrade = new ItemStack(rangeUpgradeMaterial);
         ItemMeta meta = upgrade.getItemMeta();
-        try {
-            meta.displayName(lang.getItemName("upgrade.range." + (tier-1)));
-            meta.lore(lang.getItemLore("upgrade.range"));
-        } catch (de.kwantux.config.util.exceptions.InvalidNodeException e) {
-            logger.warning("Missing language key for range upgrade tier " + tier);
-        }
+        meta.displayName(lang.getItemName("upgrade.range." + (tier-1)));
+        meta.lore(lang.getItemLore("upgrade.range"));
         setCustomModelDataForRangeUpgrade(meta, tier);
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(UPGRADE_RANGE.key, PersistentDataType.INTEGER, tier);

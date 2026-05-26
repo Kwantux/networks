@@ -77,7 +77,7 @@ public class Config {
         config.defineDefault("material.component", "ITEM_FRAME", "Component upgrade material");
         
         // Network properties
-        config.defineDefault("properties.baseRange", 20, "Default base range for networks");
+        config.defineDefault("properties.baseRange", 0, "Default base range for networks");
         // Feature toggles
         config.defineDefault("blastProofComponents", true, "Disables explosion damage on network components");
         config.defineDefault("propertyLore", true, "Add component properties to the item lore of the component");
@@ -85,7 +85,7 @@ public class Config {
         config.defineDefault("logoOnLaunch", true, "Show Networks text on launch");
         
         // Range upgrades
-        config.defineDefault("range", new Integer[]{0, 50, 100, 200, 500, -1}, "Defines the maximum range items can be teleported for each level of range. This value is added to the base range property of the network. You can add more range upgrades to this list, but you NEED to also give them a crafting recipe. Paste 2147483647 to enable infinite item transmission. Paste -1 to enable interdimensional item transmission. Values must be integers between -1 and 2147483647");
+        config.defineDefault("range", new Integer[]{25, 50, 100, 200, 500, -1}, "Defines the maximum range items can be teleported for each level of range. This value is added to the base range property of the network. You can add more range upgrades to this list, but you NEED to also give them a crafting recipe. Paste 2147483647 to enable infinite item transmission. Paste -1 to enable interdimensional item transmission. Values must be integers between -1 and 2147483647");
         config.defineDefault("rangePerNetwork", false, "Whether range upgrades are per component or per network");
         
         // Player limits

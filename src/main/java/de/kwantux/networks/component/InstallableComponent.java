@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static de.kwantux.networks.Main.cfg;
+
 public abstract class InstallableComponent extends BasicComponent {
 
     /**
@@ -45,38 +47,43 @@ public abstract class InstallableComponent extends BasicComponent {
      */
     public static ItemStack item(ItemStack baseItem, ComponentType type, Map<String, Object> properties) {
         ItemMeta meta = baseItem.getItemMeta();
-        try {
-            meta.displayName(type.displayName());
-            List<Component> lore = Main.lang.getItemLore("component." + type.tag());
-            if (Config.propertyLore)
-                for (Map.Entry<String, Object> entry : properties.entrySet()) {
-                    if (entry.getKey().equals("filters") && entry.getValue() instanceof int[] array) {
-                        Component filters = Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": ["));
-                        boolean first = true;
-                        for (int filter : array) {
-                            if (first) first = false;
-                            else filters = filters.append(Component.text(", "));
-                            filters = filters.append(FilterTranslator.translate(filter));
-                        }
-                        filters = filters.append(Component.text("]"));
-                        lore.add(filters);
-                        continue;
-                    }
-                    String value = String.valueOf(entry.getValue());
-                    if (entry.getValue() instanceof int[] array) value = Arrays.toString(array);
-                    if (entry.getValue() instanceof long[] array) value = Arrays.toString(array);
-                    if (entry.getValue() instanceof byte[] array) value = Arrays.toString(array);
-                    lore.add(Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": " + value)));
-                }
-            meta.lore(lore);
-            CraftingManager.setCustomModelDataForComponent(meta, type);
-        } catch (InvalidNodeException e) {
-            throw new RuntimeException(e);
-        }
+        meta.displayName(type.displayName());
+        meta.lore(generateLore(properties, type));
+        CraftingManager.setCustomModelDataForComponent(meta, type);
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(NamespaceUtils.COMPONENT.key, PersistentDataType.STRING, type.tag());
         mapToContainer(data, properties);
         baseItem.setItemMeta(meta);
         return baseItem;
+    }
+
+    public static List<Component> generateLore(Map<String, Object> properties, ComponentType type) {
+        List<Component> lore = Main.lang.getItemLore("component." + type.tag());
+        if (Config.propertyLore)
+            for (Map.Entry<String, Object> entry : properties.entrySet()) {
+                Component line = Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": "));
+                if (entry.getKey().equals("filters") && entry.getValue() instanceof int[] array) {
+                    line = line.append(Component.text("["));
+                    boolean first = true;
+                    for (int filter : array) {
+                        if (first) first = false;
+                        else line = line.append(Component.text(", "));
+                        line = line.append(FilterTranslator.translate(filter));
+                    }
+                    line = line.append(Component.text("]"));
+                    lore.add(line);
+                    continue;
+                }
+                if (entry.getKey().equals("range") && entry.getValue() instanceof Integer range) {
+                    lore.add(Component.text(Config.ranges[Math.max(0, Math.min(range, Config.ranges.length - 1))]));
+                    continue;
+                }
+                String value = String.valueOf(entry.getValue());
+                if (entry.getValue() instanceof int[] array) value = Arrays.toString(array);
+                if (entry.getValue() instanceof long[] array) value = Arrays.toString(array);
+                if (entry.getValue() instanceof byte[] array) value = Arrays.toString(array);
+                lore.add(line.append(Component.text(value)));
+            }
+        return lore;
     }
 }
