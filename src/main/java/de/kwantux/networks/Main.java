@@ -94,7 +94,7 @@ public final class Main extends JavaPlugin {
         logger = getLogger();
 
         logger.info("Loading config files...");
-        this.cfg = new Config(this);
+        cfg = new Config(this);
         lang = new LanguageController(this, cfg.getLanguage(), "en", "de");
 
 

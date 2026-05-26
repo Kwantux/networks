@@ -167,8 +167,13 @@ public class LanguageController {
         throw new InvalidNodeException("[QC] No language file with language key " + path + " found!");
     }
 
-    public @Nullable Component getItemName(@NotNull String path) throws InvalidNodeException{
-        return get("item.name."+path).decoration(TextDecoration.ITALIC, false);
+    public @Nullable Component getItemName(@NotNull String path) {
+        try {
+            return get("item.name." + path).decoration(TextDecoration.ITALIC, false);
+        }
+        catch (InvalidNodeException e) {
+            throw new RuntimeException(e);
+        }
     }
     public List<Component> getItemLore(String path) throws InvalidNodeException {
         List<String> list = getList("item.lore."+path);

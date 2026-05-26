@@ -34,6 +34,7 @@ import java.util.stream.Collectors;
 import static de.kwantux.networks.Main.*;
 import static de.kwantux.networks.commands.ComponentTypeParser.componentTypeParser;
 import static de.kwantux.networks.commands.NetworkParser.networkParser;
+import static de.kwantux.networks.config.Config.resetContainerNamesOnDelete;
 import static de.kwantux.networks.utils.DevelopmentUtils.runInDevelopment;
 import static org.incendo.cloud.bukkit.parser.PlayerParser.playerParser;
 import static org.incendo.cloud.bukkit.parser.location.LocationParser.locationParser;
@@ -156,12 +157,21 @@ public class NetworksCommand extends CommandHandler {
                 .required("network", networkParser())
                 .handler(this::acceptTransfer)
         );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("merge")
-                .required("final", networkParser())
-                .required("other", networkParser())
-                .handler(this::merge)
-        );
+        if (Config.allowMerge)
+            cmd.command(cmd.commandBuilder("networks", Config.commands)
+                    .literal("merge")
+                    .required("final", networkParser())
+                    .required("other", networkParser())
+                    .handler(this::merge)
+            );
+        else
+            cmd.command(cmd.commandBuilder("networks", Config.commands)
+                    .literal("merge")
+                    .required("final", networkParser())
+                    .required("other", networkParser())
+                    .permission("networks.data")
+                    .handler(this::merge)
+            );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("items")
                 .handler(this::items)
@@ -380,6 +390,7 @@ public class NetworksCommand extends CommandHandler {
                 else
                     player.getWorld().dropItem(player.getLocation(), drop);
             }
+            if (resetContainerNamesOnDelete) component.resetBlockData();
         }
 
         String name = network.name();
@@ -696,10 +707,12 @@ public class NetworksCommand extends CommandHandler {
 
         if (finalNetwork.equals(otherNetwork)) {
             lang.message(sender, "merge.identical");
+            return;
         }
+
         String otherName = otherNetwork.name();
+        finalNetwork.addComponents(otherNetwork.components());
         mgr.delete(otherName);
-        finalNetwork.rebuildBlockDataCache();
         lang.message(sender, "merge.success", Component.text(finalNetwork.name()), Component.text(otherName));
     }
 

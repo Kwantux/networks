@@ -2,9 +2,7 @@ package de.kwantux.networks.event;
 
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
-import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.BlockComponent;
-import de.kwantux.networks.component.InstallableComponent;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
 import org.bukkit.Bukkit;
@@ -46,15 +44,19 @@ public class BlockBreakListener implements Listener {
 
         if (mgr.permissionUser(event.getPlayer(), component.network())) {
 
-            ItemStack item = component.item();
+            // Remove custom name from container
+            component.resetBlockData();
 
+            ItemStack item = component.item();
             lastDrop = Bukkit.getServer().getWorld(component.pos().getWorld()).dropItem(component.pos().getBukkitLocation(), item);
+
             BlockLocation location = new BlockLocation(event.getBlock());
             mgr.removeComponent(location);
             lang.message(event.getPlayer(), "component.remove", location.toString());
 
             isComponent = true;
             lastMaterial = event.getBlock().getType();
+
         }
         else {
             lang.message(event.getPlayer(), "permission.user");
@@ -107,6 +109,9 @@ public class BlockBreakListener implements Listener {
             if (!Config.blastProofComponents) {
                 BlockComponent component = (BlockComponent) mgr.getComponent(new BlockLocation(block));
                 assert component != null; // Was already checked when adding blocks to the list
+
+                // Remove custom name from container
+                component.resetBlockData();
 
                 ItemStack item = component.item();
                 // Drop item next tick to avoid it being destroyed by the explosion

@@ -37,6 +37,8 @@ public class Config {
         ranges = config.getIntArray("range");
         rangePerNetwork = config.getBoolean("rangePerNetwork");
         maxNetworks = config.getInt("maxNetworks");
+        allowMerge = config.getBoolean("allowMerge");
+        resetContainerNamesOnDelete = config.getBoolean("resetContainerNamesOnDelete");
 
         wandMaterial = getWandMaterial();
         componentUpgradeMaterial = getComponentUpgradeMaterial();
@@ -56,17 +58,19 @@ public class Config {
         String[] componentBlockWhitelist = new String[]{"CHEST", "TRAPPED_CHEST", "BARREL", "HOPPER", "DISPENSER", "DROPPER", "SHULKER_BOX", "WHITE_SHULKER_BOX", "ORANGE_SHULKER_BOX", "MAGENTA_SHULKER_BOX", "LIGHT_BLUE_SHULKER_BOX", "YELLOW_SHULKER_BOX", "LIME_SHULKER_BOX", "PINK_SHULKER_BOX", "GRAY_SHULKER_BOX", "LIGHT_GRAY_SHULKER_BOX", "CYAN_SHULKER_BOX", "PURPLE_SHULKER_BOX", "BLUE_SHULKER_BOX", "BROWN_SHULKER_BOX", "GREEN_SHULKER_BOX", "RED_SHULKER_BOX", "BLACK_SHULKER_BOX", "COPPER_CHEST", "EXPOSED_COPPER_CHEST", "WEATHERED_COPPER_CHEST", "OXIDIZED_COPPER_CHEST", "WAXED_COPPER_CHEST", "WAXED_EXPOSED_COPPER_CHEST", "WAXED_WEATHERED_COPPER_CHEST", "WAXED_OXIDIZED_COPPER_CHEST"};
 
         // Component blocks
-        config.defineDefault("component.input", componentBlockWhitelist, "Blocks that are allowed to be network input containers. Only works for blocks that have inventories");
-        config.defineDefault("component.sorting", componentBlockWhitelist, "Blocks that are allowed to be network sorting containers");
-        config.defineDefault("component.misc", componentBlockWhitelist, "Blocks that are allowed to be network misc containers");
+        config.defineDefault("component.input", componentBlockWhitelist, "Blocks that are allowed to be network input containers. Only works for blocks that have inventories.");
+        config.defineDefault("component.sorting", componentBlockWhitelist, "Blocks that are allowed to be network sorting containers. Only works for blocks that have inventories.");
+        config.defineDefault("component.misc", componentBlockWhitelist, "Blocks that are allowed to be network misc containers. Only works for blocks that have inventories.");
         
         // Auto-save
-        config.defineDefault("autoSave", 120, "Auto-save interval in seconds. Set to 0 to disable auto save");
+        config.defineDefault("autoSave", 30, "Auto-save interval in seconds. Set to 0 to disable auto save.");
         
         // Performance settings
         config.defineDefault("performance.complexInventoryChecks", false, "This option is experimental, use with caution. FALSE: Only checks if said inventory has a free slot (better for performance) [DEFAULT]. TRUE: Checks whether the stack that's to fill in can be spread to partially filled slots with the same item type");
         config.defineDefault("performance.loadChunks", false, "Load chunks of connected network components. Guarantees that items can be transmitted as far as you want. May SIGNIFICANTLY reduce your server's performance on LARGE servers! Use with caution. On Folia servers this does not always work since item transmission must happen within one tick region");
-        
+        config.defineDefault("resetContainerNamesOnDelete", true, "When deleting a network, reset the names of all containers in the network to their default names. This means loading all chunks with containers in them.");
+        config.defineDefault("allowMerge", true, "Allow merging networks. This means loading all chunks with containers of that network in them.");
+
         // Materials
         config.defineDefault("material.wand", "BLAZE_ROD", "Range upgrade base material");
         config.defineDefault("material.range", "LIGHTNING_ROD", "Range upgrade material");
@@ -99,6 +103,8 @@ public class Config {
     public static boolean propertyLore;
     public static boolean loadChunks;
     public static boolean rangePerNetwork;
+    public static boolean allowMerge;
+    public static boolean resetContainerNamesOnDelete;
     public static int maxNetworks;
     /**
      * Auto save interval in seconds

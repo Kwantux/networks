@@ -45,7 +45,7 @@ public abstract class InstallableComponent extends BasicComponent {
     public static ItemStack item(ItemStack baseItem, ComponentType type, Map<String, Object> properties) {
         ItemMeta meta = baseItem.getItemMeta();
         try {
-            meta.displayName(Main.lang.getItemName("component." + type.tag()));
+            meta.displayName(type.displayName());
             List<Component> lore = Main.lang.getItemLore("component." + type.tag());
             if (Config.propertyLore)
                 for (Map.Entry<String, Object> entry : properties.entrySet()) {

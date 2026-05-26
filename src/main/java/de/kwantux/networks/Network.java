@@ -123,7 +123,8 @@ public class Network {
      * Use {@link Manager#addComponent(Network, BasicComponent)} instead
      */
     public void addComponent(BasicComponent component) {
-        component.addStorageEntry(this);
+        component.network(this);
+        component.setBlockData();
         components.add(component);
     }
     /**
@@ -132,7 +133,7 @@ public class Network {
      * Use {@link Manager#removeComponent(Network, BasicComponent)} instead
      */
     public void removeComponent(BasicComponent component) {
-        component.removeStorageEntry();
+        component.resetBlockData();
         components.remove(component);
     }
     /**
@@ -208,7 +209,13 @@ public class Network {
 
     private static final Material[] materials = new Material[Material.values().length];
 
-
+    public void addComponents(List<? extends BasicComponent> otherComponents) {
+        components.addAll(otherComponents);
+        for (BasicComponent component : otherComponents) {
+            component.network(this);
+            component.setBlockData();
+        }
+    }
 
 
     private void legacyConversion(ComparableVersion version) {
@@ -240,7 +247,7 @@ public class Network {
         int counter = 0;
         final int total = components.size();
         for (BasicComponent component : components) {
-            component.addStorageEntry(this);
+            component.setBlockData();
             counter++;
             if (counter % 100 == 0) {
                 logger.info(counter + "/" + total + " (" + Math.floorDiv(counter * 100, total) + "%) of components upgraded.");

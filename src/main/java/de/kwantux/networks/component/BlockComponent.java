@@ -6,8 +6,12 @@ import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.Origin;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Nameable;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.block.TileState;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -48,19 +52,27 @@ public abstract class BlockComponent extends InstallableComponent {
     }
 
     @Override
-    public void addStorageEntry(Network network) {
-        if (pos.getBlock().getState() instanceof TileState state) {
-            state.getPersistentDataContainer().set(NETWORK.key, PersistentDataType.STRING, network.name());
-            state.update();
+    public void setBlockData() {
+        BlockState state = pos.getBlock().getState();
+        if (state instanceof TileState tileState) {
+            tileState.getPersistentDataContainer().set(NETWORK.key, PersistentDataType.STRING, network.name());
         }
+        if (state instanceof Nameable nameable) {
+            nameable.customName(type().displayName().append(Component.text(" - ")).append(Component.text(network.name())));
+        }
+        state.update();
     }
 
     @Override
-    public void removeStorageEntry() {
-        if (pos.getBlock().getState() instanceof TileState state) {
-            state.getPersistentDataContainer().remove(NETWORK.key);
-            state.update();
+    public void resetBlockData() {
+        BlockState state = pos.getBlock().getState();
+        if (state instanceof TileState tileState) {
+            tileState.getPersistentDataContainer().remove(NETWORK.key);
         }
+        if (state instanceof Nameable nameable) {
+            nameable.customName(null);
+        }
+        state.update();
     }
 
     public static @Nullable BlockComponent getComponentAtBlock(Block block) {
