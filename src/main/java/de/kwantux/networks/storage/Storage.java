@@ -37,9 +37,6 @@ public class Storage {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(BasicComponent.class, new ComponentSerializer());
         builder.registerTypeAdapter(Origin.class, new OriginSerializer());
-        if (Config.humanReadableJson) {
-            builder.setPrettyPrinting();
-        }
         gson = builder.create();
     }
 
@@ -67,11 +64,7 @@ public class Storage {
      */
     public void delete(String id) {
         try {
-            if (Config.archiveNetworksOnDelete) {
-                Files.createDirectories(path.resolve("archive"));
-                Files.move(path.resolve(id+".json"), path.resolve("archive/"+id+"-"+ LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)+".json"), StandardCopyOption.REPLACE_EXISTING);
-            }
-            else Files.delete(path.resolve(id + ".json"));
+            Files.delete(path.resolve(id + ".json"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

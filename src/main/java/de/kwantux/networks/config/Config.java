@@ -28,8 +28,6 @@ public class Config {
         // Load values from config
         blastProofComponents = config.getBoolean("blastProofComponents");
         noticeEnabled = config.getBoolean("notice");
-        humanReadableJson = config.getBoolean("humanReadableJson");
-        archiveNetworksOnDelete = config.getBoolean("archiveNetworksOnDelete");
         requestOwnershipTransfers = config.getBoolean("requestOwnershipTransfers");
         complexInventoryChecks = config.getBoolean("performance.complexInventoryChecks");
         propertyLore = config.getBoolean("propertyLore");
@@ -81,8 +79,6 @@ public class Config {
         config.defineDefault("propertyLore", true, "Add component properties to the item lore of the component");
         config.defineDefault("notice", true, "Notices players that open full chests to this plugin. This message will only be sent once and just to players that do not have a network. You can configure the message in the language file");
         config.defineDefault("logoOnLaunch", true, "Show Networks text on launch");
-        config.defineDefault("humanReadableJson", false, "Stores networks in human readable format. May take up a little bit more storage space");
-        config.defineDefault("archiveNetworksOnDelete", false, "Stores deleted networks in an archive folder. Can be abused by players to fill storage space");
         
         // Range upgrades
         config.defineDefault("range", new Integer[]{0, 50, 100, 200, 500, -1}, "Defines the maximum range items can be teleported for each level of range. This value is added to the base range property of the network. You can add more range upgrades to this list, but you NEED to also give them a crafting recipe. Paste 2147483647 to enable infinite item transmission. Paste -1 to enable interdimensional item transmission. Values must be integers between -1 and 2147483647");
@@ -98,8 +94,6 @@ public class Config {
      * Whether players that don't have a network should get a notification when opening a full chest
      */
     public static boolean noticeEnabled;
-    public static boolean humanReadableJson;
-    public static boolean archiveNetworksOnDelete;
     public static boolean requestOwnershipTransfers;
     public static boolean complexInventoryChecks;
     public static boolean propertyLore;
