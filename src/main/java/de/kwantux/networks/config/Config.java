@@ -89,7 +89,7 @@ public class Config {
         config.defineDefault("rangePerNetwork", false, "Whether range upgrades are per component or per network");
         
         // Player limits
-        config.defineDefault("maxNetworks", 10, "The maximum amount of networks a player can own");
+        config.defineDefault("maxNetworks", 20, "The maximum amount of networks a player can own");
         config.defineDefault("requestOwnershipTransfers", true, "Whether players should need to accept network ownership transfers");
     }
 
