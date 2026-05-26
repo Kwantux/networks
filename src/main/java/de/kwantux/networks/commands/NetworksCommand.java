@@ -4,6 +4,7 @@ import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BasicComponent;
+import de.kwantux.networks.component.InstallableComponent;
 import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.MiscContainer;
 import de.kwantux.networks.component.component.SortingContainer;
@@ -368,6 +369,17 @@ public class NetworksCommand extends CommandHandler {
         if (!mgr.permissionOwner(player,network)) {
             lang.message(player, "permission.owner");
             return;
+        }
+
+
+        for (BasicComponent component : network.components()) {
+            if (component instanceof InstallableComponent installable) {
+                ItemStack drop = installable.item();
+                if (player.getInventory().firstEmpty() >= 0)
+                    player.getInventory().addItem(drop);
+                else
+                    player.getWorld().dropItem(player.getLocation(), drop);
+            }
         }
 
         String name = network.name();
