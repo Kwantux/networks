@@ -3,6 +3,7 @@ package de.kwantux.networks.component;
 import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.component.util.ComponentType;
+import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.config.CraftingManager;
 import de.kwantux.networks.utils.NamespaceUtils;
@@ -49,10 +50,22 @@ public abstract class InstallableComponent extends BasicComponent {
             List<Component> lore = Main.lang.getItemLore("component." + type.tag());
             if (Config.propertyLore)
                 for (Map.Entry<String, Object> entry : properties.entrySet()) {
+                    if (entry.getKey().equals("filters") && entry.getValue() instanceof int[] array) {
+                        Component filters = Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": ["));
+                        boolean first = true;
+                        for (int filter : array) {
+                            if (first) first = false;
+                            else filters = filters.append(Component.text(", "));
+                            filters = filters.append(FilterTranslator.translate(filter));
+                        }
+                        filters = filters.append(Component.text("]"));
+                        lore.add(filters);
+                        continue;
+                    }
                     String value = String.valueOf(entry.getValue());
-                    if (entry.getValue() instanceof int[]) value = Arrays.toString((int[]) entry.getValue());
-                    if (entry.getValue() instanceof long[]) value = Arrays.toString((long[]) entry.getValue());
-                    if (entry.getValue() instanceof byte[]) value = Arrays.toString((byte[]) entry.getValue());
+                    if (entry.getValue() instanceof int[] array) value = Arrays.toString(array);
+                    if (entry.getValue() instanceof long[] array) value = Arrays.toString(array);
+                    if (entry.getValue() instanceof byte[] array) value = Arrays.toString(array);
                     lore.add(Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": " + value)));
                 }
             meta.lore(lore);
