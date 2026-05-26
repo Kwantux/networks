@@ -29,7 +29,7 @@ public abstract class InstallableComponent extends BasicComponent {
      * @return The installable item for this component
      */
     public static ItemStack item(ComponentType type, Map<String, Object> properties) {
-        ItemStack stack = new ItemStack(Main.cfg.getComponentUpgradeMaterial());
+        ItemStack stack = new ItemStack(Config.componentUpgradeMaterial);
         ItemMeta meta = stack.getItemMeta();
         try {
             meta.displayName(Main.lang.getItemName("component." + type.tag()));
@@ -48,7 +48,7 @@ public abstract class InstallableComponent extends BasicComponent {
             throw new RuntimeException(e);
         }
         PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING, type.tag());
+        data.set(NamespaceUtils.COMPONENT.key, PersistentDataType.STRING, type.tag());
         mapToContainer(data, properties);
         stack.setItemMeta(meta);
         return stack;

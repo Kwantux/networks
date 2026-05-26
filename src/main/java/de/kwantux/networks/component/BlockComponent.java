@@ -1,7 +1,6 @@
 package de.kwantux.networks.component;
 
 
-import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.config.Config;
@@ -9,16 +8,16 @@ import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.Origin;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.block.TileState;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
 import static de.kwantux.networks.Main.mgr;
-import static de.kwantux.networks.utils.NamespaceUtils.BLOCK_DATA_KEY;
+import static de.kwantux.networks.utils.NamespaceUtils.NETWORK;
 
 
 public abstract class BlockComponent extends InstallableComponent {
@@ -50,17 +49,28 @@ public abstract class BlockComponent extends InstallableComponent {
 
     @Override
     public void addStorageEntry(Network network) {
-        pos.getBlock().setMetadata(BLOCK_DATA_KEY, new FixedMetadataValue(Main.instance, network.name()));
+        if (pos.getBlock().getState() instanceof TileState state) {
+            state.getPersistentDataContainer().set(NETWORK.key, PersistentDataType.STRING, network.name());
+            state.update();
+        }
     }
 
     @Override
     public void removeStorageEntry() {
-        pos.getBlock().removeMetadata(BLOCK_DATA_KEY, Main.instance);
+        if (pos.getBlock().getState() instanceof TileState state) {
+            state.getPersistentDataContainer().remove(NETWORK.key);
+            state.update();
+        }
     }
 
     public static @Nullable BasicComponent getComponentAtBlock(Block block) {
-        for (MetadataValue value : block.getMetadata(BLOCK_DATA_KEY)) {
-            return mgr.getNetwork(value.asString()).getComponent(new BlockLocation(block));
+        if (block.getState() instanceof TileState state) {
+            Network network = mgr.getNetwork(
+                    state.getPersistentDataContainer().get(NETWORK.key, PersistentDataType.STRING)
+            );
+            if (network != null) {
+                return network.getComponent(new BlockLocation(block));
+            }
         }
         return null;
     }
@@ -73,7 +83,8 @@ public abstract class BlockComponent extends InstallableComponent {
         if (block.getState() instanceof InventoryHolder) {
             return ((InventoryHolder) block.getState()).getInventory();
         }
-        // TODO: Remove Component from database
+        // Remove component from database if it has no inventory
+        mgr.removeComponent(origin());
         return null;
     }
 }

@@ -32,7 +32,7 @@ public class DoubleChestUtils {
         if (component == null) {
             if (block.getType().equals(Material.CHEST)) {
                 Chest chest = (Chest) block.getBlockData();
-                component = mgr.getComponent(shift(new BlockLocation(block), chest.getType(), chest.getFacing()));
+                component = getComponentAtBlock(shift(new BlockLocation(block), chest.getType(), chest.getFacing()).getBlock());
             }
         }
         return component;

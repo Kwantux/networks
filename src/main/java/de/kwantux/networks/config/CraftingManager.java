@@ -18,6 +18,8 @@ import java.util.List;
 
 import static de.kwantux.networks.config.Config.*;
 import static de.kwantux.networks.Main.*;
+import static de.kwantux.networks.utils.NamespaceUtils.UPGRADE_RANGE;
+import static de.kwantux.networks.utils.NamespaceUtils.WAND;
 
 public class CraftingManager {
 
@@ -44,7 +46,7 @@ public class CraftingManager {
         }
         setCustomModelDataForWand(meta, mode);
         PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(plugin, "wand"), PersistentDataType.INTEGER, mode);
+        data.set(WAND.key, PersistentDataType.INTEGER, mode);
         wand.setItemMeta(meta);
         return wand;
     }
@@ -60,7 +62,7 @@ public class CraftingManager {
         }
         setCustomModelDataForRangeUpgrade(meta, tier);
         PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(plugin, "upgrade.range"), PersistentDataType.INTEGER, tier);
+        data.set(UPGRADE_RANGE.key, PersistentDataType.INTEGER, tier);
         upgrade.setItemMeta(meta);
         return upgrade;
     }

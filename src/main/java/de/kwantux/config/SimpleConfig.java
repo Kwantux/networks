@@ -68,7 +68,6 @@ public class SimpleConfig {
      * Get a value from config, falling back to default if not set
      */
     public <T> T get(String key, Class<T> type) {
-        devlog("GET " + key + " AS " + type.getSimpleName() + " -> " + activeValues.get(key));
         try {
             if (activeValues.containsKey(key) && activeValues.get(key).getClass().equals(type)) {
                 return (T) activeValues.get(key);

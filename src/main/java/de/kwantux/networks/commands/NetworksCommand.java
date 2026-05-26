@@ -199,6 +199,19 @@ public class NetworksCommand extends CommandHandler {
                 .handler(this::reloadConfig)
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("data")
+                .literal("fixcache")
+                .permission("networks.data")
+                .handler(this::fixCacheWarning)
+        );
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("data")
+                .literal("fixcache")
+                .literal("confirm")
+                .permission("networks.data")
+                .handler(this::fixCache)
+        );
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("give")
                 .literal("wand")
                 .permission("networks.give")
@@ -289,6 +302,25 @@ public class NetworksCommand extends CommandHandler {
         lang.message(context.sender(), "data.reload.config");
     }
 
+    private void fixCacheWarning(CommandContext<CommandSender> context) {
+        lang.message(context.sender(), "data.fixcache.warning");
+    }
+
+    private void fixCache(CommandContext<CommandSender> context) {
+        final int total = mgr.getNetworks().size();
+        int counter = 0;
+        context.sender().sendMessage("Rebuilding cache for " + total + " networks.");
+        context.sender().sendMessage("This action might take a while...");
+        for (Network network : mgr.getNetworks()) {
+            network.rebuildBlockDataCache();
+            counter++;
+            if (counter % 20 == 0) {
+                context.sender().sendMessage(counter + "/" + total + " (" + Math.floorDiv(counter * 100, total) + "%) of networks processed.");
+            }
+        }
+        context.sender().sendMessage("Cache rebuild complete.");
+    }
+
     private void create(CommandContext<Player> context) {
 
         String id = context.get("id");
@@ -298,7 +330,7 @@ public class NetworksCommand extends CommandHandler {
         }
         Player player = context.sender();
 
-        if (!(mgr.withOwner(player.getUniqueId()).size() < cfg.getMaxNetworks() || player.hasPermission("networks.bypass_limit"))) {
+        if (!(mgr.withOwner(player.getUniqueId()).size() < Config.maxNetworks || player.hasPermission("networks.bypass_limit"))) {
             lang.message(context.sender(), "create.limit", player.displayName());
             return;
         }
@@ -492,7 +524,7 @@ public class NetworksCommand extends CommandHandler {
         BlockLocation location = new BlockLocation((Location) context.get("location"));
         BasicComponent component = dcu.componentAt(location);
         if (component == null) {
-            lang.message(sender, "component.info.empty", location.toString());
+            lang.message(sender, "component.nocomponent", location.toString());
             return;
         }
         Network network = component.network();
@@ -590,7 +622,7 @@ public class NetworksCommand extends CommandHandler {
         Network network = selection(sender);
         if (network == null) return;
 
-        if (!(mgr.withOwner(target.getUniqueId()).size() < cfg.getMaxNetworks() || sender.hasPermission("networks.bypass_limit"))) {
+        if (!(mgr.withOwner(target.getUniqueId()).size() < Config.maxNetworks || sender.hasPermission("networks.bypass_limit"))) {
             lang.message(context.sender(), "create.limit", target.displayName());
             return;
         }
@@ -655,6 +687,7 @@ public class NetworksCommand extends CommandHandler {
         }
         String otherName = otherNetwork.name();
         mgr.delete(otherName);
+        finalNetwork.rebuildBlockDataCache();
         lang.message(sender, "merge.success", Component.text(finalNetwork.name()), Component.text(otherName));
     }
 

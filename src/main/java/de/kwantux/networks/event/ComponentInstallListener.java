@@ -39,7 +39,7 @@ public class ComponentInstallListener implements Listener {
             if (item.getType().isBlock()) return;
             PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
 
-            ComponentType type = ComponentType.get(container.get(NamespaceUtils.COMPONENT.key(), PersistentDataType.STRING));
+            ComponentType type = ComponentType.get(container.get(NamespaceUtils.COMPONENT.key, PersistentDataType.STRING));
             if (type == null) return;
 
             event.setCancelled(true); // At this point, we know that the player is holding a component, so we suppress the default action (chest opens)

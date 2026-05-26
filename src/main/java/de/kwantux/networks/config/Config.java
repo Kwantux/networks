@@ -38,6 +38,7 @@ public class Config {
         commands = config.getStringArray("commands");
         ranges = config.getIntArray("range");
         rangePerNetwork = config.getBoolean("rangePerNetwork");
+        maxNetworks = config.getInt("maxNetworks");
 
         wandMaterial = getWandMaterial();
         componentUpgradeMaterial = getComponentUpgradeMaterial();
@@ -104,6 +105,7 @@ public class Config {
     public static boolean propertyLore;
     public static boolean loadChunks;
     public static boolean rangePerNetwork;
+    public static int maxNetworks;
     /**
      * Auto save interval in seconds
      */
@@ -142,17 +144,13 @@ public class Config {
         return false;
     }
 
-    public int getMaxNetworks() {
-        return config.getInt("maxNetworks");
-    }
-
     public NetworkProperties defaultProperties() {
         return new NetworkProperties(
                 config.getInt("properties.baseRange")
         );
     }
 
-    public Material getComponentUpgradeMaterial() {
+    private Material getComponentUpgradeMaterial() {
         try {
             return Material.getMaterial(config.getString("material.component"));
         } catch (EnumConstantNotPresentException e) {
@@ -161,7 +159,7 @@ public class Config {
         return Material.ITEM_FRAME;
     }
 
-    public Material getRangeUpgradeMaterial() {
+    private Material getRangeUpgradeMaterial() {
         try {
             return Material.getMaterial(config.getString("material.range"));
         } catch (EnumConstantNotPresentException e) {
@@ -170,7 +168,7 @@ public class Config {
         return Material.LIGHTNING_ROD;
     }
 
-    public Material getWandMaterial() {
+    private Material getWandMaterial() {
         try {
             return Material.getMaterial(config.getString("material.wand"));
         } catch (EnumConstantNotPresentException e) {

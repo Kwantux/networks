@@ -26,6 +26,8 @@ import java.util.HashSet;
 
 import static de.kwantux.networks.Main.*;
 import static de.kwantux.networks.config.Config.ranges;
+import static de.kwantux.networks.utils.NamespaceUtils.UPGRADE_RANGE;
+import static de.kwantux.networks.utils.NamespaceUtils.WAND;
 
 public class WandListener implements Listener {
 
@@ -43,13 +45,13 @@ public class WandListener implements Listener {
         ItemStack wand = p.getInventory().getItemInMainHand();
 
         if (!wand.getType().equals(Material.AIR)) {
-            if (wand.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER)) {
+            if (wand.getItemMeta().getPersistentDataContainer().has(WAND.key, PersistentDataType.INTEGER)) {
 
                 event.setCancelled(true);
 
                 if (!event.getHand().equals(EquipmentSlot.HAND)) return;
 
-                int mode = wand.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER);
+                int mode = wand.getItemMeta().getPersistentDataContainer().get(WAND.key, PersistentDataType.INTEGER);
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.LEFT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR)) {
@@ -65,7 +67,7 @@ public class WandListener implements Listener {
                 }
 
                 if (l == null) return;
-                BasicComponent component = dcu.componentAt(l);
+                BasicComponent component = dcu.componentAtLoadedBlock(l.getBlock());
                 Network network = null;
                 if (component != null) network = component.network();
 
@@ -98,12 +100,9 @@ public class WandListener implements Listener {
                 ItemStack itemInOffHand = p.getInventory().getItemInOffHand();
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 
-                    if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer) {
-                        BasicComponent c = dcu.componentAt(l);
-                        if (c instanceof SortingContainer container) {
-                            container.addFilter(ItemHash.materialHash(itemInOffHand));
-                            lang.message(p, "component.sorting.setitem", l.toString(), itemInOffHand.getType().toString());
-                        }
+                    if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
+                        container.addFilter(ItemHash.materialHash(itemInOffHand));
+                        lang.message(p, "component.sorting.setitem", l.toString(), itemInOffHand.getType().toString());
                     }
                     // If in filter mode and no item in offhand, add contents to container's filter
                     if (mode == 0 && itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
@@ -129,7 +128,7 @@ public class WandListener implements Listener {
                             lang.message(p, "component.priority", String.valueOf(container.acceptorPriority()));
                         }
                     }
-                    if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer container) {
+                    if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
                         int hash = ItemHash.strictHash(itemInOffHand);
                         container.addFilter(hash);
                         lang.message(p, "component.sorting.setitem", l.displayText(), itemInOffHand.displayName());
@@ -156,16 +155,13 @@ public class WandListener implements Listener {
 
                 if (action.equals(Action.LEFT_CLICK_BLOCK)) {
 
-                    if ((mode == 0 || mode == 2) && dcu.componentAt(l) instanceof SortingContainer && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
-                        BasicComponent c = dcu.componentAt(l);
-                        if (c instanceof SortingContainer container) {
-                            container.removeFilter(ItemHash.materialHash(itemInOffHand));
-                            container.removeFilter(ItemHash.strictHash(itemInOffHand));
-                            lang.message(p, "component.sorting.removeitem", l.displayText(), itemInOffHand.displayName());
-                        }
+                    if ((mode == 0 || mode == 2) && component instanceof SortingContainer container && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
+                        container.removeFilter(ItemHash.materialHash(itemInOffHand));
+                        container.removeFilter(ItemHash.strictHash(itemInOffHand));
+                        lang.message(p, "component.sorting.removeitem", l.displayText(), itemInOffHand.displayName());
                     }
 
-                    if ((mode == 0 || mode == 2) && dcu.componentAt(l) instanceof SortingContainer container && itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
+                    if ((mode == 0 || mode == 2) && component instanceof SortingContainer container && itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
                         HashSet <Integer> filters = new HashSet<>();
                         for (ItemStack item : container.inventory().getContents()) {
                             // Empty slots are null
@@ -197,10 +193,10 @@ public class WandListener implements Listener {
                 }
             }
 
-            if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)) {
+            if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(UPGRADE_RANGE.key, PersistentDataType.INTEGER)) {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                     event.setCancelled(true);
-                    BasicComponent component = dcu.componentAt(l);
+                    BasicComponent component = dcu.componentAtLoadedBlock(l.getBlock());
                     if (component == null) {
                         lang.message(p, "component.nocomponent");
                         return;

@@ -230,24 +230,23 @@ public class Network {
                 }
             }
         }
-        if (version.compareTo(new ComparableVersion("3.1.8")) < 0) {
+        if (version.compareTo(new ComparableVersion("3.1.9")) < 0)
+            Main.instance.getServer().getGlobalRegionScheduler().execute(Main.instance, this::rebuildBlockDataCache);
+    }
 
-            Main.instance.getServer().getGlobalRegionScheduler().execute(Main.instance, ()->
-            {
-                logger.info("Initializing block data cache for network " + id + "...");
-                logger.info("This action may take a while!");
-                int counter = 0;
-                final int total = components.size();
-                for (BasicComponent component : components) {
-                    component.addStorageEntry(this);
-                    counter++;
-                    if (counter % 100 == 0) {
-                        logger.info(counter + "/" + total + " (" + Math.floorDiv(counter * 100, total) + "%) of components upgraded.");
-                    }
-                }
-                logger.info("Finished network " + id);
-            });
+    public void rebuildBlockDataCache() {
+        logger.info("Rebuilding block data cache for network " + id + "...");
+        logger.info("This action may take a while!");
+        int counter = 0;
+        final int total = components.size();
+        for (BasicComponent component : components) {
+            component.addStorageEntry(this);
+            counter++;
+            if (counter % 100 == 0) {
+                logger.info(counter + "/" + total + " (" + Math.floorDiv(counter * 100, total) + "%) of components upgraded.");
+            }
         }
+        logger.info("Finished network " + id);
     }
 
 }

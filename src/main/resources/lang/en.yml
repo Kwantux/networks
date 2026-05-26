@@ -62,6 +62,7 @@ data.reload.networks: <prefix>Reloaded network files
 data.save.networks: <prefix>Saved networks to files
 data.reload.config: <prefix>Reloaded config files
 data.save.config: <prefix>Saved config files
+data.fixcache.warning: "<prefix><yellow>WARNING: This action will load EVERY chunk containing a network component! Run this during low traffic hours or in maintenance mode.</yellow>\n<prefix>Are you sure you want to continue? - <blue><click:suggest_command:/networks data fixcache confirm>Click here to confirm.</click></blue>"
 
 create.success: <prefix>Successfully created storage network <green><1>
 create.exists: <prefix><yellow>There is already a network with this name, please select another name!
