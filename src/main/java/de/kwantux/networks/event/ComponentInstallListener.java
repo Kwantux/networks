@@ -62,6 +62,9 @@ public class ComponentInstallListener implements Listener {
                 item.setAmount(item.getAmount() - 1);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
             }
+
+            else
+                lang.message(p, "component.invalid_block");
         }
     }
 
