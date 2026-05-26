@@ -7,7 +7,6 @@ import de.kwantux.networks.config.Config;
 import de.kwantux.networks.config.CraftingManager;
 import de.kwantux.networks.event.*;
 import de.kwantux.networks.utils.DoubleChestUtils;
-import de.kwantux.networks.utils.FoliaUtils;
 import de.kwantux.networks.utils.Metrics;
 import dev.faststats.bukkit.BukkitMetrics;
 import dev.faststats.core.ErrorTracker;
@@ -16,12 +15,10 @@ import io.papermc.paper.threadedregions.scheduler.AsyncScheduler;
 import io.papermc.paper.threadedregions.scheduler.GlobalRegionScheduler;
 import io.papermc.paper.threadedregions.scheduler.RegionScheduler;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -44,6 +41,8 @@ public final class Main extends JavaPlugin {
     public static CraftingManager crf;
     public static DoubleChestUtils dcu;
     public static LanguageController lang;
+
+    public static boolean folia;
 
     public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
 
@@ -135,14 +134,16 @@ public final class Main extends JavaPlugin {
         new NoticeListener(this);
         new ClearFilterListener(this);
 
-        if (FoliaUtils.folia) {
+        try {
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            folia = true;
+        } catch (ClassNotFoundException e) {
+            folia = false;
+        }
+
+        if (folia) {
             logger.warning("Folia support on Networks is still in beta, please report any bugs.");
-            for (int i : Config.ranges) {
-                if (i > 1000) {
-                    logger.warning("You are running Networks on Folia and enabled a maximum network range of more than 1000 blocks. Be aware that on Folia, you might not be able to transmit items that far.");
-                    break;
-                }
-            }
+            logger.warning("Be aware that on Folia, you won't be able to transmit item across regions, so the maximum range may be lower than expected.");
         }
 
         if (Config.autoSaveInterval > 0)
