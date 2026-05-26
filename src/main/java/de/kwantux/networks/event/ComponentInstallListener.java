@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -30,17 +31,17 @@ public class ComponentInstallListener implements Listener {
             if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
             if (event.getClickedBlock() == null) return;
 
-            Player p = event.getPlayer();
-            BlockLocation pos = new BlockLocation(event.getClickedBlock());
-            Network network = mgr.selection(p);
-
             ItemStack item = event.getItem();
             if (item == null) return;
-            if (item.getType().isBlock()) return;
+            if (item.getType().isBlock()) return; // This case is handled by the BlockPlaceEvent
             PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
 
             ComponentType type = ComponentType.get(container.get(NamespaceUtils.COMPONENT.key, PersistentDataType.STRING));
             if (type == null) return;
+
+            Player p = event.getPlayer();
+            BlockLocation pos = new BlockLocation(event.getClickedBlock());
+            Network network = mgr.selection(p);
 
             event.setCancelled(true); // At this point, we know that the player is holding a component, so we suppress the default action (chest opens)
 
@@ -61,6 +62,31 @@ public class ComponentInstallListener implements Listener {
                 item.setAmount(item.getAmount() - 1);
                 lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
             }
+        }
+    }
+
+    @EventHandler(priority= EventPriority.MONITOR)
+    public void onComponentInstall(BlockPlaceEvent event) {
+        if (!event.isCancelled()) {
+
+            ItemStack item = event.getItemInHand();
+            PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+
+            ComponentType type = ComponentType.get(container.get(NamespaceUtils.COMPONENT.key, PersistentDataType.STRING));
+            if (type == null) return;
+
+            Player p = event.getPlayer();
+            BlockLocation pos = new BlockLocation(event.getBlock());
+            Network network = mgr.selection(p);
+
+            if (network == null) {
+                lang.message(p, "select.noselection");
+                event.setCancelled(true);
+                return;
+            }
+
+            mgr.createComponent(network, type, pos, container);
+            lang.message(p, "component."+type.tag+".add", network.name(), pos.toString());
         }
     }
 }

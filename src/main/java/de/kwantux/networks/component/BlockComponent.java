@@ -63,13 +63,13 @@ public abstract class BlockComponent extends InstallableComponent {
         }
     }
 
-    public static @Nullable BasicComponent getComponentAtBlock(Block block) {
+    public static @Nullable BlockComponent getComponentAtBlock(Block block) {
         if (block.getState() instanceof TileState state) {
             Network network = mgr.getNetwork(
                     state.getPersistentDataContainer().get(NETWORK.key, PersistentDataType.STRING)
             );
             if (network != null) {
-                return network.getComponent(new BlockLocation(block));
+                return (BlockComponent) network.getComponent(new BlockLocation(block));
             }
         }
         return null;
