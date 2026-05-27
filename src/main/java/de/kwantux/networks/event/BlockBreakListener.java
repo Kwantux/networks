@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static de.kwantux.networks.Main.*;
+import static de.kwantux.networks.component.BlockComponent.getComponentAtBlock;
 
 public class BlockBreakListener implements Listener {
 
@@ -39,7 +40,7 @@ public class BlockBreakListener implements Listener {
     public void blockBreak(BlockBreakEvent event) {
 
         isComponent = false;
-        component = dcu.componentAtLoadedBlock(event.getBlock());
+        component = getComponentAtBlock(event.getBlock());
         if (component == null) return;
 
         if (mgr.permissionUser(event.getPlayer(), component.network())) {
@@ -100,14 +101,14 @@ public class BlockBreakListener implements Listener {
         List<Block> removeLater = new ArrayList<>();
 
         for (Block block : event.blockList()) {
-            if (mgr.getComponent(new BlockLocation(block)) != null) {
+            if (getComponentAtBlock(block) != null) {
                 removeLater.add(block);
             }
         }
 
         for (Block block : removeLater) {
             if (!Config.blastProofComponents) {
-                BlockComponent component = (BlockComponent) mgr.getComponent(new BlockLocation(block));
+                BlockComponent component = getComponentAtBlock(block);
                 assert component != null; // Was already checked when adding blocks to the list
 
                 // Remove custom name from container
