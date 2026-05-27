@@ -32,8 +32,7 @@ public abstract class BlockComponent extends InstallableComponent {
 
     protected BlockComponent(BlockLocation pos, Network network) {
         this.pos = pos;
-        this.network = network;
-
+        this.network(network);
     }
 
     public BlockLocation pos() {
@@ -55,10 +54,10 @@ public abstract class BlockComponent extends InstallableComponent {
     public void setBlockData() {
         BlockState state = pos.getBlock().getState();
         if (state instanceof TileState tileState) {
-            tileState.getPersistentDataContainer().set(NETWORK.key, PersistentDataType.STRING, network.name());
+            tileState.getPersistentDataContainer().set(NETWORK.key, PersistentDataType.STRING, network().name());
         }
         if (state instanceof Nameable nameable) {
-            nameable.customName(type().displayName().append(Component.text(" - ")).append(Component.text(network.name())));
+            nameable.customName(type().displayName().append(Component.text(" - ")).append(Component.text(network().name())));
         }
         state.update();
     }

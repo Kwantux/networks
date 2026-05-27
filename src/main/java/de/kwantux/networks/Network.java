@@ -48,6 +48,7 @@ public class Network {
         users = new ArrayList<>(Arrays.stream(network.users()).toList());
         components = new ArrayList<>(Arrays.asList(network.components()));
         components.removeAll(Collections.singleton(null));
+        components.forEach(c -> c.network(this));
 
         legacyConversion(new ComparableVersion(network.version()));
     }

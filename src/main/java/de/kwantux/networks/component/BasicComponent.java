@@ -17,7 +17,7 @@ public abstract class BasicComponent {
     public abstract ComponentType type();
     public abstract Origin origin();
 
-    protected transient Network network;
+    private transient Network network;
     public Network network() {
         if (network == null)
             network = mgr.getNetworkWithComponent(origin());
