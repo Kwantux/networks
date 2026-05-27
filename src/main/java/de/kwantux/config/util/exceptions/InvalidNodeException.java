@@ -4,7 +4,7 @@ package de.kwantux.config.util.exceptions;
 /**
  * Raised when a non-existent node is requested
  */
-public class InvalidNodeException extends QuillConfigException {
+public class InvalidNodeException extends Exception {
 
     /**
      * Raised when a non-existent node is requested

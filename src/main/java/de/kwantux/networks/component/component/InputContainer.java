@@ -32,7 +32,7 @@ public class InputContainer extends BlockComponent implements Donator {
         if (origin instanceof BlockLocation pos) {
             if (container == null) return new InputContainer(pos, network);
             return new InputContainer(pos, network,
-                    Objects.requireNonNullElse(container.get(NamespaceUtils.RANGE.key(), PersistentDataType.INTEGER), 0)
+                    Objects.requireNonNullElse(container.get(NamespaceUtils.RANGE.key, PersistentDataType.INTEGER), 0)
             );
         }
         return null;

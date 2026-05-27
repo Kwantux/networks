@@ -1,7 +1,6 @@
 package de.kwantux.networks;
 
 import de.kwantux.networks.component.module.*;
-import de.kwantux.networks.utils.FoliaUtils;
 import de.kwantux.networks.utils.PositionedItemStack;
 import de.kwantux.networks.utils.Transaction;
 import org.bukkit.inventory.ItemStack;
@@ -11,8 +10,8 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
 
+import static de.kwantux.networks.Main.folia;
 import static de.kwantux.networks.Main.logger;
 import static de.kwantux.networks.config.Config.ranges;
 
@@ -148,12 +147,11 @@ public class Sorter {
                 }
             }
             catch (Throwable e) {
-                if (!FoliaUtils.folia) {
+                if (!folia) { // Folia throws exceptions when trying to transmit items across regions, which is expected
                     logger.severe("Failed to sort item: " + e.getMessage());
                     e.printStackTrace();
                 }
-                else logger.log(Level.FINER, "Failed to sort item (this will be regularly thrown if Folia is used): " + e.getMessage());
-            } // Folia compatibility
+            }
         }
         return transactions;
     }
@@ -167,7 +165,7 @@ public class Sorter {
      */
     public static boolean inDistance(Network network, ActiveModule active, BaseModule passive) {
         return
-                active.range() < 0 || active.range() >= ranges.length || ranges[Math.min(active.range(), ranges.length - 1)] < 1 // If component range is set to infinity
+                ranges[Math.min(active.range(), ranges.length - 1)] < 0 // If component range is set to infinity (negative)
                         || // or if
                         active.pos().getDistance(passive.pos()) <= // distance is smaller than
                         ranges[Math.min(active.range(), ranges.length - 1)] + network.range(); // component range + network range

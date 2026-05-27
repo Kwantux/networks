@@ -6,40 +6,32 @@ import org.bukkit.NamespacedKey;
 public enum NamespaceUtils {
 
     // Component Properties
+    NETWORK,
     COMPONENT,
     RANGE,
     ACCEPTOR_PRIORITY,
     SUPPLIER_PRIORITY,
     FILTERS,
 
-    // Network Properties
-    NETWORK,
-    BASE_RANGE,
-    MAX_USERS,
-    MAX_COMPONENTS,
-
-    // Items
+    // Item Properties
     WAND,
-
-    // UI
-    BUTTON;
-
-    private static final Main main = Main.getPlugin(Main.class);
+    UPGRADE_RANGE("upgrade.range");
 
     public final String name;
+    public final NamespacedKey key;
+
     NamespaceUtils() {
         this.name = this.name().toLowerCase();
+        key = new NamespacedKey(Main.instance, this.name);
     }
 
-    public NamespacedKey key() {
-        return new NamespacedKey(main, this.name);
+    NamespaceUtils(String name) {
+        this.name = name;
+        key = new NamespacedKey(Main.instance, this.name);
     }
 
     public static NamespacedKey key(String name) {
-        return new NamespacedKey(main, name);
+        return new NamespacedKey(Main.instance, name);
     }
 
-    // Custom
-
-    public static final String BLOCK_DATA_KEY = "networks:network";
 }

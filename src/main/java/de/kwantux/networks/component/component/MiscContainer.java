@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static de.kwantux.networks.utils.NamespaceUtils.ACCEPTOR_PRIORITY;
+import static de.kwantux.networks.utils.NamespaceUtils.SUPPLIER_PRIORITY;
+
 public class MiscContainer extends BlockComponent implements Acceptor, Supplier {
 
     public static ComponentType type;
@@ -33,8 +36,8 @@ public class MiscContainer extends BlockComponent implements Acceptor, Supplier 
         if (origin instanceof BlockLocation pos) {
             if (container == null) return new MiscContainer(pos, network);
             return new MiscContainer(pos, network,
-                    Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), -20),
-                    Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 5)
+                    Objects.requireNonNullElse(container.get(ACCEPTOR_PRIORITY.key, PersistentDataType.INTEGER), -20),
+                    Objects.requireNonNullElse(container.get(SUPPLIER_PRIORITY.key, PersistentDataType.INTEGER), 5)
             );
         }
         return null;
@@ -56,8 +59,8 @@ public class MiscContainer extends BlockComponent implements Acceptor, Supplier 
     private static Map<String, Object> defaultProperties = new HashMap<>();
 
     static {
-        defaultProperties.put(NamespaceUtils.ACCEPTOR_PRIORITY.name, -20);
-        defaultProperties.put(NamespaceUtils.SUPPLIER_PRIORITY.name, 5);
+        defaultProperties.put(ACCEPTOR_PRIORITY.name, -20);
+        defaultProperties.put(SUPPLIER_PRIORITY.name, 5);
     }
 
     public static ComponentType register() {
@@ -109,8 +112,8 @@ public class MiscContainer extends BlockComponent implements Acceptor, Supplier 
     @Override
     public Map<String, Object> properties() {
         return new HashMap<>() {{
-            put(NamespaceUtils.ACCEPTOR_PRIORITY.name, acceptorPriority);
-            put(NamespaceUtils.SUPPLIER_PRIORITY.name, supplierPriority);
+            put(ACCEPTOR_PRIORITY.name, acceptorPriority);
+            put(SUPPLIER_PRIORITY.name, supplierPriority);
         }};
     }
 

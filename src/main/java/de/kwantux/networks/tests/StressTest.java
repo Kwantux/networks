@@ -1,13 +1,10 @@
 package de.kwantux.networks.tests;
 
-import de.kwantux.config.lang.LanguageController;
 import de.kwantux.networks.Main;
-import de.kwantux.networks.Manager;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.commands.CommandHandler;
 import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.MiscContainer;
-import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -24,15 +21,8 @@ import static org.incendo.cloud.parser.standard.IntegerParser.integerParser;
 
 public class StressTest extends CommandHandler {
 
-    LanguageController lang;
-    Manager manager;
-    Config config;
-
     public StressTest(Main plugin, LegacyPaperCommandManager<CommandSender> commandManager) {
         super(plugin, commandManager);
-        lang = plugin.getLanguage();
-        manager = plugin.getNetworkManager();
-        config = plugin.getConfiguration();
     }
 
     @Override

@@ -4,6 +4,7 @@ import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BasicComponent;
+import de.kwantux.networks.component.InstallableComponent;
 import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.MiscContainer;
 import de.kwantux.networks.component.component.SortingContainer;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 import static de.kwantux.networks.Main.*;
 import static de.kwantux.networks.commands.ComponentTypeParser.componentTypeParser;
 import static de.kwantux.networks.commands.NetworkParser.networkParser;
+import static de.kwantux.networks.config.Config.resetContainerNamesOnDelete;
 import static de.kwantux.networks.utils.DevelopmentUtils.runInDevelopment;
 import static org.incendo.cloud.bukkit.parser.PlayerParser.playerParser;
 import static org.incendo.cloud.bukkit.parser.location.LocationParser.locationParser;
@@ -155,12 +157,21 @@ public class NetworksCommand extends CommandHandler {
                 .required("network", networkParser())
                 .handler(this::acceptTransfer)
         );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("merge")
-                .required("final", networkParser())
-                .required("other", networkParser())
-                .handler(this::merge)
-        );
+        if (Config.allowMerge)
+            cmd.command(cmd.commandBuilder("networks", Config.commands)
+                    .literal("merge")
+                    .required("final", networkParser())
+                    .required("other", networkParser())
+                    .handler(this::merge)
+            );
+        else
+            cmd.command(cmd.commandBuilder("networks", Config.commands)
+                    .literal("merge")
+                    .required("final", networkParser())
+                    .required("other", networkParser())
+                    .permission("networks.data")
+                    .handler(this::merge)
+            );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("items")
                 .handler(this::items)
@@ -177,13 +188,6 @@ public class NetworksCommand extends CommandHandler {
                 .literal("networks")
                 .permission("networks.data")
                 .handler(this::saveNetworks)
-        );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("data")
-                .literal("save")
-                .literal("config")
-                .permission("networks.data")
-                .handler(this::saveConfig)
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("data")
@@ -204,6 +208,19 @@ public class NetworksCommand extends CommandHandler {
                 .literal("config")
                 .permission("networks.data")
                 .handler(this::reloadConfig)
+        );
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("data")
+                .literal("fixcache")
+                .permission("networks.data")
+                .handler(this::fixCacheWarning)
+        );
+        cmd.command(cmd.commandBuilder("networks", Config.commands)
+                .literal("data")
+                .literal("fixcache")
+                .literal("confirm")
+                .permission("networks.data")
+                .handler(this::fixCache)
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("give")
@@ -291,14 +308,28 @@ public class NetworksCommand extends CommandHandler {
         lang.message(context.sender(), "data.reload.networks");
     }
 
-    private void saveConfig(CommandContext<CommandSender> context) {
-        plugin.getConfiguration().reload();
-        lang.message(context.sender(), "data.save.config");
+    private void reloadConfig(CommandContext<CommandSender> context) {
+        cfg.reload();
+        lang.message(context.sender(), "data.reload.config");
     }
 
-    private void reloadConfig(CommandContext<CommandSender> context) {
-        plugin.getConfiguration().reload();
-        lang.message(context.sender(), "data.reload.config");
+    private void fixCacheWarning(CommandContext<CommandSender> context) {
+        lang.message(context.sender(), "data.fixcache.warning");
+    }
+
+    private void fixCache(CommandContext<CommandSender> context) {
+        final int total = mgr.getNetworks().size();
+        int counter = 0;
+        context.sender().sendMessage("Rebuilding cache for " + total + " networks.");
+        context.sender().sendMessage("This action might take a while...");
+        for (Network network : mgr.getNetworks()) {
+            network.rebuildBlockDataCache();
+            counter++;
+            if (counter % 20 == 0) {
+                context.sender().sendMessage(counter + "/" + total + " (" + Math.floorDiv(counter * 100, total) + "%) of networks processed.");
+            }
+        }
+        context.sender().sendMessage("Cache rebuild complete.");
     }
 
     private void create(CommandContext<Player> context) {
@@ -310,7 +341,7 @@ public class NetworksCommand extends CommandHandler {
         }
         Player player = context.sender();
 
-        if (!(mgr.withOwner(player.getUniqueId()).size() < cfg.getMaxNetworks() || player.hasPermission("networks.bypass_limit"))) {
+        if (!(mgr.withOwner(player.getUniqueId()).size() < Config.maxNetworks || player.hasPermission("networks.bypass_limit"))) {
             lang.message(context.sender(), "create.limit", player.displayName());
             return;
         }
@@ -348,6 +379,18 @@ public class NetworksCommand extends CommandHandler {
         if (!mgr.permissionOwner(player,network)) {
             lang.message(player, "permission.owner");
             return;
+        }
+
+
+        for (BasicComponent component : network.components()) {
+            if (component instanceof InstallableComponent installable) {
+                ItemStack drop = installable.item();
+                if (player.getInventory().firstEmpty() >= 0)
+                    player.getInventory().addItem(drop);
+                else
+                    player.getWorld().dropItem(player.getLocation(), drop);
+            }
+            if (resetContainerNamesOnDelete) component.resetBlockData();
         }
 
         String name = network.name();
@@ -504,7 +547,7 @@ public class NetworksCommand extends CommandHandler {
         BlockLocation location = new BlockLocation((Location) context.get("location"));
         BasicComponent component = dcu.componentAt(location);
         if (component == null) {
-            lang.message(sender, "component.info.empty", location.toString());
+            lang.message(sender, "component.nocomponent", location.toString());
             return;
         }
         Network network = component.network();
@@ -526,25 +569,27 @@ public class NetworksCommand extends CommandHandler {
      */
     public static Component componentInfo(Network network, @Nullable BasicComponent component, boolean isProxy) {
         try {
-            return switch (component) {
-                case InputContainer container ->
-                        lang.get("wand.info.input", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.range())));
-                case SortingContainer container -> {
-                    Component filters = Component.text("[");
-                    Set<Component> filterSet = Arrays.stream(container.filters()).mapToObj(
-                            FilterTranslator::translate
-                    ).collect(Collectors.toSet());
-                    for (Component filter : filterSet) {
-                        filters = filters.append(filter);
-                        filters = filters.append(Component.text(", "));
+            return Component.newline().append(
+                switch (component) {
+                    case InputContainer container ->
+                            lang.get("wand.info.input", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.range())));
+                    case SortingContainer container -> {
+                        Component filters = Component.text("[");
+                        Set<Component> filterSet = Arrays.stream(container.filters()).mapToObj(
+                                FilterTranslator::translate
+                        ).collect(Collectors.toSet());
+                        for (Component filter : filterSet) {
+                            filters = filters.append(filter);
+                            filters = filters.append(Component.text(", "));
+                        }
+                        filters = filters.append(Component.text("]"));
+                        yield lang.get("wand.info.sorting", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())), filters);
                     }
-                    filters = filters.append(Component.text("]"));
-                    yield lang.get("wand.info.sorting", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())), filters);
+                    case MiscContainer container ->
+                            lang.get("wand.info.misc", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())));
+                    case null, default -> Component.empty();
                 }
-                case MiscContainer container ->
-                        lang.get("wand.info.misc", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())));
-                case null, default -> Component.empty();
-            };
+            ).append(isProxy ? Component.newline().append(lang.get("wand.info.proxy")) : Component.empty());
 
         } catch (InvalidNodeException e) {
             return Component.empty();
@@ -600,7 +645,7 @@ public class NetworksCommand extends CommandHandler {
         Network network = selection(sender);
         if (network == null) return;
 
-        if (!(mgr.withOwner(target.getUniqueId()).size() < cfg.getMaxNetworks() || sender.hasPermission("networks.bypass_limit"))) {
+        if (!(mgr.withOwner(target.getUniqueId()).size() < Config.maxNetworks || sender.hasPermission("networks.bypass_limit"))) {
             lang.message(context.sender(), "create.limit", target.displayName());
             return;
         }
@@ -662,8 +707,11 @@ public class NetworksCommand extends CommandHandler {
 
         if (finalNetwork.equals(otherNetwork)) {
             lang.message(sender, "merge.identical");
+            return;
         }
+
         String otherName = otherNetwork.name();
+        finalNetwork.addComponents(otherNetwork.components());
         mgr.delete(otherName);
         lang.message(sender, "merge.success", Component.text(finalNetwork.name()), Component.text(otherName));
     }

@@ -31,11 +31,7 @@ public class Network {
     private List<BasicComponent> components = new ArrayList<>();
 
     // Network Properties
-
     private int range;
-    private int maxUsers;
-    private int maxComponents;
-
 
     // Constructors
 
@@ -52,6 +48,7 @@ public class Network {
         users = new ArrayList<>(Arrays.stream(network.users()).toList());
         components = new ArrayList<>(Arrays.asList(network.components()));
         components.removeAll(Collections.singleton(null));
+        components.forEach(c -> c.network(this));
 
         legacyConversion(new ComparableVersion(network.version()));
     }
@@ -127,7 +124,8 @@ public class Network {
      * Use {@link Manager#addComponent(Network, BasicComponent)} instead
      */
     public void addComponent(BasicComponent component) {
-        component.addStorageEntry(this);
+        component.network(this);
+        component.setBlockData();
         components.add(component);
     }
     /**
@@ -136,7 +134,7 @@ public class Network {
      * Use {@link Manager#removeComponent(Network, BasicComponent)} instead
      */
     public void removeComponent(BasicComponent component) {
-        component.removeStorageEntry();
+        component.resetBlockData();
         components.remove(component);
     }
     /**
@@ -149,13 +147,11 @@ public class Network {
     }
 
     public NetworkProperties properties() {
-        return new NetworkProperties(range, maxComponents, maxUsers);
+        return new NetworkProperties(range);
     }
 
     public void properties(@NotNull NetworkProperties properties) {
         this.range = properties.baseRange();
-        this.maxUsers = properties.maxUsers();
-        this.maxComponents = properties.maxComponents();
     }
 
     public Component displayText() {
@@ -214,7 +210,13 @@ public class Network {
 
     private static final Material[] materials = new Material[Material.values().length];
 
-
+    public void addComponents(List<? extends BasicComponent> otherComponents) {
+        components.addAll(otherComponents);
+        for (BasicComponent component : otherComponents) {
+            component.network(this);
+            component.setBlockData();
+        }
+    }
 
 
     private void legacyConversion(ComparableVersion version) {
@@ -236,24 +238,23 @@ public class Network {
                 }
             }
         }
-        if (version.compareTo(new ComparableVersion("3.1.8")) < 0) {
+        if (version.compareTo(new ComparableVersion("3.1.9")) < 0)
+            Main.instance.getServer().getGlobalRegionScheduler().execute(Main.instance, this::rebuildBlockDataCache);
+    }
 
-            Main.instance.getServer().getGlobalRegionScheduler().execute(Main.instance, ()->
-            {
-                logger.info("Initializing block data cache for network " + id + "...");
-                logger.info("This action may take a while!");
-                int counter = 0;
-                final int total = components.size();
-                for (BasicComponent component : components) {
-                    component.addStorageEntry(this);
-                    counter++;
-                    if (counter % 100 == 0) {
-                        logger.info(counter + "/" + total + " (" + Math.floorDiv(counter * 100, total) + "%) of components upgraded.");
-                    }
-                }
-                logger.info("Finished network " + id);
-            });
+    public void rebuildBlockDataCache() {
+        logger.info("Rebuilding block data cache for network " + id + "...");
+        logger.info("This action may take a while!");
+        int counter = 0;
+        final int total = components.size();
+        for (BasicComponent component : components) {
+            component.setBlockData();
+            counter++;
+            if (counter % 100 == 0) {
+                logger.info(counter + "/" + total + " (" + Math.floorDiv(counter * 100, total) + "%) of components upgraded.");
+            }
         }
+        logger.info("Finished network " + id);
     }
 
 }

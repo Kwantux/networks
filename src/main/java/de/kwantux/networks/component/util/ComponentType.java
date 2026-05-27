@@ -102,4 +102,8 @@ public class ComponentType {
         return InstallableComponent.item(this, defaultProperties);
     }
 
+    public Component displayName() {
+        return Main.lang.getItemName("component." + tag);
+    }
+
 }

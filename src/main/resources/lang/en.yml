@@ -62,6 +62,7 @@ data.reload.networks: <prefix>Reloaded network files
 data.save.networks: <prefix>Saved networks to files
 data.reload.config: <prefix>Reloaded config files
 data.save.config: <prefix>Saved config files
+data.fixcache.warning: "<prefix><yellow>WARNING: This action will load EVERY chunk containing a network component! Run this during low traffic hours or in maintenance mode.</yellow>\n<prefix>Are you sure you want to continue? - <blue><click:suggest_command:/networks data fixcache confirm>Click here to confirm.</click></blue>"
 
 create.success: <prefix>Successfully created storage network <green><1>
 create.exists: <prefix><yellow>There is already a network with this name, please select another name!
@@ -111,17 +112,19 @@ property.acceptor_priority: "<reset><green>Acceptor Priority</green>"
 property.supplier_priority: "<reset><green>Supplier Priority</green>"
 property.filters: "<reset><green>Filters</green>"
 
-component.input.add: <prefix>Input container at <1> successfully added to <2>!
-component.sorting.add: <prefix>Sorting container at <1> successfully added to <2>!
+component.input.add: <prefix>Input container at <2> successfully added to <1>!
+component.sorting.add: <prefix>Sorting container at <2> successfully added to <1>!
 component.sorting.setitem: <prefix>Item type <2> was added to sorting container at <1>.
 component.sorting.removeitem: <prefix>Item type <2> was removed from sorting container at <1>.
 component.sorting.clearfilters: <prefix>Cleared filters of the container you're holding.
 component.sorting.autofilter: <prefix>Added contents of container at <1> to it's sorting filter.
-component.misc.add: <prefix>Miscellaneous container at <1> successfully added to <2>!
+component.misc.add: <prefix>Miscellaneous container at <2> successfully added to <1>!
 component.remove: <prefix><red>Removed component at <1>
 component.exploded: <prefix><dark_red>NetworkComponent at <white><1><dark_red> from network <white><2><dark_red> was blown up!
 component.invalid_block: <prefix><red>Blocks of type </red><1><red> are not allowed to be network components!</red>
 component.nocomponent: <prefix><yellow>This block is not a network component!
+component.nosorting: <prefix><yellow>This block is not a sorting container!
+component.filters.copy: <prefix>Filters from component copied onto item!
 component.priority: <prefix>Priority set to <1>
 component.list.empty: <prefix><red>There are no components in network <white><1></white>!
 
@@ -158,12 +161,13 @@ rename.success: <prefix>Successfully renamed network <1> to <2>
 rename.taken: <prefix>Name <1> is already taken by another network.
 
 wand.mode: "<prefix><blue>Wand mode set to [<1>]"
-wand.mode.0: "Filter"
+wand.mode.0: "Material Filter"
 wand.mode.1: "Priority"
 wand.mode.2: "Strict Filter"
-wand.info.input: "<green>Type: <reset>Input Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nExtra Range: <reset><3><green>\n"
-wand.info.sorting: "<green>Type: <reset>Sorting Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\nFilters: <reset><4>\n"
-wand.info.misc: "<green>Type: <reset>Misc Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\n"
+wand.info.input: "<green>Type: <reset>Input Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nExtra Range: <reset><3>"
+wand.info.sorting: "<green>Type: <reset>Sorting Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\nFilters: <reset><4>"
+wand.info.misc: "<green>Type: <reset>Misc Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3>"
+wand.info.proxy: "<green>Passive half of double chest"
 
 items.noitems: "<prefix><red>There are no items in your storage network. (Components in unloaded chunks are not counted!)"
 items.message: "<green><bold>Total items in network <white><1><green>:</bold>\n(Items in unloaded chunks are not counted!)"

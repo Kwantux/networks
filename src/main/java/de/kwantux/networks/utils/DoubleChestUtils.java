@@ -1,6 +1,7 @@
 package de.kwantux.networks.utils;
 
 import de.kwantux.networks.component.BasicComponent;
+import de.kwantux.networks.component.BlockComponent;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -27,12 +28,12 @@ public class DoubleChestUtils {
     }
 
     @Nullable
-    public BasicComponent componentAtLoadedBlock(Block block) {
-        BasicComponent component = getComponentAtBlock(block);
+    public BlockComponent componentAtLoadedBlock(Block block) {
+        BlockComponent component = getComponentAtBlock(block);
         if (component == null) {
             if (block.getType().equals(Material.CHEST)) {
                 Chest chest = (Chest) block.getBlockData();
-                component = mgr.getComponent(shift(new BlockLocation(block), chest.getType(), chest.getFacing()));
+                component = getComponentAtBlock(shift(new BlockLocation(block), chest.getType(), chest.getFacing()).getBlock());
             }
         }
         return component;

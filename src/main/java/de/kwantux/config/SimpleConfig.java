@@ -1,11 +1,16 @@
 package de.kwantux.config;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.spongepowered.configurate.CommentedConfigurationNode;
+import org.spongepowered.configurate.hocon.HoconConfigurationLoader;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -13,7 +18,7 @@ import java.util.logging.Logger;
  * Simple configuration system with commented defaults
  */
 public class SimpleConfig {
-    
+
     private final JavaPlugin plugin;
     private final String fileName;
     private final Path filePath;
@@ -21,7 +26,8 @@ public class SimpleConfig {
     private final Map<String, Object> defaultValues = new HashMap<>();
     private final Map<String, String> comments = new HashMap<>();
     private final Map<String, Object> activeValues = new HashMap<>();
-    
+    private final HoconConfigurationLoader loader;
+
     public SimpleConfig(JavaPlugin plugin, String fileName) {
         this.plugin = plugin;
         this.fileName = fileName.endsWith(".conf") ? fileName : fileName + ".conf";
@@ -32,8 +38,10 @@ public class SimpleConfig {
         if (!plugin.getDataFolder().exists()) {
             plugin.getDataFolder().mkdirs();
         }
-        
-        loadConfig();
+
+        this.loader = HoconConfigurationLoader.builder()
+                .path(plugin.getDataFolder().toPath().resolve(fileName))
+                .build();
     }
     
     /**
@@ -54,13 +62,24 @@ public class SimpleConfig {
     /**
      * Get a value from config, falling back to default if not set
      */
-    @SuppressWarnings("unchecked")
     public <T> T get(String key, Class<T> type) {
-        if (activeValues.containsKey(key)) {
-            return (T) activeValues.get(key);
-        }
-        if (defaultValues.containsKey(key)) {
-            return (T) defaultValues.get(key);
+        try {
+            if (activeValues.containsKey(key) && activeValues.get(key).getClass().equals(type)) {
+                return (T) activeValues.get(key);
+            }
+            if (defaultValues.containsKey(key) && defaultValues.get(key).getClass().equals(type)) {
+                return (T) defaultValues.get(key);
+            }
+        } catch (Exception e) {
+            logger.warning("Error getting value for key: " + key + ". Using default value.");
+            try {
+                if (defaultValues.containsKey(key)) {
+                    return (T) defaultValues.get(key);
+                }
+            } catch (Exception e2) {
+                logger.severe("Error getting default value for key: " + key);
+                logger.severe(e2.getMessage());
+            }
         }
         throw new IllegalArgumentException("No default value defined for key: " + key);
     }
@@ -94,17 +113,17 @@ public class SimpleConfig {
     }
 
     /**
-     * Get a string array
-     */
-    public String[] getStringArray(String key) {
-        return get(key, String[].class);
-    }
-
-    /**
      * Get an integer array
      */
     public Integer[] getIntArray(String key) {
         return get(key, Integer[].class);
+    }
+
+    /**
+     * Get a string array
+     */
+    public String[] getStringArray(String key) {
+        return get(key, String[].class);
     }
     
     /**
@@ -112,7 +131,7 @@ public class SimpleConfig {
      */
     public void set(String key, Object value) {
         activeValues.put(key, value);
-        saveConfig();
+        save();
     }
     
     /**
@@ -121,16 +140,16 @@ public class SimpleConfig {
     public boolean isActive(String key) {
         return activeValues.containsKey(key);
     }
-    
+
     /**
      * Load configuration from file
      */
-    private void loadConfig() {
+    public void load_old() {
         if (!Files.exists(filePath)) {
-            createDefaultConfig();
+            save();
             return;
         }
-        
+
         try {
             activeValues.clear();
             Files.lines(filePath).forEach(line -> {
@@ -138,29 +157,87 @@ public class SimpleConfig {
                 if (line.isEmpty() || line.startsWith("#")) {
                     return; // Skip comments and empty lines
                 }
-                
+
                 int equalIndex = line.indexOf('=');
                 if (equalIndex > 0) {
                     String key = line.substring(0, equalIndex).trim();
                     String valueStr = line.substring(equalIndex + 1).trim();
-                    
+
                     // Parse the value
                     Object value = parseValue(valueStr);
                     activeValues.put(key, value);
                 }
             });
+            save();
         } catch (IOException e) {
             logger.warning("Failed to load config file " + fileName + ": " + e.getMessage());
-            createDefaultConfig();
+            save();
         }
     }
-    
+
+    /**
+     * Load configuration from file
+     */
+    public void load() {
+        if (!Files.exists(filePath)) {
+            save();
+            return;
+        }
+        try {
+            activeValues.clear();
+            CommentedConfigurationNode root = loader.load();
+            loadNode(root, "");
+            save();
+        } catch (IOException e) {
+            logger.warning("Failed to load config file " + fileName + ": " + e.getMessage());
+            save();
+        }
+    }
+
+    private void loadNode(CommentedConfigurationNode root, String keyPrefix) {
+        Map<Object, CommentedConfigurationNode> childrenMap;
+        if (root.isList()) {
+            childrenMap = new HashMap<>();
+            var childrenList = root.childrenList();
+            for (int i = 0; i < childrenList.size(); i++) {
+                childrenMap.put(i, childrenList.get(i));
+            }
+        }
+        else childrenMap = root.childrenMap();
+
+        childrenMap.forEach((relativeKey, node) -> {
+            String fullKey = keyPrefix + relativeKey;
+            if (node.isMap() || node.isList()) {
+                loadNode(node, fullKey + ".");
+            }
+            if (defaultValues.containsKey(fullKey)) {
+                if (node.isList()) {
+                    try {
+                        Class<?> clazz = defaultValues.get(fullKey).getClass().getComponentType();
+                        List<?> list = node.getList(clazz);
+                        activeValues.put(fullKey, toArray(list, clazz));
+                    } catch (SerializationException e) {
+                        logger.warning("Failed to load list value for key " + fullKey + ". Using default value instead.");
+                    }
+                }
+                else activeValues.put(fullKey, node.raw());
+            }
+        });
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T[] toArray(List<?> list, Class<T> clazz) {
+        T[] arr = (T[]) Array.newInstance(clazz, list.size());
+        return list.toArray(arr); // also may throw ClassCastException for incompatible elements
+    }
+
+
     /**
      * Parse a string value to the appropriate type
      */
     private Object parseValue(String valueStr) {
         valueStr = valueStr.trim();
-        
+
         // Handle arrays
         if (valueStr.startsWith("[") && valueStr.endsWith("]")) {
             String content = valueStr.substring(1, valueStr.length() - 1).trim();
@@ -168,11 +245,23 @@ public class SimpleConfig {
                 return new String[0];
             }
             String[] parts = content.split(",");
-            String[] result = new String[parts.length];
-            for (int i = 0; i < parts.length; i++) {
-                result[i] = parts[i].trim().replaceAll("^\"|\"$", "");
+            
+            // Try to parse as Integer array
+            try {
+                Integer[] intResult = new Integer[parts.length];
+                for (int i = 0; i < parts.length; i++) {
+                    String trimmed = parts[i].trim();
+                    intResult[i] = Integer.parseInt(trimmed);
+                }
+                return intResult;
+            } catch (NumberFormatException e) {
+                // Fall back to String array
+                String[] stringResult = new String[parts.length];
+                for (int i = 0; i < parts.length; i++) {
+                    stringResult[i] = parts[i].trim().replaceAll("^\"|\"$", "");
+                }
+                return stringResult;
             }
-            return result;
         }
         
         // Handle quoted strings
@@ -199,39 +288,10 @@ public class SimpleConfig {
     }
     
     /**
-     * Create the default configuration file with all options commented out
-     */
-    private void createDefaultConfig() {
-        try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
-            writer.write("# Configuration file for " + plugin.getName());
-            writer.newLine();
-            writer.write("# Uncomment lines to override default values");
-            writer.newLine();
-            writer.newLine();
-            
-            for (Map.Entry<String, Object> entry : defaultValues.entrySet()) {
-                String key = entry.getKey();
-                Object defaultValue = entry.getValue();
-                String comment = comments.get(key);
-                
-                if (comment != null) {
-                    writer.write("# " + comment);
-                    writer.newLine();
-                }
-                writer.write("# " + key + " = " + formatValue(defaultValue));
-                writer.newLine();
-                writer.newLine();
-            }
-            
-        } catch (IOException e) {
-            logger.severe("Failed to create default config file " + fileName + ": " + e.getMessage());
-        }
-    }
-    
-    /**
      * Save the current configuration, preserving comments and resetting them to defaults
      */
-    public void saveConfig() {
+    public void save() {
+//        if (true) return; //TODO: REMOVE THIS
         try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             writer.write("# Configuration file for " + plugin.getName());
             writer.newLine();
@@ -240,7 +300,7 @@ public class SimpleConfig {
             writer.newLine();
             
             // Write all default values as comments
-            for (Map.Entry<String, Object> entry : defaultValues.entrySet()) {
+            for (Map.Entry<String, Object> entry : defaultValues.entrySet().stream().sorted(Map.Entry.comparingByKey()).toList()) {
                 String key = entry.getKey();
                 Object defaultValue = entry.getValue();
                 String comment = comments.get(key);
@@ -269,13 +329,19 @@ public class SimpleConfig {
      * Format a value for writing to the config file
      */
     private String formatValue(Object value) {
-        if (value instanceof String[]) {
-            String[] array = (String[]) value;
-            if (array.length == 0) return "[]";
+        if (value instanceof String[] array) {
             StringBuilder sb = new StringBuilder("[");
             for (int i = 0; i < array.length; i++) {
                 if (i > 0) sb.append(", ");
                 sb.append("\"").append(array[i]).append("\"");
+            }
+            sb.append("]");
+            return sb.toString();
+        } else if (value instanceof Integer[] array) {
+            StringBuilder sb = new StringBuilder("[");
+            for (int i = 0; i < array.length; i++) {
+                if (i > 0) sb.append(", ");
+                sb.append(array[i]);
             }
             sb.append("]");
             return sb.toString();
@@ -284,13 +350,6 @@ public class SimpleConfig {
         } else {
             return value.toString();
         }
-    }
-    
-    /**
-     * Reload the configuration from file
-     */
-    public void reload() {
-        loadConfig();
     }
     
     /**

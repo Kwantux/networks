@@ -17,11 +17,14 @@ public abstract class BasicComponent {
     public abstract ComponentType type();
     public abstract Origin origin();
 
-    protected transient Network network;
+    private transient Network network;
     public Network network() {
         if (network == null)
             network = mgr.getNetworkWithComponent(origin());
         return network;
+    }
+    public void network(Network network) {
+        this.network = network;
     }
 
 
@@ -44,13 +47,13 @@ public abstract class BasicComponent {
      * Only used for {@link de.kwantux.networks.component.BlockComponent}<br/>
      * Adds Network entry to block's metadata, so that database calls are only pursued when necessary
      */
-    public void addStorageEntry(Network network) {}
+    public void setBlockData() {}
 
     /**
      * Only used for {@link de.kwantux.networks.component.BlockComponent}<br/>
-     * Removes the storage entry created by {@link de.kwantux.networks.component.BasicComponent#addStorageEntry}
+     * Removes the storage entry created by {@link de.kwantux.networks.component.BasicComponent#setBlockData}
      */
-    public void removeStorageEntry() {}
+    public void resetBlockData() {}
 
 
 

@@ -1,7 +1,6 @@
 package de.kwantux.networks.config;
 
 import de.kwantux.config.SimpleConfig;
-import de.kwantux.config.lang.LanguageController;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.component.util.ComponentType;
 import org.bukkit.Bukkit;
@@ -16,27 +15,22 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import static de.kwantux.networks.config.Config.*;
+import static de.kwantux.networks.Main.*;
+import static de.kwantux.networks.utils.NamespaceUtils.UPGRADE_RANGE;
+import static de.kwantux.networks.utils.NamespaceUtils.WAND;
 
 public class CraftingManager {
 
     private final Main plugin;
     private final SimpleConfig config;
-    private final Logger logger;
-    private final LanguageController lang;
-
-    private final Config pluginconfig;
 
     public static List<NamespacedKey> recipes = new ArrayList<>();
 
-
-
     public void save() {
-        config.saveConfig();
+        config.save();
     }
-
 
     private final char[] keys = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
 
@@ -44,15 +38,11 @@ public class CraftingManager {
     public ItemStack getNetworkWand(int mode) {
         ItemStack wand = new ItemStack(wandMaterial);
         ItemMeta meta = wand.getItemMeta();
-        try {
-            meta.displayName(lang.getItemName("wand"+mode));
-            meta.lore(lang.getItemLore("wand"+mode));
-        } catch (de.kwantux.config.util.exceptions.InvalidNodeException e) {
-            logger.warning("Missing language key for wand" + mode);
-        }
+        meta.displayName(lang.getItemName("wand"+mode));
+        meta.lore(lang.getItemLore("wand"+mode));
         setCustomModelDataForWand(meta, mode);
         PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(plugin, "wand"), PersistentDataType.INTEGER, mode);
+        data.set(WAND.key, PersistentDataType.INTEGER, mode);
         wand.setItemMeta(meta);
         return wand;
     }
@@ -60,15 +50,11 @@ public class CraftingManager {
     public ItemStack getRangeUpgrade(int tier) {
         ItemStack upgrade = new ItemStack(rangeUpgradeMaterial);
         ItemMeta meta = upgrade.getItemMeta();
-        try {
-            meta.displayName(lang.getItemName("upgrade.range." + (tier-1)));
-            meta.lore(lang.getItemLore("upgrade.range"));
-        } catch (de.kwantux.config.util.exceptions.InvalidNodeException e) {
-            logger.warning("Missing language key for range upgrade tier " + tier);
-        }
+        meta.displayName(lang.getItemName("upgrade.range." + (tier-1)));
+        meta.lore(lang.getItemLore("upgrade.range"));
         setCustomModelDataForRangeUpgrade(meta, tier);
         PersistentDataContainer data = meta.getPersistentDataContainer();
-        data.set(new NamespacedKey(plugin, "upgrade.range"), PersistentDataType.INTEGER, tier);
+        data.set(UPGRADE_RANGE.key, PersistentDataType.INTEGER, tier);
         upgrade.setItemMeta(meta);
         return upgrade;
     }
@@ -82,11 +68,7 @@ public class CraftingManager {
 
         // Define all default recipe configurations with comments
         defineDefaults();
-
-        this.lang = main.getLanguage();
-        this.logger = main.getLogger();
-        this.pluginconfig = main.getConfiguration();
-
+        config.load();
 
         registerRecipes();
 

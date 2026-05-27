@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static de.kwantux.networks.utils.NamespaceUtils.*;
+
 public class SortingContainer extends BlockComponent implements Acceptor, Supplier {
 
     public static ComponentType type;
@@ -41,12 +43,12 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
             int[] filters;
 
             try {
-                filters = Objects.requireNonNull(container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.INTEGER_ARRAY));        // Normal deserialization
+                filters = Objects.requireNonNull(container.get(FILTERS.key, PersistentDataType.INTEGER_ARRAY));        // Normal deserialization
             } catch (Exception e) {
                 filters = convertLegacyFilters(                                                                                             // If deserialization fails, try legacy deserialization
                         Objects.requireNonNullElse(
                                 Objects.requireNonNullElse(                                                                             // Try legacy deserialization
-                                        container.get(NamespaceUtils.FILTERS.key(), PersistentDataType.STRING),
+                                        container.get(FILTERS.key, PersistentDataType.STRING),
                                         null).split(","),
                                 new String[0])                                                                                              // If legacy deserialization fails, use empty array
                 );
@@ -57,8 +59,8 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
 
             return new SortingContainer(pos, network,
                     filters,
-                    Objects.requireNonNullElse(container.get(NamespaceUtils.ACCEPTOR_PRIORITY.key(), PersistentDataType.INTEGER), 10),
-                    Objects.requireNonNullElse(container.get(NamespaceUtils.SUPPLIER_PRIORITY.key(), PersistentDataType.INTEGER), 0)
+                    Objects.requireNonNullElse(container.get(ACCEPTOR_PRIORITY.key, PersistentDataType.INTEGER), 10),
+                    Objects.requireNonNullElse(container.get(SUPPLIER_PRIORITY.key, PersistentDataType.INTEGER), 0)
             );
         }
         return null;
@@ -81,9 +83,9 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
     private static Map<String, Object> defaultProperties = new HashMap<>();
 
     static {
-        defaultProperties.put(NamespaceUtils.FILTERS.name, new int[0]);
-        defaultProperties.put(NamespaceUtils.ACCEPTOR_PRIORITY.name, 10);
-        defaultProperties.put(NamespaceUtils.SUPPLIER_PRIORITY.name, 0);
+        defaultProperties.put(FILTERS.name, new int[0]);
+        defaultProperties.put(ACCEPTOR_PRIORITY.name, 10);
+        defaultProperties.put(SUPPLIER_PRIORITY.name, 0);
     }
 
     public static ComponentType register() {
@@ -151,9 +153,9 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
     @Override
     public Map<String, Object> properties() {
         return new HashMap<>() {{
-            put(NamespaceUtils.ACCEPTOR_PRIORITY.name, acceptorPriority);
-            put(NamespaceUtils.SUPPLIER_PRIORITY.name, supplierPriority);
-            put(NamespaceUtils.FILTERS.name, filters);
+            put(ACCEPTOR_PRIORITY.name, acceptorPriority);
+            put(SUPPLIER_PRIORITY.name, supplierPriority);
+            put(FILTERS.name, filters);
         }};
     }
 

@@ -93,7 +93,7 @@ public class BlockLocation extends Origin {
 
     public double getDistance(BlockLocation second) {
         if (!second.getWorld().equals(this.getWorld())) {
-            return Integer.MAX_VALUE;
+            return Double.POSITIVE_INFINITY;
         }
         return Math.sqrt(Math.pow(this.x-second.getX(),2)+Math.pow(this.y-second.getY(),2)+Math.pow(this.z-second.getZ(),2));
     }

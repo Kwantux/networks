@@ -20,12 +20,19 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashSet;
 
 import static de.kwantux.networks.Main.*;
+import static de.kwantux.networks.component.InstallableComponent.generateLore;
 import static de.kwantux.networks.config.Config.ranges;
+import static de.kwantux.networks.utils.NamespaceUtils.COMPONENT;
+import static de.kwantux.networks.utils.NamespaceUtils.FILTERS;
+import static de.kwantux.networks.utils.NamespaceUtils.UPGRADE_RANGE;
+import static de.kwantux.networks.utils.NamespaceUtils.WAND;
 
 public class WandListener implements Listener {
 
@@ -40,16 +47,20 @@ public class WandListener implements Listener {
         if (event.getClickedBlock() != null) l = new BlockLocation(event.getClickedBlock());
         Action action = event.getAction();
 
-        ItemStack wand = p.getInventory().getItemInMainHand();
+        ItemStack item = event.getItem();
+        if (item == null) return;
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
 
-        if (!wand.getType().equals(Material.AIR)) {
-            if (wand.getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER)) {
+        if (!item.getType().equals(Material.AIR)) {
+            if (pdc.has(WAND.key, PersistentDataType.INTEGER)) {
 
                 event.setCancelled(true);
 
                 if (!event.getHand().equals(EquipmentSlot.HAND)) return;
 
-                int mode = wand.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "wand"), PersistentDataType.INTEGER);
+                int mode = pdc.get(WAND.key, PersistentDataType.INTEGER);
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.LEFT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR)) {
@@ -57,7 +68,7 @@ public class WandListener implements Listener {
                             mode++;
                             if (mode > 2) mode = 0;
                             //p.getInventory().setItemInMainHand(crf.getNetworkWand(mode));
-                            event.getItem().setItemMeta(crf.getNetworkWand(mode).getItemMeta());
+                            item.setItemMeta(crf.getNetworkWand(mode).getItemMeta());
                             lang.message(p, "wand.mode", lang.getRaw("wand.mode." + mode));
                             return;
                         }
@@ -65,14 +76,14 @@ public class WandListener implements Listener {
                 }
 
                 if (l == null) return;
-                BasicComponent component = dcu.componentAt(l);
+                BasicComponent component = dcu.componentAtLoadedBlock(l.getBlock());
                 Network network = null;
                 if (component != null) network = component.network();
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                         if (component != null) {
-                            boolean isProxy = (network.getComponent(component.origin()) == null);
+                            boolean isProxy = (network.getComponent(l) == null);
                             p.sendMessage(NetworksCommand.componentInfo(network, component, isProxy));
                         }
                         else
@@ -98,12 +109,9 @@ public class WandListener implements Listener {
                 ItemStack itemInOffHand = p.getInventory().getItemInOffHand();
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 
-                    if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer) {
-                        BasicComponent c = dcu.componentAt(l);
-                        if (c instanceof SortingContainer container) {
-                            container.addFilter(ItemHash.materialHash(itemInOffHand));
-                            lang.message(p, "component.sorting.setitem", l.toString(), itemInOffHand.getType().toString());
-                        }
+                    if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
+                        container.addFilter(ItemHash.materialHash(itemInOffHand));
+                        lang.message(p, "component.sorting.setitem", l.toString(), itemInOffHand.getType().toString());
                     }
                     // If in filter mode and no item in offhand, add contents to container's filter
                     if (mode == 0 && itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
@@ -112,10 +120,10 @@ public class WandListener implements Listener {
                             filters.add(num);
                         }
 
-                        for (ItemStack item : container.inventory().getContents()) {
+                        for (ItemStack itemStack : container.inventory().getContents()) {
                             // Empty slots are null
-                            if (item == null) continue;
-                            Integer itemType = ItemHash.materialHash(item);
+                            if (itemStack == null) continue;
+                            Integer itemType = ItemHash.materialHash(itemStack);
                             if (!filters.contains(itemType)) {
                                 container.addFilter(itemType);
                                 filters.add(itemType);
@@ -129,7 +137,7 @@ public class WandListener implements Listener {
                             lang.message(p, "component.priority", String.valueOf(container.acceptorPriority()));
                         }
                     }
-                    if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && dcu.componentAt(l) instanceof SortingContainer container) {
+                    if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
                         int hash = ItemHash.strictHash(itemInOffHand);
                         container.addFilter(hash);
                         lang.message(p, "component.sorting.setitem", l.displayText(), itemInOffHand.displayName());
@@ -141,10 +149,10 @@ public class WandListener implements Listener {
                             filters.add(num);
                         }
 
-                        for (ItemStack item : container.inventory().getContents()) {
+                        for (ItemStack itemStack : container.inventory().getContents()) {
                             // Empty slots are null
-                            if (item == null) continue;
-                            int hash = ItemHash.strictHash(item);
+                            if (itemStack == null) continue;
+                            int hash = ItemHash.strictHash(itemStack);
                             if (!filters.contains(hash)) {
                                 container.addFilter(hash);
                                 filters.add(hash);
@@ -156,26 +164,23 @@ public class WandListener implements Listener {
 
                 if (action.equals(Action.LEFT_CLICK_BLOCK)) {
 
-                    if ((mode == 0 || mode == 2) && dcu.componentAt(l) instanceof SortingContainer && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
-                        BasicComponent c = dcu.componentAt(l);
-                        if (c instanceof SortingContainer container) {
-                            container.removeFilter(ItemHash.materialHash(itemInOffHand));
-                            container.removeFilter(ItemHash.strictHash(itemInOffHand));
-                            lang.message(p, "component.sorting.removeitem", l.displayText(), itemInOffHand.displayName());
-                        }
+                    if ((mode == 0 || mode == 2) && component instanceof SortingContainer container && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
+                        container.removeFilter(ItemHash.materialHash(itemInOffHand));
+                        container.removeFilter(ItemHash.strictHash(itemInOffHand));
+                        lang.message(p, "component.sorting.removeitem", l.displayText(), itemInOffHand.displayName());
                     }
 
-                    if ((mode == 0 || mode == 2) && dcu.componentAt(l) instanceof SortingContainer container && itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
+                    if ((mode == 0 || mode == 2) && component instanceof SortingContainer container && itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
                         HashSet <Integer> filters = new HashSet<>();
-                        for (ItemStack item : container.inventory().getContents()) {
+                        for (ItemStack itemStack : container.inventory().getContents()) {
                             // Empty slots are null
-                            if (item == null) continue;
+                            if (itemStack == null) continue;
                             if (mode == 2) {
-                                int hash = ItemHash.strictHash(item);
+                                int hash = ItemHash.strictHash(itemStack);
                                 filters.add(hash);
                             }
                             if (mode == 0) {
-                                filters.add(ItemHash.materialHash(item));
+                                filters.add(ItemHash.materialHash(itemStack));
                             }
                         }
                         int[] filters_array = new int[filters.size()];
@@ -197,10 +202,10 @@ public class WandListener implements Listener {
                 }
             }
 
-            if (p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().has(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)) {
+            if (pdc.has(UPGRADE_RANGE.key, PersistentDataType.INTEGER)) {
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                     event.setCancelled(true);
-                    BasicComponent component = dcu.componentAt(l);
+                    BasicComponent component = dcu.componentAtLoadedBlock(l.getBlock());
                     if (component == null) {
                         lang.message(p, "component.nocomponent");
                         return;
@@ -223,10 +228,9 @@ public class WandListener implements Listener {
                         return;
                     }
 
-                    int upgradeTier = p.getInventory().getItemInMainHand().getItemMeta().getPersistentDataContainer().get(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)-1;
+                    int upgradeTier = pdc.get(new NamespacedKey("networks", "upgrade.range"), PersistentDataType.INTEGER)-1;
 
                     if (upgradeTier == tier) {
-                        ItemStack item = p.getInventory().getItemInMainHand();
                         item.setAmount(item.getAmount() - 1);
                         rangeUp.run();
                         if (Config.rangePerNetwork)
@@ -249,6 +253,26 @@ public class WandListener implements Listener {
                     }
 
 
+                }
+            }
+
+            if (pdc.has(COMPONENT.key, PersistentDataType.STRING)) {
+                if (action.equals(Action.LEFT_CLICK_BLOCK)) {
+                    event.setCancelled(true);
+                    BasicComponent component = dcu.componentAtLoadedBlock(l.getBlock());
+                    if (pdc.get(COMPONENT.key, PersistentDataType.STRING).equals(SortingContainer.type.tag)) {
+                        if (component == null) {
+                            lang.message(p, "component.nocomponent");
+                            return;
+                        }
+                        if (component instanceof SortingContainer container) {
+                            pdc.set(FILTERS.key, PersistentDataType.INTEGER_ARRAY, container.filters());
+                            meta.lore(generateLore(container.properties(), container.type()));
+                            item.setItemMeta(meta);
+                            lang.message(event.getPlayer(), "component.filters.copy");
+                        }
+                        else lang.message(event.getPlayer(), "component.nosorting");
+                    }
                 }
             }
         }
