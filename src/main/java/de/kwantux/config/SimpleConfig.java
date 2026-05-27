@@ -9,20 +9,15 @@ import java.io.*;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import static de.kwantux.networks.utils.DevelopmentUtils.devlog;
-
 /**
  * Simple configuration system with commented defaults
  */
 public class SimpleConfig {
-
-    private final Map<String, Class> listValueTypes = new HashMap<>();
 
     private final JavaPlugin plugin;
     private final String fileName;
