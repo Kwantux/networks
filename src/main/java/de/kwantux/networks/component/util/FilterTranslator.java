@@ -58,11 +58,53 @@ public class FilterTranslator {
                 String[] split = line.split("\t");
                 try {
                     int id = Integer.parseInt(split[0]);
-                    Component translation = MiniMessage.miniMessage().deserialize(split[1]);
+                    Component translation = MiniMessage.miniMessage().deserialize(sanitizeString(split[1]));
                     translations.put(id, translation);
                 } catch (NumberFormatException ignored) {}
             }
         } catch (NoSuchFileException ignored) {}
+    }
+
+    private static Map<String, String> legacyColorCodes;
+
+    static {
+        legacyColorCodes = new HashMap<>();
+
+        // Colors
+        legacyColorCodes.put("0", "black");
+        legacyColorCodes.put("1", "dark_blue");
+        legacyColorCodes.put("2", "dark_green");
+        legacyColorCodes.put("3", "dark_aqua");
+        legacyColorCodes.put("4", "dark_red");
+        legacyColorCodes.put("5", "dark_purple");
+        legacyColorCodes.put("6", "gold");
+        legacyColorCodes.put("7", "gray");
+        legacyColorCodes.put("8", "dark_gray");
+        legacyColorCodes.put("9", "blue");
+        legacyColorCodes.put("a", "green");
+        legacyColorCodes.put("b", "aqua");
+        legacyColorCodes.put("c", "red");
+        legacyColorCodes.put("d", "light_purple");
+        legacyColorCodes.put("e", "yellow");
+        legacyColorCodes.put("f", "white");
+
+        // Formatting
+        legacyColorCodes.put("k", "obfuscated");
+        legacyColorCodes.put("l", "bold");
+        legacyColorCodes.put("m", "strikethrough");
+        legacyColorCodes.put("n", "underlined");
+        legacyColorCodes.put("o", "italic");
+        legacyColorCodes.put("r", "reset");
+    }
+
+    private static String sanitizeString(String input) {
+        String result = input;
+        // Remove color codes
+        for (Map.Entry<String, String> entry : legacyColorCodes.entrySet()) {
+            result = result.replaceAll("§"+entry.getKey(), "<"+entry.getValue()+">");
+        }
+
+        return result;
     }
 
 }
