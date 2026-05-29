@@ -4,7 +4,7 @@ plugins {
     `java-library`
     `maven-publish`
     signing
-    id("xyz.jpenilla.run-paper") version "2.3.1"
+    id("xyz.jpenilla.run-paper") version "3.0.2"
     id("net.minecrell.plugin-yml.paper") version "0.6.0"
 }
 
@@ -25,21 +25,10 @@ dependencies {
     paperLibrary("net.kyori", "adventure-text-minimessage", "4.13.1")
     paperLibrary("org.spongepowered", "configurate-hocon", "4.1.2")
     paperLibrary("org.spongepowered", "configurate-yaml", "4.1.2")
-    paperLibrary("org.incendo", "cloud-paper", "2.0.0-beta.10")
+    paperLibrary("org.incendo", "cloud-paper", "2.0.0-beta.15")
     paperLibrary("com.google.code.gson", "gson", "2.10.1")
-    paperLibrary("dev.faststats.metrics", "bukkit", "0.22.0")
+    paperLibrary("dev.faststats.metrics", "bukkit", "0.23.0")
     implementation("com.google.guava:guava:33.2.1-jre")
-
-    // Testing framework
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.1")
-    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.0.0")
-
-    // Regular dependencies for testing
-    testImplementation("dev.folia:folia-api:1.20.6-R0.1-SNAPSHOT")
-    testImplementation("org.spongepowered:configurate-hocon:4.1.2")
-    testImplementation("org.spongepowered:configurate-yaml:4.1.2")
-    testImplementation("org.incendo:cloud-paper:2.0.0-beta.10")
-    testImplementation("com.google.code.gson:gson:2.10.1")
 }
 
 java {
@@ -81,6 +70,7 @@ paper {
 
 tasks {
     runServer {
+//        minecraftVersion("26.1.2")
         minecraftVersion("1.21.11")
         // Pass development flag to JVM
         jvmArgs("-Dnetworks.development=true")
