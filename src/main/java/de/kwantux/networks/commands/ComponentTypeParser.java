@@ -1,13 +1,13 @@
 package de.kwantux.networks.commands;
 
 import de.kwantux.networks.component.util.ComponentType;
-import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.caption.Caption;
 import org.incendo.cloud.caption.CaptionVariable;
 import org.incendo.cloud.context.CommandContext;
 import org.incendo.cloud.context.CommandInput;
 import org.incendo.cloud.exception.parsing.ParserException;
+import org.incendo.cloud.paper.util.sender.Source;
 import org.incendo.cloud.parser.ArgumentParseResult;
 import org.incendo.cloud.parser.ArgumentParser;
 import org.incendo.cloud.parser.ParserDescriptor;
@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public final class ComponentTypeParser implements ArgumentParser<CommandSender, ComponentType>, BlockingSuggestionProvider.Strings<CommandSender> {
+public final class ComponentTypeParser implements ArgumentParser<Source, ComponentType>, BlockingSuggestionProvider.Strings<Source> {
 
 
-    public static @NonNull ParserDescriptor<CommandSender, ComponentType> componentTypeParser(boolean mustBePersistentComponentType) {
+    public static @NonNull ParserDescriptor<Source, ComponentType> componentTypeParser(boolean mustBePersistentComponentType) {
         return ParserDescriptor.of(new ComponentTypeParser(mustBePersistentComponentType), ComponentType.class);
     }
 
@@ -33,7 +33,7 @@ public final class ComponentTypeParser implements ArgumentParser<CommandSender, 
 
     @Override
     public @NotNull ArgumentParseResult<ComponentType> parse(
-            final @NotNull CommandContext<CommandSender> context,
+            final @NotNull CommandContext<Source> context,
             final @NotNull CommandInput inputQueue) {
         final String input = inputQueue.readString();
         ComponentType componentType = ComponentType.get(input);
@@ -49,7 +49,7 @@ public final class ComponentTypeParser implements ArgumentParser<CommandSender, 
 
     @Override
     public @NotNull List<@NotNull String> stringSuggestions(
-            final @NotNull CommandContext<CommandSender> commandContext,
+            final @NotNull CommandContext<Source> commandContext,
             final @NotNull CommandInput input) {
 
         List<String> output = new ArrayList<>();

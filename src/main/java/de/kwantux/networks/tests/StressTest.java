@@ -14,6 +14,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.incendo.cloud.context.CommandContext;
 import org.incendo.cloud.paper.LegacyPaperCommandManager;
+import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.paper.util.sender.PlayerSource;
+import org.incendo.cloud.paper.util.sender.Source;
 
 import static de.kwantux.networks.Main.mgr;
 import static org.incendo.cloud.parser.standard.IntegerParser.integerParser;
@@ -21,7 +24,7 @@ import static org.incendo.cloud.parser.standard.IntegerParser.integerParser;
 
 public class StressTest extends CommandHandler {
 
-    public StressTest(Main plugin, LegacyPaperCommandManager<CommandSender> commandManager) {
+    public StressTest(Main plugin, PaperCommandManager<Source> commandManager) {
         super(plugin, commandManager);
     }
 
@@ -34,7 +37,7 @@ public class StressTest extends CommandHandler {
                 .required("sizex", integerParser(Integer.MIN_VALUE))
                 .required("sizey", integerParser(Integer.MIN_VALUE))
                 .required("sizez", integerParser(Integer.MIN_VALUE))
-                .senderType(Player.class)
+                .senderType(PlayerSource.class)
                 .handler(this::placeSimpleStressTest)
         );
         cmd.command(cmd.commandBuilder("networkstest", "ntest")
@@ -43,7 +46,7 @@ public class StressTest extends CommandHandler {
                 .permission("networks.data")
                 .required("sizex", integerParser(Integer.MIN_VALUE))
                 .required("sizez", integerParser(Integer.MIN_VALUE))
-                .senderType(Player.class)
+                .senderType(PlayerSource.class)
                 .handler(this::placeOnePerChunk)
         );
         cmd.command(cmd.commandBuilder("networkstest", "ntest")
@@ -53,8 +56,8 @@ public class StressTest extends CommandHandler {
         );
     }
 
-    private void placeSimpleStressTest(CommandContext<Player> context) {
-        Player player = context.sender();
+    private void placeSimpleStressTest(CommandContext<PlayerSource> context) {
+        Player player = context.sender().source();
         org.bukkit.Location location = player.getLocation();
         int sizex = context.get("sizex");
         int sizey = context.get("sizey");
@@ -88,8 +91,8 @@ public class StressTest extends CommandHandler {
         }
     }
 
-    private void placeOnePerChunk(CommandContext<Player> context) {
-        Player player = context.sender();
+    private void placeOnePerChunk(CommandContext<PlayerSource> context) {
+        Player player = context.sender().source();
         org.bukkit.Location location = player.getLocation();
         int sizex = context.get("sizex");
         int sizez = context.get("sizez");
@@ -113,7 +116,7 @@ public class StressTest extends CommandHandler {
         }
     }
 
-    private void deleteAll(CommandContext<CommandSender> context) {
+    private void deleteAll(CommandContext<Source> context) {
         for (String network : new java.util.ArrayList<>(mgr.getNetworkIDs())) {
             if (network.startsWith("test-")) mgr.delete(network);
         }

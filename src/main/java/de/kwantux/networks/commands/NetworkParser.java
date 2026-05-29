@@ -1,10 +1,8 @@
 package de.kwantux.networks.commands;
 
 import static de.kwantux.networks.Main.mgr;
-import static de.kwantux.networks.Main.lang;
 
 import de.kwantux.networks.Network;
-import org.bukkit.command.CommandSender;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.caption.Caption;
@@ -12,6 +10,7 @@ import org.incendo.cloud.caption.CaptionVariable;
 import org.incendo.cloud.context.CommandContext;
 import org.incendo.cloud.context.CommandInput;
 import org.incendo.cloud.exception.parsing.ParserException;
+import org.incendo.cloud.paper.util.sender.Source;
 import org.incendo.cloud.parser.ArgumentParseResult;
 import org.incendo.cloud.parser.ArgumentParser;
 
@@ -24,16 +23,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public final class NetworkParser implements ArgumentParser<CommandSender, Network>, BlockingSuggestionProvider.Strings<CommandSender> {
+public final class NetworkParser implements ArgumentParser<Source, Network>, BlockingSuggestionProvider.Strings<Source> {
 
 
-    public static @NonNull ParserDescriptor<CommandSender, Network> networkParser() {
+    public static @NonNull ParserDescriptor<Source, Network> networkParser() {
         return ParserDescriptor.of(new NetworkParser(), Network.class);
     }
 
     @Override
     public @NotNull ArgumentParseResult<Network> parse(
-            final @NotNull CommandContext<CommandSender> context,
+            final @NotNull CommandContext<Source> context,
             final @NotNull CommandInput inputQueue) {
         final String input = inputQueue.readString();
 
@@ -47,7 +46,7 @@ public final class NetworkParser implements ArgumentParser<CommandSender, Networ
 
     @Override
     public @NotNull List<@NotNull String> stringSuggestions(
-            final @NotNull CommandContext<CommandSender> commandContext,
+            final @NotNull CommandContext<Source> commandContext,
             final @NotNull CommandInput input) {
 
         List<String> output = new ArrayList<>();
@@ -92,7 +91,7 @@ public final class NetworkParser implements ArgumentParser<CommandSender, Networ
             this.input = input;
 
 //            if (!context.isSuggestions()) {
-//                lang.message((CommandSender) context.sender(), "invalidnetwork", input);
+//                lang.message((Source) context.sender(), "invalidnetwork", input);
 //            }
         }
 

@@ -25,6 +25,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.paper.util.sender.PlayerSource;
+import org.incendo.cloud.paper.util.sender.Source;
 import org.incendo.cloud.setting.ManagerSetting;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,7 +45,7 @@ import static org.incendo.cloud.parser.standard.StringParser.stringParser;
 
 public class NetworksCommand extends CommandHandler {
 
-    public NetworksCommand(Main plugin, CommandManager<CommandSender> commandManager) {
+    public NetworksCommand(Main plugin, CommandManager<Source> commandManager) {
         super(plugin, commandManager);
     }
 
@@ -75,27 +77,27 @@ public class NetworksCommand extends CommandHandler {
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("create")
                 .required("id", stringParser())
-                .senderType(Player.class)
+                .senderType(PlayerSource.class)
                 .handler(this::create)
                 .permission("networks.create")
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("delete")
                 .required("network", networkParser())
-                .senderType(Player.class)
+                .senderType(PlayerSource.class)
                 .handler(this::deleteAsk)
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("delete")
                 .required("network", networkParser())
                 .literal("confirm")
-                .senderType(Player.class)
+                .senderType(PlayerSource.class)
                 .handler(this::delete)
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("select")
                 .required("network", networkParser())
-                .senderType(Player.class)
+                .senderType(PlayerSource.class)
                 .handler(this::select)
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
@@ -106,7 +108,7 @@ public class NetworksCommand extends CommandHandler {
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("list")
-                .senderType(Player.class)
+                .senderType(PlayerSource.class)
                 .handler(this::list)
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
@@ -226,7 +228,7 @@ public class NetworksCommand extends CommandHandler {
                 .literal("give")
                 .literal("wand")
                 .permission("networks.give")
-                .senderType(Player.class)
+                .senderType(PlayerSource.class)
                 .handler(this::giveWand)
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
@@ -234,7 +236,7 @@ public class NetworksCommand extends CommandHandler {
                 .literal("component")
                 .required("type", componentTypeParser(true))
                 .permission("networks.give")
-                .senderType(Player.class)
+                .senderType(PlayerSource.class)
                 .handler(this::giveComponent)
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
@@ -243,7 +245,7 @@ public class NetworksCommand extends CommandHandler {
                 .literal("range")
                 .required("tier", integerParser(1, Config.ranges.length))
                 .permission("networks.give")
-                .senderType(Player.class)
+                .senderType(PlayerSource.class)
                 .handler(this::giveUpgradeRange)
         );
         runInDevelopment(() -> {
@@ -251,14 +253,14 @@ public class NetworksCommand extends CommandHandler {
                     .literal("debug")
                     .literal("itemhash")
                     .permission("networks.debug")
-                    .senderType(Player.class)
+                    .senderType(PlayerSource.class)
                     .handler(this::debugItemHash)
             );
             cmd.command(cmd.commandBuilder("networks", Config.commands)
                     .literal("debug")
                     .literal("itemname")
                     .permission("networks.debug")
-                    .senderType(Player.class)
+                    .senderType(PlayerSource.class)
                     .handler(this::itemNameWithHover)
             );
         });
@@ -274,8 +276,12 @@ public class NetworksCommand extends CommandHandler {
         return network;
     }
 
-    private void help(CommandContext<CommandSender> context) {
-        CommandSender sender = context.sender();
+    private @Nullable Network selection(Source source) {
+        return selection(source.source());
+    }
+
+    private void help(CommandContext<Source> context) {
+        Source sender = context.sender();
         boolean admin = true;
         if (sender instanceof Player player) {
             admin = player.hasPermission("networks.admin");
@@ -284,62 +290,63 @@ public class NetworksCommand extends CommandHandler {
         else lang.message(sender, "help", plugin.getPluginMeta().getVersion());
     }
 
-    private void manual(CommandContext<CommandSender> context) {
+    private void manual(CommandContext<Source> context) {
         lang.message(context.sender(), "manual");
     }
 
-    private void version(CommandContext<CommandSender> context) {
+    private void version(CommandContext<Source> context) {
         lang.message(context.sender(), "version", plugin.getPluginMeta().getVersion());
     }
 
-    private void force(CommandContext<CommandSender> context) {
+    private void force(CommandContext<Source> context) {
         boolean active = mgr.forceToggle((Player) context.sender());
         if (active) lang.message(context.sender(), "force.enable");
         else lang.message(context.sender(), "force.disable");
     }
 
-    private void saveNetworks(CommandContext<CommandSender> context) {
+    private void saveNetworks(CommandContext<Source> context) {
         mgr.saveData();
         lang.message(context.sender(), "data.save.networks");
     }
 
-    private void reloadNetworks(CommandContext<CommandSender> context) {
+    private void reloadNetworks(CommandContext<Source> context) {
         mgr.loadData();
         lang.message(context.sender(), "data.reload.networks");
     }
 
-    private void reloadConfig(CommandContext<CommandSender> context) {
+    private void reloadConfig(CommandContext<Source> context) {
         cfg.reload();
         lang.message(context.sender(), "data.reload.config");
     }
 
-    private void fixCacheWarning(CommandContext<CommandSender> context) {
+    private void fixCacheWarning(CommandContext<Source> context) {
         lang.message(context.sender(), "data.fixcache.warning");
     }
 
-    private void fixCache(CommandContext<CommandSender> context) {
+    private void fixCache(CommandContext<Source> context) {
+        CommandSender sender = context.sender().source();
         final int total = mgr.getNetworks().size();
         int counter = 0;
-        context.sender().sendMessage("Rebuilding cache for " + total + " networks.");
-        context.sender().sendMessage("This action might take a while...");
+        sender.sendMessage("Rebuilding cache for " + total + " networks.");
+        context.sender().source().sendMessage("This action might take a while...");
         for (Network network : mgr.getNetworks()) {
             network.rebuildBlockDataCache();
             counter++;
             if (counter % 20 == 0) {
-                context.sender().sendMessage(counter + "/" + total + " (" + Math.floorDiv(counter * 100, total) + "%) of networks processed.");
+                context.sender().source().sendMessage(counter + "/" + total + " (" + Math.floorDiv(counter * 100, total) + "%) of networks processed.");
             }
         }
-        context.sender().sendMessage("Cache rebuild complete.");
+        context.sender().source().sendMessage("Cache rebuild complete.");
     }
 
-    private void create(CommandContext<Player> context) {
+    private void create(CommandContext<PlayerSource> context) {
 
         String id = context.get("id");
         if (!Network.validName(id)) {
             lang.message(context.sender(), "create.illegal_name");
             return;
         }
-        Player player = context.sender();
+        Player player = context.sender().source();
 
         if (!(mgr.withOwner(player.getUniqueId()).size() < Config.maxNetworks || player.hasPermission("networks.bypass_limit"))) {
             lang.message(context.sender(), "create.limit", player.displayName());
@@ -360,10 +367,10 @@ public class NetworksCommand extends CommandHandler {
         lang.message(player, "select.success", id);
     }
 
-    private void deleteAsk(CommandContext<Player> context) {
+    private void deleteAsk(CommandContext<PlayerSource> context) {
         Network network = context.get("network");
 
-        if (!mgr.permissionOwner(context.sender() ,network)) {
+        if (!mgr.permissionOwner(context.sender().source() ,network)) {
             lang.message(context.sender(), "permission.owner");
             return;
         }
@@ -372,9 +379,9 @@ public class NetworksCommand extends CommandHandler {
 
     }
 
-    private void delete(CommandContext<Player> context) {
+    private void delete(CommandContext<PlayerSource> context) {
         Network network = context.get("network");
-        Player player = context.sender();
+        Player player = context.sender().source();
 
         if (!mgr.permissionOwner(player,network)) {
             lang.message(player, "permission.owner");
@@ -398,10 +405,10 @@ public class NetworksCommand extends CommandHandler {
         lang.message(player, "delete.success", name);
     }
 
-    private void select(CommandContext<Player> context) {
+    private void select(CommandContext<PlayerSource> context) {
         Network network = context.get("network");
-        Player player = context.sender();
-        
+        Player player = context.sender().source();
+
         if (mgr.permissionUser(player, network)) {
             mgr.select(player, network);
             lang.message(player, "select.success", network.name());
@@ -412,7 +419,7 @@ public class NetworksCommand extends CommandHandler {
         }
     }
 
-    private void rename(CommandContext<CommandSender> context) {
+    private void rename(CommandContext<Source> context) {
         Network network = context.get("network");
         String newID = context.get("newID");
         if (!Network.validName(newID)) {
@@ -420,9 +427,9 @@ public class NetworksCommand extends CommandHandler {
             return;
         }
         String oldID = network.name();
-        CommandSender sender = context.sender();
+        Source sender = context.sender();
 
-        if (mgr.permissionOwner(sender, network)) {
+        if (mgr.permissionOwner(sender.source(), network)) {
             if (mgr.rename(oldID, newID)) lang.message(sender, "rename.success", network.name());
             else lang.message(sender, "rename.taken", newID);
         }
@@ -432,8 +439,8 @@ public class NetworksCommand extends CommandHandler {
         }
     }
 
-    private void list(CommandContext<Player> context) {
-        Player player = context.sender();
+    private void list(CommandContext<PlayerSource> context) {
+        Player player = context.sender().source();
         List<Network> list = mgr.withUser(player.getUniqueId());
         List<Network> owned = mgr.withUser(player.getUniqueId());
 
@@ -459,8 +466,8 @@ public class NetworksCommand extends CommandHandler {
 
     }
 
-    private void getNetworks(CommandContext<CommandSender> context) {
-        CommandSender sender = context.sender();
+    private void getNetworks(CommandContext<Source> context) {
+        CommandSender sender = context.sender().source();
         if (mgr.getNetworks().isEmpty()) {
             lang.message(sender, "list.all.empty");
             return;
@@ -471,10 +478,10 @@ public class NetworksCommand extends CommandHandler {
         }
     }
 
-    private void listForeign(CommandContext<CommandSender> context) {
+    private void listForeign(CommandContext<Source> context) {
 
         Player player = context.get("player");
-        CommandSender sender = context.sender();
+        CommandSender sender = context.sender().source();
         List<Network> list = mgr.withUser(player.getUniqueId());
         List<Network> owned = mgr.withOwner(player.getUniqueId());
 
@@ -498,8 +505,8 @@ public class NetworksCommand extends CommandHandler {
         }
     }
 
-    private void info(CommandContext<CommandSender> context) {
-        CommandSender sender = context.sender();
+    private void info(CommandContext<Source> context) {
+        Source sender = context.sender();
         Network network = selection(sender);
         if (network == null) return;
         lang.message(sender, "info.title");
@@ -522,8 +529,8 @@ public class NetworksCommand extends CommandHandler {
         lang.message(sender, "info.range", String.valueOf(network.properties().baseRange()));
     }
 
-    private void components(CommandContext<CommandSender> context) {
-        CommandSender sender = context.sender();
+    private void components(CommandContext<Source> context) {
+        CommandSender sender = context.sender().source();
         Network network = selection(sender);
         if (network == null) return;
 
@@ -542,8 +549,8 @@ public class NetworksCommand extends CommandHandler {
         }
     }
 
-    private void componentInfo(CommandContext<CommandSender> context) {
-        CommandSender sender = context.sender();
+    private void componentInfo(CommandContext<Source> context) {
+        CommandSender sender = context.sender().source();
         BlockLocation location = new BlockLocation((Location) context.get("location"));
         BasicComponent component = dcu.componentAt(location);
         if (component == null) {
@@ -560,7 +567,7 @@ public class NetworksCommand extends CommandHandler {
      * <p>
      * If the component is a isProxy, it will be indicated.
      * <p>
-     * The generated component will be translated into the language that the {@link CommandSender} is currently using.
+     * The generated component will be translated into the language that the {@link Source} is currently using.
      *
      * @param network The network containing the component
      * @param component The component to generate information about
@@ -596,8 +603,8 @@ public class NetworksCommand extends CommandHandler {
         }
     }
 
-    private void addUser(CommandContext<CommandSender> context) {
-        CommandSender sender = context.sender();
+    private void addUser(CommandContext<Source> context) {
+        CommandSender sender = context.sender().source();
         Player target = context.get("player");
         Network network = selection(sender);
         if (network == null) return;
@@ -617,8 +624,8 @@ public class NetworksCommand extends CommandHandler {
 
     }
 
-    private void removeUser(CommandContext<CommandSender> context) {
-        CommandSender sender = context.sender();
+    private void removeUser(CommandContext<Source> context) {
+        CommandSender sender = context.sender().source();
         Player target = context.get("player");
         Network network = selection(sender);
         if (network == null) return;
@@ -638,8 +645,8 @@ public class NetworksCommand extends CommandHandler {
 
     }
 
-    private void owner(CommandContext<CommandSender> context) {
-        CommandSender sender = context.sender();
+    private void owner(CommandContext<Source> context) {
+        CommandSender sender = context.sender().source();
         boolean request = Config.requestOwnershipTransfers && !sender.hasPermission("network.transfer_without_request");
         Player target = context.get("player");
         Network network = selection(sender);
@@ -672,9 +679,9 @@ public class NetworksCommand extends CommandHandler {
             network.owner(target.getUniqueId());
         }
     }
-    
 
-    private void acceptTransfer(CommandContext<CommandSender> context) {
+
+    private void acceptTransfer(CommandContext<Source> context) {
         Player sender = (Player) context.sender();
         Network network = context.get("network");
 
@@ -695,11 +702,11 @@ public class NetworksCommand extends CommandHandler {
     }
 
 
-    private void merge(CommandContext<CommandSender> context) {
+    private void merge(CommandContext<Source> context) {
         Network finalNetwork = context.get("final");
         Network otherNetwork = context.get("other");
-        CommandSender sender = context.sender();
-
+        CommandSender sender = context.sender().source();
+        
         if (!mgr.permissionOwner(sender, finalNetwork) || !mgr.permissionOwner(sender, otherNetwork)) {
             lang.message(sender, "merge.nopermission");
             return;
@@ -716,8 +723,8 @@ public class NetworksCommand extends CommandHandler {
         lang.message(sender, "merge.success", Component.text(finalNetwork.name()), Component.text(otherName));
     }
 
-    private void items(CommandContext<CommandSender> context) {
-        CommandSender sender = context.sender();
+    private void items(CommandContext<Source> context) {
+        CommandSender sender = context.sender().source();
         Network network = selection(sender);
         if (network == null) return;
 
@@ -740,32 +747,32 @@ public class NetworksCommand extends CommandHandler {
         }
     }
 
-    private void giveWand(CommandContext<Player> context) {
-        Player player = context.sender();
+    private void giveWand(CommandContext<PlayerSource> context) {
+        Player player = context.sender().source();
         ItemStack wand = crf.getNetworkWand(2);
         player.getInventory().addItem(wand);
     }
 
-    private void giveUpgradeRange(CommandContext<Player> context) {
-        Player player = context.sender();
+    private void giveUpgradeRange(CommandContext<PlayerSource> context) {
+        Player player = context.sender().source();
         ItemStack upgrade = crf.getRangeUpgrade(context.get("tier"));
         player.getInventory().addItem(upgrade);
     }
 
-    private void giveComponent(CommandContext<Player> context) {
-        Player player = context.sender();
+    private void giveComponent(CommandContext<PlayerSource> context) {
+        Player player = context.sender().source();
         ComponentType type = context.get("type");
         player.getInventory().addItem(type.item());
     }
 
-    private void debugItemHash(CommandContext<Player> context) {
-        Player player = context.sender();
+    private void debugItemHash(CommandContext<PlayerSource> context) {
+        Player player = context.sender().source();
         ItemStack item = player.getInventory().getItemInMainHand();
         lang.message(player, "debug.hash", "" + ItemHash.materialHash(item), "" + ItemHash.strictHash(item), "");
     }
 
-    private void itemNameWithHover(CommandContext<Player> context) {
-        Player player = context.sender();
+    private void itemNameWithHover(CommandContext<PlayerSource> context) {
+        Player player = context.sender().source();
         ItemStack item = player.getInventory().getItemInMainHand();
         Component component = item.effectiveName().hoverEvent(HoverEvent.showItem(
                 HoverEvent.ShowItem.showItem(

@@ -16,11 +16,11 @@ public class ItemHash {
         int matHash = materialHash(stack.getType());
         int metaHash = metaHash(stack);
         int hash = matHash + metaHash;
-        if (!FilterTranslator.hasTranslation(hash)) FilterTranslator.updateTranslation(hash, Component.text("#").append(stack.effectiveName().hoverEvent(HoverEvent.showItem(
+        if (!FilterTranslator.hasTranslation(hash)) FilterTranslator.updateTranslation(hash, Component.text("#").append(stack.effectiveName()).hoverEvent(HoverEvent.showItem(
                 HoverEvent.ShowItem.showItem(
                         Key.key(stack.getType().name().toLowerCase()), 1
                 )
-        ))));
+        )));
         return hash;
     }
 

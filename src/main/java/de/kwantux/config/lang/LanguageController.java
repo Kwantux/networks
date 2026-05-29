@@ -1,6 +1,7 @@
 package de.kwantux.config.lang;
 
 import de.kwantux.config.util.exceptions.InvalidNodeException;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -9,6 +10,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.incendo.cloud.paper.util.sender.Source;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.serialize.SerializationException;
@@ -263,6 +265,82 @@ public class LanguageController {
         }
         catch (InvalidNodeException e) {
             receiver.sendMessage(invalidKeyError(key));
+            return false;
+        }
+    }
+
+
+
+    /**
+     * Translates a key to a message and sends this message to a given reciever
+     * @param receiver Either a player or the console
+     * @param key The registry key of the text, you want to send
+     * @return true - When the message was successfully sent  |  false - When the language key doesn't exist
+     */
+    public boolean message(Source receiver, String key) {
+        try {
+            receiver.source().sendMessage(get(key));
+            return true;
+        }
+        catch (InvalidNodeException e) {
+            receiver.source().sendMessage(invalidKeyError(key));
+            return false;
+        }
+    }
+
+
+
+    /**
+     * Translates a key to a message and sends this message to a given reciever
+     * @param receiver Either a player or the console
+     * @param key The registry key of the text, you want to send
+     * @return true - When the message was successfully sent  |  false - When the language key doesn't exist
+     */
+    public boolean message(Source receiver, String key, Component... replacements) {
+        try {
+            receiver.source().sendMessage(get(key, replacements));
+            return true;
+        }
+        catch (InvalidNodeException e) {
+            receiver.source().sendMessage(invalidKeyError(key));
+            return false;
+        }
+    }
+
+    /**
+     * Translates a key to a message and sends this message to a given reciever
+     * @param receiver Either a player or the console
+     * @param key The registry key of the text, you want to send
+     * @return true - When the message was successfully sent  |  false - When the language key doesn't exist
+     */
+    public boolean message(Source receiver, String key, String... replacements) {
+        try {
+            receiver.source().sendMessage(get(key, replacements));
+            return true;
+        }
+        catch (InvalidNodeException e) {
+            receiver.source().sendMessage(invalidKeyError(key));
+            return false;
+        }
+    }
+
+
+
+
+
+    /**
+     * Translates a key to a message and sends this message to a given reciever
+     * @param receiver Either a player or the console
+     * @param key The registry key of the text, you want to send
+     * @return true - When the message was successfully sent  |  false - When the language key doesn't exist
+     */
+    public boolean message(Source receiver, String key, TagResolver... replacements) {
+        try {
+            receiver.source().sendMessage(get(key, replacements));
+            return true;
+        }
+        catch (InvalidNodeException e) {
+            receiver.source().sendMessage(invalidKeyError(key));
             return false;
         }
     }

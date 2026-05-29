@@ -6,11 +6,15 @@ import de.kwantux.networks.Network;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.tests.StressTest;
 import io.leangen.geantyref.TypeToken;
+import io.papermc.paper.command.brigadier.CommandSourceStack;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.caption.Caption;
 import org.incendo.cloud.caption.CaptionProvider;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.LegacyPaperCommandManager;
+import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.paper.util.sender.PaperSimpleSenderMapper;
+import org.incendo.cloud.paper.util.sender.Source;
 import org.incendo.cloud.parser.ParserRegistry;
 
 import java.util.List;
@@ -20,12 +24,13 @@ import static de.kwantux.networks.utils.DevelopmentUtils.runInDevelopment;
 
 public final class NetworksCommandManager {
 
-    private  LegacyPaperCommandManager<CommandSender> commandManager;
-    private  ParserRegistry<CommandSender> parsers;
+    private  PaperCommandManager<Source> commandManager;
+    private  ParserRegistry<Source> parsers;
 
     public NetworksCommandManager(final Main plugin) {
 
-        commandManager = LegacyPaperCommandManager.createNative(plugin, ExecutionCoordinator.simpleCoordinator());
+//        commandManager = LegacyPaperCommandManager.createNative(plugin, ExecutionCoordinator.simpleCoordinator());
+        commandManager = PaperCommandManager.builder(PaperSimpleSenderMapper.simpleSenderMapper()).executionCoordinator(ExecutionCoordinator.simpleCoordinator()).buildOnEnable(plugin);
         parsers = commandManager.parserRegistry();
 
         // Register argument parsers
