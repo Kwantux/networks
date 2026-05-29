@@ -1,0 +1,184 @@
+prefix: '<green>[箱子网络]<reset>  '
+version: |-
+    <dark_green>Networks 插件</dark_green> 作者 <yellow>Kwantux</yellow>
+    <aqua>版本: </aqua><1>
+help: "\n <bold><dark_green>          Networks v<1> - 帮助菜单 \n============================================</dark_green></bold>\n\
+    \n<click:suggest_command:/net create>/net create (id)</click> - <yellow>创建一个新网络</yellow>\
+    \ \n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>重命名网络</yellow>\
+    \ \n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>删除网络</yellow>\
+    \ \n \n<click:suggest_command:/net select>/net select (id)</click> - <yellow>选择一个网络</yellow>\
+    \ \n \n<click:suggest_command:/net list>/net list</click> - <yellow>列出所有你的网络</yellow>\
+    \ \n<click:suggest_command:/net listall>/net listall</click> - <yellow>列出服务器上所有网络</yellow>\
+    \ \n<click:suggest_command:/net list>/net list (player)</click> - <yellow>列出其他玩家的网络</yellow>\
+    \ \n \n<click:suggest_command:/net user add>/net user add (player)</click> - <yellow>授予玩家访问你网络的权限</yellow>\
+    \ \n<click:suggest_command:/net user remove>/net user remove (player)</click>\
+    \ - <yellow>撤销玩家对你网络的访问权限</yellow> \n \n<click:suggest_command:/net\
+    \ items>/net items</click> - <yellow>列出你所有的物品</yellow> \n \n<click:suggest_command:/net\
+    \ merge>/net merge (net1) (net2)</click> - <yellow>将 net2 合并到 net1</yellow>\
+    \ \n \n<blue><click:open_url:'https://networks.kwantux.de'>[打开用户手册]</click></blue>\
+    \ \n "
+help.admin: "\n <bold><dark_green>          Networks v<1> - 帮助菜单 \n============================================</dark_green></bold>\n\
+    \n<click:suggest_command:/net data save>/net data save</click> - <yellow>保存所有网络</yellow>\
+    \ \n<click:suggest_command:/net data reload>/net data reload</click> - <yellow>重载配置文件</yellow>\
+    \ \n \n<click:suggest_command:/net create>/net create (id)</click> - <yellow>创建一个新网络</yellow>\
+    \ \n<click:suggest_command:/net rename>/net rename (id)</click> - <yellow>重命名网络</yellow>\
+    \ \n<click:suggest_command:/net delete>/net delete (id)</click> - <yellow>删除网络</yellow>\
+    \ \n \n<click:suggest_command:/net select>/net select (id)</click> - <yellow>选择一个网络</yellow>\
+    \ \n \n<click:suggest_command:/net list>/net list</click> - <yellow>列出所有你的网络</yellow>\
+    \ \n<click:suggest_command:/net listall>/net listall</click> - <yellow>列出服务器上所有网络</yellow>\
+    \ \n<click:suggest_command:/net list>/net list (player)</click> - <yellow>列出其他玩家的网络</yellow>\
+    \ \n \n<click:suggest_command:/net user add>/net user add (player)</click> - <yellow>授予玩家访问你网络的权限</yellow>\
+    \ \n<click:suggest_command:/net user remove>/net user remove (player)</click>\
+    \ - <yellow>撤销玩家对你网络的访问权限</yellow> \n \n<click:suggest_command:/net\
+    \ items>/net items</click> - <yellow>列出你所有的物品</yellow> \n \n<click:suggest_command:/net\
+    \ merge>/net merge (net1) (net2)</click> - <yellow>将 net2 合并到 net1</yellow>\
+    \ \n \n<blue><click:open_url:'https://networks.kwantux.de'>[打开用户手册]</click>\
+    \ \n "
+force.enable: <prefix>强制模式已 <green>启用
+force.disable: <prefix>强制模式已 <green>禁用
+data.reload.networks: <prefix>已重载网络文件
+data.save.networks: <prefix>已保存网络到文件
+data.reload.config: <prefix>已重载配置文件
+data.save.config: <prefix>已保存配置文件
+create.success: <prefix>已成功创建存储网络 <green><1>
+create.exists: <prefix><yellow>已存在同名网络，请换一个名称！
+create.limit: <prefix><red>玩家 <white><1></white> 无法再拥有更多网络！
+create.illegal_name: <prefix><red>网络名称只能包含 A-Z、0-9、_ 和 -，且最多20个字符！
+delete.success: <prefix>已成功删除存储网络 <green><1>
+delete.confirm: <prefix>你确定要删除存储网络 <1> 吗？请输入 <yellow>/net delete <1> confirm
+    进行确认
+delete.fail: <prefix><red>该网络不存在
+select.noselection: <prefix><red>未选择任何网络。请使用 <white>/net select <network><red> 选择一个网络
+select.success: <prefix>已成功选择存储网络 <green><1>
+invalid.network: <input> 不是有效的网络！
+invalid.componenttype: <input> 不是有效的组件类型！
+click-to-tp: 点击传送
+permission.server: <prefix><red>此命令仅限服务器管理员使用！
+permission.owner: |-
+    <prefix><red>你没有权限编辑此网络！
+    你需要是网络所有者或服务器管理员！
+permission.user: |-
+    <prefix><red>你没有此网络的访问权限！
+    你需要是网络用户！
+list.empty: <prefix>你没有任何存储网络！
+list: '<prefix>你已被添加到以下存储网络:'
+list.owned: '<prefix>你拥有以下存储网络:'
+list.foreign.empty: <prefix>玩家 <1> 没有任何存储网络！
+list.foreign: '<prefix>玩家 <1> 已被添加到以下存储网络:'
+list.foreign.owned: '<prefix>玩家 <1> 拥有以下存储网络:'
+list.all.empty: <prefix>此服务器上没有任何存储网络。
+list.all: '<prefix>当前存在以下存储网络:'
+info.title: |4
+
+                    <bold><dark_green>网络信息
+    <reset><dark_green>=============================================
+info.name: '名称:  <1>'
+info.owner: '所有者: <1>'
+info.users: '用户: <1>'
+info.components.total: '组件数量: <1>'
+info.range: '最大范围: <1>'
+info.components.input: '输入组件: '
+info.components.sorting: '分类组件: '
+info.components.misc: '杂项组件: '
+property.range: <reset><green>范围
+property.acceptor_priority: <reset><green>接收优先级
+property.supplier_priority: <reset><green>供应优先级
+property.filters: <reset><green>过滤器
+component.input.add: <prefix>位于 <1> 的输入容器已成功添加到 <2>！
+component.sorting.add: <prefix>位于 <1> 的分类容器已成功添加到 <2>！
+component.sorting.setitem: <prefix>物品类型 <2> 已添加到位于 <1> 的分类容器过滤器。
+component.sorting.removeitem: <prefix>物品类型 <2> 已从位于 <1> 的分类容器过滤器移除。
+component.sorting.clearfilters: <prefix>已清除你手持容器的过滤器。
+component.sorting.autofilter: <prefix>已将位于 <1> 的容器内容添加到其分类过滤器。
+component.misc.add: <prefix>位于 <1> 的杂项容器已成功添加到 <2>！
+component.remove: <prefix><red>已移除位于 <1> 的组件
+component.exploded: <prefix><dark_red>网络 <white><2><dark_red> 中位于 <white><1><dark_red>
+    的网络组件被炸毁了！
+component.invalid_block: <prefix><red>类型为 </red><1><red> 的方块不允许作为网络组件！</red>
+component.nocomponent: <prefix><yellow>此方块不是网络组件！
+component.priority: <prefix>优先级已设置为 <1>
+component.list.empty: <prefix><red>网络 <white><1></white> 中没有任何组件！
+location.occupied: <prefix><red>此位置已存在一个组件！
+rangeupgrade.last: <prefix><yellow>你已达到最高升级等级。
+rangeupgrade.alreadyupgraded: <prefix><yellow>你已安装此升级，下一个升级为范围 <white><1><yellow> 级
+rangeupgrade.unlockfirst: <prefix><yellow>你需要先解锁范围 <white><1><yellow> 级！
+rangeupgrade.invalid: <prefix><yellow>你获得了一个无效的范围升级……可能是管理员在你合成后修改了配置。
+rangeupgrade.passivecomponent: <prefix><yellow>此升级只能应用于<bold>主动</bold>网络组件（如输入容器），不能用于被动组件（如分类容器、杂项容器）
+rangeupgrade.success: <prefix>已成功将组件 <2> 升级至 <1> 级！
+rangeupgrade.success.network: <prefix>已成功将网络 <2> 升级至 <1> 级！
+user.add: <prefix>已成功将 <2> 添加到网络 <1>
+user.remove: <prefix>已成功将 <2> 从网络 <1> 移除
+user.add.nochange: <prefix>玩家 <2> 已在网络 <1> 中
+user.remove.nochange: <prefix>玩家 <2> 未被添加到网络 <1>
+user.owner: <prefix>已将 <2> 的所有权转让给玩家 <1>
+user.owner.nochange: <prefix>玩家 <2> 已经是网络 <1> 的所有者
+user.owner.norequest: <prefix><red>没有待处理的请求</red>
+user.owner.request.acceptor: <prefix>玩家 <green><2></green> 想将网络 <green><1><newline></green>
+    的所有权转让给你，输入 <yellow><click:suggest_command:/net accept >/net accept <1></click></yellow>
+    以接受。
+user.owner.request.donator: <prefix>请求已发送给玩家 <1>
+user.owner.accept.acceptor: <prefix>网络 <green><1></green> 现在归你所有。原所有者仍作为用户保留。
+user.owner.accept.donator: <prefix>转让请求已被 <green><1></green> 接受
+merge.identical: <prefix><red>抱歉，物理定律无法被打破。
+merge.nopermission: <prefix><red>你需要同时拥有两个网络的所有权才能进行合并！
+merge.success: <prefix>已成功将网络 <2> 合并到 <1>
+teleport.world-invalid: <prefix><red>不存在 UUID 为 <1> 的世界
+teleport.success: <prefix>已传送到 <white>[<1>, <2>, <3>, <4>]<green>
+rename.success: <prefix>已成功将网络 <1> 重命名为 <2>
+rename.taken: <prefix>名称 <1> 已被其他网络占用。
+wand.mode: <prefix><blue>魔棒模式已设置为 [<1>]
+wand.mode.0: 过滤器
+wand.mode.1: 优先级
+wand.mode.2: 严格过滤器
+wand.info.input: |
+    <green>类型: <reset>输入容器<green>
+    网络: <reset><1><green>
+    位置: <reset><2><green>
+    额外范围: <reset><3><green>
+wand.info.sorting: |
+    <green>类型: <reset>分类容器<green>
+    网络: <reset><1><green>
+    位置: <reset><2><green>
+    优先级: <reset><3><green>
+    过滤器: <reset><4>
+wand.info.misc: |
+    <green>类型: <reset>杂项容器<green>
+    网络: <reset><1><green>
+    位置: <reset><2><green>
+    优先级: <reset><3><green>
+wand.info.proxy: <green>双箱子的另一半
+items.noitems: <prefix><red>你的存储网络中没有任何物品。（未加载区块中的组件不计入统计！）
+items.message: |-
+    <green><bold>网络 <white><1><green> 中的物品总计:</bold>
+    (未加载区块中的物品不计入统计！)
+item.name.wand0: <reset><red>网络魔棒 <green>[材料过滤器]
+item.name.wand1: <reset><red>网络魔棒 <blue>[优先级]
+item.name.wand2: <reset><red>网络魔棒 <dark_green>[严格过滤器]
+item.name.component.input: <reset>输入组件
+item.name.component.sorting: <reset>分类组件
+item.name.component.misc: <reset>杂项组件
+item.name.upgrade.range.0: <reset><bold>天线 1 级
+item.name.upgrade.range.1: <reset><bold>天线 2 级
+item.name.upgrade.range.2: <reset><bold>天线 3 级
+item.name.upgrade.range.3: <reset><bold>天线 4 级
+item.name.upgrade.range.4: <reset><bold>天线 5 级
+item.lore.wand0: [<reset>右键单击任意网络组件以查看其信息, <reset>左键单击以切换模式, '',
+    <reset>空手潜行+右键单击分类箱以将箱内所有物品添加为过滤器, <reset>空手潜行+左键单击以将箱内所有物品设为过滤器（同时移除已有过滤器）,
+    '', <reset>副手持有物品时潜行+右键单击分类箱以添加过滤器, <reset>副手持有物品时潜行+左键单击以移除过滤器]
+item.lore.wand1: [<reset>右键单击任意网络组件以查看其信息, <reset>左键单击以切换模式, '',
+    <reset>潜行+右键单击网络组件以提高其优先级, <reset>潜行+左键单击网络组件以降低其优先级]
+item.lore.wand2: [<reset>右键单击任意网络组件以查看其信息, <reset>左键单击以切换模式, '',
+    <reset>严格过滤器会考虑物品元数据，如耐久度和附魔, '', <reset>空手潜行+右键单击分类箱以将箱内所有物品添加为严格过滤器,
+    <reset>空手潜行+左键单击以将箱内所有物品设为严格过滤器（同时移除已有过滤器）, '', <reset>副手持有物品时潜行+右键单击分类箱以添加严格过滤器,
+    <reset>副手持有物品时潜行+左键单击以移除严格过滤器]
+item.lore.component.input: [<reset><blue>将物品分类到分类容器和杂项容器中]
+item.lore.component.sorting: [<reset><blue>只接受符合此容器过滤条件的物品]
+item.lore.component.misc: [<reset><blue>所有剩余物品将进入这些容器]
+item.lore.component.input.upgrade: [<reset><blue>右键单击箱子以将其设为输入容器, <reset><blue>将物品分类到分类容器和杂项容器中]
+item.lore.component.sorting.upgrade: [<reset><blue>右键单击箱子以将其设为分类容器, <reset><blue>只接受符合此容器过滤条件的物品]
+item.lore.component.misc.upgrade: [<reset><blue>右键单击箱子以将其设为杂项容器, <reset><blue>所有剩余物品将进入这些容器]
+item.lore.upgrade.range: [<reset>右键点输入容器以应用此升级, <reset>可以扩大输入范围]
+notice: <yellow>遇到物品栏问题了吗？试试 <white>/networks <yellow>来创建一个全自动存储网络！<white>更多信息请点击
+    <click:open_url:'https://networks.kwantux.de'><blue>这里。</blue></click>
+manual: <white>完整的网络使用指南请点击 <click:open_url:'https://networks.kwantux.de'><blue>这里。</blue></click>
+debug.hash: "<reset>材料 ID: <1> \n严格哈希: <2>"
