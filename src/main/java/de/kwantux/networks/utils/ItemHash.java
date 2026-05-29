@@ -4,6 +4,7 @@ import de.kwantux.networks.component.util.FilterTranslator;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,7 +17,7 @@ public class ItemHash {
         int matHash = materialHash(stack.getType());
         int metaHash = metaHash(stack);
         int hash = matHash + metaHash;
-        if (!FilterTranslator.hasTranslation(hash)) FilterTranslator.updateTranslation(hash, Component.text("#").append(stack.effectiveName().hoverEvent(HoverEvent.showItem(
+        if (!FilterTranslator.hasTranslation(hash)) FilterTranslator.updateTranslation(hash, Component.text("#").append(sanitizeComponent(stack.effectiveName()).hoverEvent(HoverEvent.showItem(
                 HoverEvent.ShowItem.showItem(
                         Key.key(stack.getType().name().toLowerCase()), 1
                 )
@@ -30,7 +31,7 @@ public class ItemHash {
     public static int materialHash(@Nonnull ItemStack stack) {
         int hash = materialHash(stack.getType());
         if (stack.isEmpty()) return 0;
-        if (!FilterTranslator.hasTranslation(hash)) FilterTranslator.updateTranslation(hash, stack.effectiveName().hoverEvent(HoverEvent.showItem(
+        if (!FilterTranslator.hasTranslation(hash)) FilterTranslator.updateTranslation(hash, sanitizeComponent(stack.effectiveName()).hoverEvent(HoverEvent.showItem(
                 HoverEvent.ShowItem.showItem(
                         Key.key(stack.getType().name().toLowerCase()), 1
                 )
@@ -41,4 +42,10 @@ public class ItemHash {
     private static int metaHash(@Nonnull ItemStack stack) {
         return stack.getItemMeta().getAsString().hashCode();
     }
+
+    private static Component sanitizeComponent(Component component) {
+        String legacyText = LegacyComponentSerializer.legacySection().serialize(component);
+        return LegacyComponentSerializer.legacySection().deserialize(legacyText);
+    }
+
 }
