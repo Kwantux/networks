@@ -14,6 +14,7 @@ public interface BaseModule {
     Inventory inventory();
 
     static boolean spaceFree(Inventory inv, ItemStack stack) {
+        if (inv == null) return false;
         if (Config.complexInventoryChecks) {
             int amount = stack.getAmount(); // The amount of items that need to be transmitted
             for (int i = 0; i < inv.getSize(); i++) {

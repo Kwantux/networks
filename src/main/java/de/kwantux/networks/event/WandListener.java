@@ -58,7 +58,7 @@ public class WandListener implements Listener {
 
                 event.setCancelled(true);
 
-                if (!event.getHand().equals(EquipmentSlot.HAND)) return;
+                if (!EquipmentSlot.HAND.equals(event.getHand())) return;
 
                 int mode = pdc.get(WAND.key, PersistentDataType.INTEGER);
 
@@ -260,7 +260,7 @@ public class WandListener implements Listener {
                 if (action.equals(Action.LEFT_CLICK_BLOCK)) {
                     event.setCancelled(true);
                     BasicComponent component = dcu.componentAtLoadedBlock(l.getBlock());
-                    if (pdc.get(COMPONENT.key, PersistentDataType.STRING).equals(SortingContainer.type.tag)) {
+                    if (SortingContainer.type.tag.equals(pdc.get(COMPONENT.key, PersistentDataType.STRING))) {
                         if (component == null) {
                             lang.message(p, "component.nocomponent");
                             return;
