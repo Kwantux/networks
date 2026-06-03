@@ -14,6 +14,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -33,7 +34,9 @@ public class ComponentInstallListener implements Listener {
         ItemStack item = event.getItem();
         if (item == null) return;
         if (item.getType().isBlock()) return; // This case is handled by the BlockPlaceEvent
-        PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null) return;
+        PersistentDataContainer container = meta.getPersistentDataContainer();
 
         ComponentType type = ComponentType.get(container.get(NamespaceUtils.COMPONENT.key, PersistentDataType.STRING));
         if (type == null) return;
@@ -71,7 +74,9 @@ public class ComponentInstallListener implements Listener {
         if (!event.isCancelled()) {
 
             ItemStack item = event.getItemInHand();
-            PersistentDataContainer container = item.getItemMeta().getPersistentDataContainer();
+            ItemMeta meta = item.getItemMeta();
+            if (meta == null) return;
+            PersistentDataContainer container = meta.getPersistentDataContainer();
 
             ComponentType type = ComponentType.get(container.get(NamespaceUtils.COMPONENT.key, PersistentDataType.STRING));
             if (type == null) return;
