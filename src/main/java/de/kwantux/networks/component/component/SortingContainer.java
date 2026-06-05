@@ -7,7 +7,6 @@ import de.kwantux.networks.component.module.Supplier;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.ItemHash;
-import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang3.ArrayUtils;
@@ -113,26 +112,16 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
 
     @Override
     public boolean accept(@Nonnull ItemStack stack) {
-        // Fallback path (e.g. direct calls): build a one-shot supplier so the strict
-        // hash is still only computed if no material filter matches.
-        return accept(stack, ItemHash.materialHash(stack), () -> ItemHash.strictHash(stack));
-    }
-
-    /**
-     * Performance-optimized accept. The expensive strict hash is only requested from the
-     * supplier when no material filter matches, and the supplier is memoized by the caller
-     * so the item NBT is serialized at most once per item across all acceptors.
-     */
-    @Override
-    public boolean accept(@Nonnull ItemStack stack, int matHash, java.util.function.IntSupplier strictHash) {
         // Cheap pass first: material filtering.
+        int matHash = ItemHash.materialHash(stack);
         for (int filter : filters) {
             if (matHash == filter) return true;
         }
+
         // Only now pay for the (memoized) strict hash — full NBT serialization.
-        int strict = strictHash.getAsInt();
+        int strictHash = ItemHash.strictHash(stack);
         for (int filter : filters) {
-            if (strict == filter) return true;
+            if (strictHash == filter) return true;
         }
         return false;
     }

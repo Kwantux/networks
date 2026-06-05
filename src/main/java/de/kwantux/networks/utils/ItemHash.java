@@ -4,11 +4,11 @@ import de.kwantux.networks.component.util.FilterTranslator;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class ItemHash {
 
@@ -39,7 +39,12 @@ public class ItemHash {
         return hash;
     }
 
+    public static Map<Integer, Integer> strictHashByMetaHash = new java.util.HashMap<>();
+
     private static int metaHash(@Nonnull ItemStack stack) {
-        return stack.getItemMeta().getAsString().hashCode();
+        return strictHashByMetaHash.computeIfAbsent(
+                stack.getItemMeta().hashCode(),
+                k -> stack.getItemMeta().getAsString().hashCode()
+        );
     }
 }
