@@ -11,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Nameable;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
 import org.bukkit.block.TileState;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -57,7 +56,7 @@ public abstract class BlockComponent extends InstallableComponent {
             tileState.getPersistentDataContainer().set(NETWORK.key, PersistentDataType.STRING, network().name());
         }
         if (state instanceof Nameable nameable) {
-            nameable.customName(type().displayName().append(Component.text(" - ")).append(Component.text(network().name())));
+            nameable.customName(type().uiName().append(Component.text(" - ")).append(Component.text(network().name())));
         }
         state.update();
     }

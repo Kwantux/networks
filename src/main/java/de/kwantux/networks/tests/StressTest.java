@@ -4,8 +4,8 @@ import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.commands.CommandHandler;
 import de.kwantux.networks.component.component.InputContainer;
-import de.kwantux.networks.component.component.MiscContainer;
-import de.kwantux.networks.component.component.SortingContainer;
+import de.kwantux.networks.component.component.FallbackContainer;
+import de.kwantux.networks.component.component.SortedContainer;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.ItemHash;
 import org.bukkit.Material;
@@ -107,10 +107,10 @@ public class StressTest extends CommandHandler {
                     mgr.create(id, player.getUniqueId());
                     Network network = mgr.getFromName(id);
                     mgr.createComponent(network, INPUT, new BlockLocation(px, py, pz, world.getUID()), null);
-                    network.addComponent(new MiscContainer(new BlockLocation(px, py+2, pz, world.getUID()), network, 100));
+                    network.addComponent(new FallbackContainer(new BlockLocation(px, py+2, pz, world.getUID()), network, 100));
                     for (int i = 1; i < outputs; i++) {
                         Block d = world.getBlockAt(px, py + 2 + i, pz); d.setType(Material.BARREL); placedBlocks.add(d);
-                        network.addComponent(new MiscContainer(new BlockLocation(px, py+2+i, pz, world.getUID()), network, -100));
+                        network.addComponent(new FallbackContainer(new BlockLocation(px, py+2+i, pz, world.getUID()), network, -100));
                     }
 
                 }
@@ -152,11 +152,11 @@ public class StressTest extends CommandHandler {
                     mgr.create(id, player.getUniqueId());
                     Network network = mgr.getFromName(id);
                     mgr.createComponent(network, INPUT, new BlockLocation(px, py, pz, world.getUID()), null);
-                    network.addComponent(new SortingContainer(new BlockLocation(px, py+2, pz, world.getUID()), network, filters, 20));
+                    network.addComponent(new SortedContainer(new BlockLocation(px, py+2, pz, world.getUID()), network, filters, 20));
 
                     for (int i = 1; i < outputs; i++) {
                         Block d = world.getBlockAt(px, py + 2 + i, pz); d.setType(Material.BARREL); placedBlocks.add(d);
-                        network.addComponent(new SortingContainer(new BlockLocation(px, py+2+i, pz, world.getUID()), network, emptyFilters, 30));
+                        network.addComponent(new SortedContainer(new BlockLocation(px, py+2+i, pz, world.getUID()), network, emptyFilters, 30));
                     }
                 }
             }

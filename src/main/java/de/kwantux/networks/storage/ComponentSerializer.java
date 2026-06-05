@@ -2,7 +2,7 @@ package de.kwantux.networks.storage;
 
 import com.google.gson.*;
 import de.kwantux.networks.component.BasicComponent;
-import de.kwantux.networks.component.component.SortingContainer;
+import de.kwantux.networks.component.component.SortedContainer;
 import de.kwantux.networks.component.util.ComponentType;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,13 +20,13 @@ public class ComponentSerializer implements JsonDeserializer<BasicComponent>, Js
         if (type == null) throw new JsonParseException("Error while deserializing network component. Unknown type: " + jsonObject.get("type").getAsString());
 
         // Compat with old versions
-        if (type.equals(ComponentType.SORTING)) {
+        if (type.equals(ComponentType.SORTED)) {
             if (!jsonObject.get("filters").getAsJsonArray().isEmpty()) {
             try {
                 jsonObject.get("filters").getAsJsonArray().get(0).getAsInt();
             } catch (NumberFormatException e) {
                 jsonObject.add("filters", gson.toJsonTree(
-                        SortingContainer.convertLegacyFilters(
+                        SortedContainer.convertLegacyFilters(
                                 jsonObject.get("filters").getAsJsonArray().asList().stream().map(
                                     (jsonPrimitive) -> jsonPrimitive.getAsString()
                                 ).toArray(String[]::new)

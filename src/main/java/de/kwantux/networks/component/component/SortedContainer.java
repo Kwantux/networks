@@ -24,7 +24,7 @@ import java.util.Objects;
 
 import static de.kwantux.networks.utils.NamespaceUtils.*;
 
-public class SortingContainer extends BlockComponent implements Acceptor, Supplier {
+public class SortedContainer extends BlockComponent implements Acceptor, Supplier {
 
     public static ComponentType type;
     public ComponentType type() {
@@ -35,9 +35,9 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
     private int acceptorPriority;
     private int supplierPriority;
 
-    public static @Nullable SortingContainer create(Origin origin, Network network, PersistentDataContainer container) {
+    public static @Nullable SortedContainer create(Origin origin, Network network, PersistentDataContainer container) {
         if (origin instanceof BlockLocation pos) {
-            if (container == null) return new SortingContainer(pos, network, new int[0], 10, 0);
+            if (container == null) return new SortedContainer(pos, network, new int[0], 10, 0);
 
             int[] filters;
 
@@ -56,7 +56,7 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
             // Remove all duplicates and 0 values from filters
             filters = Arrays.stream(filters).distinct().filter(i -> i != 0).toArray();
 
-            return new SortingContainer(pos, network,
+            return new SortedContainer(pos, network,
                     filters,
                     Objects.requireNonNullElse(container.get(ACCEPTOR_PRIORITY.key, PersistentDataType.INTEGER), 10),
                     Objects.requireNonNullElse(container.get(SUPPLIER_PRIORITY.key, PersistentDataType.INTEGER), 0)
@@ -65,14 +65,14 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
         return null;
     }
 
-    public SortingContainer(BlockLocation pos, Network network, int[] filters, int acceptorPriority) {
+    public SortedContainer(BlockLocation pos, Network network, int[] filters, int acceptorPriority) {
         super(pos, network);
         this.filters = filters;
         this.acceptorPriority = acceptorPriority;
         this.supplierPriority = 0;
     }
 
-    public SortingContainer(BlockLocation pos, Network network, int[] filters, int acceptorPriority, int supplierPriority) {
+    public SortedContainer(BlockLocation pos, Network network, int[] filters, int acceptorPriority, int supplierPriority) {
         super(pos, network);
         this.filters = filters;
         this.acceptorPriority = acceptorPriority;
@@ -89,15 +89,15 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
 
     public static ComponentType register() {
         type = ComponentType.register(
-                SortingContainer.class,
-                "sorting",
-                Component.text("Sorting Container"),
+                SortedContainer.class,
+                "sorted",
+                Component.text("Sorted Container"),
                 false,
                 true,
                 true,
                 false,
                 true,
-                SortingContainer::create,
+                SortedContainer::create,
                 defaultProperties
         );
         return type;

@@ -5,8 +5,8 @@ import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.InstallableComponent;
 import de.kwantux.networks.component.component.InputContainer;
-import de.kwantux.networks.component.component.MiscContainer;
-import de.kwantux.networks.component.component.SortingContainer;
+import de.kwantux.networks.component.component.FallbackContainer;
+import de.kwantux.networks.component.component.SortedContainer;
 import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang3.function.TriFunction;
@@ -42,8 +42,14 @@ public class ComponentType {
     // Component Type Registration
     // Necessary, so that the component types can be registered
     public static ComponentType INPUT = InputContainer.register();
-    public static ComponentType SORTING = SortingContainer.register();
-    public static ComponentType MISC = MiscContainer.register();
+    public static ComponentType SORTED = SortedContainer.register();
+    public static ComponentType FALLBACK = FallbackContainer.register();
+
+    static {
+        // Backward compatibility
+        tags.put("sorting", SORTED);
+        tags.put("misc", FALLBACK);
+    }
 
 
     public static @Nullable ComponentType register(Class<? extends BasicComponent> clazz, String tag, Component name, boolean donator, boolean acceptor, boolean supplier, boolean requestor, boolean persistent, TriFunction<Origin, Network, PersistentDataContainer, ?extends BasicComponent> constructor, Map<String, Object> defaultProperties) {
@@ -102,8 +108,11 @@ public class ComponentType {
         return InstallableComponent.item(this, defaultProperties);
     }
 
-    public Component displayName() {
+    public Component itemName() {
         return Main.lang.getItemName("component." + tag);
+    }
+    public Component uiName() {
+        return Main.lang.getFinal("ui.component." + tag);
     }
 
 }

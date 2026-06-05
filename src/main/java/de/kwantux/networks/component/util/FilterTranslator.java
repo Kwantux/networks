@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 /**
  * Item Filters are stored as hashes of item meta. <br /><br />
- * This translations list is used to get the item name from just the hash when a player wants to inspect the filters of a Sorting Container.<br />
+ * This translations list is used to get the item name from just the hash when a player wants to inspect the filters of a Sorted Container.<br />
  * (Otherwise it would just show a bunch of random numbers) <br /><br />
  * Whenever a new item filter is added, it has to be added here. <br /><br />
  * This class is purely QoL, essential functions should not depend on this.

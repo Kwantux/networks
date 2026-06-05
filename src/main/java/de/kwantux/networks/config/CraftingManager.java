@@ -85,11 +85,11 @@ public class CraftingManager {
         // Component recipes - input container
         config.defineDefault("component.input", new String[]{"EMPTY", "BASE_ITEM", "EMPTY", "REDSTONE", "HOPPER", "REDSTONE", "EMPTY", "REDSTONE", "EMPTY"}, "Recipe for input component. BASE_ITEM will be replaced with the configured component upgrade material");
 
-        // Component recipes - misc container
-        config.defineDefault("component.misc", new String[]{"EMPTY", "REDSTONE", "EMPTY", "REDSTONE", "HOPPER", "REDSTONE", "EMPTY", "BASE_ITEM", "EMPTY"}, "Recipe for misc component. BASE_ITEM will be replaced with the configured component upgrade material");
+        // Component recipes - fallback container
+        config.defineDefault("component.fallback", new String[]{"EMPTY", "REDSTONE", "EMPTY", "REDSTONE", "HOPPER", "REDSTONE", "EMPTY", "BASE_ITEM", "EMPTY"}, "Recipe for fallback component. BASE_ITEM will be replaced with the configured component upgrade material");
 
-        // Component recipes - sorting container
-        config.defineDefault("component.sorting", new String[]{"HOPPER", "COMPARATOR", "REDSTONE", "HOPPER", "EMPTY", "REDSTONE", "BASE_ITEM", "REDSTONE_TORCH", "REPEATER"}, "Recipe for sorting component. BASE_ITEM will be replaced with the configured component upgrade material");
+        // Component recipes - sorted container
+        config.defineDefault("component.sorted", new String[]{"HOPPER", "COMPARATOR", "REDSTONE", "HOPPER", "EMPTY", "REDSTONE", "BASE_ITEM", "REDSTONE_TORCH", "REPEATER"}, "Recipe for sorted component. BASE_ITEM will be replaced with the configured component upgrade material");
 
         // Range upgrade recipes (tier 0-4)
         config.defineDefault("upgrade.range.0", new String[]{"EMPTY", "REDSTONE", "EMPTY", "REDSTONE", "LIGHTNING_ROD", "REDSTONE", "EMPTY", "REDSTONE", "EMPTY"}, "Range upgrade tier 1 recipe");
@@ -102,8 +102,8 @@ public class CraftingManager {
     private void registerRecipes() {
         registerItem("wand", getNetworkWand(2));
         registerComponent(ComponentType.INPUT);
-        registerComponent(ComponentType.MISC);
-        registerComponent(ComponentType.SORTING);
+        registerComponent(ComponentType.FALLBACK);
+        registerComponent(ComponentType.SORTED);
         registerRangeUpgrades();
     }
 

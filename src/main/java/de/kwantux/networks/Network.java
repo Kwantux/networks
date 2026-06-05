@@ -1,7 +1,7 @@
 package de.kwantux.networks;
 
 import de.kwantux.networks.component.BasicComponent;
-import de.kwantux.networks.component.component.SortingContainer;
+import de.kwantux.networks.component.component.SortedContainer;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
 import de.kwantux.networks.storage.NetworkProperties;
@@ -223,16 +223,16 @@ public class Network {
         if (version.compareTo(new ComparableVersion("3.1.2")) < 0) {
             logger.info("Converting pre-3.1.2 filters in network " + name());
             for (BasicComponent component : components) {
-                if (component instanceof SortingContainer sorting) {
-                    for (int filter : sorting.filters()) {
+                if (component instanceof SortedContainer sorted) {
+                    for (int filter : sorted.filters()) {
                         if (filter > 0 && filter < Material.values().length) {
                             if (materials[filter] == null) {
                                 for (Material mat : Material.values()) {
                                     materials[mat.ordinal()] = mat;
                                 }
                             }
-                            sorting.removeFilter(filter);
-                            sorting.addFilter(ItemHash.materialHash(materials[filter]));
+                            sorted.removeFilter(filter);
+                            sorted.addFilter(ItemHash.materialHash(materials[filter]));
                         }
                     }
                 }

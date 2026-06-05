@@ -74,7 +74,7 @@ public class BlockLocation extends Origin {
     }
 
     public Component displayText() {
-        return Component.text(toString()).clickEvent(ClickEvent.runCommand("/tpw " + world.toString() + " " + x + " " + y + " " + z)).hoverEvent(HoverEvent.showText(lang.getFinal("click-to-tp")));
+        return Component.text(toString()).clickEvent(ClickEvent.runCommand("/teleporttoworld " + world.toString() + " " + x + " " + y + " " + z)).hoverEvent(HoverEvent.showText(lang.getFinal("click-to-tp")));
     }
 
 

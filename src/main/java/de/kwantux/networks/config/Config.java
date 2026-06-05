@@ -59,8 +59,8 @@ public class Config {
 
         // Component blocks
         config.defineDefault("component.input", componentBlockWhitelist, "Blocks that are allowed to be network input containers. Only works for blocks that have inventories.");
-        config.defineDefault("component.sorting", componentBlockWhitelist, "Blocks that are allowed to be network sorting containers. Only works for blocks that have inventories.");
-        config.defineDefault("component.misc", componentBlockWhitelist, "Blocks that are allowed to be network misc containers. Only works for blocks that have inventories.");
+        config.defineDefault("component.sorted", componentBlockWhitelist, "Blocks that are allowed to be network sorted containers. Only works for blocks that have inventories.");
+        config.defineDefault("component.fallback", componentBlockWhitelist, "Blocks that are allowed to be network fallback containers. Only works for blocks that have inventories.");
         
         // Auto-save
         config.defineDefault("autoSave", 30, "Auto-save interval in seconds. Set to 0 to disable auto save.");

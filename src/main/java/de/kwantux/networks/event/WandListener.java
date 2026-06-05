@@ -6,7 +6,7 @@ import de.kwantux.networks.Network;
 import de.kwantux.networks.commands.NetworksCommand;
 import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.component.InputContainer;
-import de.kwantux.networks.component.component.SortingContainer;
+import de.kwantux.networks.component.component.SortedContainer;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
@@ -109,12 +109,12 @@ public class WandListener implements Listener {
                 ItemStack itemInOffHand = p.getInventory().getItemInOffHand();
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 
-                    if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
+                    if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && component instanceof SortedContainer container) {
                         container.addFilter(ItemHash.materialHash(itemInOffHand));
-                        lang.message(p, "component.sorting.setitem", l.toString(), itemInOffHand.getType().toString());
+                        lang.message(p, "component.sorted.setitem", l.toString(), itemInOffHand.getType().toString());
                     }
                     // If in filter mode and no item in offhand, add contents to container's filter
-                    if (mode == 0 && itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
+                    if (mode == 0 && itemInOffHand.getType().equals(Material.AIR) && component instanceof SortedContainer container) {
                         HashSet<Integer> filters = new HashSet<>();
                         for (int num : container.filters()) {
                             filters.add(num);
@@ -129,7 +129,7 @@ public class WandListener implements Listener {
                                 filters.add(itemType);
                             }
                         }
-                        lang.message(p, "component.sorting.autofilter", l.toString());
+                        lang.message(p, "component.sorted.autofilter", l.toString());
                     }
                     if (mode == 1) {
                         if (component instanceof Acceptor container) {
@@ -137,13 +137,13 @@ public class WandListener implements Listener {
                             lang.message(p, "component.priority", String.valueOf(container.acceptorPriority()));
                         }
                     }
-                    if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
+                    if (mode == 2 && !itemInOffHand.getType().equals(Material.AIR) && component instanceof SortedContainer container) {
                         int hash = ItemHash.strictHash(itemInOffHand);
                         container.addFilter(hash);
-                        lang.message(p, "component.sorting.setitem", l.displayText(), itemInOffHand.displayName());
+                        lang.message(p, "component.sorted.setitem", l.displayText(), itemInOffHand.displayName());
                     }
                     // If in filter mode and no item in offhand, add contents to container's filter
-                    if (mode == 2 && itemInOffHand.getType().equals(Material.AIR) && component instanceof SortingContainer container) {
+                    if (mode == 2 && itemInOffHand.getType().equals(Material.AIR) && component instanceof SortedContainer container) {
                         HashSet<Integer> filters = new HashSet<>();
                         for (int num : container.filters()) {
                             filters.add(num);
@@ -158,19 +158,19 @@ public class WandListener implements Listener {
                                 filters.add(hash);
                             }
                         }
-                        lang.message(p, "component.sorting.autofilter", l.displayText());
+                        lang.message(p, "component.sorted.autofilter", l.displayText());
                     }
                 }
 
                 if (action.equals(Action.LEFT_CLICK_BLOCK)) {
 
-                    if ((mode == 0 || mode == 2) && component instanceof SortingContainer container && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
+                    if ((mode == 0 || mode == 2) && component instanceof SortedContainer container && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
                         container.removeFilter(ItemHash.materialHash(itemInOffHand));
                         container.removeFilter(ItemHash.strictHash(itemInOffHand));
-                        lang.message(p, "component.sorting.removeitem", l.displayText(), itemInOffHand.displayName());
+                        lang.message(p, "component.sorted.removeitem", l.displayText(), itemInOffHand.displayName());
                     }
 
-                    if ((mode == 0 || mode == 2) && component instanceof SortingContainer container && itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
+                    if ((mode == 0 || mode == 2) && component instanceof SortedContainer container && itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
                         HashSet <Integer> filters = new HashSet<>();
                         for (ItemStack itemStack : container.inventory().getContents()) {
                             // Empty slots are null
@@ -190,7 +190,7 @@ public class WandListener implements Listener {
                             i++;
                         }
                         container.setFilters(filters_array);
-                        lang.message(p, "component.sorting.autofilter", l.displayText());
+                        lang.message(p, "component.sorted.autofilter", l.displayText());
                     }
 
                     if (mode == 1) {
@@ -260,18 +260,18 @@ public class WandListener implements Listener {
                 if (action.equals(Action.LEFT_CLICK_BLOCK)) {
                     event.setCancelled(true);
                     BasicComponent component = dcu.componentAtLoadedBlock(l.getBlock());
-                    if (SortingContainer.type.tag.equals(pdc.get(COMPONENT.key, PersistentDataType.STRING))) {
+                    if (SortedContainer.type.tag.equals(pdc.get(COMPONENT.key, PersistentDataType.STRING))) {
                         if (component == null) {
                             lang.message(p, "component.nocomponent");
                             return;
                         }
-                        if (component instanceof SortingContainer container) {
+                        if (component instanceof SortedContainer container) {
                             pdc.set(FILTERS.key, PersistentDataType.INTEGER_ARRAY, container.filters());
                             meta.lore(generateLore(container.properties(), container.type()));
                             item.setItemMeta(meta);
                             lang.message(event.getPlayer(), "component.filters.copy");
                         }
-                        else lang.message(event.getPlayer(), "component.nosorting");
+                        else lang.message(event.getPlayer(), "component.nosorted");
                     }
                 }
             }

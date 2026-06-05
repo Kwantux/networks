@@ -1,6 +1,5 @@
 package de.kwantux.networks.component;
 
-import de.kwantux.config.util.exceptions.InvalidNodeException;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.component.util.FilterTranslator;
@@ -16,8 +15,6 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import static de.kwantux.networks.Main.cfg;
 
 public abstract class InstallableComponent extends BasicComponent {
 
@@ -47,7 +44,7 @@ public abstract class InstallableComponent extends BasicComponent {
      */
     public static ItemStack item(ItemStack baseItem, ComponentType type, Map<String, Object> properties) {
         ItemMeta meta = baseItem.getItemMeta();
-        meta.displayName(type.displayName());
+        meta.displayName(type.itemName());
         meta.lore(generateLore(properties, type));
         CraftingManager.setCustomModelDataForComponent(meta, type);
         PersistentDataContainer data = meta.getPersistentDataContainer();
@@ -75,7 +72,7 @@ public abstract class InstallableComponent extends BasicComponent {
                     continue;
                 }
                 if (entry.getKey().equals("range") && entry.getValue() instanceof Integer range) {
-                    lore.add(Component.text(Config.ranges[Math.max(0, Math.min(range, Config.ranges.length - 1))]));
+                    lore.add(line.append(Component.text(Config.ranges[Math.max(0, Math.min(range, Config.ranges.length - 1))])));
                     continue;
                 }
                 String value = String.valueOf(entry.getValue());
