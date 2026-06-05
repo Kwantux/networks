@@ -56,31 +56,30 @@ public abstract class InstallableComponent extends BasicComponent {
 
     public static List<Component> generateLore(Map<String, Object> properties, ComponentType type) {
         List<Component> lore = Main.lang.getItemLore("component." + type.tag());
-        if (Config.propertyLore)
-            for (Map.Entry<String, Object> entry : properties.entrySet()) {
-                Component line = Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": "));
-                if (entry.getKey().equals("filters") && entry.getValue() instanceof int[] array) {
-                    line = line.append(Component.text("["));
-                    boolean first = true;
-                    for (int filter : array) {
-                        if (first) first = false;
-                        else line = line.append(Component.text(", "));
-                        line = line.append(FilterTranslator.translate(filter));
-                    }
-                    line = line.append(Component.text("]"));
-                    lore.add(line);
-                    continue;
+        for (Map.Entry<String, Object> entry : properties.entrySet()) {
+            Component line = Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": "));
+            if (entry.getKey().equals("filters") && entry.getValue() instanceof int[] array) {
+                line = line.append(Component.text("["));
+                boolean first = true;
+                for (int filter : array) {
+                    if (first) first = false;
+                    else line = line.append(Component.text(", "));
+                    line = line.append(FilterTranslator.translate(filter));
                 }
-                if (entry.getKey().equals("range") && entry.getValue() instanceof Integer range) {
-                    lore.add(line.append(Component.text(Config.ranges[Math.max(0, Math.min(range, Config.ranges.length - 1))])));
-                    continue;
-                }
-                String value = String.valueOf(entry.getValue());
-                if (entry.getValue() instanceof int[] array) value = Arrays.toString(array);
-                if (entry.getValue() instanceof long[] array) value = Arrays.toString(array);
-                if (entry.getValue() instanceof byte[] array) value = Arrays.toString(array);
-                lore.add(line.append(Component.text(value)));
+                line = line.append(Component.text("]"));
+                lore.add(line);
+                continue;
             }
+            if (entry.getKey().equals("range") && entry.getValue() instanceof Integer range) {
+                lore.add(line.append(Component.text(Config.ranges[Math.max(0, Math.min(range, Config.ranges.length - 1))])));
+                continue;
+            }
+            String value = String.valueOf(entry.getValue());
+            if (entry.getValue() instanceof int[] array) value = Arrays.toString(array);
+            if (entry.getValue() instanceof long[] array) value = Arrays.toString(array);
+            if (entry.getValue() instanceof byte[] array) value = Arrays.toString(array);
+            lore.add(line.append(Component.text(value)));
+        }
         return lore;
     }
 }

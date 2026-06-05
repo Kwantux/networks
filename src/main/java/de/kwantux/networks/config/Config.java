@@ -30,7 +30,6 @@ public class Config {
         noticeEnabled = config.getBoolean("notice");
         requestOwnershipTransfers = config.getBoolean("requestOwnershipTransfers");
         complexInventoryChecks = config.getBoolean("performance.complexInventoryChecks");
-        propertyLore = config.getBoolean("propertyLore");
         loadChunks = config.getBoolean("performance.loadChunks");
         autoSaveInterval = config.getInt("autoSave");
         commands = config.getStringArray("commands");
@@ -88,7 +87,6 @@ public class Config {
         config.defineDefault("properties.baseRange", 0, "Deprecated: Default base range for networks. Will be removed in a future version. Use range array instead.");
         // Feature toggles
         config.defineDefault("blastProofComponents", true, "Disables explosion damage on network components");
-        config.defineDefault("propertyLore", true, "Add component properties to the item lore of the component");
         config.defineDefault("notice", true, "Notices players that open full chests to this plugin. This message will only be sent once and just to players that do not have a network. You can configure the message in the language file");
         config.defineDefault("logoOnLaunch", true, "Show Networks text on launch");
         
@@ -108,7 +106,6 @@ public class Config {
     public static boolean noticeEnabled;
     public static boolean requestOwnershipTransfers;
     public static boolean complexInventoryChecks;
-    public static boolean propertyLore;
     public static boolean loadChunks;
     public static boolean rangePerNetwork;
     public static boolean allowMerge;
