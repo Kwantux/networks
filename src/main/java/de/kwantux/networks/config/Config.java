@@ -35,6 +35,14 @@ public class Config {
         autoSaveInterval = config.getInt("autoSave");
         commands = config.getStringArray("commands");
         ranges = config.getIntArray("range");
+        if (ranges[0] == 0) {
+            int baseRange = config.getInt("properties.baseRange");
+            for (int i = 0; i < ranges.length; i++) {
+                if (ranges[i] >= 0) ranges[i] += baseRange;
+            }
+            config.set("range", ranges);
+            config.unset("properties.baseRange");
+        }
         rangePerNetwork = config.getBoolean("rangePerNetwork");
         maxNetworks = config.getInt("maxNetworks");
         allowMerge = config.getBoolean("allowMerge");
@@ -77,7 +85,7 @@ public class Config {
         config.defineDefault("material.component", "ITEM_FRAME", "Component upgrade material");
         
         // Network properties
-        config.defineDefault("properties.baseRange", 0, "Default base range for networks");
+        config.defineDefault("properties.baseRange", 0, "Deprecated: Default base range for networks. Will be removed in a future version. Use range array instead.");
         // Feature toggles
         config.defineDefault("blastProofComponents", true, "Disables explosion damage on network components");
         config.defineDefault("propertyLore", true, "Add component properties to the item lore of the component");

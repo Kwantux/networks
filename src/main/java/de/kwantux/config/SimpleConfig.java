@@ -125,12 +125,20 @@ public class SimpleConfig {
     public String[] getStringArray(String key) {
         return get(key, String[].class);
     }
-    
+
     /**
      * Set a value in the active configuration
      */
     public void set(String key, Object value) {
         activeValues.put(key, value);
+        save();
+    }
+
+    /**
+     * Set a value in the active configuration
+     */
+    public void unset(String key) {
+        activeValues.remove(key);
         save();
     }
     
