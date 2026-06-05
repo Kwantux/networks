@@ -85,6 +85,7 @@ public class Config {
         
         // Network properties
         config.defineDefault("properties.baseRange", 0, "Deprecated: Default base range for networks. Will be removed in a future version. Use range array instead.");
+        config.hideByDefault("properties.baseRange");
         // Feature toggles
         config.defineDefault("blastProofComponents", true, "Disables explosion damage on network components");
         config.defineDefault("notice", true, "Notices players that open full chests to this plugin. This message will only be sent once and just to players that do not have a network. You can configure the message in the language file");
