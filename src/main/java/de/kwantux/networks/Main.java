@@ -6,6 +6,7 @@ import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.config.CraftingManager;
 import de.kwantux.networks.event.*;
+import de.kwantux.networks.tests.StressTest;
 import de.kwantux.networks.utils.DoubleChestUtils;
 import de.kwantux.networks.utils.Metrics;
 import dev.faststats.bukkit.BukkitMetrics;
@@ -159,6 +160,7 @@ public final class Main extends JavaPlugin {
         runInProduction(() ->
             metrics.shutdown()
         );
+        runInDevelopment(StressTest::cleanup);
     }
 
     private final String startMessage =
