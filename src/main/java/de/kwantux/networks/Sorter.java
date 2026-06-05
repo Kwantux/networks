@@ -1,6 +1,7 @@
 package de.kwantux.networks;
 
 import de.kwantux.networks.component.module.*;
+import de.kwantux.networks.utils.ItemHash;
 import de.kwantux.networks.utils.PositionedItemStack;
 import de.kwantux.networks.utils.Transaction;
 import org.bukkit.inventory.ItemStack;
@@ -88,11 +89,27 @@ public class Sorter {
         Set<Transaction> transactions = new HashSet<>();
         for (PositionedItemStack item : items) {
             if (item == null) continue;
+
+            // Compute hashes ONCE per item, outside the acceptor loop.
+            // Previously strictHash() (full NBT serialization) ran once per acceptor,
+            // i.e. O(items × acceptors) serializations. Now it is at most O(items),
+            // and only when no material filter matches.
+            final int matHash = ItemHash.materialHash(item);
+            final int[] strictCache = new int[1];
+            final boolean[] strictComputed = new boolean[1];
+            final java.util.function.IntSupplier strictHash = () -> {
+                if (!strictComputed[0]) {
+                    strictCache[0] = ItemHash.strictHash(item);
+                    strictComputed[0] = true;
+                }
+                return strictCache[0];
+            };
+
             for (Acceptor acceptor : network.acceptors()) {
-                if (!(acceptor.ready() && inDistance(network, source,acceptor))) continue;
-                if (!acceptor.accept(item)) continue;
+                if (!(acceptor.ready() && inDistance(network, source, acceptor))) continue;
+                if (!acceptor.accept(item, matHash, strictHash)) continue;
                 if (!acceptor.spaceFree(item)) continue;
-                transactions.add( new Transaction(source, acceptor, item));
+                transactions.add(new Transaction(source, acceptor, item));
             }
         }
         return transactions;

@@ -113,10 +113,26 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
 
     @Override
     public boolean accept(@Nonnull ItemStack stack) {
-        int matId = ItemHash.materialHash(stack); // For material filtering
-        int strictHash = ItemHash.strictHash(stack); // For strict filtering
+        // Fallback path (e.g. direct calls): build a one-shot supplier so the strict
+        // hash is still only computed if no material filter matches.
+        return accept(stack, ItemHash.materialHash(stack), () -> ItemHash.strictHash(stack));
+    }
+
+    /**
+     * Performance-optimized accept. The expensive strict hash is only requested from the
+     * supplier when no material filter matches, and the supplier is memoized by the caller
+     * so the item NBT is serialized at most once per item across all acceptors.
+     */
+    @Override
+    public boolean accept(@Nonnull ItemStack stack, int matHash, java.util.function.IntSupplier strictHash) {
+        // Cheap pass first: material filtering.
         for (int filter : filters) {
-            if (matId == filter || strictHash == filter) return true;
+            if (matHash == filter) return true;
+        }
+        // Only now pay for the (memoized) strict hash — full NBT serialization.
+        int strict = strictHash.getAsInt();
+        for (int filter : filters) {
+            if (strict == filter) return true;
         }
         return false;
     }
