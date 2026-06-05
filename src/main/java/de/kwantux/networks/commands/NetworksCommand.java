@@ -186,33 +186,6 @@ public class NetworksCommand extends CommandHandler {
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("data")
-                .literal("save")
-                .literal("networks")
-                .permission("networks.data")
-                .handler(this::saveNetworks)
-        );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("data")
-                .literal("reload")
-                .permission("networks.data")
-                .handler(this::reloadConfig)
-        );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("data")
-                .literal("reload")
-                .literal("networks")
-                .permission("networks.data")
-                .handler(this::reloadNetworks)
-        );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("data")
-                .literal("reload")
-                .literal("config")
-                .permission("networks.data")
-                .handler(this::reloadConfig)
-        );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("data")
                 .literal("fixcache")
                 .permission("networks.data")
                 .handler(this::fixCacheWarning)
@@ -307,16 +280,6 @@ public class NetworksCommand extends CommandHandler {
     private void saveNetworks(CommandContext<Source> context) {
         mgr.saveData();
         lang.message(context.sender(), "data.save.networks");
-    }
-
-    private void reloadNetworks(CommandContext<Source> context) {
-        mgr.loadData();
-        lang.message(context.sender(), "data.reload.networks");
-    }
-
-    private void reloadConfig(CommandContext<Source> context) {
-        cfg.reload();
-        lang.message(context.sender(), "data.reload.config");
     }
 
     private void fixCacheWarning(CommandContext<Source> context) {
