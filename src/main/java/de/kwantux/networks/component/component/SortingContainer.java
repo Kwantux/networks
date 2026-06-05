@@ -7,7 +7,6 @@ import de.kwantux.networks.component.module.Supplier;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.ItemHash;
-import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
 import org.apache.commons.lang3.ArrayUtils;
@@ -113,10 +112,16 @@ public class SortingContainer extends BlockComponent implements Acceptor, Suppli
 
     @Override
     public boolean accept(@Nonnull ItemStack stack) {
-        int matId = ItemHash.materialHash(stack); // For material filtering
-        int strictHash = ItemHash.strictHash(stack); // For strict filtering
+        // Cheap pass first: material filtering.
+        int matHash = ItemHash.materialHash(stack);
         for (int filter : filters) {
-            if (matId == filter || strictHash == filter) return true;
+            if (matHash == filter) return true;
+        }
+
+        // Only now pay for the (memoized) strict hash — full NBT serialization.
+        int strictHash = ItemHash.strictHash(stack);
+        for (int filter : filters) {
+            if (strictHash == filter) return true;
         }
         return false;
     }

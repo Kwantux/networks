@@ -67,7 +67,7 @@ public class Sorter {
      * @param source The donating module
      * @param items The items to donate
      */
-    public static synchronized void donate(Network network, ActiveModule source, Set<PositionedItemStack> items) {
+    public static synchronized void donate(Network network, Donator source, Set<PositionedItemStack> items) {
         for (
                 Transaction transaction : tryDonation(network, source, items).stream()
                 .sorted(
@@ -84,15 +84,17 @@ public class Sorter {
      * @param items The items to donate
      * @return The list of possible transactions
      */
-    public static synchronized Set<Transaction> tryDonation(Network network, ActiveModule source, Set<PositionedItemStack> items) {
+    public static synchronized Set<Transaction> tryDonation(Network network, Donator source, Set<PositionedItemStack> items) {
         Set<Transaction> transactions = new HashSet<>();
         for (PositionedItemStack item : items) {
             if (item == null) continue;
+
             for (Acceptor acceptor : network.acceptors()) {
-                if (!(acceptor.ready() && inDistance(network, source,acceptor))) continue;
+                if (!(acceptor.ready() && inDistance(network, source, acceptor))) continue;
                 if (!acceptor.accept(item)) continue;
                 if (!acceptor.spaceFree(item)) continue;
-                transactions.add( new Transaction(source, acceptor, item));
+                transactions.add(new Transaction(source, acceptor, item));
+                break;
             }
         }
         return transactions;
