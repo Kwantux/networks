@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,12 @@ public abstract class InstallableComponent extends BasicComponent {
 
     public static List<Component> generateLore(Map<String, Object> properties, ComponentType type) {
         List<Component> lore = Main.lang.getItemLore("component." + type.tag());
+        lore.addAll(generateLore(properties));
+        return lore;
+    }
+
+    public static List<Component> generateLore(Map<String, Object> properties) {
+        List<Component> lore = new ArrayList<>();
         for (Map.Entry<String, Object> entry : properties.entrySet()) {
             Component line = Main.lang.getFinal("property." + entry.getKey()).append(Component.text(": "));
             if (entry.getKey().equals("filters") && entry.getValue() instanceof int[] array) {
@@ -71,7 +78,9 @@ public abstract class InstallableComponent extends BasicComponent {
                 continue;
             }
             if (entry.getKey().equals("range") && entry.getValue() instanceof Integer range) {
-                lore.add(line.append(Component.text(Config.ranges[Math.max(0, Math.min(range, Config.ranges.length - 1))])));
+                lore.add(line.append(Component.text(
+                        (Config.ranges[Math.max(0, Math.min(range, Config.ranges.length - 1))]+"m").replace("-1m", "∞")
+                )));
                 continue;
             }
             String value = String.valueOf(entry.getValue());

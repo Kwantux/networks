@@ -172,22 +172,22 @@ wand.info.proxy: "<green>Passive half of double chest"
 items.noitems: "<prefix><red>There are no items in your storage network. (Components in unloaded chunks are not counted!)"
 items.message: "<green><bold>Total items in network <white><1><green>:</bold>\n(Items in unloaded chunks are not counted!)"
 
-item.name.wand0: <reset><red>Network Wand <green>[Material Filter]
-item.name.wand1: <reset><red>Network Wand <blue>[Priority]
-item.name.wand2: <reset><red>Network Wand <dark_green>[Strict Filter]
+item.name.wand.0: <reset><red>Network Wand <green>[Material Filter]
+item.name.wand.1: <reset><red>Network Wand <blue>[Priority]
+item.name.wand.2: <reset><red>Network Wand <dark_green>[Strict Filter]
 item.name.component.input: <reset>Input Container
 item.name.component.sorted: <reset>Sorted Container
 item.name.component.fallback: <reset>Fallback Container
-item.name.upgrade.range.0: <reset><bold>Antenna Tier 1
-item.name.upgrade.range.1: <reset><bold>Antenna Tier 2
-item.name.upgrade.range.2: <reset><bold>Antenna Tier 3
-item.name.upgrade.range.3: <reset><bold>Antenna Tier 4
-item.name.upgrade.range.4: <reset><bold>Antenna Tier 5
+item.name.upgrade.range.1: <reset>Antenna Tier 1
+item.name.upgrade.range.2: <reset>Antenna Tier 2
+item.name.upgrade.range.3: <reset>Antenna Tier 3
+item.name.upgrade.range.4: <reset>Antenna Tier 4
+item.name.upgrade.range.5: <reset>Antenna Tier 5
 # Add more here if you want to add more tiers of upgrades
 
 
 
-item.lore.wand0:
+item.lore.wand.0:
   - "<reset>Right click any network component to show information about it"
   - "<reset>Left click to switch mode"
   - ""
@@ -197,14 +197,14 @@ item.lore.wand0:
   - "<reset>Sneak + Right click on a sorted chest with an item in the offhand to apply a filter"
   - "<reset>Sneak + Left click with an item in the offhand to remove a filter"
 
-item.lore.wand1:
+item.lore.wand.1:
   - "<reset>Right click any network component to show information about it"
   - "<reset>Left click to switch mode"
   - ""
   - "<reset>Sneak + Right click on a network component to increase its priority"
   - "<reset>Sneak + Left click on a network component to decrease its priority"
 
-item.lore.wand2:
+item.lore.wand.2:
   - "<reset>Right click any network component to show information about it"
   - "<reset>Left click to switch mode"
   - ""
@@ -234,8 +234,7 @@ item.lore.component.fallback.upgrade:
   - "<reset><blue>All remaining items will go into these"
 
 item.lore.upgrade.range:
-  - "<reset>Click on a network component to apply this upgrade"
-  - "<reset>Depending on this server's config this applies to all components in the network or just that single component"
+  - "<reset>Click on an input component to apply this upgrade"
 
 ui.component.input: Input
 ui.component.sorted: Sorted

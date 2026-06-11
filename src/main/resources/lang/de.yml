@@ -167,21 +167,21 @@ wand.info.proxy: "<green>Passive Hälfte der Doppeltruhe"
 items.noitems: "<prefix><red>In diesem Netzwerk sind noch keine Items.\n<yellow>(Kisten in ungeladenen Chunks werden nicht miteinberechnet)"
 items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:</bold>\n(Kisten in ungeladenen Chunks werden nicht miteinberechnet)"
 
-item.name.wand0: <reset><red>Netzwerk Konfigurator <green>[Material Filter]
-item.name.wand1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
-item.name.wand2: <reset><red>Netzwerk Konfigurator <dark_green>[Strikter Filter]
+item.name.wand.0: <reset><red>Netzwerk Konfigurator <green>[Material Filter]
+item.name.wand.1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
+item.name.wand.2: <reset><red>Netzwerk Konfigurator <dark_green>[Strikter Filter]
 item.name.component.input: <reset>Einfüllkiste
 item.name.component.sorted: <reset>Sortierkiste
 item.name.component.fallback: <reset>Restekiste
-item.name.upgrade.range.0: <reset><bold>Antenne Mk.1
-item.name.upgrade.range.1: <reset><bold>Antenne Mk.2
-item.name.upgrade.range.2: <reset><bold>Antenne Mk.3
-item.name.upgrade.range.3: <reset><bold>Antenne Mk.4
-item.name.upgrade.range.4: <reset><bold>Antenne Mk.5
+item.name.upgrade.range.1: <reset><bold>Antenne Mk.1
+item.name.upgrade.range.2: <reset><bold>Antenne Mk.2
+item.name.upgrade.range.3: <reset><bold>Antenne Mk.3
+item.name.upgrade.range.4: <reset><bold>Antenne Mk.4
+item.name.upgrade.range.5: <reset><bold>Antenne Mk.5
 # Add more here if you want to add more tiers of upgrades
 
 
-item.lore.wand0:
+item.lore.wand.0:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
   - "<reset>Links klicken, um den Modus zu wechseln"
   - ""
@@ -193,14 +193,14 @@ item.lore.wand0:
   - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
   - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
 
-item.lore.wand1:
+item.lore.wand.1:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
   - "<reset>Links klicken, um den Modus zu wechseln"
   - ""
   - "<reset>Schleichen + Rechts klicken, um die Priorität eines Komponenten zu erhöhen"
   - "<reset>Schleichen + Links klicken, um die Priorität eines Komponenten zu senken"
 
-item.lore.wand2:
+item.lore.wand.2:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
   - "<reset>Links klicken, um den Modus zu wechseln"
   - ""
