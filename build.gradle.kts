@@ -74,6 +74,6 @@ tasks {
 //        minecraftVersion("26.1.2")
         minecraftVersion("1.21.11")
         // Pass development flag to JVM
-        jvmArgs("-Dnetworks.development=true")
+        jvmArgs("-Dnetworks.development=true", "-Djava.awt.headless=true")
     }
 }
