@@ -35,9 +35,11 @@ public class Config {
         commands = config.getStringArray("commands");
         ranges = config.getIntArray("range");
         if (ranges[0] == 0) {
-            int baseRange = config.getInt("properties.baseRange");
-            for (int i = 0; i < ranges.length; i++) {
-                if (ranges[i] >= 0) ranges[i] += baseRange;
+            if (ranges.length > 1) {
+                ranges[0] = Math.ceilDiv(ranges[1], 2);
+                if (ranges[0] <= 0) {
+                    ranges[0] = 25;
+                }
             }
             config.set("range", ranges);
             config.unset("properties.baseRange");
