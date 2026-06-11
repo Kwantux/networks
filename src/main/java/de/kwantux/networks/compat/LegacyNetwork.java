@@ -4,8 +4,8 @@ import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.component.component.InputContainer;
-import de.kwantux.networks.component.component.MiscContainer;
-import de.kwantux.networks.component.component.SortingContainer;
+import de.kwantux.networks.component.component.FallbackContainer;
+import de.kwantux.networks.component.component.SortedContainer;
 import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.networks.storage.SerializableNetwork;
 import de.kwantux.networks.utils.BlockLocation;
@@ -86,7 +86,7 @@ public record LegacyNetwork(
             String[] items,
             int priority
     ) {
-        public @Nullable SortingContainer convert() {
+        public @Nullable SortedContainer convert() {
             if (legacyLocation == null) return null;
             BlockLocation pos = legacyLocation.convert();
             if (pos == null) return null;
@@ -94,7 +94,7 @@ public record LegacyNetwork(
             for (int i = 0; i < items.length; i++) {
                filters[i] = Objects.requireNonNullElse(Material.getMaterial(items[i]), Material.AIR).ordinal();
             }
-            return new SortingContainer(pos, null, SortingContainer.convertLegacyFilters(items), priority);
+            return new SortedContainer(pos, null, SortedContainer.convertLegacyFilters(items), priority);
         }
     }
 
@@ -102,11 +102,11 @@ public record LegacyNetwork(
             LegacyLocation legacyLocation,
             int priority
     ) {
-        public @Nullable MiscContainer convert() {
+        public @Nullable FallbackContainer convert() {
             if (legacyLocation == null) return null;
             BlockLocation pos = legacyLocation.convert();
             if (pos == null) return null;
-            return new MiscContainer(pos, null, priority);
+            return new FallbackContainer(pos, null, priority);
         }
     }
 

@@ -6,7 +6,6 @@ import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.component.module.Supplier;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.BlockLocation;
-import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.networks.utils.Origin;
 import net.kyori.adventure.text.Component;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +21,7 @@ import java.util.Objects;
 import static de.kwantux.networks.utils.NamespaceUtils.ACCEPTOR_PRIORITY;
 import static de.kwantux.networks.utils.NamespaceUtils.SUPPLIER_PRIORITY;
 
-public class MiscContainer extends BlockComponent implements Acceptor, Supplier {
+public class FallbackContainer extends BlockComponent implements Acceptor, Supplier {
 
     public static ComponentType type;
     public ComponentType type() {
@@ -32,10 +31,10 @@ public class MiscContainer extends BlockComponent implements Acceptor, Supplier 
     private int acceptorPriority = -20;
     private int supplierPriority = 5;
 
-    public static @Nullable MiscContainer create(Origin origin, Network network, PersistentDataContainer container) {
+    public static @Nullable FallbackContainer create(Origin origin, Network network, PersistentDataContainer container) {
         if (origin instanceof BlockLocation pos) {
-            if (container == null) return new MiscContainer(pos, network);
-            return new MiscContainer(pos, network,
+            if (container == null) return new FallbackContainer(pos, network);
+            return new FallbackContainer(pos, network,
                     Objects.requireNonNullElse(container.get(ACCEPTOR_PRIORITY.key, PersistentDataType.INTEGER), -20),
                     Objects.requireNonNullElse(container.get(SUPPLIER_PRIORITY.key, PersistentDataType.INTEGER), 5)
             );
@@ -43,16 +42,16 @@ public class MiscContainer extends BlockComponent implements Acceptor, Supplier 
         return null;
     }
 
-    public MiscContainer(BlockLocation pos, Network network, int acceptorPriority, int supplierPriority) {
+    public FallbackContainer(BlockLocation pos, Network network, int acceptorPriority, int supplierPriority) {
         super(pos, network);
         this.acceptorPriority = acceptorPriority;
         this.supplierPriority = supplierPriority;
     }
-    public MiscContainer(BlockLocation pos, Network network, int acceptorPriority) {
+    public FallbackContainer(BlockLocation pos, Network network, int acceptorPriority) {
         super(pos, network);
         this.acceptorPriority = acceptorPriority;
     }
-    public MiscContainer(BlockLocation pos, Network network) {
+    public FallbackContainer(BlockLocation pos, Network network) {
         super(pos, network);
     }
 
@@ -65,15 +64,15 @@ public class MiscContainer extends BlockComponent implements Acceptor, Supplier 
 
     public static ComponentType register() {
         type = ComponentType.register(
-                MiscContainer.class,
-                "misc",
-                Component.text("Miscellaneous Container"),
+                FallbackContainer.class,
+                "fallback",
+                Component.text("Fallback Container"),
                 false,
                 true,
                 true,
                 false,
                 true,
-                MiscContainer::create,
+                FallbackContainer::create,
                 defaultProperties
         );
         return type;

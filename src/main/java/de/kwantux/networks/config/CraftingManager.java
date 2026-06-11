@@ -3,6 +3,7 @@ package de.kwantux.networks.config;
 import de.kwantux.config.SimpleConfig;
 import de.kwantux.networks.Main;
 import de.kwantux.networks.component.util.ComponentType;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -14,10 +15,14 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static de.kwantux.networks.component.InstallableComponent.generateLore;
 import static de.kwantux.networks.config.Config.*;
 import static de.kwantux.networks.Main.*;
+import static de.kwantux.networks.utils.NamespaceUtils.RANGE;
 import static de.kwantux.networks.utils.NamespaceUtils.UPGRADE_RANGE;
 import static de.kwantux.networks.utils.NamespaceUtils.WAND;
 
@@ -38,8 +43,8 @@ public class CraftingManager {
     public ItemStack getNetworkWand(int mode) {
         ItemStack wand = new ItemStack(wandMaterial);
         ItemMeta meta = wand.getItemMeta();
-        meta.displayName(lang.getItemName("wand"+mode));
-        meta.lore(lang.getItemLore("wand"+mode));
+        meta.displayName(lang.getItemName("wand."+mode));
+        meta.lore(lang.getItemLore("wand."+mode));
         setCustomModelDataForWand(meta, mode);
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(WAND.key, PersistentDataType.INTEGER, mode);
@@ -50,11 +55,15 @@ public class CraftingManager {
     public ItemStack getRangeUpgrade(int tier) {
         ItemStack upgrade = new ItemStack(rangeUpgradeMaterial);
         ItemMeta meta = upgrade.getItemMeta();
-        meta.displayName(lang.getItemName("upgrade.range." + (tier-1)));
-        meta.lore(lang.getItemLore("upgrade.range"));
+        meta.displayName(lang.getItemName("upgrade.range." + tier));
         setCustomModelDataForRangeUpgrade(meta, tier);
         PersistentDataContainer data = meta.getPersistentDataContainer();
         data.set(UPGRADE_RANGE.key, PersistentDataType.INTEGER, tier);
+        List<Component> lore = lang.getItemLore("upgrade.range");
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(RANGE.name, tier);
+        lore.addAll(generateLore(properties));
+        meta.lore(lore);
         upgrade.setItemMeta(meta);
         return upgrade;
     }
@@ -72,7 +81,7 @@ public class CraftingManager {
 
         registerRecipes();
 
-        main.getLogger().info("Initialiased Crafting Recipes");
+        main.getLogger().info("Initialized Crafting Recipes");
     }
 
     /**
@@ -85,11 +94,11 @@ public class CraftingManager {
         // Component recipes - input container
         config.defineDefault("component.input", new String[]{"EMPTY", "BASE_ITEM", "EMPTY", "REDSTONE", "HOPPER", "REDSTONE", "EMPTY", "REDSTONE", "EMPTY"}, "Recipe for input component. BASE_ITEM will be replaced with the configured component upgrade material");
 
-        // Component recipes - misc container
-        config.defineDefault("component.misc", new String[]{"EMPTY", "REDSTONE", "EMPTY", "REDSTONE", "HOPPER", "REDSTONE", "EMPTY", "BASE_ITEM", "EMPTY"}, "Recipe for misc component. BASE_ITEM will be replaced with the configured component upgrade material");
+        // Component recipes - fallback container
+        config.defineDefault("component.fallback", new String[]{"EMPTY", "REDSTONE", "EMPTY", "REDSTONE", "HOPPER", "REDSTONE", "EMPTY", "BASE_ITEM", "EMPTY"}, "Recipe for fallback component. BASE_ITEM will be replaced with the configured component upgrade material");
 
-        // Component recipes - sorting container
-        config.defineDefault("component.sorting", new String[]{"HOPPER", "COMPARATOR", "REDSTONE", "HOPPER", "EMPTY", "REDSTONE", "BASE_ITEM", "REDSTONE_TORCH", "REPEATER"}, "Recipe for sorting component. BASE_ITEM will be replaced with the configured component upgrade material");
+        // Component recipes - sorted container
+        config.defineDefault("component.sorted", new String[]{"HOPPER", "COMPARATOR", "REDSTONE", "HOPPER", "EMPTY", "REDSTONE", "BASE_ITEM", "REDSTONE_TORCH", "REPEATER"}, "Recipe for sorted component. BASE_ITEM will be replaced with the configured component upgrade material");
 
         // Range upgrade recipes (tier 0-4)
         config.defineDefault("upgrade.range.0", new String[]{"EMPTY", "REDSTONE", "EMPTY", "REDSTONE", "LIGHTNING_ROD", "REDSTONE", "EMPTY", "REDSTONE", "EMPTY"}, "Range upgrade tier 1 recipe");
@@ -102,8 +111,8 @@ public class CraftingManager {
     private void registerRecipes() {
         registerItem("wand", getNetworkWand(2));
         registerComponent(ComponentType.INPUT);
-        registerComponent(ComponentType.MISC);
-        registerComponent(ComponentType.SORTING);
+        registerComponent(ComponentType.FALLBACK);
+        registerComponent(ComponentType.SORTED);
         registerRangeUpgrades();
     }
 

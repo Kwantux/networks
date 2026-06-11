@@ -10,8 +10,10 @@ import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -24,6 +26,7 @@ public class SimpleConfig {
     private final Path filePath;
     private final Logger logger;
     private final Map<String, Object> defaultValues = new HashMap<>();
+    private final Set<String> hiddenByDefault = new HashSet<>();
     private final Map<String, String> comments = new HashMap<>();
     private final Map<String, Object> activeValues = new HashMap<>();
     private final HoconConfigurationLoader loader;
@@ -57,6 +60,14 @@ public class SimpleConfig {
      */
     public void defineDefault(String key, Object defaultValue) {
         defineDefault(key, defaultValue, null);
+    }
+
+    /**
+     * Hide a key by default (don't show it in the config file)
+     * It's only visible in the file, if changed by the user
+     */
+    public void hideByDefault(String key) {
+        hiddenByDefault.add(key);
     }
     
     /**
@@ -125,12 +136,20 @@ public class SimpleConfig {
     public String[] getStringArray(String key) {
         return get(key, String[].class);
     }
-    
+
     /**
      * Set a value in the active configuration
      */
     public void set(String key, Object value) {
         activeValues.put(key, value);
+        save();
+    }
+
+    /**
+     * Set a value in the active configuration
+     */
+    public void unset(String key) {
+        activeValues.remove(key);
         save();
     }
     
@@ -139,40 +158,6 @@ public class SimpleConfig {
      */
     public boolean isActive(String key) {
         return activeValues.containsKey(key);
-    }
-
-    /**
-     * Load configuration from file
-     */
-    public void load_old() {
-        if (!Files.exists(filePath)) {
-            save();
-            return;
-        }
-
-        try {
-            activeValues.clear();
-            Files.lines(filePath).forEach(line -> {
-                line = line.trim();
-                if (line.isEmpty() || line.startsWith("#")) {
-                    return; // Skip comments and empty lines
-                }
-
-                int equalIndex = line.indexOf('=');
-                if (equalIndex > 0) {
-                    String key = line.substring(0, equalIndex).trim();
-                    String valueStr = line.substring(equalIndex + 1).trim();
-
-                    // Parse the value
-                    Object value = parseValue(valueStr);
-                    activeValues.put(key, value);
-                }
-            });
-            save();
-        } catch (IOException e) {
-            logger.warning("Failed to load config file " + fileName + ": " + e.getMessage());
-            save();
-        }
     }
 
     /**
@@ -291,7 +276,6 @@ public class SimpleConfig {
      * Save the current configuration, preserving comments and resetting them to defaults
      */
     public void save() {
-//        if (true) return; //TODO: REMOVE THIS
         try (BufferedWriter writer = Files.newBufferedWriter(filePath)) {
             writer.write("# Configuration file for " + plugin.getName());
             writer.newLine();
@@ -302,6 +286,7 @@ public class SimpleConfig {
             // Write all default values as comments
             for (Map.Entry<String, Object> entry : defaultValues.entrySet().stream().sorted(Map.Entry.comparingByKey()).toList()) {
                 String key = entry.getKey();
+                if (hiddenByDefault.contains(key) && !activeValues.containsKey(key)) continue;
                 Object defaultValue = entry.getValue();
                 String comment = comments.get(key);
                 

@@ -66,7 +66,7 @@ public class Storage {
         try {
             Files.delete(path.resolve(id + ".json"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.warning("Failed to delete network file: " + id);
         }
     }
 

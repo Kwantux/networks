@@ -34,12 +34,12 @@ public class ClearFilterListener implements Listener {
         PersistentDataContainer container = meta.getPersistentDataContainer();
 
         ComponentType type = ComponentType.get(container.get(NamespaceUtils.COMPONENT.key, PersistentDataType.STRING));
-        if (type != ComponentType.SORTING) return;
+        if (type != ComponentType.SORTED) return;
 
 
         ItemStack newStack = type.item();
         newStack.setAmount(item.getAmount());
         p.getInventory().setItemInMainHand(newStack);
-        lang.message(p, "component.sorting.clearfilters");
+        lang.message(p, "component.sorted.clearfilters");
     }
 }

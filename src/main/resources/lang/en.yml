@@ -104,8 +104,8 @@ info.users: "Users: <1>"
 info.components.total: "Components: <1>"
 info.range: "Max Range: <1>"
 info.components.input: "Input Containers: "
-info.components.sorting: "Sorting Containers: "
-info.components.misc: "Miscellaneous Containers: "
+info.components.sorted: "Sorted Containers: "
+info.components.fallback: "Fallback Containers: "
 
 property.range: "<reset><green>Range</green>"
 property.acceptor_priority: "<reset><green>Acceptor Priority</green>"
@@ -113,17 +113,17 @@ property.supplier_priority: "<reset><green>Supplier Priority</green>"
 property.filters: "<reset><green>Filters</green>"
 
 component.input.add: <prefix>Input container at <2> successfully added to <1>!
-component.sorting.add: <prefix>Sorting container at <2> successfully added to <1>!
-component.sorting.setitem: <prefix>Item type <2> was added to sorting container at <1>.
-component.sorting.removeitem: <prefix>Item type <2> was removed from sorting container at <1>.
-component.sorting.clearfilters: <prefix>Cleared filters of the container you're holding.
-component.sorting.autofilter: <prefix>Added contents of container at <1> to it's sorting filter.
-component.misc.add: <prefix>Miscellaneous container at <2> successfully added to <1>!
+component.sorted.add: <prefix>Sorted container at <2> successfully added to <1>!
+component.sorted.setitem: <prefix>Item type <2> was added to sorted container at <1>.
+component.sorted.removeitem: <prefix>Item type <2> was removed from sorted container at <1>.
+component.sorted.clearfilters: <prefix>Cleared filters of the container you're holding.
+component.sorted.autofilter: <prefix>Added contents of container at <1> to its filter.
+component.fallback.add: <prefix>Fallback container at <2> successfully added to <1>!
 component.remove: <prefix><red>Removed component at <1>
 component.exploded: <prefix><dark_red>NetworkComponent at <white><1><dark_red> from network <white><2><dark_red> was blown up!
 component.invalid_block: <prefix><red>Blocks of type </red><1><red> are not allowed to be network components!</red>
 component.nocomponent: <prefix><yellow>This block is not a network component!
-component.nosorting: <prefix><yellow>This block is not a sorting container!
+component.nosorted: <prefix><yellow>This block is not a sorted container!
 component.filters.copy: <prefix>Filters from component copied onto item!
 component.priority: <prefix>Priority set to <1>
 component.list.empty: <prefix><red>There are no components in network <white><1></white>!
@@ -134,7 +134,7 @@ rangeupgrade.last: <prefix><yellow>You already reached the maximum upgrade level
 rangeupgrade.alreadyupgraded: <prefix><yellow>You already installed this upgrade, the next upgrade is range Tier <white><1>
 rangeupgrade.unlockfirst: <prefix><yellow>You need to unlock range Tier <white><1><yellow> first!
 rangeupgrade.invalid: <prefix><yellow>You somehow obtained an invalid range upgrade... Possibly your admin changed the config after you crafted this.
-rangeupgrade.passivecomponent: <prefix><yellow>This can only be applied to <bold>active</bold> network components (e.g. Input), NOT passive components (e.g. Sorting, Misc)
+rangeupgrade.passivecomponent: <prefix><yellow>This can only be applied to <bold>active</bold> network components (e.g. Input), NOT passive components (e.g. Sorted, Fallback)
 rangeupgrade.success: <prefix>Successfully upgraded component <2> to Tier <1>!
 rangeupgrade.success.network: <prefix>Successfully upgraded network <2> to Tier <1>!
 
@@ -164,78 +164,81 @@ wand.mode: "<prefix><blue>Wand mode set to [<1>]"
 wand.mode.0: "Material Filter"
 wand.mode.1: "Priority"
 wand.mode.2: "Strict Filter"
-wand.info.input: "<green>Type: <reset>Input Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nExtra Range: <reset><3>"
-wand.info.sorting: "<green>Type: <reset>Sorting Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\nFilters: <reset><4>"
-wand.info.misc: "<green>Type: <reset>Misc Container<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3>"
+wand.info.input: "<green>Type: <reset>Input<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nExtra Range: <reset><3>"
+wand.info.sorted: "<green>Type: <reset>Sorted<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\nFilters: <reset><4>"
+wand.info.fallback: "<green>Type: <reset>Fallback<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3>"
 wand.info.proxy: "<green>Passive half of double chest"
 
 items.noitems: "<prefix><red>There are no items in your storage network. (Components in unloaded chunks are not counted!)"
 items.message: "<green><bold>Total items in network <white><1><green>:</bold>\n(Items in unloaded chunks are not counted!)"
 
-item.name.wand0: <reset><red>Network Wand <green>[Material Filter]
-item.name.wand1: <reset><red>Network Wand <blue>[Priority]
-item.name.wand2: <reset><red>Network Wand <dark_green>[Strict Filter]
+item.name.wand.0: <reset><red>Network Wand <green>[Material Filter]
+item.name.wand.1: <reset><red>Network Wand <blue>[Priority]
+item.name.wand.2: <reset><red>Network Wand <dark_green>[Strict Filter]
 item.name.component.input: <reset>Input Container
-item.name.component.sorting: <reset>Sorting Container
-item.name.component.misc: <reset>Miscellaneous Container
-item.name.upgrade.range.0: <reset><bold>Antenna Tier 1
-item.name.upgrade.range.1: <reset><bold>Antenna Tier 2
-item.name.upgrade.range.2: <reset><bold>Antenna Tier 3
-item.name.upgrade.range.3: <reset><bold>Antenna Tier 4
-item.name.upgrade.range.4: <reset><bold>Antenna Tier 5
+item.name.component.sorted: <reset>Sorted Container
+item.name.component.fallback: <reset>Fallback Container
+item.name.upgrade.range.1: <reset>Antenna Tier 1
+item.name.upgrade.range.2: <reset>Antenna Tier 2
+item.name.upgrade.range.3: <reset>Antenna Tier 3
+item.name.upgrade.range.4: <reset>Antenna Tier 4
+item.name.upgrade.range.5: <reset>Antenna Tier 5
 # Add more here if you want to add more tiers of upgrades
 
 
 
-item.lore.wand0:
+item.lore.wand.0:
   - "<reset>Right click any network component to show information about it"
   - "<reset>Left click to switch mode"
   - ""
-  - "<reset>Sneak + Right click on a sorting chest with an empty offhand to add all contents of the chest as filters"
+  - "<reset>Sneak + Right click on a sorted chest with an empty offhand to add all contents of the chest as filters"
   - "<reset>Sneak + Left click with an empty offhand to set all contents of the chest as filters (also removes existing filters)"
   - ""
-  - "<reset>Sneak + Right click on a sorting chest with an item in the offhand to apply a filter"
+  - "<reset>Sneak + Right click on a sorted chest with an item in the offhand to apply a filter"
   - "<reset>Sneak + Left click with an item in the offhand to remove a filter"
 
-item.lore.wand1:
+item.lore.wand.1:
   - "<reset>Right click any network component to show information about it"
   - "<reset>Left click to switch mode"
   - ""
   - "<reset>Sneak + Right click on a network component to increase its priority"
   - "<reset>Sneak + Left click on a network component to decrease its priority"
 
-item.lore.wand2:
+item.lore.wand.2:
   - "<reset>Right click any network component to show information about it"
   - "<reset>Left click to switch mode"
   - ""
   - "<reset>Strict filters respect item meta like durability and enchantments"
   - ""
-  - "<reset>Sneak + Right click on a sorting chest with an empty offhand to add all contents of the chest as strict filters"
+  - "<reset>Sneak + Right click on a sorted chest with an empty offhand to add all contents of the chest as strict filters"
   - "<reset>Sneak + Left click with an empty offhand to set all contents of the chest as strict filters (also removes existing filters)"
   - ""
-  - "<reset>Sneak + Right click on a sorting chest with an item in the offhand to apply a strict filter"
+  - "<reset>Sneak + Right click on a sorted chest with an item in the offhand to apply a strict filter"
   - "<reset>Sneak + Left click with an item in the offhand to remove a strict filter"
 
 item.lore.component.input:
-  - "<reset><blue>Sorts items into sorting containers and misc containers"
-item.lore.component.sorting:
+  - "<reset><blue>Sorts items into sorted containers and fallback containers"
+item.lore.component.sorted:
   - "<reset><blue>Only accepts items that match the filter of this container"
-item.lore.component.misc:
+item.lore.component.fallback:
   - "<reset><blue>All remaining items will go into these"
 
 item.lore.component.input.upgrade:
   - "<reset><blue>Right click on a chest to make it an input container"
-  - "<reset><blue>Sorts items into sorting containers and misc containers"
-item.lore.component.sorting.upgrade:
-  - "<reset><blue>Right click on a chest to make it a sorting container"
+  - "<reset><blue>Sorts items into sorted containers and fallback containers"
+item.lore.component.sorted.upgrade:
+  - "<reset><blue>Right click on a chest to make it a sorted container"
   - "<reset><blue>Only accepts items that match the filter of this container"
-item.lore.component.misc.upgrade:
-  - "<reset><blue>Right click on a chest to make it a misc container"
+item.lore.component.fallback.upgrade:
+  - "<reset><blue>Right click on a chest to make it a fallback container"
   - "<reset><blue>All remaining items will go into these"
 
 item.lore.upgrade.range:
-  - "<reset>Click on a network component to apply this upgrade"
-  - "<reset>Depending on this server's config this applies to all components in the network or just that single component"
+  - "<reset>Click on an input component to apply this upgrade"
+
+ui.component.input: Input
+ui.component.sorted: Sorted
+ui.component.fallback: Fallback
 
 notice: "<yellow>Having inventory problems? Try out <white>Networks <yellow>to create a fully automated storage network! <white>More information can be found <click:open_url:'https://networks.kwantux.de'><blue>here.</blue></click>"
 

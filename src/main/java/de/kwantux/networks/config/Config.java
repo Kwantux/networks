@@ -30,11 +30,18 @@ public class Config {
         noticeEnabled = config.getBoolean("notice");
         requestOwnershipTransfers = config.getBoolean("requestOwnershipTransfers");
         complexInventoryChecks = config.getBoolean("performance.complexInventoryChecks");
-        propertyLore = config.getBoolean("propertyLore");
         loadChunks = config.getBoolean("performance.loadChunks");
         autoSaveInterval = config.getInt("autoSave");
         commands = config.getStringArray("commands");
         ranges = config.getIntArray("range");
+        if (ranges[0] == 0) {
+            int baseRange = config.getInt("properties.baseRange");
+            for (int i = 0; i < ranges.length; i++) {
+                if (ranges[i] >= 0) ranges[i] += baseRange;
+            }
+            config.set("range", ranges);
+            config.unset("properties.baseRange");
+        }
         rangePerNetwork = config.getBoolean("rangePerNetwork");
         maxNetworks = config.getInt("maxNetworks");
         allowMerge = config.getBoolean("allowMerge");
@@ -59,8 +66,8 @@ public class Config {
 
         // Component blocks
         config.defineDefault("component.input", componentBlockWhitelist, "Blocks that are allowed to be network input containers. Only works for blocks that have inventories.");
-        config.defineDefault("component.sorting", componentBlockWhitelist, "Blocks that are allowed to be network sorting containers. Only works for blocks that have inventories.");
-        config.defineDefault("component.misc", componentBlockWhitelist, "Blocks that are allowed to be network misc containers. Only works for blocks that have inventories.");
+        config.defineDefault("component.sorted", componentBlockWhitelist, "Blocks that are allowed to be network sorted containers. Only works for blocks that have inventories.");
+        config.defineDefault("component.fallback", componentBlockWhitelist, "Blocks that are allowed to be network fallback containers. Only works for blocks that have inventories.");
         
         // Auto-save
         config.defineDefault("autoSave", 30, "Auto-save interval in seconds. Set to 0 to disable auto save.");
@@ -77,10 +84,10 @@ public class Config {
         config.defineDefault("material.component", "ITEM_FRAME", "Component upgrade material");
         
         // Network properties
-        config.defineDefault("properties.baseRange", 0, "Default base range for networks");
+        config.defineDefault("properties.baseRange", 0, "Deprecated: Default base range for networks. Will be removed in a future version. Use range array instead.");
+        config.hideByDefault("properties.baseRange");
         // Feature toggles
         config.defineDefault("blastProofComponents", true, "Disables explosion damage on network components");
-        config.defineDefault("propertyLore", true, "Add component properties to the item lore of the component");
         config.defineDefault("notice", true, "Notices players that open full chests to this plugin. This message will only be sent once and just to players that do not have a network. You can configure the message in the language file");
         config.defineDefault("logoOnLaunch", true, "Show Networks text on launch");
         
@@ -100,7 +107,6 @@ public class Config {
     public static boolean noticeEnabled;
     public static boolean requestOwnershipTransfers;
     public static boolean complexInventoryChecks;
-    public static boolean propertyLore;
     public static boolean loadChunks;
     public static boolean rangePerNetwork;
     public static boolean allowMerge;

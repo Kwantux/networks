@@ -6,6 +6,7 @@ import de.kwantux.networks.utils.Transaction;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -67,7 +68,7 @@ public class Sorter {
      * @param source The donating module
      * @param items The items to donate
      */
-    public static synchronized void donate(Network network, Donator source, Set<PositionedItemStack> items) {
+    public static synchronized void donate(Network network, ActiveModule source, Set<PositionedItemStack> items) {
         for (
                 Transaction transaction : tryDonation(network, source, items).stream()
                 .sorted(
@@ -84,7 +85,7 @@ public class Sorter {
      * @param items The items to donate
      * @return The list of possible transactions
      */
-    public static synchronized Set<Transaction> tryDonation(Network network, Donator source, Set<PositionedItemStack> items) {
+    public static synchronized Set<Transaction> tryDonation(Network network, ActiveModule source, Set<PositionedItemStack> items) {
         Set<Transaction> transactions = new HashSet<>();
         for (PositionedItemStack item : items) {
             if (item == null) continue;
@@ -166,6 +167,7 @@ public class Sorter {
      * @return True if the passive module is in range
      */
     public static boolean inDistance(Network network, ActiveModule active, BaseModule passive) {
+        if (active.range() < 0) return true; // Range tier -1 means infinite range
         return
                 ranges[Math.min(active.range(), ranges.length - 1)] < 0 // If component range is set to infinity (negative)
                         || // or if

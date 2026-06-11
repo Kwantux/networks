@@ -6,8 +6,8 @@ import de.kwantux.networks.Network;
 import de.kwantux.networks.component.BasicComponent;
 import de.kwantux.networks.component.InstallableComponent;
 import de.kwantux.networks.component.component.InputContainer;
-import de.kwantux.networks.component.component.MiscContainer;
-import de.kwantux.networks.component.component.SortingContainer;
+import de.kwantux.networks.component.component.FallbackContainer;
+import de.kwantux.networks.component.component.SortedContainer;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.component.util.FilterTranslator;
 import de.kwantux.networks.config.Config;
@@ -186,33 +186,6 @@ public class NetworksCommand extends CommandHandler {
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("data")
-                .literal("save")
-                .literal("networks")
-                .permission("networks.data")
-                .handler(this::saveNetworks)
-        );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("data")
-                .literal("reload")
-                .permission("networks.data")
-                .handler(this::reloadConfig)
-        );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("data")
-                .literal("reload")
-                .literal("networks")
-                .permission("networks.data")
-                .handler(this::reloadNetworks)
-        );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("data")
-                .literal("reload")
-                .literal("config")
-                .permission("networks.data")
-                .handler(this::reloadConfig)
-        );
-        cmd.command(cmd.commandBuilder("networks", Config.commands)
-                .literal("data")
                 .literal("fixcache")
                 .permission("networks.data")
                 .handler(this::fixCacheWarning)
@@ -307,16 +280,6 @@ public class NetworksCommand extends CommandHandler {
     private void saveNetworks(CommandContext<Source> context) {
         mgr.saveData();
         lang.message(context.sender(), "data.save.networks");
-    }
-
-    private void reloadNetworks(CommandContext<Source> context) {
-        mgr.loadData();
-        lang.message(context.sender(), "data.reload.networks");
-    }
-
-    private void reloadConfig(CommandContext<Source> context) {
-        cfg.reload();
-        lang.message(context.sender(), "data.reload.config");
     }
 
     private void fixCacheWarning(CommandContext<Source> context) {
@@ -580,7 +543,7 @@ public class NetworksCommand extends CommandHandler {
                 switch (component) {
                     case InputContainer container ->
                             lang.get("wand.info.input", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.range())));
-                    case SortingContainer container -> {
+                    case SortedContainer container -> {
                         Component filters = Component.text("[");
                         Set<Component> filterSet = Arrays.stream(container.filters()).mapToObj(
                                 FilterTranslator::translate
@@ -590,10 +553,10 @@ public class NetworksCommand extends CommandHandler {
                             filters = filters.append(Component.text(", "));
                         }
                         filters = filters.append(Component.text("]"));
-                        yield lang.get("wand.info.sorting", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())), filters);
+                        yield lang.get("wand.info.sorted", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())), filters);
                     }
-                    case MiscContainer container ->
-                            lang.get("wand.info.misc", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())));
+                    case FallbackContainer container ->
+                            lang.get("wand.info.fallback", network.displayText(), component.origin().displayText(), Component.text(String.valueOf(container.acceptorPriority())));
                     case null, default -> Component.empty();
                 }
             ).append(isProxy ? Component.newline().append(lang.get("wand.info.proxy")) : Component.empty());

@@ -102,8 +102,8 @@ info.users: "Nutzer: <1>"
 info.components.total: "Komponenten: <1>"
 info.range: "Maximale Reichweite: <1>"
 info.components.input: "Einfüllkisten: "
-info.components.sorting: "Sortierkisten: "
-info.components.misc: "Restekisten: "
+info.components.sorted: "Sortierkisten: "
+info.components.fallback: "Restekisten: "
 
 property.range: "<reset><green>Reichweite</green>"
 property.acceptor_priority: "<reset><green>Annahme-Priorität</green>"
@@ -111,12 +111,12 @@ property.supplier_priority: "<reset><green>Abgabe-Priorität</green>"
 property.filters: "<reset><green>Filter</green>"
 
 component.input.add: <prefix>Einfüllkiste bei <2> wurde hinzugefügt zum Netzwerk <1>!
-component.sorting.add: <prefix>Sortierkiste bei <2> wurde hinzugefügt zum Netzwerk <1>!
-component.sorting.setitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> hinzugefügt.
-component.sorting.removeitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> entfernt.
-component.sorting.clearfilters: <prefix>Filter der Sortierkiste wurden gelöscht.
-component.sorting.autofilter: <prefix>Inhalt der Sortierkiste <1> wurde als Filter gesetzt.
-component.misc.add: <prefix>Restekiste <2> wurde hinzugefügt zum Netzwerk <1>!
+component.sorted.add: <prefix>Sortierkiste bei <2> wurde hinzugefügt zum Netzwerk <1>!
+component.sorted.setitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> hinzugefügt.
+component.sorted.removeitem: <prefix>Item Typ <2> wurde als Filter für die Sortierkiste bei <1> entfernt.
+component.sorted.clearfilters: <prefix>Filter der Sortierkiste wurden gelöscht.
+component.sorted.autofilter: <prefix>Inhalt der Sortierkiste <1> wurde als Filter gesetzt.
+component.fallback.add: <prefix>Restekiste <2> wurde hinzugefügt zum Netzwerk <1>!
 component.remove: <prefix><red>Komponent bei <1> wurde entfernt.
 component.exploded: <prefix><dark_red>Komponent bei <white><1><dark_red> aus dem Netzwerk <white><2><dark_red> wurde gesprengt!
 component.invalid_block: <prefix><red>Blöcke vom Typ </red><1><red> können keine Netzwerkkomponenten sein!</red>
@@ -160,28 +160,28 @@ wand.mode.0: "Filter (Material)"
 wand.mode.1: "Priorität"
 wand.mode.2: "Filter (Strikt)"
 wand.info.input: "<green>Typ: <reset>Einfüllkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nExtra Reichweite: <reset><3>"
-wand.info.sorting: "<green>Typ: <reset>Sortierkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\nFilter: <reset><4>"
-wand.info.misc: "<green>Typ: <reset>Restekiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3>"
+wand.info.sorted: "<green>Typ: <reset>Sortierkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\nFilter: <reset><4>"
+wand.info.fallback: "<green>Typ: <reset>Restekiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3>"
 wand.info.proxy: "<green>Passive Hälfte der Doppeltruhe"
 
 items.noitems: "<prefix><red>In diesem Netzwerk sind noch keine Items.\n<yellow>(Kisten in ungeladenen Chunks werden nicht miteinberechnet)"
 items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:</bold>\n(Kisten in ungeladenen Chunks werden nicht miteinberechnet)"
 
-item.name.wand0: <reset><red>Netzwerk Konfigurator <green>[Material Filter]
-item.name.wand1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
-item.name.wand2: <reset><red>Netzwerk Konfigurator <dark_green>[Strikter Filter]
+item.name.wand.0: <reset><red>Netzwerk Konfigurator <green>[Material Filter]
+item.name.wand.1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
+item.name.wand.2: <reset><red>Netzwerk Konfigurator <dark_green>[Strikter Filter]
 item.name.component.input: <reset>Einfüllkiste
-item.name.component.sorting: <reset>Sortierkiste
-item.name.component.misc: <reset>Restekiste
-item.name.upgrade.range.0: <reset><bold>Antenne Mk.1
-item.name.upgrade.range.1: <reset><bold>Antenne Mk.2
-item.name.upgrade.range.2: <reset><bold>Antenne Mk.3
-item.name.upgrade.range.3: <reset><bold>Antenne Mk.4
-item.name.upgrade.range.4: <reset><bold>Antenne Mk.5
+item.name.component.sorted: <reset>Sortierkiste
+item.name.component.fallback: <reset>Restekiste
+item.name.upgrade.range.1: <reset><bold>Antenne Mk.1
+item.name.upgrade.range.2: <reset><bold>Antenne Mk.2
+item.name.upgrade.range.3: <reset><bold>Antenne Mk.3
+item.name.upgrade.range.4: <reset><bold>Antenne Mk.4
+item.name.upgrade.range.5: <reset><bold>Antenne Mk.5
 # Add more here if you want to add more tiers of upgrades
 
 
-item.lore.wand0:
+item.lore.wand.0:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
   - "<reset>Links klicken, um den Modus zu wechseln"
   - ""
@@ -193,14 +193,14 @@ item.lore.wand0:
   - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
   - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
 
-item.lore.wand1:
+item.lore.wand.1:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
   - "<reset>Links klicken, um den Modus zu wechseln"
   - ""
   - "<reset>Schleichen + Rechts klicken, um die Priorität eines Komponenten zu erhöhen"
   - "<reset>Schleichen + Links klicken, um die Priorität eines Komponenten zu senken"
 
-item.lore.wand2:
+item.lore.wand.2:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
   - "<reset>Links klicken, um den Modus zu wechseln"
   - ""
@@ -216,23 +216,27 @@ item.lore.wand2:
 
 item.lore.component.input:
   - "<reset><blue>Sortiert eingelegte Items in Sortier- und Restekisten ein"
-item.lore.component.sorting:
+item.lore.component.sorted:
   - "<reset><blue>Akzeptiert nur Items, die dem Filter der Kiste entsprechen"
-item.lore.component.misc:
+item.lore.component.fallback:
   - "<reset><blue>Alle übrigen items gehen in diese Kisten"
 
 item.lore.component.input.upgrade:
   - "<reset><blue>Auf eine Kiste klicken um das Upgrade zu installieren"
   - "<reset><blue>Sortiert eingelegte Items in Sortier- und Restekisten ein"
-item.lore.component.sorting.upgrade:
+item.lore.component.sorted.upgrade:
   - "<reset><blue>Auf eine Kiste klicken um das Upgrade zu installieren"
   - "<reset><blue>Akzeptiert nur Items, die dem Filter der Kiste entsprechen"
-item.lore.component.misc.upgrade:
+item.lore.component.fallback.upgrade:
   - "<reset><blue>Auf eine Kiste klicken um das Upgrade zu installieren"
   - "<reset><blue>Alle übrigen items gehen in diese Kisten"
 
 item.lore.upgrade.range:
   - "<reset>Klicke hiermit auf einen Netzwerkkomponenten, um diese Erweiterung zu installieren"
+
+ui.component.input: Einfüllkiste
+ui.component.sorted: Sortierkiste
+ui.component.fallback: Restekiste
 
 notice: "<yellow>Inventar Probleme? Probier mal <white>Networks<yellow> aus und erstelle dein vollautomatisches Lagersystem! <white>Eine detailierte Anleitung findest du <click:open_url:'https://networks.kwantux.de'><blue>hier.</blue></click>"
 manual: "<white>Eine detailierte Anleitung zu Networks findest du <click:open_url:'https://networks.kwantux.de'><blue>hier.</blue></click>"
