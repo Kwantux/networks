@@ -11,7 +11,7 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "de.kwantux"
-version = "3.1.12"
+version = "3.1.13"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -21,15 +21,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly("dev.folia", "folia-api", "1.21.4-R0.1-20250613.215508-3")
-//    compileOnly("dev.folia", "folia-api", "1.21.11-R0.1-20260222.203011-14")
+    compileOnly("dev.folia", "folia-api", "1.21.8-R0.1-20250930.141227-5")
     paperLibrary("net.kyori", "adventure-text-minimessage", "4.13.1")
     paperLibrary("org.spongepowered", "configurate-hocon", "4.1.2")
     paperLibrary("org.spongepowered", "configurate-yaml", "4.1.2")
     paperLibrary("org.incendo", "cloud-paper", "2.0.0-beta.15")
     paperLibrary("com.google.code.gson", "gson", "2.10.1")
     paperLibrary("dev.faststats.metrics", "bukkit", "0.23.0")
-    implementation("com.google.guava:guava:33.2.1-jre")
 }
 
 java {
@@ -39,7 +37,7 @@ java {
 paper {
     main = "de.kwantux.networks.Main"
     loader = "de.kwantux.networks.Loader"
-    apiVersion = "1.21.4"
+    apiVersion = "1.21.8"
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
     website = "https://github.com/Kwantux/Networks"
     authors = listOf("Kwantux")
@@ -70,10 +68,19 @@ paper {
 }
 
 tasks {
+    register("export") {
+        group = "build"
+        dependsOn("build")
+        doFirst {
+            if (java.toolchain.languageVersion.get() != JavaLanguageVersion.of(21)) {
+                delete(buildDir.resolve("libs"))
+                throw GradleException("Plugin should be exported with Java 21")
+            }
+        }
+
+    }
     runServer {
-//        minecraftVersion("26.1.2")
-        minecraftVersion("1.21.11")
-        // Pass development flag to JVM
+        minecraftVersion("26.1.2")
         jvmArgs("-Dnetworks.development=true", "-Djava.awt.headless=true")
     }
 }
