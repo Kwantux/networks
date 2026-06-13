@@ -1,6 +1,6 @@
 prefix: '<green>[箱子网络]<reset>  '
 version: |-
-    <dark_green>Networks 插件</dark_green> 作者 <yellow>Kwantux</yellow>
+    <dark_green>Networks</dark_green> 作者 <yellow>Kwantux</yellow>
     <aqua>版本: </aqua><1>
 help: "\n <bold><dark_green>          Networks v<1> - 帮助菜单 \n============================================</dark_green></bold>\n\
     \n<click:suggest_command:/net create>/net create (id)</click> - <yellow>创建一个新网络</yellow>\
