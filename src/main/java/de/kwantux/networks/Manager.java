@@ -69,6 +69,7 @@ public final class Manager {
         storage.renameNetwork(name, newname);
         networks.remove(name);
         networks.put(newname, network);
+        network.rebuildBlockDataCache();
         return true;
     }
 
