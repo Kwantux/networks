@@ -6,7 +6,6 @@ import de.kwantux.networks.utils.Transaction;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -136,14 +135,19 @@ public class Sorter {
      * @param items The items to request
      * @return The list of possible transactions
      */
-    public static synchronized Set<Transaction> tryRequest(Network network, ActiveModule target, Set<PositionedItemStack> items) {
+    public static synchronized List<Transaction> tryRequest(Network network, ActiveModule target, Set<PositionedItemStack> items) {
         Set<Transaction> transactions = new HashSet<>();
         List<? extends Supplier> suppliers = network.suppliers();
         for (PositionedItemStack item : items) {
             if (item == null) continue;
             try {
                 for (Supplier supplier : suppliers) {
-                    if (supplier.ready() && inDistance(network, target, supplier) && containsRequestedStack(supplier.supply(), item)) {
+                    if (supplier.ready() && inDistance(network, target, supplier)) {
+                        int amount = containsRequestedStack(supplier.supply(), item);
+                        if (amount == 0) continue;
+                        if (amount != item.getAmount()) {
+                            item.setAmount(amount);
+                        }
                         transactions.add(new Transaction(supplier, target, item));
                         break;
                     }
@@ -156,7 +160,7 @@ public class Sorter {
                 }
             }
         }
-        return transactions;
+        return transactions.stream().sorted(Comparator.comparingInt(transaction -> transaction.stack().getAmount() ) ).toList();
     }
 
     /**
@@ -175,14 +179,14 @@ public class Sorter {
                         ranges[Math.min(active.range(), ranges.length - 1)] + network.range(); // component range + network range
     }
 
-    public static boolean containsRequestedStack(List<ItemStack> stacks, ItemStack requested) {
+    public static int containsRequestedStack(List<ItemStack> stacks, ItemStack requested) {
         for (ItemStack stack : stacks) {
             if (stack == null) continue;
             if (stack.isSimilar(requested)){
-                if (stack.getAmount() >= requested.getAmount()) return true;
+                return Math.min(stack.getAmount(), requested.getAmount());
             }
         }
-        return false;
+        return 0;
     }
 
     public static boolean containsRequestedStack(ItemStack[] stacks, ItemStack requested) {
