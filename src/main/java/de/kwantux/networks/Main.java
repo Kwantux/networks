@@ -44,7 +44,7 @@ public final class Main extends JavaPlugin {
     public static LanguageController lang;
 
     public static boolean isFolia;
-    public static boolean terminalsEnabled;
+    public static boolean terminalsEnabled = false;
 
     public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
 
@@ -58,13 +58,6 @@ public final class Main extends JavaPlugin {
         runInDevelopment(() ->
             getLogger().info("-- Running in development mode --")
         );
-
-        try {
-            Class.forName("de.kwantux.networks.terminals.TerminalsPlugin");
-            terminalsEnabled = true;
-        } catch (ClassNotFoundException e) {
-            terminalsEnabled = false;
-        }
 
         runInProduction(() -> {
             this.metrics = BukkitMetrics.factory()
