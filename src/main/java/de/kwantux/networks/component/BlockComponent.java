@@ -1,6 +1,7 @@
 package de.kwantux.networks.component;
 
 
+import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.config.Config;
@@ -46,7 +47,7 @@ public abstract class BlockComponent extends InstallableComponent {
     }
 
     public boolean ready() {
-        return Config.loadChunks || isLoaded();
+        return (Config.loadChunks || isLoaded()) && Main.instance.getServer().isOwnedByCurrentRegion(pos.getBukkitLocation());
     }
 
     @Override

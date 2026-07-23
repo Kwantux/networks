@@ -43,7 +43,8 @@ public final class Main extends JavaPlugin {
     public static DoubleChestUtils dcu;
     public static LanguageController lang;
 
-    public static boolean folia;
+    public static boolean isFolia;
+    public static boolean terminalsEnabled = false;
 
     public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
 
@@ -54,9 +55,9 @@ public final class Main extends JavaPlugin {
 
         instance = this;
 
-        runInDevelopment(() -> {
-            getLogger().info("-- Running in development mode --");
-        });
+        runInDevelopment(() ->
+            getLogger().info("-- Running in development mode --")
+        );
 
         runInProduction(() -> {
             this.metrics = BukkitMetrics.factory()
@@ -74,6 +75,7 @@ public final class Main extends JavaPlugin {
                     .addMetric(Metric.number("total_networks", () -> mgr.getNetworks().size()))
                     .addMetric(Metric.number("total_components", () -> mgr.getTotalComponentCount()))
                     .addMetric(Metric.number("online_players_using_networks", () -> mgr.getOnlinePlayersUsingNetworksCount()))
+                    .addMetric(Metric.bool("uses_terminals", () -> terminalsEnabled))
 
                     // Create the metrics instance
                     .create(this);
@@ -137,12 +139,12 @@ public final class Main extends JavaPlugin {
 
         try {
             Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
-            folia = true;
+            isFolia = true;
         } catch (ClassNotFoundException e) {
-            folia = false;
+            isFolia = false;
         }
 
-        if (folia) {
+        if (isFolia) {
             logger.warning("Folia support on Networks is still in beta, please report any bugs.");
             logger.warning("Be aware that on Folia, you won't be able to transmit item across regions, so the maximum range may be lower than expected.");
         }
