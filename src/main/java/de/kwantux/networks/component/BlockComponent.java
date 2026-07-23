@@ -20,8 +20,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-import static de.kwantux.networks.Main.folia;
-import static de.kwantux.networks.Main.logger;
 import static de.kwantux.networks.Main.mgr;
 import static de.kwantux.networks.utils.NamespaceUtils.NETWORK;
 
