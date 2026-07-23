@@ -72,6 +72,7 @@ public class NetworksCommand extends CommandHandler {
         cmd.command(cmd.commandBuilder("networks", Config.commands)
                 .literal("force")
                 .permission("networks.force")
+                .senderType(PlayerSource.class)
                 .handler(this::force)
         );
         cmd.command(cmd.commandBuilder("networks", Config.commands)
@@ -275,6 +276,9 @@ public class NetworksCommand extends CommandHandler {
         boolean active = mgr.forceToggle((Player) context.sender());
         if (active) lang.message(context.sender(), "force.enable");
         else lang.message(context.sender(), "force.disable");
+    private void force(CommandContext<PlayerSource> context) {
+        boolean active = mgr.forceToggle(context.sender().source());
+        lang.message(context.sender().source(), "force." + (active ? "enable" : "disable"));
     }
 
     private void saveNetworks(CommandContext<Source> context) {
