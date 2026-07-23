@@ -1,6 +1,7 @@
 package de.kwantux.networks.component;
 
 import de.kwantux.networks.Network;
+import de.kwantux.networks.component.module.BaseModule;
 import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.utils.NamespaceUtils;
 import de.kwantux.networks.utils.Origin;
@@ -12,7 +13,7 @@ import java.util.Map;
 
 import static de.kwantux.networks.Main.mgr;
 
-public abstract class BasicComponent {
+public abstract class BasicComponent implements BaseModule {
 
     public abstract ComponentType type();
     public abstract Origin origin();

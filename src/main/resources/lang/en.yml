@@ -240,6 +240,8 @@ ui.component.input: Input
 ui.component.sorted: Sorted
 ui.component.fallback: Fallback
 
+not_all_components_loaded: "<red>Not all components are loaded. Some items may not be shown."
+
 notice: "<yellow>Having inventory problems? Try out <white>Networks <yellow>to create a fully automated storage network! <white>More information can be found <click:open_url:'https://networks.kwantux.de'><blue>here.</blue></click>"
 
 manual: "<white>A full guide to networks can be found <click:open_url:'https://networks.kwantux.de'><blue>here.</blue></click>"

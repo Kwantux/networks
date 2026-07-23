@@ -186,6 +186,13 @@ public class Network {
         return materials;
     }
 
+    public boolean allComponentsReady() {
+        for (BasicComponent component : components) {
+            if (!component.ready()) return false;
+        }
+        return true;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o instanceof Network network) return Objects.equals(network.id, id);

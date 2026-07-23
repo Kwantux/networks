@@ -238,5 +238,7 @@ ui.component.input: Einfüllkiste
 ui.component.sorted: Sortierkiste
 ui.component.fallback: Restekiste
 
+not_all_components_loaded: "<red>Nicht alle Komponenten sind geladen. Manche Items werden möglicherweise nicht angezeigt."
+
 notice: "<yellow>Inventar Probleme? Probier mal <white>Networks<yellow> aus und erstelle dein vollautomatisches Lagersystem! <white>Eine detailierte Anleitung findest du <click:open_url:'https://networks.kwantux.de'><blue>hier.</blue></click>"
 manual: "<white>Eine detailierte Anleitung zu Networks findest du <click:open_url:'https://networks.kwantux.de'><blue>hier.</blue></click>"

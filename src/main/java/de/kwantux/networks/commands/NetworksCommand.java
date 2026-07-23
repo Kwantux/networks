@@ -21,6 +21,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.incendo.cloud.CommandManager;
@@ -237,6 +238,13 @@ public class NetworksCommand extends CommandHandler {
                     .senderType(PlayerSource.class)
                     .handler(this::itemNameWithHover)
             );
+            cmd.command(cmd.commandBuilder("networks", Config.commands)
+                    .literal("debug")
+                    .literal("placecore")
+                    .permission("networks.debug")
+                    .senderType(PlayerSource.class)
+                    .handler(this::placeCore)
+            );
         });
     }
 
@@ -272,10 +280,6 @@ public class NetworksCommand extends CommandHandler {
         lang.message(context.sender(), "version", plugin.getPluginMeta().getVersion());
     }
 
-    private void force(CommandContext<Source> context) {
-        boolean active = mgr.forceToggle((Player) context.sender());
-        if (active) lang.message(context.sender(), "force.enable");
-        else lang.message(context.sender(), "force.disable");
     private void force(CommandContext<PlayerSource> context) {
         boolean active = mgr.forceToggle(context.sender().source());
         lang.message(context.sender().source(), "force." + (active ? "enable" : "disable"));
@@ -747,6 +751,13 @@ public class NetworksCommand extends CommandHandler {
                 )
         ));
         player.sendMessage(component);
+    }
+
+    private void placeCore(CommandContext<PlayerSource> context) {
+        Player player = context.sender().source();
+        ItemStack item = player.getInventory().getItemInMainHand();
+        ItemDisplay display = player.getWorld().spawn(new BlockLocation(player.getLocation()).getBukkitLocation(), ItemDisplay.class);
+        display.setItemStack(item);
     }
 
 

@@ -14,6 +14,7 @@ import java.util.Set;
 import static de.kwantux.networks.Main.folia;
 import static de.kwantux.networks.Main.logger;
 import static de.kwantux.networks.config.Config.ranges;
+import static de.kwantux.networks.utils.DevelopmentUtils.devlog;
 
 public class Sorter {
 
@@ -156,6 +157,10 @@ public class Sorter {
             catch (Throwable e) {
                 if (!folia) { // Folia throws exceptions when trying to transmit items across regions, which is expected
                     logger.severe("Failed to sort item: " + e.getMessage());
+                    e.printStackTrace();
+                }
+                else {
+                    devlog("Failed to sort item: " + e.getMessage());
                     e.printStackTrace();
                 }
             }
