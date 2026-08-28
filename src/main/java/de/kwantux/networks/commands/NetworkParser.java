@@ -52,7 +52,7 @@ public final class NetworkParser implements ArgumentParser<Source, Network>, Blo
         List<String> output = new ArrayList<>();
 
         if (commandContext.sender() instanceof Player) {
-            for (Network network : mgr.withUser(((Player) commandContext.sender()).getUniqueId())) {
+            for (Network network : mgr.listNetworksUsableByPlayer(((Player) commandContext.sender()).getUniqueId())) {
                 output.add(network.name());
             }
         } else {

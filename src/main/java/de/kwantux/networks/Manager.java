@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.incendo.cloud.paper.util.sender.Source;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -18,7 +17,6 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static de.kwantux.networks.Main.dcu;
 
@@ -188,7 +186,11 @@ public final class Manager {
         return network;
     }
 
-    public List<Network> withUser(UUID user) {
+    public Collection<Network> listNetworksUsableByPlayer(UUID user) {
+        return forceMode.contains(user) ? networks.values() : listNetworksWithUser(user);
+    }
+
+    public List<Network> listNetworksWithUser(UUID user) {
         List<Network> result = new ArrayList<>();
         for (Network net : networks.values()) {
             if (net.users().contains(user) || net.owner().equals(user)) result.add(net);
@@ -196,7 +198,7 @@ public final class Manager {
         return result;
     }
 
-    public List<Network> withOwner(UUID user) {
+    public List<Network> listNetworksWithOwner(UUID user) {
         List<Network> result = new ArrayList<>();
         for (Network net : networks.values()) {
             if (net.owner().equals(user)) result.add(net);

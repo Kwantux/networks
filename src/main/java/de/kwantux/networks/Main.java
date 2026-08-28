@@ -8,7 +8,6 @@ import de.kwantux.networks.config.CraftingManager;
 import de.kwantux.networks.event.*;
 import de.kwantux.networks.tests.StressTest;
 import de.kwantux.networks.utils.DoubleChestUtils;
-import de.kwantux.networks.utils.Metrics;
 import dev.faststats.bukkit.BukkitMetrics;
 import dev.faststats.core.ErrorTracker;
 import dev.faststats.core.data.Metric;
@@ -116,15 +115,6 @@ public final class Main extends JavaPlugin {
         mgr = new Manager(this);
         dcu = new DoubleChestUtils();
         crf = new CraftingManager(this);
-
-        // bStats Metrics
-        runInProduction(() -> {
-            int pluginId = 18609;
-            Metrics metrics = new Metrics(this, pluginId);
-            metrics.addCustomChart(new Metrics.SingleLineChart("total_networks", () ->
-                mgr.getNetworks().size()
-            ));
-        });
 
         mgr.loadData();
         mgr.saveData();
