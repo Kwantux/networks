@@ -25,7 +25,7 @@ dependencies {
     paperLibrary("net.kyori", "adventure-text-minimessage", "4.13.1")
     paperLibrary("org.spongepowered", "configurate-hocon", "4.1.2")
     paperLibrary("org.spongepowered", "configurate-yaml", "4.1.2")
-    paperLibrary("org.incendo", "cloud-paper", "2.0.0-beta.15")
+    paperLibrary("org.incendo", "cloud-paper", "2.0.0-beta.16")
     paperLibrary("com.google.code.gson", "gson", "2.10.1")
     paperLibrary("dev.faststats.metrics", "bukkit", "0.23.0")
 }
