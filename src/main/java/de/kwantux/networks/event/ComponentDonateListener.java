@@ -36,7 +36,14 @@ public class ComponentDonateListener implements Listener {
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
-        check(event.getInventory().getLocation());
+        Location location = event.getInventory().getLocation();
+        if (location == null) return;
+        if (!location.isChunkLoaded()) return;
+        Main.regionScheduler.execute(
+                Main.instance,
+                location,
+                () -> check(location)
+        );
     }
 
     @EventHandler
