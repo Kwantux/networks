@@ -319,7 +319,7 @@ public class NetworksCommand extends CommandHandler {
         }
         Player player = context.sender().source();
 
-        if (!(mgr.withOwner(player.getUniqueId()).size() < Config.maxNetworks || player.hasPermission("networks.bypass_limit"))) {
+        if (!(mgr.listNetworksWithOwner(player.getUniqueId()).size() < Config.maxNetworks || player.hasPermission("networks.bypass_limit"))) {
             lang.message(context.sender(), "create.limit", player.displayName());
             return;
         }
@@ -412,8 +412,8 @@ public class NetworksCommand extends CommandHandler {
 
     private void list(CommandContext<PlayerSource> context) {
         Player player = context.sender().source();
-        List<Network> list = mgr.withUser(player.getUniqueId());
-        List<Network> owned = mgr.withUser(player.getUniqueId());
+        List<Network> list = mgr.listNetworksWithUser(player.getUniqueId());
+        List<Network> owned = mgr.listNetworksWithOwner(player.getUniqueId());
 
 
 
@@ -453,8 +453,8 @@ public class NetworksCommand extends CommandHandler {
 
         Player player = context.get("player");
         CommandSender sender = context.sender().source();
-        List<Network> list = mgr.withUser(player.getUniqueId());
-        List<Network> owned = mgr.withOwner(player.getUniqueId());
+        List<Network> list = mgr.listNetworksWithUser(player.getUniqueId());
+        List<Network> owned = mgr.listNetworksWithOwner(player.getUniqueId());
 
 
         if (list.isEmpty()) {
@@ -623,7 +623,7 @@ public class NetworksCommand extends CommandHandler {
         Network network = selection(sender);
         if (network == null) return;
 
-        if (!(mgr.withOwner(target.getUniqueId()).size() < Config.maxNetworks || sender.hasPermission("networks.bypass_limit"))) {
+        if (!(mgr.listNetworksWithOwner(target.getUniqueId()).size() < Config.maxNetworks || sender.hasPermission("networks.bypass_limit"))) {
             lang.message(context.sender(), "create.limit", target.displayName());
             return;
         }

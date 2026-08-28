@@ -28,7 +28,7 @@ public class NoticeListener implements Listener {
         if (event.getInventory().firstEmpty() != -1) return;
         if (!event.getInventory().getType().equals(InventoryType.CHEST)) return;
         if (notices.contains(event.getPlayer().getUniqueId())) return;
-        if (mgr.withUser(event.getPlayer().getUniqueId()).isEmpty()) {
+        if (mgr.listNetworksWithUser(event.getPlayer().getUniqueId()).isEmpty()) {
             notices.add(event.getPlayer().getUniqueId());
             lang.message(event.getPlayer(), "notice");
         }
