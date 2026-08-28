@@ -42,14 +42,12 @@ public class SortedContainer extends BlockComponent implements Acceptor, Supplie
             int[] filters;
 
             try {
-                filters = Objects.requireNonNull(container.get(FILTERS.key, PersistentDataType.INTEGER_ARRAY));        // Normal deserialization
+                filters = Objects.requireNonNull(container.get(FILTERS.key, PersistentDataType.INTEGER_ARRAY));     // Normal deserialization
             } catch (Exception e) {
-                filters = convertLegacyFilters(                                                                                             // If deserialization fails, try legacy deserialization
-                        Objects.requireNonNullElse(
-                                Objects.requireNonNullElse(                                                                             // Try legacy deserialization
+                filters = convertLegacyFilters(                                                                     // If deserialization fails, try legacy deserialization
+                        Objects.requireNonNullElse(                                                                 // Try legacy deserialization
                                         container.get(FILTERS.key, PersistentDataType.STRING),
-                                        null).split(","),
-                                new String[0])                                                                                              // If legacy deserialization fails, use empty array
+                                        "").split(",")                                              // If legacy deserialization fails, use empty array
                 );
             }
 
