@@ -37,7 +37,7 @@ java {
 paper {
     main = "de.kwantux.networks.Main"
     loader = "de.kwantux.networks.Loader"
-    apiVersion = "1.21.8"
+    apiVersion = "1.21"
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
     website = "https://github.com/Kwantux/Networks"
     authors = listOf("Kwantux")
