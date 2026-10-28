@@ -11,7 +11,7 @@ plugins {
 runPaper.folia.registerTask()
 
 group = "de.kwantux"
-version = "3.1.19"
+version = "3.1.20"
 description = "A performance friendly way to sort your items"
 
 repositories {
@@ -37,7 +37,7 @@ java {
 paper {
     main = "de.kwantux.networks.Main"
     loader = "de.kwantux.networks.Loader"
-    apiVersion = "1.21.8"
+    apiVersion = "1.21"
     load = BukkitPluginDescription.PluginLoadOrder.STARTUP
     website = "https://github.com/Kwantux/Networks"
     authors = listOf("Kwantux")

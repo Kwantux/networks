@@ -5,12 +5,14 @@ import de.kwantux.networks.Main;
 import de.kwantux.networks.Network;
 import de.kwantux.networks.commands.NetworksCommand;
 import de.kwantux.networks.component.BasicComponent;
+import de.kwantux.networks.component.BlockComponent;
 import de.kwantux.networks.component.component.InputContainer;
 import de.kwantux.networks.component.component.SortedContainer;
 import de.kwantux.networks.component.module.Acceptor;
 import de.kwantux.networks.config.Config;
 import de.kwantux.networks.utils.BlockLocation;
 import de.kwantux.networks.utils.ItemHash;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -52,6 +54,15 @@ public class WandListener implements Listener {
         ItemMeta meta = item.getItemMeta();
         if (meta == null) return;
         PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        
+        /* 
+        Wand modes
+        0 - Unused (Legacy Material Filter)
+        1 - Priority settings
+        2 - Strict Filter
+        3 - Material Filter
+        4 - Uninstall        
+         */
 
         if (!item.getType().equals(Material.AIR)) {
             if (pdc.has(WAND.key, PersistentDataType.INTEGER)) {
@@ -61,13 +72,13 @@ public class WandListener implements Listener {
                 if (!EquipmentSlot.HAND.equals(event.getHand())) return;
 
                 int mode = pdc.get(WAND.key, PersistentDataType.INTEGER);
+                if (mode == 3) mode = 3; // Reassign legacy material filter mode to new material filter mode
 
                 if (!p.isSneaking()) {
                     if (action.equals(Action.LEFT_CLICK_BLOCK) || action.equals(Action.LEFT_CLICK_AIR)) {
                         if (!p.isSneaking()) {
                             mode++;
-                            if (mode > 2) mode = 0;
-                            //p.getInventory().setItemInMainHand(crf.getNetworkWand(mode));
+                            if (mode > 4) mode = 1;
                             item.setItemMeta(crf.getNetworkWand(mode).getItemMeta());
                             lang.message(p, "wand.mode", lang.getRaw("wand.mode." + mode));
                             return;
@@ -109,12 +120,12 @@ public class WandListener implements Listener {
                 ItemStack itemInOffHand = p.getInventory().getItemInOffHand();
                 if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
 
-                    if (mode == 0 && !itemInOffHand.getType().equals(Material.AIR) && component instanceof SortedContainer container) {
+                    if (mode == 3 && !itemInOffHand.getType().equals(Material.AIR) && component instanceof SortedContainer container) {
                         container.addFilter(ItemHash.materialHash(itemInOffHand));
                         lang.message(p, "component.sorted.setitem", l.toString(), itemInOffHand.getType().toString());
                     }
                     // If in filter mode and no item in offhand, add contents to container's filter
-                    if (mode == 0 && itemInOffHand.getType().equals(Material.AIR) && component instanceof SortedContainer container) {
+                    if (mode == 3 && itemInOffHand.getType().equals(Material.AIR) && component instanceof SortedContainer container) {
                         HashSet<Integer> filters = new HashSet<>();
                         for (int num : container.filters()) {
                             filters.add(num);
@@ -164,13 +175,28 @@ public class WandListener implements Listener {
 
                 if (action.equals(Action.LEFT_CLICK_BLOCK)) {
 
-                    if ((mode == 0 || mode == 2) && component instanceof SortedContainer container && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
+                    if (mode == 4) {
+                        if (component instanceof BlockComponent blockComponent) {
+                            if (blockComponent.isLoaded()) {
+                                blockComponent.resetBlockData();
+                                ItemStack drop = blockComponent.item();
+                                Bukkit.getServer().getWorld(blockComponent.pos().getWorld()).dropItem(blockComponent.pos().getBukkitLocation(), drop);
+                                mgr.removeComponent(blockComponent.origin());
+                                lang.message(p, "component.uninstall", l.displayText());
+                            } else {
+                                lang.message(p, "component.chunknotloaded");
+                            }
+                        }
+                        return;
+                    }
+
+                    if ((mode == 3 || mode == 2) && component instanceof SortedContainer container && !itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
                         container.removeFilter(ItemHash.materialHash(itemInOffHand));
                         container.removeFilter(ItemHash.strictHash(itemInOffHand));
                         lang.message(p, "component.sorted.removeitem", l.displayText(), itemInOffHand.displayName());
                     }
 
-                    if ((mode == 0 || mode == 2) && component instanceof SortedContainer container && itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
+                    if ((mode == 3 || mode == 2) && component instanceof SortedContainer container && itemInOffHand.getType().equals(Material.AIR) && p.isSneaking()) {
                         HashSet <Integer> filters = new HashSet<>();
                         for (ItemStack itemStack : container.inventory().getContents()) {
                             // Empty slots are null
@@ -179,7 +205,7 @@ public class WandListener implements Listener {
                                 int hash = ItemHash.strictHash(itemStack);
                                 filters.add(hash);
                             }
-                            if (mode == 0) {
+                            if (mode == 3) {
                                 filters.add(ItemHash.materialHash(itemStack));
                             }
                         }

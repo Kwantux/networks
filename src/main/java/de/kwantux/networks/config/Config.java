@@ -6,8 +6,14 @@ import de.kwantux.networks.component.util.ComponentType;
 import de.kwantux.networks.storage.NetworkProperties;
 import de.kwantux.networks.utils.BlockLocation;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.InventoryHolder;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -64,13 +70,6 @@ public class Config {
         // Command aliases
         config.defineDefault("commands", new String[]{"n", "net", "network"}, "Command aliases - Alternative /-commands for /networks");
 
-        String[] componentBlockWhitelist = new String[]{"CHEST", "TRAPPED_CHEST", "BARREL", "HOPPER", "DISPENSER", "DROPPER", "SHULKER_BOX", "WHITE_SHULKER_BOX", "ORANGE_SHULKER_BOX", "MAGENTA_SHULKER_BOX", "LIGHT_BLUE_SHULKER_BOX", "YELLOW_SHULKER_BOX", "LIME_SHULKER_BOX", "PINK_SHULKER_BOX", "GRAY_SHULKER_BOX", "LIGHT_GRAY_SHULKER_BOX", "CYAN_SHULKER_BOX", "PURPLE_SHULKER_BOX", "BLUE_SHULKER_BOX", "BROWN_SHULKER_BOX", "GREEN_SHULKER_BOX", "RED_SHULKER_BOX", "BLACK_SHULKER_BOX", "COPPER_CHEST", "EXPOSED_COPPER_CHEST", "WEATHERED_COPPER_CHEST", "OXIDIZED_COPPER_CHEST", "WAXED_COPPER_CHEST", "WAXED_EXPOSED_COPPER_CHEST", "WAXED_WEATHERED_COPPER_CHEST", "WAXED_OXIDIZED_COPPER_CHEST"};
-
-        // Component blocks
-        config.defineDefault("component.input", componentBlockWhitelist, "Blocks that are allowed to be network input containers. Only works for blocks that have inventories.");
-        config.defineDefault("component.sorted", componentBlockWhitelist, "Blocks that are allowed to be network sorted containers. Only works for blocks that have inventories.");
-        config.defineDefault("component.fallback", componentBlockWhitelist, "Blocks that are allowed to be network fallback containers. Only works for blocks that have inventories.");
-        
         // Auto-save
         config.defineDefault("autoSave", 30, "Auto-save interval in seconds. Set to 0 to disable auto save.");
         
@@ -132,22 +131,20 @@ public class Config {
         return config.getString("lang");
     }
 
-
-
-    public List<Material> componentBlocks(ComponentType componentType) {
-        List<Material> allowed = new ArrayList<>();
-        String[] materials = config.getStringArray("component."+componentType.tag);
-        for (String mat : materials) {
-            allowed.add(Material.getMaterial(mat));
-        }
-        return allowed;
-    }
-    public boolean checkLocation(BlockLocation location, ComponentType componentType) {
-        List<Material> whitelist = componentBlocks(componentType);
-        for (Material mat : whitelist) {
-            if (location.getBukkitLocation().getBlock().getType().equals(mat)) {
-                return true;
-            }
+    private static final InventoryType[] validInventoryTypesArray = {
+            InventoryType.CHEST,
+            InventoryType.BARREL,
+            InventoryType.DISPENSER,
+            InventoryType.DROPPER,
+            InventoryType.HOPPER,
+            InventoryType.SHULKER_BOX
+    };
+    private static final List<InventoryType> validInventoryTypes = Arrays.stream(validInventoryTypesArray).toList();
+    public boolean checkLocation(BlockLocation location) {
+        Block block = location.getBlock();
+        if (block == null) return false;
+        if (block.getState() instanceof InventoryHolder inventoryHolder) {
+            return validInventoryTypes.contains(inventoryHolder.getInventory().getType());
         }
         return false;
     }

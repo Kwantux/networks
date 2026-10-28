@@ -52,7 +52,7 @@ public class ComponentInstallListener implements Listener {
             return;
         }
 
-        if (cfg.checkLocation(pos, type)) { // Check if the block can actually be a component (e.g. grass blocks cannot be input containers, but chests and barrels can)
+        if (cfg.checkLocation(pos)) { // Check if the block can actually be a component (e.g. grass blocks cannot be input containers, but chests and barrels can)
 
             if (network == null) {
                 lang.message(p, "select.noselection");

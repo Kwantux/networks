@@ -92,6 +92,8 @@ component.sorted.clearfilters: <prefix>已清除你手持容器的过滤器。
 component.sorted.autofilter: <prefix>已将位于 <1> 的容器内容添加到其分类过滤器。
 component.fallback.add: <prefix>位于 <1> 的杂项容器已成功添加到 <2>！
 component.remove: <prefix><red>已移除位于 <1> 的组件
+component.uninstall: <prefix><red>已卸载位于 <1> 的组件
+component.chunknotloaded: <prefix><red>该组件位于未加载的区块中
 component.exploded: <prefix><dark_red>网络 <white><2><dark_red> 中位于 <white><1><dark_red>
     的网络组件被炸毁了！
 component.invalid_block: <prefix><red>类型为 </red><1><red> 的方块不允许作为网络组件！</red>
@@ -127,9 +129,10 @@ teleport.success: <prefix>已传送到 <white>[<1>, <2>, <3>, <4>]<green>
 rename.success: <prefix>已成功将网络 <1> 重命名为 <2>
 rename.taken: <prefix>名称 <1> 已被其他网络占用。
 wand.mode: <prefix><blue>魔棒模式已设置为 [<1>]
-wand.mode.0: 过滤器
 wand.mode.1: 优先级
 wand.mode.2: 严格过滤器
+wand.mode.3: 过滤器
+wand.mode.4: 卸载
 wand.info.input: |
     <green>类型: <reset>输入容器<green>
     网络: <reset><1><green>
@@ -151,9 +154,10 @@ items.noitems: <prefix><red>你的存储网络中没有任何物品。（未加�
 items.message: |-
     <green><bold>网络 <white><1><green> 中的物品总计:</bold>
     (未加载区块中的物品不计入统计！)
-item.name.wand.0: <reset><red>网络魔棒 <green>[材料过滤器]
 item.name.wand.1: <reset><red>网络魔棒 <blue>[优先级]
 item.name.wand.2: <reset><red>网络魔棒 <dark_green>[严格过滤器]
+item.name.wand.3: <reset><red>网络魔棒 <green>[材料过滤器]
+item.name.wand.4: <reset><red>网络魔棒 <gold>[卸载]
 item.name.component.input: <reset>输入组件
 item.name.component.sorted: <reset>分类组件
 item.name.component.fallback: <reset>杂项组件
@@ -162,15 +166,15 @@ item.name.upgrade.range.2: <reset><bold>天线 2 级
 item.name.upgrade.range.3: <reset><bold>天线 3 级
 item.name.upgrade.range.4: <reset><bold>天线 4 级
 item.name.upgrade.range.5: <reset><bold>天线 5 级
-item.lore.wand.0: [<reset>右键单击任意网络组件以查看其信息, <reset>左键单击以切换模式, '',
-    <reset>空手潜行+右键单击分类箱以将箱内所有物品添加为过滤器, <reset>空手潜行+左键单击以将箱内所有物品设为过滤器（同时移除已有过滤器）,
-    '', <reset>副手持有物品时潜行+右键单击分类箱以添加过滤器, <reset>副手持有物品时潜行+左键单击以移除过滤器]
 item.lore.wand.1: [<reset>右键单击任意网络组件以查看其信息, <reset>左键单击以切换模式, '',
     <reset>潜行+右键单击网络组件以提高其优先级, <reset>潜行+左键单击网络组件以降低其优先级]
 item.lore.wand.2: [<reset>右键单击任意网络组件以查看其信息, <reset>左键单击以切换模式, '',
     <reset>严格过滤器会考虑物品元数据，如耐久度和附魔, '', <reset>空手潜行+右键单击分类箱以将箱内所有物品添加为严格过滤器,
     <reset>空手潜行+左键单击以将箱内所有物品设为严格过滤器（同时移除已有过滤器）, '', <reset>副手持有物品时潜行+右键单击分类箱以添加严格过滤器,
     <reset>副手持有物品时潜行+左键单击以移除严格过滤器]
+item.lore.wand.3: [<reset>右键单击任意网络组件以查看其信息, <reset>左键单击以切换模式, '',
+    <reset>空手潜行+右键单击分类箱以将箱内所有物品添加为过滤器, <reset>空手潜行+左键单击以将箱内所有物品设为过滤器（同时移除已有过滤器）,
+    '', <reset>副手持有物品时潜行+右键单击分类箱以添加过滤器, <reset>副手持有物品时潜行+左键单击以移除过滤器]
 item.lore.component.input: [<reset><blue>将物品分类到分类容器和杂项容器中]
 item.lore.component.sorted: [<reset><blue>只接受符合此容器过滤条件的物品]
 item.lore.component.fallback: [<reset><blue>所有剩余物品将进入这些容器]

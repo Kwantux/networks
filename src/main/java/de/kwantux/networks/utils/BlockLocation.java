@@ -16,11 +16,11 @@ import static de.kwantux.networks.Main.lang;
 
 
 public class BlockLocation extends Origin {
-    private final int x;
-    private final int y;
-    private final int z;
-
-    private final UUID world;
+    // These need to stay mutable for gson
+    private int x;
+    private int y;
+    private int z;
+    private UUID world;
 
 
     public BlockLocation(int x, int y, int z, UUID world) {
