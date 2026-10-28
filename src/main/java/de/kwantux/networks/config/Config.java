@@ -142,11 +142,8 @@ public class Config {
     private static final List<InventoryType> validInventoryTypes = Arrays.stream(validInventoryTypesArray).toList();
     public boolean checkLocation(BlockLocation location) {
         Block block = location.getBlock();
-        System.out.println("-- TESTING --");
         if (block == null) return false;
-        System.out.println(block.getType());
         if (block.getState() instanceof InventoryHolder inventoryHolder) {
-            System.out.println(inventoryHolder.getInventory().getType().name());
             return validInventoryTypes.contains(inventoryHolder.getInventory().getType());
         }
         return false;

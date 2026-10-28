@@ -128,7 +128,7 @@ public class StressTest extends CommandHandler {
         int unitHeight = 2 + outputs;
 
         World world = location.getWorld();
-        ItemStack stack = crf.getNetworkWand(0);
+        ItemStack stack = crf.getNetworkWand(3);
         int[] filters = new int[]{ItemHash.strictHash(stack)};
         int[] emptyFilters = new int[0];
 

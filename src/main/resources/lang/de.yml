@@ -119,6 +119,8 @@ component.sorted.clearfilters: <prefix>Filter der Sortierkiste wurden gelöscht.
 component.sorted.autofilter: <prefix>Inhalt der Sortierkiste <1> wurde als Filter gesetzt.
 component.fallback.add: <prefix>Restekiste <2> wurde hinzugefügt zum Netzwerk <1>!
 component.remove: <prefix><red>Komponent bei <1> wurde entfernt.
+component.uninstall: <prefix><red>Komponent bei <1> wurde deinstalliert
+component.chunknotloaded: <prefix><red>Die Komponente ist in einem ungeladenen Chunk
 component.exploded: <prefix><dark_red>Komponent bei <white><1><dark_red> aus dem Netzwerk <white><2><dark_red> wurde gesprengt!
 component.invalid_block: <prefix><red>Blöcke vom Typ </red><1><red> können keine Netzwerkkomponenten sein!</red>
 component.nocomponent: <prefix><yellow>Dies ist kein Netzwerkkomponent!
@@ -161,9 +163,10 @@ rename.success: <prefix>Netzwerk <1> wurde zu <2> umbenannt
 rename.taken: <prefix>Name <1> ist bereits in Verwendung.
 
 wand.mode: "<prefix><blue>Konfigurator Modus wurde zu [<1>] geändert"
-wand.mode.0: "Filter (Material)"
 wand.mode.1: "Priorität"
 wand.mode.2: "Filter (Strikt)"
+wand.mode.3: "Filter (Material)"
+wand.mode.4: "Deinstallieren"
 wand.info.input: "<green>Typ: <reset>Einfüllkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nExtra Reichweite: <reset><3>"
 wand.info.sorted: "<green>Typ: <reset>Sortierkiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3><green>\nFilter: <reset><4>"
 wand.info.fallback: "<green>Typ: <reset>Restekiste<green>\nNetzwerk: <reset><1><green>\nPosition: <reset><2><green>\nPriorität: <reset><3>"
@@ -172,9 +175,10 @@ wand.info.proxy: "<green>Passive Hälfte der Doppeltruhe"
 items.noitems: "<prefix><red>In diesem Netzwerk sind noch keine Items.\n<yellow>(Kisten in ungeladenen Chunks werden nicht miteinberechnet)"
 items.message: "<green><bold>Alle Items im Netzwerk <white><1><green>:</bold>\n(Kisten in ungeladenen Chunks werden nicht miteinberechnet)"
 
-item.name.wand.0: <reset><red>Netzwerk Konfigurator <green>[Material Filter]
 item.name.wand.1: <reset><red>Netzwerk Konfigurator <blue>[Priorität]
 item.name.wand.2: <reset><red>Netzwerk Konfigurator <dark_green>[Strikter Filter]
+item.name.wand.3: <reset><red>Netzwerk Konfigurator <green>[Material Filter]
+item.name.wand.4: <reset><red>Netzwerk Konfigurator <gold>[Deinstallieren]
 item.name.component.input: <reset>Einfüllkiste
 item.name.component.sorted: <reset>Sortierkiste
 item.name.component.fallback: <reset>Restekiste
@@ -185,18 +189,6 @@ item.name.upgrade.range.4: <reset><bold>Antenne Mk.4
 item.name.upgrade.range.5: <reset><bold>Antenne Mk.5
 # Add more here if you want to add more tiers of upgrades
 
-
-item.lore.wand.0:
-  - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
-  - "<reset>Links klicken, um den Modus zu wechseln"
-  - ""
-  - "<reset>Ohne Item in der Zweithand:"
-  - "<reset>Schleichen + Rechts klicken, um alle Items in der Kiste als Filter hinzuzufügen"
-  - "<reset>Schleichen + Links klicken, um die Items in der Kiste als Filter zu setzen (entfernt auch bestehende Filter)"
-  - ""
-  - "<reset>Mit Item in der Zweithand:"
-  - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
-  - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
 
 item.lore.wand.1:
   - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
@@ -210,6 +202,18 @@ item.lore.wand.2:
   - "<reset>Links klicken, um den Modus zu wechseln"
   - ""
   - "<reset>Strikte Filter beachten auch die Item Meta (Verzauberungen, Haltbarkeit, ...)"
+  - ""
+  - "<reset>Ohne Item in der Zweithand:"
+  - "<reset>Schleichen + Rechts klicken, um alle Items in der Kiste als Filter hinzuzufügen"
+  - "<reset>Schleichen + Links klicken, um die Items in der Kiste als Filter zu setzen (entfernt auch bestehende Filter)"
+  - ""
+  - "<reset>Mit Item in der Zweithand:"
+  - "<reset>Schleichen + Rechts klicken, um das in deiner Zweithand liegende Item als Filter hinzuzufügen"
+  - "<reset>Schleichen + Links klicken, um das in deiner Zweithand liegende Item als Filter zu entfernen"
+
+item.lore.wand.3:
+  - "<reset>Rechts klicke einen Netzwerkkomponenten, um Informationen über diesen zu sehen"
+  - "<reset>Links klicken, um den Modus zu wechseln"
   - ""
   - "<reset>Ohne Item in der Zweithand:"
   - "<reset>Schleichen + Rechts klicken, um alle Items in der Kiste als Filter hinzuzufügen"

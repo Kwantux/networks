@@ -125,6 +125,8 @@ component.sorted.clearfilters: <prefix>Cleared filters of the container you're h
 component.sorted.autofilter: <prefix>Added contents of container at <1> to its filter.
 component.fallback.add: <prefix>Fallback container at <2> successfully added to <1>!
 component.remove: <prefix><red>Removed component at <1>
+component.uninstall: <prefix><red>Uninstalled component at <1>
+component.chunknotloaded: <prefix><red>The component is in an unloaded chunk
 component.exploded: <prefix><dark_red>NetworkComponent at <white><1><dark_red> from network <white><2><dark_red> was blown up!
 component.invalid_block: <prefix><red>Blocks of type </red><1><red> are not allowed to be network components!</red>
 component.nocomponent: <prefix><yellow>This block is not a network component!
@@ -169,9 +171,10 @@ rename.success: <prefix>Successfully renamed network <1> to <2>
 rename.taken: <prefix>Name <1> is already taken by another network.
 
 wand.mode: "<prefix><blue>Wand mode set to [<1>]"
-wand.mode.0: "Material Filter"
 wand.mode.1: "Priority"
 wand.mode.2: "Strict Filter"
+wand.mode.3: "Material Filter"
+wand.mode.4: "Uninstall"
 wand.info.input: "<green>Type: <reset>Input<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nExtra Range: <reset><3>"
 wand.info.sorted: "<green>Type: <reset>Sorted<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3><green>\nFilters: <reset><4>"
 wand.info.fallback: "<green>Type: <reset>Fallback<green>\nNetwork: <reset><1><green>\nLocation: <reset><2><green>\nPriority: <reset><3>"
@@ -180,9 +183,10 @@ wand.info.proxy: "<green>Passive half of double chest"
 items.noitems: "<prefix><red>There are no items in your storage network. (Components in unloaded chunks are not counted!)"
 items.message: "<green><bold>Total items in network <white><1><green>:</bold>\n(Items in unloaded chunks are not counted!)"
 
-item.name.wand.0: <reset><red>Network Wand <green>[Material Filter]
 item.name.wand.1: <reset><red>Network Wand <blue>[Priority]
 item.name.wand.2: <reset><red>Network Wand <dark_green>[Strict Filter]
+item.name.wand.3: <reset><red>Network Wand <green>[Material Filter]
+item.name.wand.4: <reset><red>Network Wand <gold>[Uninstall]
 item.name.component.input: <reset>Input Container
 item.name.component.sorted: <reset>Sorted Container
 item.name.component.fallback: <reset>Fallback Container
@@ -194,16 +198,6 @@ item.name.upgrade.range.5: <reset>Antenna Tier 5
 # Add more here if you want to add more tiers of upgrades
 
 
-
-item.lore.wand.0:
-  - "<reset>Right click any network component to show information about it"
-  - "<reset>Left click to switch mode"
-  - ""
-  - "<reset>Sneak + Right click on a sorted chest with an empty offhand to add all contents of the chest as filters"
-  - "<reset>Sneak + Left click with an empty offhand to set all contents of the chest as filters (also removes existing filters)"
-  - ""
-  - "<reset>Sneak + Right click on a sorted chest with an item in the offhand to apply a filter"
-  - "<reset>Sneak + Left click with an item in the offhand to remove a filter"
 
 item.lore.wand.1:
   - "<reset>Right click any network component to show information about it"
@@ -223,6 +217,23 @@ item.lore.wand.2:
   - ""
   - "<reset>Sneak + Right click on a sorted chest with an item in the offhand to apply a strict filter"
   - "<reset>Sneak + Left click with an item in the offhand to remove a strict filter"
+
+item.lore.wand.3:
+  - "<reset>Right click any network component to show information about it"
+  - "<reset>Left click to switch mode"
+  - ""
+  - "<reset>Sneak + Right click on a sorted chest with an empty offhand to add all contents of the chest as filters"
+  - "<reset>Sneak + Left click with an empty offhand to set all contents of the chest as filters (also removes existing filters)"
+  - ""
+  - "<reset>Sneak + Right click on a sorted chest with an item in the offhand to apply a filter"
+  - "<reset>Sneak + Left click with an item in the offhand to remove a filter"
+
+item.lore.wand.4:
+  - "<reset>Right click any network component to show information about it"
+  - "<reset>Left click to switch mode"
+  - ""
+  - "<reset>Sneak + Left click on a network container to uninstall it"
+  - "<reset>The component item will drop with all its settings"
 
 item.lore.component.input:
   - "<reset><blue>Sorts items into sorted containers and fallback containers"
